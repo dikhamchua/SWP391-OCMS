@@ -80,8 +80,8 @@
                                 </div>
                                 <form action="authen?action=login" class="account__form" method="POST" id="loginForm">
                                     <div class="form-grp">
-                                        <label for="email">Email</label>
-                                        <input id="email" name="email" type="text" placeholder="email">
+                                        <label for="username">Username or email</label>
+                                        <input id="username" name="username" type="text" placeholder="username">
                                         <span class="error" id="emailError"></span>
                                     </div>
                                     <div class="form-grp">
@@ -143,10 +143,12 @@
                     if (email.value.trim() === '') {
                         emailError.textContent = 'Email is required';
                         isValid = false;
-                    } else if (!isValidEmail(email.value)) {
+                    }
+                    
+                    <!-- else if (!isValidEmail(email.value)) {
                         emailError.textContent = 'Please enter a valid email address';
                         isValid = false;
-                    }
+                    } -->
 
                     // Password validation
                     if (password.value.trim() === '') {

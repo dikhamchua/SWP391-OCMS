@@ -4,6 +4,7 @@ package com.ocms.utils;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Scanner;
 
 public class MD5PasswordEncoderUtils {
 
@@ -34,7 +35,7 @@ public class MD5PasswordEncoderUtils {
     }
 
     public static void main(String[] args) {
-        String password = "mySecretPassword";
+        String password = new Scanner(System.in).nextLine();
         String encodedPassword = encodeMD5(password);
         System.out.println("Original password: " + password);
         System.out.println("Encoded password: " + encodedPassword);

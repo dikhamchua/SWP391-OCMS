@@ -142,11 +142,12 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
         return 0;
     }
 
-    public Account findByEmailAndPass(Account t) {
-        String sql = "SELECT * FROM Account WHERE [Email] = ? AND [Password] = ?";
+    public Account findByEmailOrUsernameAndPass(Account t) {
+        String sql = "SELECT * FROM Account WHERE (email = ? OR username = ?) AND password = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, t.getEmail());
-            statement.setString(2, t.getPassword());
+            statement.setString(2, t.getUsername());
+            statement.setString(3, t.getPassword());
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     return getFromResultSet(rs);
@@ -159,7 +160,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     }
 
     public Account findByEmail(Account t) {
-        String sql = "SELECT * FROM Account WHERE [email] = ?";
+        String sql = "SELECT * FROM Account WHERE email = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, t.getEmail());
             try (ResultSet rs = statement.executeQuery()) {
@@ -247,9 +248,10 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     public static void main(String[] args) {
         AccountDAO accountDAO = new AccountDAO();
 
-        accountDAO.findAllNonAdminAccounts(1, 10).stream().forEach(item -> {
-            System.out.println(item);
-        });
+        // accountDAO.findAllNonAdminAccounts(1, 10).stream().forEach(item -> {
+        //     System.out.println(item);
+        // });
+        System.out.println(accountDAO.findByEmail(Account.builder().email("vinhpham2761@gmail.com").build()));
     }
 
 }

@@ -70,18 +70,22 @@
                                     </div>
                                     <form action="authen?action=sign-up" method="POST" class="account__form" id="signupForm">
                                         <div class="form-grp">
+                                            <label for="username">Username</label>
+                                            <input type="username" name="username" id="username" placeholder="Username">
+                                        </div>
+                                        <div class="form-grp">
                                             <label for="email">Email</label>
                                             <input type="email" name="email" id="email" placeholder="email">
                                             <span class="error" id="emailError"></span>
                                         </div>
                                         <div class="form-grp">
                                             <label for="password">Password</label>
-                                            <input type="password" name="password" id="password" placeholder="password">
+                                            <input type="password" name="password" id="password" placeholder="password" value="12345678">
                                             <span class="error" id="passwordError"></span>
                                         </div>
                                         <div class="form-grp">
                                             <label for="confirm-password">Confirm Password</label>
-                                            <input type="password" name="confirmPassword" id="confirm-password" placeholder="Confirm Password">
+                                            <input type="password" name="confirmPassword" id="confirm-password" placeholder="Confirm Password" value="12345678">
                                             <span class="error" id="confirmPasswordError"></span>
                                         </div>
                                         <p style="color: red">${error}<br></p>
