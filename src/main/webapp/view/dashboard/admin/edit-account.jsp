@@ -12,7 +12,11 @@
 
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon.png">
         <!-- Place favicon.ico in the root directory -->
-
+        <style>
+            .form-group {
+                margin: 10px auto;
+            }
+        </style>
         <!-- CSS here -->
         <jsp:include page="../../common/css-file.jsp"></jsp:include>
         </head>
@@ -47,7 +51,7 @@
                                             <div class="col-12">
                                                 <form action="${pageContext.request.contextPath}/manage-account" method="post">
                                                 <input type="hidden" name="action" value="update">
-                                                <input type="hidden" name="id" value="${account.accountID}">
+                                                <input type="hidden" name="id" value="${account.id}">
 
                                                 <div class="form-group">
                                                     <label for="email">Email</label>
@@ -57,17 +61,16 @@
                                                 <div class="form-group">
                                                     <label for="role">Role</label>
                                                     <select class="form-control" id="role" name="role">
-                                                        <option value="Student" ${account.role == 'Student' ? 'selected' : ''}>Student</option>
-                                                        <option value="Teacher" ${account.role == 'Teacher' ? 'selected' : ''}>Teacher</option>
-                                                        <option value="Marketing" ${account.role == 'Marketing' ? 'selected' : ''}>Marketing</option>
+                                                        <option value="Student" ${account.roleId == 3 ? 'selected' : ''}>Student</option>
+                                                        <option value="Teacher" ${account.roleId == 2 ? 'selected' : ''}>Teacher</option>
                                                     </select>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="status">Status</label>
                                                     <select class="form-control" id="status" name="status">
-                                                        <option value="Active" ${account.status == 'Active' ? 'selected' : ''}>Active</option>
-                                                        <option value="Inactive" ${account.status == 'Inactive' ? 'selected' : ''}>Inactive</option>
+                                                        <option value="Active" ${account.isActive ? 'selected' : ''}>Active</option>
+                                                        <option value="Inactive" ${account.isActive == false ? 'selected' : ''}>Inactive</option>
                                                     </select>
                                                 </div>
 

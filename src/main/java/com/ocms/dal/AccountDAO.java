@@ -5,6 +5,7 @@
  */
 package com.ocms.dal;
 
+import com.ocms.config.GlobalConfig;
 import com.ocms.entity.Account;
 import java.sql.*;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author manhpthe172481
+ * @author ADMIN
  */
 public class AccountDAO extends DBContext implements I_DAO<Account> {
 
@@ -115,10 +116,11 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
 
     public List<Account> findAllNonAdminAccounts(int page, int pageSize) {
         List<Account> accounts = new ArrayList<>();
-        String sql = "SELECT * FROM Account WHERE Role != 'Admin' ORDER BY AccountID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String sql = "SELECT * FROM account WHERE role_id != ? ORDER BY id LIMIT ? OFFSET ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, (page - 1) * pageSize);
+            statement.setObject(1, GlobalConfig.ROLE_ADMIN);
             statement.setInt(2, pageSize);
+            statement.setInt(3, (page - 1) * pageSize);
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     accounts.add(getFromResultSet(rs));
@@ -131,8 +133,11 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     }
 
     public int getTotalNonAdminAccounts() {
-        String sql = "SELECT COUNT(*) FROM Account WHERE Role != 'Admin'";
-        try (PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
+        String sql = "SELECT COUNT(*) FROM Account WHERE role_id != ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql); 
+            statement.setObject(1, GlobalConfig.ROLE_ADMIN);
+            ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
             }
@@ -249,9 +254,18 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
         AccountDAO accountDAO = new AccountDAO();
 
         // accountDAO.findAllNonAdminAccounts(1, 10).stream().forEach(item -> {
-        //     System.out.println(item);
+        // System.out.println(item);
         // });
-        System.out.println(accountDAO.findByEmail(Account.builder().email("vinhpham2761@gmail.com").build()));
+        int page = 1; // Trang muốn lấy
+        int pageSize = 10; // Số lượng bản ghi trên mỗi trang
+        List<Account> accounts = accountDAO.findAllNonAdminAccounts(page, pageSize);
+
+        // In kết quả
+        System.out.println("Non-admin accounts on page " + page + ":");
+        System.out.println(accounts.size());
+        for (Account account : accounts) {
+            System.out.println(account);
+        }
     }
 
 }
