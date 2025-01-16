@@ -25,7 +25,7 @@
                         Change password
                     </a>
                 </li>
-                <c:if test="${sessionScope.account.role == 'Admin' }">
+                <c:if test="${sessionScope.account.roleId == 1 }">
                     <li>
                         <a href="${pageContext.request.contextPath}/manage-account">
                             <i class="skillgro-book"></i>

@@ -61,18 +61,13 @@ public class ProfileController extends HttpServlet {
         String url = "view/dashboard/profile.jsp";
         String action = request.getParameter("action");
         switch (action) {
-            case "changePassword":
-                url = handleChangePassword(request, response, account);
-                break;
-            case "updateProfile":
-                url = handleUpdateProfile(request, response, account);
-                break;
-            case "uploadProfileImage":
-                url = handleProfileImageUpload(request, response, account);
-                break;
-            default:
+            case "changePassword" -> url = handleChangePassword(request, response, account);
+            case "updateProfile" -> url = handleUpdateProfile(request, response, account);
+            case "uploadProfileImage" -> url = handleProfileImageUpload(request, response, account);
+            default -> {
                 request.setAttribute("toastMessage", "Invalid action.");
                 request.setAttribute("toastType", "error");
+            }
         }
 
         // Refresh account details and forward to profile page
@@ -105,7 +100,8 @@ public class ProfileController extends HttpServlet {
     private String handleUpdateProfile(HttpServletRequest request, HttpServletResponse response, Account account) {
         String gender = request.getParameter("gender");
         account.setGender(Boolean.parseBoolean(gender));
-        // Add other profile update fields here
+        account.setFullName(request.getParameter("fullName"));
+        account.setPhone(request.getParameter("phone"));
 
         boolean updateSuccess = accountDAO.update(account);
         if (updateSuccess) {
@@ -114,7 +110,7 @@ public class ProfileController extends HttpServlet {
         } else {
             setToastMessage(request, "Failed to update profile. Please try again.", "error");
         }
-        return "view/dashboard/change-password.jsp";
+        return "view/dashboard/profile.jsp";
     }
 
     private void refreshAccountDetails(HttpServletRequest request, Account account) {

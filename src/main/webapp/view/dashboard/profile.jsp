@@ -54,13 +54,27 @@
                                             <div class="col-lg-12">
                                                 <div class="profile__content-wrap">
                                                     <form action="${pageContext.request.contextPath}/dashboard-profile" method="post">
+                                                    <input type="hidden" name="action" value="updateProfile">
                                                     <div class="mb-3">
                                                         <label for="email" class="form-label">Email</label>
                                                         <input type="email" class="form-control" id="email" name="email" value="${accountDetails.email}" readonly>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="role" class="form-label">Role</label>
-                                                        <input type="text" class="form-control" id="role" name="role" value="${accountDetails.role}" readonly>
+                                                        <input type="text" class="form-control" id="role" name="role" 
+                                                               value="${accountDetails.roleId == 1 ? 'Admin' : accountDetails.roleId == 2 ? 'Teacher' : 'Student'}" 
+                                                               readonly>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="phone" class="form-label">Phone</label>
+                                                        <input type="text" class="form-control" id="phone" name="phone" 
+                                                               value="${accountDetails.phone}"
+                                                               maxlength="13">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="fullName" class="form-label">Full Name</label>
+                                                        <input type="text" class="form-control" id="fullName" name="fullName" 
+                                                               value="${accountDetails.fullName}">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="gender" class="form-label">Gender</label>
@@ -69,11 +83,7 @@
                                                             <option value="false" ${!accountDetails.gender ? 'selected' : ''}>Female</option>
                                                         </select>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label for="lastLogin" class="form-label">Last Login</label>
-                                                        <input type="text" class="form-control" id="lastLogin" name="lastLogin" 
-                                                               value="<fmt:formatDate value="${accountDetails.lastLogin}" pattern="MMMM dd, yyyy h:mm a" />" readonly>
-                                                    </div>
+                                                    
                                                     <button type="submit" class="btn btn-primary">Update Profile</button>
                                                 </form>
                                             </div>

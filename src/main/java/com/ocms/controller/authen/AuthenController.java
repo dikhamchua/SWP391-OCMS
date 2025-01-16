@@ -284,7 +284,7 @@ public class AuthenController extends HttpServlet {
                 .email(email)
                 .password(MD5PasswordEncoderUtils.encodeMD5(password))
                 .build();
-        Account accFoundByUsernamePass = accountDAO.findByEmailAndPass(account);
+        Account accFoundByUsernamePass = accountDAO.findByEmailOrUsernameAndPass(account);
         // true => trang home ( set account vao trong session )
         if (accFoundByUsernamePass != null) {
             request.getSession().setAttribute(GlobalConfig.SESSION_ACCOUNT,
