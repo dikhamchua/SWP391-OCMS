@@ -1,0 +1,2144 @@
+Uri: https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&display=swap
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\css2
+Content Type: text/css
+
+Uri: https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\s\inter\v18\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\s\inter\v18\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\s\inter\v18\UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/poppins/v21/pxiByp8kv8JHgFVrLCz7V1s.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\s\poppins\v21\pxiByp8kv8JHgFVrLCz7V1s.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/poppins/v21/pxiByp8kv8JHgFVrLDD4V1s.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\s\poppins\v21\pxiByp8kv8JHgFVrLDD4V1s.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/poppins/v21/pxiByp8kv8JHgFVrLDz8V1s.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\s\poppins\v21\pxiByp8kv8JHgFVrLDz8V1s.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/poppins/v21/pxiByp8kv8JHgFVrLEj6V1s.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\s\poppins\v21\pxiByp8kv8JHgFVrLEj6V1s.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/poppins/v21/pxiByp8kv8JHgFVrLGT9V1s.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\s\poppins\v21\pxiByp8kv8JHgFVrLGT9V1s.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/poppins/v21/pxiDyp8kv8JHgFVrJJLmg1hlEA.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\s\poppins\v21\pxiDyp8kv8JHgFVrJJLmg1hlEA.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/poppins/v21/pxiDyp8kv8JHgFVrJJLmr19lEA.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\s\poppins\v21\pxiDyp8kv8JHgFVrJJLmr19lEA.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/poppins/v21/pxiEyp8kv8JHgFVrFJA.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\s\poppins\v21\pxiEyp8kv8JHgFVrFJA.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/poppins/v21/pxiGyp8kv8JHgFVrJJLedw.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\s\poppins\v21\pxiGyp8kv8JHgFVrJJLedw.ttf
+Content Type: font/ttf
+
+Uri: https://html.themegenix.com/skillgro/404.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\404.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/about-us.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\about-us.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/assets/css/animate.min.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\animate.min.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/aos.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\aos.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/bootstrap.min.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\bootstrap.min.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/default-icons.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\default-icons.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/flaticon-skillgro-new.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\flaticon-skillgro-new.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/flaticon-skillgro.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\flaticon-skillgro.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/fontawesome-all.min.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\fontawesome-all.min.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/magnific-popup.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\magnific-popup.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/main.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\main.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/odometer.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\odometer.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/plyr.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\plyr.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/select2.min.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\select2.min.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/spacing.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\spacing.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/swiper-bundle.min.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\swiper-bundle.min.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/css/tg-cursor.css
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\css\tg-cursor.css
+Content Type: text/css
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-brands-400.eot
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-brands-400.eot
+Content Type: application/vnd.ms-fontobject
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-brands-400.eot?
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-brands-400-1.eot
+Content Type: application/vnd.ms-fontobject
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-brands-400.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-brands-400.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-brands-400.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-brands-400.ttf
+Content Type: application/x-font-ttf
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-brands-400.woff
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-brands-400.woff
+Content Type: application/font-woff
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-brands-400.woff2
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-brands-400.woff2
+Content Type: font/woff2
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-regular-400.eot
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-regular-400.eot
+Content Type: application/vnd.ms-fontobject
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-regular-400.eot?
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-regular-400-1.eot
+Content Type: application/vnd.ms-fontobject
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-regular-400.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-regular-400.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-regular-400.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-regular-400.ttf
+Content Type: application/x-font-ttf
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-regular-400.woff
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-regular-400.woff
+Content Type: application/font-woff
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-regular-400.woff2
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-regular-400.woff2
+Content Type: font/woff2
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-solid-900.eot
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-solid-900.eot
+Content Type: application/vnd.ms-fontobject
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-solid-900.eot?
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-solid-900-1.eot
+Content Type: application/vnd.ms-fontobject
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-solid-900.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-solid-900.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-solid-900.ttf
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-solid-900.ttf
+Content Type: application/x-font-ttf
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-solid-900.woff
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-solid-900.woff
+Content Type: application/font-woff
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/fa-solid-900.woff2
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\fa-solid-900.woff2
+Content Type: font/woff2
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/flat-icon/flaticon_tg_default.eot?e3deef4d25a8a816ffcc2046eac5a266
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\flat-icon\flaticon_tg_default.eot
+Content Type: application/vnd.ms-fontobject
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/flat-icon/flaticon_tg_default.svg?e3deef4d25a8a816ffcc2046eac5a266
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\flat-icon\flaticon_tg_default.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/flat-icon/flaticon_tg_default.ttf?e3deef4d25a8a816ffcc2046eac5a266
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\flat-icon\flaticon_tg_default.ttf
+Content Type: application/x-font-ttf
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/flat-icon/flaticon_tg_default.woff2?e3deef4d25a8a816ffcc2046eac5a266
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\flat-icon\flaticon_tg_default.woff2
+Content Type: font/woff2
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/flat-icon/flaticon_tg_default.woff?e3deef4d25a8a816ffcc2046eac5a266
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\flat-icon\flaticon_tg_default.woff
+Content Type: application/font-woff
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/flaticon_skill_grow.ttf?b804fdf7efe64078cf35502d1d7c3cc7
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\flaticon_skill_grow.ttf
+Content Type: application/x-font-ttf
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/flaticon_skill_grow.woff2?b804fdf7efe64078cf35502d1d7c3cc7
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\flaticon_skill_grow.woff2
+Content Type: font/woff2
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/flaticon_skill_grow.woff?b804fdf7efe64078cf35502d1d7c3cc7
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\flaticon_skill_grow.woff
+Content Type: application/font-woff
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/skillgro-icon/flaticon_skillgro.woff2?1ef5b908031aa083bdbc72ac4c837d2e
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\skillgro-icon\flaticon_skillgro.woff2
+Content Type: font/woff2
+
+Uri: https://html.themegenix.com/skillgro/assets/fonts/skillgro-icon/flaticon_skillgro.woff?1ef5b908031aa083bdbc72ac4c837d2e
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\fonts\skillgro-icon\flaticon_skillgro.woff
+Content Type: application/font-woff
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/banner_author01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\banner_author01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/banner_author02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\banner_author02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/banner_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\banner_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/banner_shape01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\banner_shape01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/banner_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\banner_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/banner_shape02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\banner_shape02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/banner_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\banner_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/bg_dots.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\bg_dots.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h2_banner_icon.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h2_banner_icon.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h2_banner_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h2_banner_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h2_banner_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h2_banner_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h2_banner_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h2_banner_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h3_hero_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h3_hero_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h3_hero_img02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h3_hero_img02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h3_hero_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h3_hero_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h3_hero_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h3_hero_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h3_hero_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h3_hero_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h4_hero_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h4_hero_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h4_hero_img_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h4_hero_img_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h4_hero_img_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h4_hero_img_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h4_hero_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h4_hero_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h4_hero_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h4_hero_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h4_hero_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h4_hero_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h4_title_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h4_title_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h5_hero_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h5_hero_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h5_hero_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h5_hero_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h5_hero_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h5_hero_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h5_hero_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h5_hero_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h5_hero_shape04.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h5_hero_shape04.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h5_hero_shape05.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h5_hero_shape05.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h5_hero_shape06.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h5_hero_shape06.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h6_banner_img_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h6_banner_img_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h6_banner_img_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h6_banner_img_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h6_hero_img.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h6_hero_img.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h8_hero_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h8_hero_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h8_hero_img_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h8_hero_img_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h8_hero_img_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h8_hero_img_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/banner/h8_hero_title_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\banner\h8_hero_title_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/bg/dashboard_bg.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\bg\dashboard_bg.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/author.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\author.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_details.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_details.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_post01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_post01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_post02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_post02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_post03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_post03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_post04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_post04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_post05.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_post05.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_post06.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_post06.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_post07.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_post07.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_post08.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_post08.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_post09.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_post09.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_post10.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_post10.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_post11.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_post11.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_post12.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_post12.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/blog_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\blog_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/comment01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\comment01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/comment02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\comment02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h4_blog_post01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h4_blog_post01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h4_blog_post02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h4_blog_post02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h4_blog_post03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h4_blog_post03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h4_blog_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h4_blog_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h5_blog_post01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h5_blog_post01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h5_blog_post02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h5_blog_post02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h5_blog_post03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h5_blog_post03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h5_blog_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h5_blog_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h5_blog_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h5_blog_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h6_blog_post01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h6_blog_post01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h6_blog_post02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h6_blog_post02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h6_blog_post03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h6_blog_post03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h8_blog_post01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h8_blog_post01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h8_blog_post02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h8_blog_post02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h8_blog_post03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h8_blog_post03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h8_blog_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h8_blog_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/h8_blog_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\h8_blog_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/latest_post01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\latest_post01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/latest_post02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\latest_post02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/latest_post03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\latest_post03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/blog/latest_post04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\blog\latest_post04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/brand01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\brand01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/brand02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\brand02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/brand03.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\brand03.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/brand04.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\brand04.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/brand05.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\brand05.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/brand06.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\brand06.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/brand07.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\brand07.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/h7_brand01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\h7_brand01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/h7_brand02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\h7_brand02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/h7_brand03.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\h7_brand03.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/h7_brand04.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\h7_brand04.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/h7_brand05.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\h7_brand05.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/h7_brand06.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\h7_brand06.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/h8_brand01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\h8_brand01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/h8_brand02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\h8_brand02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/h8_brand03.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\h8_brand03.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/h8_brand04.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\h8_brand04.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/brand/h8_brand05.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\brand\h8_brand05.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/categories/cat_img01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\categories\cat_img01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/categories/cat_img02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\categories\cat_img02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/categories/cat_img03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\categories\cat_img03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/categories/cat_img04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\categories\cat_img04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/categories/cat_img05.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\categories\cat_img05.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/categories/cat_img06.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\categories\cat_img06.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/categories/cat_img07.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\categories\cat_img07.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/categories/cat_img08.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\categories\cat_img08.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/categories/cat_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\categories\cat_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/categories/cat_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\categories\cat_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/courses_details.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\courses_details.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_author001.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_author001.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_author002.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_author002.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_author003.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_author003.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_author004.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_author004.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_instructors.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_instructors.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_thumb01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_thumb01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_thumb02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_thumb02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_thumb03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_thumb03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_thumb04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_thumb04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_thumb05.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_thumb05.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_thumb06.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_thumb06.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_thumb07.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_thumb07.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_thumb08.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_thumb08.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_thumb09.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_thumb09.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_thumb10.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_thumb10.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_thumb11.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_thumb11.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/course_thumb12.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\course_thumb12.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/details_instructors01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\details_instructors01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/details_instructors02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\details_instructors02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h3_course_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h3_course_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h3_course_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h3_course_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h3_course_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h3_course_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h3_course_shape04.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h3_course_shape04.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h3_course_thumb01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h3_course_thumb01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h3_course_thumb02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h3_course_thumb02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h3_course_thumb03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h3_course_thumb03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h3_course_thumb04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h3_course_thumb04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h4_course_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h4_course_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h4_course_thumb01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h4_course_thumb01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h4_course_thumb02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h4_course_thumb02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h4_course_thumb03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h4_course_thumb03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h4_course_thumb04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h4_course_thumb04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h5_courses_bg_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h5_courses_bg_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h5_courses_bg_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h5_courses_bg_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h5_courses_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h5_courses_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h5_courses_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h5_courses_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h5_courses_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h5_courses_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h5_courses_shape04.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h5_courses_shape04.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h5_course_thumb01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h5_course_thumb01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h5_course_thumb02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h5_course_thumb02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h5_course_thumb03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h5_course_thumb03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h5_course_thumb04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h5_course_thumb04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h6_course_thumb01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h6_course_thumb01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h6_course_thumb02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h6_course_thumb02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h6_course_thumb03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h6_course_thumb03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h6_course_thumb04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h6_course_thumb04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h7_course_thumb01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h7_course_thumb01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h7_course_thumb02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h7_course_thumb02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h7_course_thumb03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h7_course_thumb03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h7_course_thumb04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h7_course_thumb04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h7_course_thumb05.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h7_course_thumb05.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h7_course_thumb06.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h7_course_thumb06.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h7_course_thumb07.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h7_course_thumb07.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h7_course_thumb08.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h7_course_thumb08.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h8_course_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h8_course_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h8_course_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h8_course_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h8_course_thumb01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h8_course_thumb01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h8_course_thumb02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h8_course_thumb02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h8_course_thumb03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h8_course_thumb03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h8_course_thumb04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h8_course_thumb04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h8_course_thumb05.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h8_course_thumb05.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h8_course_thumb06.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h8_course_thumb06.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h8_course_thumb07.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h8_course_thumb07.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/h8_course_thumb08.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\h8_course_thumb08.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/courses/review-author.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\courses\review-author.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/event_details_img.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\event_details_img.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/event_details_img02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\event_details_img02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/event_shape.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\event_shape.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/event_thumb01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\event_thumb01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/event_thumb02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\event_thumb02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/event_thumb03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\event_thumb03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/event_thumb04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\event_thumb04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/event_thumb05.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\event_thumb05.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/event_thumb06.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\event_thumb06.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/event_thumb07.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\event_thumb07.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/event_thumb08.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\event_thumb08.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/h3_event_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\h3_event_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/h3_event_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\h3_event_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/h3_event_thumb01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\h3_event_thumb01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/h3_event_thumb02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\h3_event_thumb02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/h3_event_thumb03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\h3_event_thumb03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/h4_event_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\h4_event_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/h4_event_thumb01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\h4_event_thumb01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/h4_event_thumb02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\h4_event_thumb02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/events/h4_event_thumb03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\events\h4_event_thumb03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/favicon.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\favicon.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/flags/flag_01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\flags\flag_01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/flags/flag_02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\flags\flag_02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/flags/flag_03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\flags\flag_03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/flags/flag_04.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\flags\flag_04.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/flags/flag_05.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\flags\flag_05.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/flags/flag_06.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\flags\flag_06.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/flags/flag_07.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\flags\flag_07.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/flags/flag_08.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\flags\flag_08.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/brand_star.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\brand_star.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/calendar.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\calendar.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/cart.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\cart.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/cat_star.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\cat_star.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/choose_icon.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\choose_icon.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/circle_icon.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\circle_icon.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/contact_phone.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\contact_phone.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/course_icon01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\course_icon01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/course_icon02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\course_icon02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/course_icon03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\course_icon03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/course_icon04.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\course_icon04.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/course_icon05.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\course_icon05.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/course_icon06.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\course_icon06.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/down_arrow.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\down_arrow.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/emial.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\emial.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/envelope.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\envelope.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/facebook.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\facebook.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/features_icon01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\features_icon01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/features_icon02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\features_icon02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/features_icon03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\features_icon03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/features_icon04.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\features_icon04.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/google.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\google.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/graph.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\graph.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/h2_features_icon01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\h2_features_icon01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/h2_features_icon02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\h2_features_icon02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/h2_features_icon03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\h2_features_icon03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/h3_features_icon01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\h3_features_icon01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/h3_features_icon02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\h3_features_icon02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/h3_features_icon03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\h3_features_icon03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/h3_features_icon04.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\h3_features_icon04.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/h4_features_icon01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\h4_features_icon01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/h4_features_icon02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\h4_features_icon02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/h4_features_icon03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\h4_features_icon03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/h5_features_icon.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\h5_features_icon.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/heart.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\heart.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/heart02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\heart02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/instagram.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\instagram.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/lock.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\lock.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/map.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\map.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/map_marker.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\map_marker.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/offCanvas_icon.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\offCanvas_icon.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/phone.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\phone.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/play.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\play.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/quote.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\quote.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/quote02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\quote02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/right_arrow.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\right_arrow.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/star.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\star.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/testi_icon.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\testi_icon.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/twitter.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\twitter.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/user.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\user.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/whatsapp.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\whatsapp.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/icons/youtube.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\icons\youtube.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h2_instructor01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h2_instructor01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h2_instructor02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h2_instructor02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h2_instructor03.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h2_instructor03.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h2_instructor04.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h2_instructor04.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h2_instructor05.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h2_instructor05.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h2_instructor_img_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h2_instructor_img_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h2_instructor_shape.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h2_instructor_shape.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h4_instructor01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h4_instructor01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h4_instructor02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h4_instructor02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h4_instructor03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h4_instructor03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h4_instructor04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h4_instructor04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h5_instructor01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h5_instructor01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h5_instructor02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h5_instructor02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h5_instructor03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h5_instructor03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h5_instructor04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h5_instructor04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h5_instructor_img_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h5_instructor_img_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/h5_instructor_img_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\h5_instructor_img_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor03.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor03.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor04.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor04.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor05.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor05.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor06.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor06.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor07.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor07.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor08.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor08.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor09.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor09.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor_details_thumb.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor_details_thumb.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor_nav01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor_nav01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor_nav02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor_nav02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor_nav03.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor_nav03.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor_nav04.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor_nav04.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor_two01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor_two01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/instructor/instructor_two02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\instructor\instructor_two02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/logo/logo.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\logo\logo.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/logo/preloader.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\logo\preloader.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/logo/secondary_logo.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\logo\secondary_logo.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/about_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\about_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/about_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\about_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/apple-store.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\apple-store.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/breadcrumb_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\breadcrumb_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/breadcrumb_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\breadcrumb_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/breadcrumb_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\breadcrumb_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/breadcrumb_shape04.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\breadcrumb_shape04.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/breadcrumb_shape05.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\breadcrumb_shape05.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/choose_img.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\choose_img.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/choose_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\choose_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/choose_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\choose_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/choose_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\choose_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/error_img.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\error_img.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/fact_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\fact_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/fact_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\fact_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/faq_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\faq_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/faq_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\faq_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/features_item_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\features_item_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/google-play.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\google-play.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h3_about_img.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h3_about_img.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h3_about_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h3_about_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h3_about_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h3_about_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h3_about_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h3_about_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h3_fact_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h3_fact_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h3_fact_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h3_fact_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h4_choose_img.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h4_choose_img.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h4_choose_img02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h4_choose_img02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h4_choose_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h4_choose_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h4_cta_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h4_cta_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h4_cta_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h4_cta_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h4_cta_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h4_cta_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h4_features_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h4_features_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h4_features_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h4_features_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h4_testimonial_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h4_testimonial_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_about_img01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_about_img01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_about_img02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_about_img02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_about_img_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_about_img_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_about_img_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_about_img_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_about_img_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_about_img_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_about_mask_img01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_about_mask_img01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_about_mask_img02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_about_mask_img02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_about_shape01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_about_shape01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_about_shape02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_about_shape02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_faq_img.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_faq_img.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_faq_img_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_faq_img_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_faq_mask_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_faq_mask_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_faq_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_faq_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_faq_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_faq_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_faq_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_faq_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_features_item_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_features_item_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_features_item_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_features_item_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_features_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_features_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_features_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_features_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_footer_bg_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_footer_bg_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_footer_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_footer_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_footer_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_footer_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_footer_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_footer_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_footer_shape04.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_footer_shape04.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_footer_shape05.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_footer_shape05.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_testimonial_bg_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_testimonial_bg_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_testimonial_bg_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_testimonial_bg_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_testimonial_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_testimonial_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_testimonial_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_testimonial_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_testimonial_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_testimonial_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_testimonial_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_testimonial_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_testimonial_shape04.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_testimonial_shape04.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h5_testimonial_shape05.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h5_testimonial_shape05.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h6_choose_img.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h6_choose_img.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h6_faq_img01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h6_faq_img01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h6_faq_img02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h6_faq_img02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h6_faq_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h6_faq_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h6_faq_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h6_faq_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h6_faq_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h6_faq_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h6_testimonial_img.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h6_testimonial_img.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h6_testimonial_mask_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h6_testimonial_mask_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_categories_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_categories_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_categories_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_categories_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_categories_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_categories_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_categories_shape04.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_categories_shape04.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_choose_img01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_choose_img01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_choose_img02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_choose_img02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_choose_img03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_choose_img03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_choose_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_choose_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_choose_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_choose_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_choose_shape03.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_choose_shape03.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_cta_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_cta_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_cta_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_cta_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_newsletter_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_newsletter_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_newsletter_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_newsletter_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h7_testimonial_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h7_testimonial_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h8_about_img01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h8_about_img01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h8_about_img02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h8_about_img02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h8_about_img_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h8_about_img_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h8_about_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h8_about_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h8_about_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h8_about_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h8_cta_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h8_cta_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h8_cta_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h8_cta_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h8_testimonial_shape01.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h8_testimonial_shape01.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/h8_testimonial_shape02.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\h8_testimonial_shape02.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/inner_about_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\inner_about_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/mega_menu_img.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\mega_menu_img.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/newsletter_img.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\newsletter_img.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/newsletter_shape01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\newsletter_shape01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/newsletter_shape02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\newsletter_shape02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/newsletter_shape03.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\newsletter_shape03.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/payment.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\payment.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/student_grp.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\student_grp.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/testimonial_img.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\testimonial_img.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/testimonial_img_shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\testimonial_img_shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/testi_author01.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\testi_author01.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/testi_author02.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\testi_author02.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/others/testi_author03.png
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\others\testi_author03.png
+Content Type: image/png
+
+Uri: https://html.themegenix.com/skillgro/assets/img/shop/shop_img01.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\shop\shop_img01.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/shop/shop_img02.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\shop\shop_img02.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/shop/shop_img03.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\shop\shop_img03.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/shop/shop_img04.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\shop\shop_img04.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/shop/shop_img05.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\shop\shop_img05.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/shop/shop_img06.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\shop\shop_img06.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/shop/shop_img07.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\shop\shop_img07.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/shop/shop_img08.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\shop\shop_img08.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/shop/shop_img09.jpg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\shop\shop_img09.jpg
+Content Type: image/jpeg
+
+Uri: https://html.themegenix.com/skillgro/assets/img/slider/slider_title-shape.svg
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\img\slider\slider_title-shape.svg
+Content Type: image/svg+xml
+
+Uri: https://html.themegenix.com/skillgro/assets/js/ajax-form.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\ajax-form.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/aos.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\aos.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/bootstrap.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\bootstrap.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/imagesloaded.pkgd.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\imagesloaded.pkgd.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/jquery.appear.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\jquery.appear.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/jquery.circleType.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\jquery.circleType.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/jquery.lettering.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\jquery.lettering.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/jquery.magnific-popup.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\jquery.magnific-popup.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/jquery.marquee.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\jquery.marquee.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/jquery.odometer.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\jquery.odometer.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/main.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\main.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/plyr.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\plyr.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/select2.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\select2.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/svg-inject.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\svg-inject.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/swiper-bundle.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\swiper-bundle.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/tg-cursor.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\tg-cursor.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/tween-max.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\tween-max.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/vendor/jquery-3.6.0.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\vendor\jquery-3.6.0.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/vivus.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\vivus.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/js/wow.min.js
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\js\wow.min.js
+Content Type: application/x-javascript
+
+Uri: https://html.themegenix.com/skillgro/assets/video/video.mp4
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\assets\video\video.mp4
+Content Type: video/mp4
+
+Uri: https://html.themegenix.com/skillgro/blog-2.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\blog-2.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/blog-3.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\blog-3.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/blog-details.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\blog-details.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/blog.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\blog.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/cart.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\cart.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/check-out.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\check-out.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/contact.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\contact.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/course-details.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\course-details.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/courses.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\courses.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/events-details.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\events-details.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/events.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\events.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/index-2.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\index-2.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/index-3.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\index-3.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/index-4.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\index-4.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/index-5.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\index-5.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/index-6.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\index-6.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/index-7.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\index-7.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/index-8.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\index-8.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/index.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\index.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructor-announcement.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructor-announcement.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructor-assignment.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructor-assignment.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructor-attempts.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructor-attempts.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructor-courses.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructor-courses.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructor-dashboard.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructor-dashboard.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructor-details.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructor-details.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructor-enrolled-courses.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructor-enrolled-courses.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructor-history.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructor-history.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructor-profile.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructor-profile.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructor-quiz.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructor-quiz.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructor-review.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructor-review.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructor-setting.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructor-setting.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructor-wishlist.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructor-wishlist.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/instructors.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\instructors.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/lesson.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\lesson.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/login.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\login.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/registration.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\registration.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/shop-details.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\shop-details.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/shop.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\shop.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/student-attempts.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\student-attempts.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/student-dashboard.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\student-dashboard.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/student-enrolled-courses.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\student-enrolled-courses.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/student-history.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\student-history.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/student-profile.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\student-profile.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/student-review.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\student-review.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/student-setting.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\student-setting.html
+Content Type: text/html
+
+Uri: https://html.themegenix.com/skillgro/student-wishlist.html
+File Name: C:\Users\ADMIN\OneDrive - vinhdeptrai\Code Thue\SWP391\FA24\SWP391 - OCMS\template\html.themegenix.com\skillgro\student-wishlist.html
+Content Type: text/html
+
