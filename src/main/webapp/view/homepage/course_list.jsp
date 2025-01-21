@@ -91,12 +91,12 @@
                                                     <div class="courses__item-content">
                                                         <ul class="courses__item-meta list-wrap">
                                                             <li class="courses__item-tag">
-                                                                <a href="course.html">${course.categoryId}</a>
+                                                                <a href="course.html">${categoryNames[course.categoryId]}</a>
                                                             </li>
                                                             <li class="avg-rating"><i class="fas fa-star"></i> (${course.rating} Reviews)</li>
                                                         </ul>
                                                         <h5 class="title"><a href="course-details.html">${course.name}</a></h5>
-                                                        <p class="author">By <a href="#">vxcvxcvxc</a></p>
+                                                        <p class="author">By <a href="#">${authorNames[course.createdBy]}</a></p>
                                                         <div class="courses__item-bottom">
                                                             <div class="button">
                                                                 <a href="course-details.html">

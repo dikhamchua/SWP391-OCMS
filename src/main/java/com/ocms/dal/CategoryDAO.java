@@ -6,7 +6,11 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CategoryDAO extends DBContext implements I_DAO<Category> {
     
@@ -15,6 +19,7 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
         List<Category> categories = new ArrayList<>();
         String sql = "SELECT * FROM Category";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -32,6 +37,7 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
     public boolean update(Category category) {
         String sql = "UPDATE Category SET name = ? WHERE id = ?";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, category.getName());
             statement.setInt(2, category.getId());
@@ -50,6 +56,7 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
     public int insert(Category category) {
         String sql = "INSERT INTO Category (name) VALUES (?)";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, category.getName());
 
@@ -77,6 +84,7 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
     public boolean delete(Category category) {
         String sql = "DELETE FROM Category WHERE id = ?";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, category.getId());
             
@@ -101,6 +109,7 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
     public Category findById(int categoryId) {
         String sql = "SELECT * FROM Category WHERE id = ?";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, categoryId);
             resultSet = statement.executeQuery();
@@ -118,6 +127,7 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
     public Category findByName(String categoryName) {
         String sql = "SELECT * FROM Category WHERE name = ?";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, categoryName);
             resultSet = statement.executeQuery();
@@ -130,6 +140,35 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
             closeResources();
         }
         return null;
+    }
+
+    public Map<Integer, String> findNames(Set<Integer> categoryIds) {
+        Map<Integer, String> categoryNames = new HashMap<>();
+        if (categoryIds.isEmpty()) {
+            return categoryNames;
+        }
+
+        String sql = "SELECT id, name FROM Category WHERE id IN (" + 
+                    String.join(",", Collections.nCopies(categoryIds.size(), "?")) + ")";
+        
+        try {
+            connection = new DBContext().connection;
+            statement = connection.prepareStatement(sql);
+            int index = 1;
+            for (Integer id : categoryIds) {
+                statement.setInt(index++, id);
+            }
+            
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                categoryNames.put(resultSet.getInt("id"), resultSet.getString("name"));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error finding category names: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return categoryNames;
     }
 
     public static void main(String[] args) {

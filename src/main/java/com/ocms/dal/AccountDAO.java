@@ -9,7 +9,11 @@ import com.ocms.config.GlobalConfig;
 import com.ocms.entity.Account;
 import java.sql.*;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -274,22 +278,30 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
         }
     }
 
+    public Map<Integer, String> findFullNames(Set<Integer> accountIds) {
+        String sql = "SELECT id, full_name FROM Account WHERE id IN (" +
+                accountIds.stream().map(String::valueOf).collect(Collectors.joining(",")) + ")";
+        Map<Integer, String> authorNames = new HashMap<>();
+
+        try {
+            connection = new DBContext().connection;
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                authorNames.put(resultSet.getInt("id"), resultSet.getString("full_name"));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error getting full names: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+
+        return authorNames;
+    }
+
     public static void main(String[] args) {
         AccountDAO accountDAO = new AccountDAO();
 
-        // accountDAO.findAllNonAdminAccounts(1, 10).stream().forEach(item -> {
-        // System.out.println(item);
-        // });
-        int page = 1; // Trang muốn lấy
-        int pageSize = 10; // Số lượng bản ghi trên mỗi trang
-        List<Account> accounts = accountDAO.findAllNonAdminAccounts(page, pageSize);
-
-        // In kết quả
-        System.out.println("Non-admin accounts on page " + page + ":");
-        System.out.println(accounts.size());
-        for (Account account : accounts) {
-            System.out.println(account);
-        }
     }
 
 }

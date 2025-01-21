@@ -1,51 +1,21 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <aside class="courses__sidebar">
     <div class="courses-widget">
         <h4 class="widget-title">Categories</h4>
         <div class="courses-cat-list">
             <ul class="list-wrap">
-                <li>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="cat_1">
-                        <label class="form-check-label" for="cat_1">Art & Design (8)</label>
-                    </div>
-                </li>
-                <li>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="cat_2">
-                        <label class="form-check-label" for="cat_2">Business (12)</label>
-                    </div>
-                </li>
-                <li>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="cat_3">
-                        <label class="form-check-label" for="cat_3">Data Science (7)</label>
-                    </div>
-                </li>
-                <li>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="cat_4">
-                        <label class="form-check-label" for="cat_4">Development (10)</label>
-                    </div>
-                </li>
-                <li>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="cat_5">
-                        <label class="form-check-label" for="cat_5">Finance (8)</label>
-                    </div>
-                </li>
-                <li>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="cat_6">
-                        <label class="form-check-label" for="cat_6">Health & Fitness (8)</label>
-                    </div>
-                </li>
-                <li>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="cat_7">
-                        <label class="form-check-label" for="cat_7">Lifestyle (9)</label>
-                    </div>
-                </li>
+                <c:forEach items="${allCategories}" var="category">
+                    <li>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="${category.id}" id="cat_${category.id}">
+                            <label class="form-check-label" for="cat_${category.id}">
+                                ${category.name} 
+                                <!-- (${categoryCounts[category] != null ? categoryCounts[category] : 0}) -->
+                            </label>
+                        </div>
+                    </li>
+                </c:forEach>
             </ul>
             <div class="show-more">
                 <a href="#">Show More +</a>
