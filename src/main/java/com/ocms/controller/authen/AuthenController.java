@@ -175,7 +175,7 @@ public class AuthenController extends HttpServlet {
     private String verifyOTP(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         String storedOTP = (String) session.getAttribute("otp");
-        String email = (String) session.getAttribute("email");
+        // String email = (String) session.getAttribute("email");
         String enteredOTP = request.getParameter("otp");
         String purpose = (String) session.getAttribute("otp_purpose");
 

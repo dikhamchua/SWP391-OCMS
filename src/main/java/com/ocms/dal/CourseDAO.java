@@ -4,6 +4,7 @@ import com.ocms.entity.Course;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.sql.Statement;
 
@@ -270,6 +271,114 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
             }
         } catch (SQLException ex) {
             System.out.println("Error getting total search results: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return 0;
+    }
+
+    public List<Course> findWithFilters(List<Integer> categoryIds, List<Integer> ratings,
+            String keyword, int pageNumber, int pageSize) {
+        List<Course> courses = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM Course WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        // Add category filter
+        if (categoryIds != null && !categoryIds.isEmpty()) {
+            sql.append(" AND category_id IN (")
+                    .append(String.join(",", Collections.nCopies(categoryIds.size(), "?")))
+                    .append(")");
+            params.addAll(categoryIds);
+        }
+
+        // Add rating filter
+        if (ratings != null && !ratings.isEmpty()) {
+            sql.append(" AND rating IN (")
+                    .append(String.join(",", Collections.nCopies(ratings.size(), "?")))
+                    .append(")");
+            params.addAll(ratings);
+        }
+
+        // Add keyword search
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append(" AND (name LIKE ? OR description LIKE ?)");
+            params.add("%" + keyword + "%");
+            params.add("%" + keyword + "%");
+        }
+
+        // Add pagination
+        sql.append(" ORDER BY id LIMIT ? OFFSET ?");
+        params.add(pageSize);
+        params.add((pageNumber - 1) * pageSize);
+
+        try {
+            connection = new DBContext().connection;
+            statement = connection.prepareStatement(sql.toString());
+
+            // Set parameters
+            for (int i = 0; i < params.size(); i++) {
+                if (params.get(i) instanceof Integer) {
+                    statement.setInt(i + 1, (Integer) params.get(i));
+                } else {
+                    statement.setString(i + 1, (String) params.get(i));
+                }
+            }
+
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                courses.add(getFromResultSet(resultSet));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error in filtered search: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return courses;
+    }
+
+    public int getTotalFilteredRecords(List<Integer> categoryIds, List<Integer> ratings, String keyword) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) as total FROM Course WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        // Add filters similar to findWithFilters method
+        if (categoryIds != null && !categoryIds.isEmpty()) {
+            sql.append(" AND category_id IN (")
+                    .append(String.join(",", Collections.nCopies(categoryIds.size(), "?")))
+                    .append(")");
+            params.addAll(categoryIds);
+        }
+
+        if (ratings != null && !ratings.isEmpty()) {
+            sql.append(" AND rating IN (")
+                    .append(String.join(",", Collections.nCopies(ratings.size(), "?")))
+                    .append(")");
+            params.addAll(ratings);
+        }
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append(" AND (name LIKE ? OR description LIKE ?)");
+            params.add("%" + keyword + "%");
+            params.add("%" + keyword + "%");
+        }
+
+        try {
+            connection = new DBContext().connection;
+            statement = connection.prepareStatement(sql.toString());
+
+            for (int i = 0; i < params.size(); i++) {
+                if (params.get(i) instanceof Integer) {
+                    statement.setInt(i + 1, (Integer) params.get(i));
+                } else {
+                    statement.setString(i + 1, (String) params.get(i));
+                }
+            }
+
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("total");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error getting total filtered records: " + ex.getMessage());
         } finally {
             closeResources();
         }

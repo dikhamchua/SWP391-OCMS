@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,67 +35,71 @@ public class CourseHomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int pageSize = 9; // Show 9 courses per page
+        int pageSize = 9;
         int currentPage = 1;
         String pageStr = request.getParameter("page");
         if (pageStr != null && !pageStr.isEmpty()) {
             currentPage = Integer.parseInt(pageStr);
         }
 
-        // Get search parameter
+        // Get filter parameters
         String keyword = request.getParameter("search");
+        String categoriesParam = request.getParameter("categories");
+        String ratingsParam = request.getParameter("ratings");
 
-        // Get courses with pagination
-        List<Course> courses;
-        int totalRecords;
-        int totalPages;
+        List<Integer> categoryIds = new ArrayList<>();
+        List<Integer> ratings = new ArrayList<>();
 
-        if (keyword != null && !keyword.isEmpty()) {
-            // Search with pagination
-            courses = courseDAO.searchWithPagination(keyword, currentPage, pageSize);
-            totalRecords = courseDAO.getTotalSearchResults(keyword);
-        } else {
-            // Normal pagination
-            courses = courseDAO.findWithPagination(currentPage, pageSize);
-            totalRecords = courseDAO.getTotalRecords();
+        // Parse category filters
+        if (categoriesParam != null && !categoriesParam.isEmpty()) {
+            categoryIds = Arrays.stream(categoriesParam.split(","))
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
         }
 
-        totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+        // Parse rating filters
+        if (ratingsParam != null && !ratingsParam.isEmpty()) {
+            ratings = Arrays.stream(ratingsParam.split(","))
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+        }
+        
+        // Get filtered courses with pagination
+        List<Course> courses;
+        int totalRecords;
 
-        // Lấy thông tin tác giả cho mỗi khóa học
+        courses = courseDAO.findWithFilters(categoryIds, ratings, keyword, currentPage, pageSize);
+        totalRecords = courseDAO.getTotalFilteredRecords(categoryIds, ratings, keyword);
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+
+        // Get author information
         Set<Integer> authorIds = courses.stream()
-                                    .map(Course::getCreatedBy)
-                                    .collect(Collectors.toSet());
-    
-        // Lấy thông tin tác giả
+                .map(Course::getCreatedBy)
+                .collect(Collectors.toSet());
         Map<Integer, String> authorNames = accountDAO.findFullNames(authorIds);
-        // Get category names for each course
-        Set<Integer> categoryIds = courses.stream()
-                                     .map(Course::getCategoryId)
-                                     .collect(Collectors.toSet());
-        Map<Integer, String> categoryNames = categoryDAO.findNames(categoryIds);
+
+        // Get category names
+        Set<Integer> courseCategoryIds = courses.stream()
+                .map(Course::getCategoryId)
+                .collect(Collectors.toSet());
+        Map<Integer, String> categoryNames = categoryDAO.findNames(courseCategoryIds);
 
         // Get all categories for the sidebar
         List<Category> allCategories = categoryDAO.findAll();
-        // Map<Category, Long> categoryCounts = courses.stream()
-        //         .collect(Collectors.groupingBy(
-        //             course -> allCategories.stream()
-        //                     .filter(cat -> cat.getId() == course.getCategoryId())
-        //                     .findFirst()
-        //                     .orElse(null),
-        //             Collectors.counting()
-        //         ));
 
         // Set attributes for JSP
         request.setAttribute("categoryNames", categoryNames);
         request.setAttribute("authorNames", authorNames);
-        // request.setAttribute("categoryCounts", categoryCounts);
         request.setAttribute("allCategories", allCategories);
         request.setAttribute("courses", courses);
         request.setAttribute("currentPage", currentPage);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("totalRecords", totalRecords);
         request.setAttribute("keyword", keyword);
+        request.setAttribute("selectedCategories", categoryIds);
+        request.setAttribute("selectedRatings", ratings);
+        request.setAttribute("selectedCategories", selectedCategories);
+        request.setAttribute("selectedRatings", selectedRatings);
 
         request.getRequestDispatcher(COURSE_LIST_HOME_PAGE).forward(request, response);
     }
