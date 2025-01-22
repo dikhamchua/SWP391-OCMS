@@ -46,6 +46,8 @@ public class CourseHomeController extends HttpServlet {
         String keyword = request.getParameter("search");
         String categoriesParam = request.getParameter("categories");
         String ratingsParam = request.getParameter("ratings");
+        String sort = request.getParameter("sort");
+
 
         List<Integer> categoryIds = new ArrayList<>();
         List<Integer> ratings = new ArrayList<>();
@@ -68,7 +70,7 @@ public class CourseHomeController extends HttpServlet {
         List<Course> courses;
         int totalRecords;
 
-        courses = courseDAO.findWithFilters(categoryIds, ratings, keyword, currentPage, pageSize);
+        courses = courseDAO.findWithFilters(categoryIds, ratings, keyword, sort, currentPage, pageSize);
         totalRecords = courseDAO.getTotalFilteredRecords(categoryIds, ratings, keyword);
         int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
 

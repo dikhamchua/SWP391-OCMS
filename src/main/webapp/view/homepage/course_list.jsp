@@ -15,7 +15,15 @@
 
         <!-- CSS here -->
         <jsp:include page="../common/css-file.jsp"></jsp:include>
-        </head>
+
+        <style>
+            .pagination__wrap .disabled a {
+                pointer-events: none;
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        </style>
+    </head>
 
         <body>
 
@@ -56,7 +64,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-md-5">
                                             <div class="courses-top-left">
-                                                <p>Showing 250 total results</p>
+                                                <p>Showing ${totalRecords} total results</p>
                                             </div>
                                         </div>
                                         <div class="col-md-7">
@@ -65,11 +73,25 @@
                                                     <span class="sort-by">Sort By:</span>
                                                     <div class="courses-top-right-select">
                                                         <select name="orderby" class="orderby">
-                                                            <option value="Most Popular">Most Popular</option>
-                                                            <option value="popularity">popularity</option>
-                                                            <option value="average rating">average rating</option>
-                                                            <option value="latest">latest</option>
-                                                            <option value="latest">latest</option>
+                                                            <!-- <option value="popularity" <%= "popularity".equals(request.getParameter("sort")) ? "selected" : "" %>>Most Popular</option>
+                                                            <option value="average rating" <%= "average rating".equals(request.getParameter("sort")) ? "selected" : "" %>>average rating</option>
+                                                            <option value="latest" <%= "latest".equals(request.getParameter("sort")) ? "selected" : "" %>>latest</option> -->
+
+                                                            <!-- <option value="popularity" <c:if test="${param.sort eq 'popularity'}">selected</c:if>>
+                                                                Most Popular
+                                                            </option> -->
+                                                            <option value="average rating desc" <c:if test="${param.sort eq 'average rating desc'}">selected</c:if>>
+                                                                Average Rating (High to Low)
+                                                            </option>
+                                                            <option value="average rating asc" <c:if test="${param.sort eq 'average rating asc'}">selected</c:if>>
+                                                                Average Rating (Low to High)
+                                                            </option>
+                                                            <option value="latest" <c:if test="${param.sort eq 'latest'}">selected</c:if>>
+                                                                Latest
+                                                            </option>
+                                                            <option value="earliest" <c:if test="${param.sort eq 'earliest'}">selected</c:if>>
+                                                                Earliest
+                                                            </option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -113,11 +135,87 @@
                                     </div>
                                     <nav class="pagination__wrap mt-30">
                                         <ul class="list-wrap">
-                                            <c:forEach begin="1" end="${totalPages}" var="i">
+                                            <%-- First and Previous buttons --%>
+                                            <li class="${currentPage == 1 ? 'disabled' : ''}">
+                                                <c:url var="firstUrl" value="/course-list">
+                                                    <c:param name="page" value="1"/>
+                                                    <c:param name="search" value="${param.search}"/>
+                                                    <c:param name="sort" value="${param.sort}"/>
+                                                    <c:param name="categories" value="${param.categories}"/>
+                                                    <c:param name="ratings" value="${param.ratings}"/>
+                                                </c:url>
+                                                <a href="${firstUrl}"><i class="fas fa-angle-double-left"></i></a>
+                                            </li>
+                                            <li class="${currentPage == 1 ? 'disabled' : ''}">
+                                                <c:url var="prevUrl" value="/course-list">
+                                                    <c:param name="page" value="${currentPage - 1}"/>
+                                                    <c:param name="search" value="${param.search}"/>
+                                                    <c:param name="sort" value="${param.sort}"/>
+                                                    <c:param name="categories" value="${param.categories}"/>
+                                                    <c:param name="ratings" value="${param.ratings}"/>
+                                                </c:url>
+                                                <a href="${prevUrl}"><i class="fas fa-angle-left"></i></a>
+                                            </li>
+                                    
+                                            <%-- Dynamic page numbers --%>
+                                            <c:set var="maxVisiblePages" value="5" />
+                                            <c:set var="halfVisible" value="${(maxVisiblePages - 1) div 2}" />
+                                            
+                                            <c:choose>
+                                                <c:when test="${totalPages <= maxVisiblePages}">
+                                                    <c:set var="startPage" value="1" />
+                                                    <c:set var="endPage" value="${totalPages}" />
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <%-- Tính toán startPage và endPage ban đầu --%>
+                                                    <c:set var="startPage" value="${currentPage - halfVisible > 1 ? currentPage - halfVisible : 1}" />
+                                                    <c:set var="endPage" value="${currentPage + halfVisible < totalPages ? currentPage + halfVisible : totalPages}" />
+                                                    
+                                                    <%-- Điều chỉnh nếu khoảng trang hiển thị không đủ --%>
+                                                    <c:if test="${endPage - startPage < maxVisiblePages - 1}">
+                                                        <c:set var="startPage" value="${endPage - maxVisiblePages + 1}" />
+                                                        <%-- Đảm bảo startPage không nhỏ hơn 1 --%>
+                                                        <c:if test="${startPage < 1}">
+                                                            <c:set var="startPage" value="1" />
+                                                        </c:if>
+                                                    </c:if>
+                                                </c:otherwise>
+                                            </c:choose>
+                                    
+                                            <c:forEach begin="${startPage}" end="${endPage}" var="i">
+                                                <c:url var="pageUrl" value="/course-list">
+                                                    <c:param name="page" value="${i}"/>
+                                                    <c:param name="search" value="${param.search}"/>
+                                                    <c:param name="sort" value="${param.sort}"/>
+                                                    <c:param name="categories" value="${param.categories}"/>
+                                                    <c:param name="ratings" value="${param.ratings}"/>
+                                                </c:url>
                                                 <li class="${currentPage == i ? 'active' : ''}">
-                                                    <a href="course-list?page=${i}${keyword != null ? '&search='.concat(keyword) : ''}">${i}</a>
+                                                    <a href="${pageUrl}">${i}</a>
                                                 </li>
                                             </c:forEach>
+                                    
+                                            <%-- Next and Last buttons --%>
+                                            <li class="${currentPage == totalPages ? 'disabled' : ''}">
+                                                <c:url var="nextUrl" value="/course-list">
+                                                    <c:param name="page" value="${currentPage + 1}"/>
+                                                    <c:param name="search" value="${param.search}"/>
+                                                    <c:param name="sort" value="${param.sort}"/>
+                                                    <c:param name="categories" value="${param.categories}"/>
+                                                    <c:param name="ratings" value="${param.ratings}"/>
+                                                </c:url>
+                                                <a href="${nextUrl}"><i class="fas fa-angle-right"></i></a>
+                                            </li>
+                                            <li class="${currentPage == totalPages ? 'disabled' : ''}">
+                                                <c:url var="lastUrl" value="/course-list">
+                                                    <c:param name="page" value="${totalPages}"/>
+                                                    <c:param name="search" value="${param.search}"/>
+                                                    <c:param name="sort" value="${param.sort}"/>
+                                                    <c:param name="categories" value="${param.categories}"/>
+                                                    <c:param name="ratings" value="${param.ratings}"/>
+                                                </c:url>
+                                                <a href="${lastUrl}"><i class="fas fa-angle-double-right"></i></a>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -142,6 +240,20 @@
         <jsp:include page="../common/js-file.jsp"></jsp:include>
         <script>
             SVGInject(document.querySelectorAll("img.injectable"));
+        </script>
+        // Thêm đoạn này vào file course_list.jsp
+        <script>
+            document.querySelector('.orderby').addEventListener('change', function() {
+                const sortValue = this.value;
+                
+                // Tạo URL mới với tham số sort
+                const urlParams = new URLSearchParams(window.location.search);
+                urlParams.set('sort', sortValue);
+                urlParams.delete('page'); // Reset về page 1 khi thay đổi sort
+                
+                // Gửi request GET về controller
+                window.location.href = window.location.pathname + '?' + urlParams.toString();
+            });
         </script>
     </body>
 

@@ -278,10 +278,31 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
     }
 
     public List<Course> findWithFilters(List<Integer> categoryIds, List<Integer> ratings,
-            String keyword, int pageNumber, int pageSize) {
+            String keyword, String sort, int pageNumber, int pageSize) {
         List<Course> courses = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT * FROM Course WHERE 1=1");
         List<Object> params = new ArrayList<>();
+        String orderBy = "id";
+
+        if (sort != null) {
+            switch (sort) {
+                // case "popularity":
+                //     orderBy = "enroll_count DESC";
+                //     break;
+                case "average rating desc":
+                    orderBy = "rating DESC";
+                    break;
+                case "average rating asc":
+                    orderBy = "rating ASC";
+                    break;
+                case "latest":
+                    orderBy = "created_date DESC";
+                    break;
+                case "earliest":
+                    orderBy = "created_date ASC";
+                    break;
+            }
+        }
 
         // Add category filter
         if (categoryIds != null && !categoryIds.isEmpty()) {
@@ -307,7 +328,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
         }
 
         // Add pagination
-        sql.append(" ORDER BY id LIMIT ? OFFSET ?");
+        sql.append(" ORDER BY ").append(orderBy).append(" LIMIT ? OFFSET ?");
         params.add(pageSize);
         params.add((pageNumber - 1) * pageSize);
 
