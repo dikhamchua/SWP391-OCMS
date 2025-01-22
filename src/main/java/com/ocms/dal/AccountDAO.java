@@ -26,6 +26,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
         List<Account> accounts = new ArrayList<>();
         String sql = "SELECT * FROM Account";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -45,6 +46,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
                 "full_name = ?, gender = ?, avatar = ?, is_active = ?, role_id = ? WHERE id = ?";
 
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, account.getUsername());
             statement.setString(2, account.getPassword());
@@ -79,6 +81,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
                 "gender, avatar, is_active, role_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, account.getUsername());
             statement.setString(2, account.getPassword());
@@ -130,6 +133,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
         List<Account> accounts = new ArrayList<>();
         String sql = "SELECT * FROM account WHERE role_id != ? ORDER BY id LIMIT ? OFFSET ?";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setObject(1, GlobalConfig.ROLE_ADMIN);
             statement.setInt(2, pageSize);
@@ -149,6 +153,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     public int getTotalNonAdminAccounts() {
         String sql = "SELECT COUNT(*) FROM Account WHERE role_id != ?";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setObject(1, GlobalConfig.ROLE_ADMIN);
             resultSet = statement.executeQuery();
@@ -166,6 +171,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     public Account findByEmailOrUsernameAndPass(Account t) {
         String sql = "SELECT * FROM Account WHERE (email = ? OR username = ?) AND password = ?";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, t.getEmail());
             statement.setString(2, t.getUsername());
@@ -185,6 +191,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     public Account findByEmail(Account t) {
         String sql = "SELECT * FROM Account WHERE email = ?";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, t.getEmail());
             resultSet = statement.executeQuery();
@@ -202,6 +209,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     public boolean activateAccount(int accountId) {
         String sql = "UPDATE Account SET Status = 'Active' WHERE id = ?";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, accountId);
             int affectedRows = statement.executeUpdate();
@@ -217,6 +225,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     public boolean updatePassword(Account account) {
         String sql = "UPDATE Account SET Password = ? WHERE Email = ?";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, account.getPassword());
             statement.setString(2, account.getEmail());
@@ -233,6 +242,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     public boolean updateProfileImage(Account account) {
         String sql = "UPDATE Account SET avatar = ? WHERE id = ?";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, account.getAvatar());
             statement.setInt(2, account.getId());
@@ -249,6 +259,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     public Account findById(int accountId) {
         String sql = "SELECT * FROM Account WHERE id = ?";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, accountId);
             resultSet = statement.executeQuery();
@@ -266,6 +277,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     public boolean deactivateAccount(int accountId) {
         String sql = "UPDATE Account SET Status = 'Inactive' WHERE id = ?";
         try {
+            connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, accountId);
             int affectedRows = statement.executeUpdate();

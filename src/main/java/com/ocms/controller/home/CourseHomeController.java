@@ -98,8 +98,6 @@ public class CourseHomeController extends HttpServlet {
         request.setAttribute("keyword", keyword);
         request.setAttribute("selectedCategories", categoryIds);
         request.setAttribute("selectedRatings", ratings);
-        request.setAttribute("selectedCategories", selectedCategories);
-        request.setAttribute("selectedRatings", selectedRatings);
 
         request.getRequestDispatcher(COURSE_LIST_HOME_PAGE).forward(request, response);
     }
