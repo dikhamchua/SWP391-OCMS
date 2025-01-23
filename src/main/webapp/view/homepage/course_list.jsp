@@ -106,7 +106,7 @@
                                             <div class="col">
                                                 <div class="courses__item shine__animate-item">
                                                     <div class="courses__item-thumb">
-                                                        <a href="course-details.html" class="shine__animate-link">
+                                                        <a href="${pageContext.request.contextPath}/course-details?id=${course.id}" class="shine__animate-link">
                                                             <img src="${course.thumbnail}" alt="img">
                                                         </a>
                                                     </div>
@@ -117,7 +117,7 @@
                                                             </li>
                                                             <li class="avg-rating"><i class="fas fa-star"></i> (${course.rating} Reviews)</li>
                                                         </ul>
-                                                        <h5 class="title"><a href="course-details.html">${course.name}</a></h5>
+                                                        <h5 class="title"><a href="${pageContext.request.contextPath}/course-details?id=${course.id}">${course.name}</a></h5>
                                                         <p class="author">By <a href="#">${authorNames[course.createdBy]}</a></p>
                                                         <div class="courses__item-bottom">
                                                             <div class="button">
