@@ -15,28 +15,24 @@ import com.ocms.dal.AccountDAO;
 import com.ocms.entity.Account;
 import java.util.List;
 
-@WebServlet(name = "ManageAccountController", urlPatterns = {"/manage-account"})
+@WebServlet(name = "ManageAccountController", urlPatterns = { "/manage-account" })
 public class ManageAccountController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        if (action == null) {
-            action = "list"; // Default action
-        }
-
-        switch (action) {
-            case "edit":
-                showEditForm(request, response);
-                break;
-            case "deactivate":
-                deactivateAccount(request, response);
-                break;
-            case "list":
-            default:
-                listAccounts(request, response);
-                break;
+        if (action == null || action.equals("list")) {
+            handleListWithFilters(request, response);
+        } else {
+            switch (action) {
+                case "edit":
+                    showEditForm(request, response);
+                    break;
+                case "deactivate":
+                    deactivateAccount(request, response);
+                    break;
+            }
         }
     }
 
@@ -53,7 +49,7 @@ public class ManageAccountController extends HttpServlet {
                 updateAccount(request, response);
                 break;
             default:
-                listAccounts(request, response);
+                handleListWithFilters(request, response);
                 break;
         }
     }
@@ -75,21 +71,41 @@ public class ManageAccountController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/manage-account");
     }
 
-    private void listAccounts(HttpServletRequest request, HttpServletResponse response)
+    private void handleListWithFilters(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        AccountDAO accountDAO = new AccountDAO();
+        // Get filter parameters
+        String roleFilter = request.getParameter("role");
+        String genderFilter = request.getParameter("gender");
+        String statusFilter = request.getParameter("status");
+        String searchFilter = request.getParameter("search");
+        
+        // Get pagination parameters
         int page = 1;
         int pageSize = 10;
         String pageStr = request.getParameter("page");
         if (pageStr != null && !pageStr.isEmpty()) {
             page = Integer.parseInt(pageStr);
         }
-        List<Account> nonAdminAccounts = accountDAO.findAllNonAdminAccounts(page, pageSize);
-        int totalAccounts = accountDAO.getTotalNonAdminAccounts();
+        
+        AccountDAO accountDAO = new AccountDAO();
+        List<Account> accounts = accountDAO.findAccountsWithFilters(
+            roleFilter, genderFilter, statusFilter, searchFilter, page, pageSize);
+        
+        int totalAccounts = accountDAO.getTotalFilteredAccounts(
+            roleFilter, genderFilter, statusFilter, searchFilter);
         int totalPages = (int) Math.ceil((double) totalAccounts / pageSize);
-        request.setAttribute("nonAdminAccounts", nonAdminAccounts);
+        
+        // Set attributes for JSP
+        request.setAttribute("nonAdminAccounts", accounts);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
+        
+        // Set filter values for maintaining state
+        request.setAttribute("roleFilter", roleFilter);
+        request.setAttribute("genderFilter", genderFilter);
+        request.setAttribute("statusFilter", statusFilter);
+        request.setAttribute("searchFilter", searchFilter);
+        
         request.getRequestDispatcher("view/dashboard/admin/manage-account.jsp").forward(request, response);
     }
 
@@ -97,9 +113,9 @@ public class ManageAccountController extends HttpServlet {
             throws ServletException, IOException {
         Integer accountId = Integer.parseInt(request.getParameter("id"));
         String email = request.getParameter("email");
-        //TODO: THEM VALIDATE ROLE
+        // TODO: THEM VALIDATE ROLE
         Integer roleId = Integer.parseInt(request.getParameter("role"));
-        //TODO: THEM VALIDATE STATUS
+        // TODO: THEM VALIDATE STATUS
         Boolean status = Boolean.parseBoolean(request.getParameter("status"));
         boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
 
@@ -122,7 +138,7 @@ public class ManageAccountController extends HttpServlet {
             request.getRequestDispatcher("view/dashboard/admin/edit-account.jsp").forward(request, response);
         }
     }
-    
+
     private void deactivateAccount(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String accountIdStr = request.getParameter("id");
@@ -130,7 +146,7 @@ public class ManageAccountController extends HttpServlet {
             int accountId = Integer.parseInt(accountIdStr);
             AccountDAO accountDAO = new AccountDAO();
             boolean deactivated = accountDAO.deactivateAccount(accountId);
-            
+
             if (deactivated) {
                 setToastMessage(request, "Account deactivated successfully", "success");
             } else {
@@ -139,7 +155,7 @@ public class ManageAccountController extends HttpServlet {
         } else {
             setToastMessage(request, "Invalid account ID", "error");
         }
-        
+
         response.sendRedirect(request.getContextPath() + "/manage-account");
     }
 

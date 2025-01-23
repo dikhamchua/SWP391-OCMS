@@ -29,6 +29,20 @@
             <!-- header-area -->
             <jsp:include page="../../common/home/header-home.jsp"></jsp:include>
             <!-- header-area-end -->
+            <c:url value="/manage-account" var="paginationUrl">
+                <c:if test="${not empty param.role}">
+                    <c:param name="role" value="${param.role}" />
+                </c:if>
+                <c:if test="${not empty param.gender}">
+                    <c:param name="gender" value="${param.gender}" />
+                </c:if>
+                <c:if test="${not empty param.status}">
+                    <c:param name="status" value="${param.status}" />
+                </c:if>
+                <c:if test="${not empty param.search}">
+                    <c:param name="search" value="${param.search}" />
+                </c:if>
+            </c:url>
 
             <!-- main-area -->
             <main class="main-area">
@@ -44,6 +58,50 @@
                                         <div class="dashboard__content-title">
                                             <h4 class="title">Manage Accounts</h4>
                                         </div>
+                                        <form action="${pageContext.request.contextPath}/manage-account" method="GET"
+                                            class="mb-4">
+                                            <div class="row mb-3">
+                                                <div class="col-md-2">
+                                                    <select class="form-select" id="roleFilter" name="role">
+                                                        <option value="">All Roles</option>
+                                                        <option value="2" ${param.role=='2' ? 'selected' : '' }>Teacher
+                                                        </option>
+                                                        <option value="3" ${param.role=='3' ? 'selected' : '' }>Student
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <select class="form-select" id="genderFilter" name="gender">
+                                                        <option value="">Gender</option>
+                                                        <option value="2" ${param.gender=='2' ? 'selected' : '' }>Male
+                                                        </option>
+                                                        <option value="3" ${param.gender=='3' ? 'selected' : '' }>Female
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <select class="form-select" id="statusFilter" name="status">
+                                                        <option value="">All Status</option>
+                                                        <option value="true" ${param.status=='true' ? 'selected' : '' }>
+                                                            Active</option>
+                                                        <option value="false" ${param.status=='false' ? 'selected' : ''
+                                                            }>Non-active</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control" id="searchFilter"
+                                                        name="search" placeholder="Search by email..."
+                                                        value="${param.search}">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button type="submit" style="width: 100%; background-color: #007aff"
+                                                        class="form-control text-light">
+                                                        <i class="fa fa-search mr-4"></i>
+                                                        Filter
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="dashboard__review-table">
@@ -99,7 +157,7 @@
                                                         <c:if test="${currentPage > 1}">
                                                             <li class="page-item">
                                                                 <a class="page-link"
-                                                                    href="${pageContext.request.contextPath}/manage-account?page=${currentPage - 1}"
+                                                                    href="${paginationUrl}&page=${currentPage - 1}"
                                                                     aria-label="Previous">
                                                                     <span aria-hidden="true">&laquo;</span>
                                                                 </a>
@@ -109,14 +167,14 @@
                                                         <c:forEach begin="1" end="${totalPages}" var="i">
                                                             <li class="page-item ${currentPage == i ? 'active' : ''}">
                                                                 <a class="page-link"
-                                                                    href="${pageContext.request.contextPath}/manage-account?page=${i}">${i}</a>
+                                                                    href="${paginationUrl}&page=${i}">${i}</a>
                                                             </li>
                                                         </c:forEach>
 
                                                         <c:if test="${currentPage < totalPages}">
                                                             <li class="page-item">
                                                                 <a class="page-link"
-                                                                    href="${pageContext.request.contextPath}/manage-account?page=${currentPage + 1}"
+                                                                    href="${paginationUrl}&page=${currentPage + 1}"
                                                                     aria-label="Next">
                                                                     <span aria-hidden="true">&raquo;</span>
                                                                 </a>
