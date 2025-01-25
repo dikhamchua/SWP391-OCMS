@@ -119,16 +119,16 @@ public class ManageAccountController extends HttpServlet {
     private void updateAccount(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Integer accountId = Integer.parseInt(request.getParameter("id"));
-        String email = request.getParameter("email");
+        Account account = new AccountDAO().findById(accountId);
+
         // TODO: THEM VALIDATE ROLE
         Integer roleId = Integer.parseInt(request.getParameter("role"));
         // TODO: THEM VALIDATE STATUS
+        String phone = request.getParameter("phone");
         Boolean status = Boolean.parseBoolean(request.getParameter("status"));
         boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
 
-        Account account = new Account();
-        account.setId(accountId);
-        account.setEmail(email);
+        account.setPhone(phone);
         account.setRoleId(roleId);
         account.setIsActive(status);
         account.setGender(gender);
