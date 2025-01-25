@@ -71,41 +71,48 @@ public class ManageAccountController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/manage-account");
     }
 
-    private void handleListWithFilters(HttpServletRequest request, HttpServletResponse response) 
+    private void handleListWithFilters(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Get filter parameters
         String roleFilter = request.getParameter("role");
         String genderFilter = request.getParameter("gender");
         String statusFilter = request.getParameter("status");
         String searchFilter = request.getParameter("search");
-        
+
         // Get pagination parameters
         int page = 1;
         int pageSize = 10;
         String pageStr = request.getParameter("page");
         if (pageStr != null && !pageStr.isEmpty()) {
-            page = Integer.parseInt(pageStr);
+            try {
+                page = Integer.parseInt(pageStr);
+                if (page < 1)
+                    page = 1;
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
         }
-        
+
         AccountDAO accountDAO = new AccountDAO();
         List<Account> accounts = accountDAO.findAccountsWithFilters(
-            roleFilter, genderFilter, statusFilter, searchFilter, page, pageSize);
-        
+                roleFilter, genderFilter, statusFilter, searchFilter, page, pageSize);
+
         int totalAccounts = accountDAO.getTotalFilteredAccounts(
-            roleFilter, genderFilter, statusFilter, searchFilter);
+                roleFilter, genderFilter, statusFilter, searchFilter);
         int totalPages = (int) Math.ceil((double) totalAccounts / pageSize);
-        
+
         // Set attributes for JSP
-        request.setAttribute("nonAdminAccounts", accounts);
+        request.setAttribute("accounts", accounts);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
-        
+        request.setAttribute("totalAccounts", totalAccounts);
+
         // Set filter values for maintaining state
         request.setAttribute("roleFilter", roleFilter);
         request.setAttribute("genderFilter", genderFilter);
         request.setAttribute("statusFilter", statusFilter);
         request.setAttribute("searchFilter", searchFilter);
-        
+
         request.getRequestDispatcher("view/dashboard/admin/manage-account.jsp").forward(request, response);
     }
 
