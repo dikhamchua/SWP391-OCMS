@@ -111,7 +111,10 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>Account ID</th>
+                                                                <th>Username</th>
                                                                 <th>Email</th>
+                                                                <th>Phone</th>
+                                                                <th>Gender</th>
                                                                 <th>Role</th>
                                                                 <th>Status</th>
                                                                 <th style="text-align: center;">Action</th>
@@ -119,11 +122,22 @@
                                                         </thead>
                                                         <c:forEach var="account" items="${accounts}">
                                                             <tr>
+                                                            <tr>
                                                                 <td>
                                                                     <p class="color-black">${account.id}</p>
                                                                 </td>
                                                                 <td>
+                                                                    <p class="color-black">${account.username}</p>
+                                                                </td>
+                                                                <td>
                                                                     <p class="color-black">${account.email}</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="color-black">${account.phone}</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="color-black">${account.gender ? 'Male' :
+                                                                        'Female'}</p>
                                                                 </td>
                                                                 <td>
                                                                     <p class="color-black">
@@ -158,21 +172,26 @@
                                                     <ul class="pagination justify-content-center">
                                                         <c:if test="${currentPage > 1}">
                                                             <li class="page-item">
-                                                                <a class="page-link" href="${paginationUrl}&page=${currentPage - 1}" aria-label="Previous">
+                                                                <a class="page-link"
+                                                                    href="${paginationUrl}&page=${currentPage - 1}"
+                                                                    aria-label="Previous">
                                                                     <span aria-hidden="true">&laquo;</span>
                                                                 </a>
                                                             </li>
                                                         </c:if>
-                                                
+
                                                         <c:forEach begin="1" end="${totalPages}" var="i">
                                                             <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                                                <a class="page-link" href="${paginationUrl}&page=${i}">${i}</a>
+                                                                <a class="page-link"
+                                                                    href="${paginationUrl}&page=${i}">${i}</a>
                                                             </li>
                                                         </c:forEach>
-                                                
+
                                                         <c:if test="${currentPage < totalPages}">
                                                             <li class="page-item">
-                                                                <a class="page-link" href="${paginationUrl}&page=${currentPage + 1}" aria-label="Next">
+                                                                <a class="page-link"
+                                                                    href="${paginationUrl}&page=${currentPage + 1}"
+                                                                    aria-label="Next">
                                                                     <span aria-hidden="true">&raquo;</span>
                                                                 </a>
                                                             </li>
