@@ -24,7 +24,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     @Override
     public List<Account> findAll() {
         List<Account> accounts = new ArrayList<>();
-        String sql = "SELECT * FROM Account";
+        String sql = "SELECT * FROM account";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -42,7 +42,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
 
     @Override
     public boolean update(Account account) {
-        String sql = "UPDATE Account SET username = ?, password = ?, email = ?, phone = ?, " +
+        String sql = "UPDATE account SET username = ?, password = ?, email = ?, phone = ?, " +
                 "full_name = ?, gender = ?, avatar = ?, is_active = ?, role_id = ? WHERE id = ?";
 
         try {
@@ -77,7 +77,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
 
     @Override
     public int insert(Account account) {
-        String sql = "INSERT INTO Account (username, password, email, phone, full_name, " +
+        String sql = "INSERT INTO account (username, password, email, phone, full_name, " +
                 "gender, avatar, is_active, role_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
@@ -151,7 +151,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     }
 
     public int getTotalNonAdminAccounts() {
-        String sql = "SELECT COUNT(*) FROM Account WHERE role_id != ?";
+        String sql = "SELECT COUNT(*) FROM account WHERE role_id != ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -169,7 +169,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     }
 
     public Account findByEmailOrUsernameAndPass(Account t) {
-        String sql = "SELECT * FROM Account WHERE (email = ? OR username = ?) AND password = ?";
+        String sql = "SELECT * FROM account WHERE (email = ? OR username = ?) AND password = ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -189,7 +189,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     }
 
     public Account findByEmail(Account t) {
-        String sql = "SELECT * FROM Account WHERE email = ?";
+        String sql = "SELECT * FROM account WHERE email = ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -207,7 +207,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     }
 
     public boolean activateAccount(int accountId) {
-        String sql = "UPDATE Account SET Status = 'Active' WHERE id = ?";
+        String sql = "UPDATE account SET Status = 'Active' WHERE id = ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -223,7 +223,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     }
 
     public boolean updatePassword(Account account) {
-        String sql = "UPDATE Account SET Password = ? WHERE Email = ?";
+        String sql = "UPDATE account SET Password = ? WHERE Email = ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -240,7 +240,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     }
 
     public boolean updateProfileImage(Account account) {
-        String sql = "UPDATE Account SET avatar = ? WHERE id = ?";
+        String sql = "UPDATE account SET avatar = ? WHERE id = ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -257,7 +257,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     }
 
     public Account findById(int accountId) {
-        String sql = "SELECT * FROM Account WHERE id = ?";
+        String sql = "SELECT * FROM account WHERE id = ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -275,7 +275,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     }
 
     public boolean deactivateAccount(int accountId) {
-        String sql = "UPDATE Account SET Status = 'Inactive' WHERE id = ?";
+        String sql = "UPDATE account SET Status = 'Inactive' WHERE id = ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -291,7 +291,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     }
 
     public Map<Integer, String> findFullNames(Set<Integer> accountIds) {
-        String sql = "SELECT id, full_name FROM Account WHERE id IN (" +
+        String sql = "SELECT id, full_name FROM account WHERE id IN (" +
                 accountIds.stream().map(String::valueOf).collect(Collectors.joining(",")) + ")";
         Map<Integer, String> authorNames = new HashMap<>();
 
@@ -314,7 +314,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     public List<Account> findAccountsWithFilters(String roleFilter, String genderFilter,
             String statusFilter, String searchFilter, int page, int pageSize) {
         List<Account> accounts = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT * FROM Account WHERE role_id != ? ");
+        StringBuilder sql = new StringBuilder("SELECT * FROM account WHERE role_id != ? ");
         List<Object> params = new ArrayList<>();
         params.add(GlobalConfig.ROLE_ADMIN);
 
@@ -370,7 +370,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
 
     public int getTotalFilteredAccounts(String roleFilter, String genderFilter, 
             String statusFilter, String searchFilter) {
-        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Account WHERE role_id != ? ");
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM account WHERE role_id != ? ");
         List<Object> params = new ArrayList<>();
         params.add(GlobalConfig.ROLE_ADMIN);
 
