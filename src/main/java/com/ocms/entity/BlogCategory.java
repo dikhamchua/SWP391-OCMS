@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BlogCategory {
 
-    private Long id;
+    private Integer id;
     private String name;
     private String description;
     private LocalDateTime createdAt;

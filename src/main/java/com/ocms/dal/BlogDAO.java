@@ -31,8 +31,8 @@ public class BlogDAO extends DBContext implements I_DAO<Blog> {
 
     @Override
     public boolean update(Blog blog) {
-        String sql = "UPDATE blog SET title = ?, thumbnail = ?, brief_info = ?, content = ?, " +
-                    "category_id = ?, author = ?, updated_date = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE blog SET title = ?, thumbnail = ?, brief_info = ?, content = ?, "
+                + "category_id = ?, author = ?, updated_date = ?, status = ? WHERE id = ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -76,13 +76,13 @@ public class BlogDAO extends DBContext implements I_DAO<Blog> {
 
     @Override
     public int insert(Blog blog) {
-        String sql = "INSERT INTO blog (title, thumbnail, brief_info, content, category_id, " +
-                    "author, created_date, updated_date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO blog (title, thumbnail, brief_info, content, category_id, "
+                + "author, created_date, updated_date, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             LocalDateTime now = LocalDateTime.now();
-            
+
             statement.setString(1, blog.getTitle());
             statement.setString(2, blog.getThumbnail());
             statement.setString(3, blog.getBriefInfo());
@@ -165,8 +165,8 @@ public class BlogDAO extends DBContext implements I_DAO<Blog> {
         return blogs;
     }
 
-    public List<Blog> searchBlogs(String searchTerm, String status, Integer categoryId, 
-                                int page, int pageSize) {
+    public List<Blog> findBlogsWithFilters(String searchTerm, String status, Integer categoryId,
+            int page, int pageSize) {
         List<Blog> blogs = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT * FROM blog WHERE 1=1 ");
         List<Object> params = new ArrayList<>();

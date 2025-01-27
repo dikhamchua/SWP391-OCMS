@@ -29,7 +29,7 @@
             <!-- header-area -->
             <jsp:include page="../../common/home/header-home.jsp"></jsp:include>
             <!-- header-area-end -->
-            <c:url value="/manage-setting" var="paginationUrl">
+            <c:url value="/manage-blog" var="paginationUrl">
                 <c:param name="action" value="list" />
                 <c:if test="${not empty param.type}">
                     <c:param name="type" value="${param.type}" />
@@ -45,7 +45,7 @@
             <!-- main-area -->
             <main class="main-area">
                 <section class="dashboard__area section-pb-120">
-                    <div class="container">
+                    <div class="container-fluid">
                         <jsp:include page="../../common/dashboard/avatar.jsp"></jsp:include>
 
                         <div class="dashboard__inner-wrap">
@@ -54,20 +54,20 @@
                                 <div class="col-lg-9">
                                     <div class="dashboard__content-wrap">
                                         <div class="dashboard__content-title">
-                                            <h4 class="title">Manage Accounts</h4>
+                                            <h4 class="title">Manage Blogs</h4>
                                         </div>
-                                        <form action="${pageContext.request.contextPath}/manage-setting" method="GET"
+                                        <form action="${pageContext.request.contextPath}/manage-blog" method="GET"
                                             class="mb-4">
                                             <div class="row mb-3">
                                                 <div class="col-md-3">
-                                                    <select class="form-select" id="typeFilter" name="type">
-                                                        <option value="">All Types</option>
-                                                        <option value="System" ${param.type=='System' ? 'selected' : ''
-                                                            }>System</option>
-                                                        <option value="User" ${param.type=='User' ? 'selected' : '' }>
-                                                            User</option>
-                                                        <option value="Payment" ${param.type=='Payment' ? 'selected'
-                                                            : '' }>Payment</option>
+                                                    <select class="form-select" id="categoryFilter" name="categoryId">
+                                                        <option value="">All Categories</option>
+                                                        <c:forEach var="entry" items="${blogCategoryMap}">
+                                                            <option value="${entry.key}" ${param.categoryId==entry.key
+                                                                ? 'selected' : '' }>
+                                                                ${entry.value.name}
+                                                            </option>
+                                                        </c:forEach>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3">
@@ -81,7 +81,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <input type="text" class="form-control" id="searchFilter"
-                                                        name="search" placeholder="Search by value..."
+                                                        name="search" placeholder="Search blogs..."
                                                         value="${param.search}">
                                                 </div>
                                                 <div class="col-md-3">
@@ -100,48 +100,55 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>ID</th>
-                                                                <th>Type</th>
-                                                                <th>Value</th>
-                                                                <th>Order</th>
+                                                                <th>Thumbnail</th>
+                                                                <th>Title</th>
+                                                                <th>Category</th>
+                                                                <th>Author</th>
                                                                 <th>Status</th>
-                                                                <th>Created At</th>
-                                                                <th>Updated At</th>
+                                                                <th>Created Date</th>
+                                                                <th>Updated Date</th>
                                                                 <th style="text-align: center;">Action</th>
                                                             </tr>
                                                         </thead>
-                                                        <c:forEach var="setting" items="${settings}">
+                                                        <c:forEach var="blog" items="${blogs}">
                                                             <tr>
                                                                 <td>
-                                                                    <p class="color-black">${setting.id}</p>
+                                                                    <p class="color-black">${blog.id}</p>
                                                                 </td>
                                                                 <td>
-                                                                    <p class="color-black">${setting.type}</p>
+                                                                    <img src="${pageContext.request.contextPath}/assets/img/blog/${blog.thumbnail}"
+                                                                        alt="Blog thumbnail" class="img-thumbnail"
+                                                                        style="width: 100px; height: 60px; object-fit: cover;">
                                                                 </td>
                                                                 <td>
-                                                                    <p class="color-black">${setting.value}</p>
+                                                                    <p class="color-black">${blog.title}</p>
                                                                 </td>
                                                                 <td>
-                                                                    <p class="color-black">${setting.order}</p>
+                                                                    <p class="color-black">
+                                                                        ${blogCategoryMap[blog.categoryId].name}</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="color-black">${blog.author}</p>
                                                                 </td>
                                                                 <td>
                                                                     <span
-                                                                        class="dashboard__quiz-result ${setting.status == 'Active' ? '' : 'fail'}">
-                                                                        ${setting.status}
+                                                                        class="dashboard__quiz-result ${blog.status == 'Active' ? '' : 'fail'}">
+                                                                        ${blog.status}
                                                                     </span>
                                                                 </td>
                                                                 <td>
-                                                                    <p class="color-black">${setting.createdAt}</p>
+                                                                    <p class="color-black">${blog.createdDate}</p>
                                                                 </td>
                                                                 <td>
-                                                                    <p class="color-black">${setting.updatedAt}</p>
+                                                                    <p class="color-black">${blog.updatedDate}</p>
                                                                 </td>
                                                                 <td>
                                                                     <div class="dashboard__review-action">
-                                                                        <a href="${pageContext.request.contextPath}/manage-setting?action=edit&id=${setting.id}"
+                                                                        <a href="${pageContext.request.contextPath}/manage-blog?action=edit&id=${blog.id}"
                                                                             title="Edit"><i
                                                                                 class="skillgro-edit"></i></a>
                                                                         <a href="#"
-                                                                            onclick="confirmDeactivate(${setting.id})"
+                                                                            onclick="confirmDeactivate(${blog.id})"
                                                                             title="Deactivate"><i
                                                                                 class="skillgro-bin"></i></a>
                                                                     </div>
@@ -201,9 +208,9 @@
             <jsp:include page="../../common/js-file.jsp"></jsp:include>
 
             <script>
-                function confirmDeactivate(settingId) {
-                    if (confirm('Are you sure you want to deactivate this setting?')) {
-                        window.location.href = '${pageContext.request.contextPath}/manage-setting?action=deactivate&id=' + settingId;
+                function confirmDeactivate(blogId) {
+                    if (confirm('Are you sure you want to deactivate this blog?')) {
+                        window.location.href = '${pageContext.request.contextPath}/manage-blog?action=deactivate&id=' + blogId;
                     }
                 }
             </script>

@@ -38,7 +38,7 @@ public class BlogCategoryDAO extends DBContext implements I_DAO<BlogCategory> {
             statement.setString(1, category.getName());
             statement.setString(2, category.getDescription());
             statement.setObject(3, LocalDateTime.now());
-            statement.setLong(4, category.getId());
+            statement.setObject(4, category.getId());
 
             int affectedRows = statement.executeUpdate();
             return affectedRows > 0;
@@ -56,7 +56,7 @@ public class BlogCategoryDAO extends DBContext implements I_DAO<BlogCategory> {
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
-            statement.setLong(1, category.getId());
+            statement.setObject(1, category.getId());
 
             int affectedRows = statement.executeUpdate();
             return affectedRows > 0;
@@ -102,7 +102,7 @@ public class BlogCategoryDAO extends DBContext implements I_DAO<BlogCategory> {
     @Override
     public BlogCategory getFromResultSet(ResultSet rs) throws SQLException {
         return BlogCategory.builder()
-                .id(rs.getLong("id"))
+                .id(rs.getInt("id"))
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
                 .createdAt(rs.getObject("created_at", LocalDateTime.class))
@@ -115,7 +115,7 @@ public class BlogCategoryDAO extends DBContext implements I_DAO<BlogCategory> {
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
-            statement.setLong(1, id);
+            statement.setObject(1, id);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return getFromResultSet(resultSet);
