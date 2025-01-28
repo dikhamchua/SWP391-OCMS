@@ -53,8 +53,15 @@
                                 <jsp:include page="../../common/dashboard/sideBar.jsp"></jsp:include>
                                 <div class="col-lg-9">
                                     <div class="dashboard__content-wrap">
-                                        <div class="dashboard__content-title">
-                                            <h4 class="title">Manage Blogs</h4>
+                                        <div
+                                            class="dashboard__content-title">
+                                            <div class="title d-flex justify-content-between align-items-center">
+                                                <h4>Manage Blogs</h4>
+                                                <a href="${pageContext.request.contextPath}/manage-blog?action=add"
+                                                    class="btn btn-primary">
+                                                    <i class="fas fa-plus"></i> Add New Blog
+                                                </a>
+                                            </div>
                                         </div>
                                         <form action="${pageContext.request.contextPath}/manage-blog" method="GET"
                                             class="mb-4">
