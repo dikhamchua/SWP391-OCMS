@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://example.com/functions" %>
     <%@page contentType="text/html" pageEncoding="UTF-8" %>
         <!doctype html>
         <html class="no-js" lang="en">
@@ -135,7 +136,7 @@
                                                                         ${blogCategoryMap[blog.categoryId].name}</p>
                                                                 </td>
                                                                 <td>
-                                                                    <p class="color-black">${blog.author}</p>
+                                                                    <p class="color-black">${accountMap[blog.author].username}</p>
                                                                 </td>
                                                                 <td>
                                                                     <span
@@ -144,10 +145,10 @@
                                                                     </span>
                                                                 </td>
                                                                 <td>
-                                                                    <p class="color-black">${blog.createdDate}</p>
+                                                                    <p class="color-black">${fn:formatDate(blog.createdDate, "dd-MM-yyyy HH:mm:ss")}</p>
                                                                 </td>
                                                                 <td>
-                                                                    <p class="color-black">${blog.updatedDate}</p>
+                                                                    <p class="color-black">${fn:formatDate(blog.updatedDate, "dd-MM-yyyy HH:mm:ss")}</p>
                                                                 </td>
                                                                 <td>
                                                                     <div class="dashboard__review-action">

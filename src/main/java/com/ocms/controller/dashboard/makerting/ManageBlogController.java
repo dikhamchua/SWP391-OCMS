@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.ocms.dal.AccountDAO;
 import com.ocms.dal.BlogCategoryDAO;
 import com.ocms.dal.BlogDAO;
 import com.ocms.entity.Account;
@@ -31,6 +32,7 @@ public class ManageBlogController extends HttpServlet {
 
     private final BlogDAO blogDAO = new BlogDAO();
     private final BlogCategoryDAO blogCategoryDAO = new BlogCategoryDAO();
+    private final AccountDAO accountDAO = new AccountDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -114,12 +116,18 @@ public class ManageBlogController extends HttpServlet {
         Map<Integer, BlogCategory> blogCategoryMap = blogCategories.stream()
                 .collect(Collectors.toMap(BlogCategory::getId, item -> item));
 
+        //Get all account 
+        List<Account> accounts = accountDAO.findAll();
+        Map<Integer, Account> accountMap = accounts.stream()
+                .collect(Collectors.toMap(Account::getId, item -> item));
+
         // Set attributes for JSP
         request.setAttribute("blogs", blogs);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("totalBlogs", totalBlogs);
         request.setAttribute("blogCategoryMap", blogCategoryMap);
+        request.setAttribute("accountMap", accountMap);
 
         // Set filter values for maintaining state
         request.setAttribute("categoryId", categoryId);
