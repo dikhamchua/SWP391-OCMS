@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+
+    <tlib-version>1.0</tlib-version>
+    <short-name>Functions</short-name>
+    <uri>http://example.com/functions</uri>
+
+    <!-- Định nghĩa hàm formatDate -->
+    <function>
+        <name>formatDate</name>
+        <function-class>com.ocms.utils.GlobalUtils</function-class>
+        <function-signature>java.lang.String formatDate(java.time.LocalDateTime, java.lang.String)</function-signature>
+    </function>
+</taglib>
