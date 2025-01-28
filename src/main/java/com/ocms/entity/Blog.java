@@ -15,7 +15,7 @@ public class Blog {
     private String briefInfo; // TEXT, Not Null
     private String content; // LONGTEXT, Not Null
     private Integer categoryId; // INT
-    private String author; // VARCHAR(100), Not Null
+    private Integer author; // VARCHAR(100), Not Null
     private LocalDateTime updatedDate; // DATETIME, Default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     private LocalDateTime createdDate; // DATETIME, Default CURRENT_TIMESTAMP
     private String status; // ENUM('Active', 'Inactive'), Default 'Active'
