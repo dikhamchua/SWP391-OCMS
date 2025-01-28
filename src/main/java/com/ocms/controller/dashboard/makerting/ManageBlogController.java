@@ -1,21 +1,31 @@
 package com.ocms.controller.dashboard.makerting;
 
+import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.ocms.dal.BlogCategoryDAO;
 import com.ocms.dal.BlogDAO;
+import com.ocms.entity.Account;
 import com.ocms.entity.Blog;
 import com.ocms.entity.BlogCategory;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 15 // 15 MB
+)
 @WebServlet(name = "ManageBlogController", urlPatterns = { "/manage-blog" })
 public class ManageBlogController extends HttpServlet {
 
@@ -30,6 +40,9 @@ public class ManageBlogController extends HttpServlet {
             handleListWithFilters(request, response);
         } else {
             switch (action) {
+                case "add":
+                    showAddForm(request, response);
+                    break;
                 case "edit":
                     showEditForm(request, response);
                     break;
@@ -48,6 +61,9 @@ public class ManageBlogController extends HttpServlet {
             action = "list"; // Default action
         }
         switch (action) {
+            case "add":
+                addBlog(request, response);
+                break;
             case "update":
                 updateBlog(request, response);
                 break;
@@ -119,6 +135,10 @@ public class ManageBlogController extends HttpServlet {
         if (blogIdStr != null && !blogIdStr.isEmpty()) {
             int blogId = Integer.parseInt(blogIdStr);
             Blog blog = blogDAO.findById(blogId);
+            List<BlogCategory> blogCategories = blogCategoryDAO.findAll();
+            Map<Integer, BlogCategory> blogCategoryMap = blogCategories.stream()
+                    .collect(Collectors.toMap(BlogCategory::getId, item -> item));
+            request.setAttribute("blogCategoryMap", blogCategoryMap);
             if (blog != null) {
                 request.setAttribute("blog", blog);
                 request.getRequestDispatcher("view/dashboard/marketing/blog_details.jsp").forward(request, response);
@@ -130,6 +150,12 @@ public class ManageBlogController extends HttpServlet {
 
     private void updateBlog(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        if (account == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         Integer blogId = Integer.parseInt(request.getParameter("id"));
         Blog blog = blogDAO.findById(blogId);
 
@@ -139,7 +165,7 @@ public class ManageBlogController extends HttpServlet {
         String thumbnail = request.getParameter("thumbnail");
         Integer categoryId = Integer.parseInt(request.getParameter("category_id"));
         String status = request.getParameter("status");
-        String author = request.getParameter("author");
+        Integer author = account.getId(); // TODO: xu ly author
 
         blog.setTitle(title);
         blog.setContent(content);
@@ -180,6 +206,95 @@ public class ManageBlogController extends HttpServlet {
             setToastMessage(request, "Invalid blog ID", "error");
         }
         response.sendRedirect(request.getContextPath() + "/manage-blog");
+    }
+
+    private void showAddForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Get all blog categories for the dropdown
+        List<BlogCategory> blogCategories = blogCategoryDAO.findAll();
+        Map<Integer, BlogCategory> blogCategoryMap = blogCategories.stream()
+                .collect(Collectors.toMap(BlogCategory::getId, item -> item));
+        request.setAttribute("blogCategoryMap", blogCategoryMap);
+
+        request.getRequestDispatcher("view/dashboard/marketing/add_blog.jsp").forward(request, response);
+    }
+
+    private void addBlog(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            HttpSession session = request.getSession();
+            Account account = (Account) session.getAttribute("account");
+            if (account == null) {
+                response.sendRedirect(request.getContextPath() + "/login");
+                return;
+            }
+            // Get form data
+            String title = request.getParameter("title");
+            String briefInfo = request.getParameter("briefInfo");
+            String content = request.getParameter("content");
+            Integer categoryId = Integer.parseInt(request.getParameter("categoryId"));
+            String status = request.getParameter("status");
+
+            // Handle file upload for thumbnail
+            Part filePart = request.getPart("thumbnail");
+            String fileName = null;
+            if (filePart != null && filePart.getSize() > 0) {
+                fileName = processFileUpload(filePart, request);
+            }
+
+            // Create new blog object
+            Blog blog = Blog.builder()
+                    .title(title)
+                    .briefInfo(briefInfo)
+                    .content(content)
+                    .categoryId(categoryId)
+                    .status(status)
+                    .thumbnail(fileName)
+                    .author(account.getId()) // TODO: Replace with actual logged-in user's name
+                    .createdDate(LocalDateTime.now())
+                    .updatedDate(LocalDateTime.now())
+                    .build();
+
+            // Save to database
+            int blogId = blogDAO.insert(blog);
+
+            if (blogId > 0) {
+                setToastMessage(request, "Blog created successfully", "success");
+                response.sendRedirect(request.getContextPath() + "/manage-blog");
+            } else {
+                setToastMessage(request, "Failed to create blog", "error");
+                request.getRequestDispatcher("view/dashboard/marketing/add_blog.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            setToastMessage(request, "Error creating blog: " + e.getMessage(), "error");
+            response.sendRedirect(request.getContextPath() + "/manage-blog?action=add");
+        }
+    }
+
+    private String processFileUpload(Part filePart, HttpServletRequest request) throws IOException {
+        String fileName = System.currentTimeMillis() + "_" + getSubmittedFileName(filePart);
+        String uploadPath = request.getServletContext().getRealPath("/assets/img/blog/");
+
+        // Create directory if it doesn't exist
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        // Save file
+        filePart.write(uploadPath + File.separator + fileName);
+        return fileName;
+    }
+
+    private String getSubmittedFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] tokens = contentDisp.split(";");
+        for (String token : tokens) {
+            if (token.trim().startsWith("filename")) {
+                return token.substring(token.indexOf("=") + 2, token.length() - 1);
+            }
+        }
+        return "";
     }
 
     private void setToastMessage(HttpServletRequest request, String message, String type) {

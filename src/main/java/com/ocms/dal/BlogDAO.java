@@ -41,7 +41,7 @@ public class BlogDAO extends DBContext implements I_DAO<Blog> {
             statement.setString(3, blog.getBriefInfo());
             statement.setString(4, blog.getContent());
             statement.setInt(5, blog.getCategoryId());
-            statement.setString(6, blog.getAuthor());
+            statement.setObject(6, blog.getAuthor());
             statement.setObject(7, LocalDateTime.now());
             statement.setString(8, blog.getStatus());
             statement.setInt(9, blog.getId());
@@ -88,7 +88,7 @@ public class BlogDAO extends DBContext implements I_DAO<Blog> {
             statement.setString(3, blog.getBriefInfo());
             statement.setString(4, blog.getContent());
             statement.setInt(5, blog.getCategoryId());
-            statement.setString(6, blog.getAuthor());
+            statement.setObject(6, blog.getAuthor());
             statement.setObject(7, now);
             statement.setObject(8, now);
             statement.setString(9, blog.getStatus() != null ? blog.getStatus() : "Active");
@@ -121,7 +121,7 @@ public class BlogDAO extends DBContext implements I_DAO<Blog> {
                 .briefInfo(rs.getString("brief_info"))
                 .content(rs.getString("content"))
                 .categoryId(rs.getInt("category_id"))
-                .author(rs.getString("author"))
+                .author(rs.getInt("author"))
                 .createdDate(rs.getObject("created_date", LocalDateTime.class))
                 .updatedDate(rs.getObject("updated_date", LocalDateTime.class))
                 .status(rs.getString("status"))
