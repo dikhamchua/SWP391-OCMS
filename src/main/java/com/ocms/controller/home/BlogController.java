@@ -102,7 +102,7 @@ public class BlogController extends HttpServlet {
                 .collect(Collectors.toMap(BlogCategory::getId, category -> category));
 
         // Lấy các bài viết mới nhất cho sidebar
-        List<Blog> latestBlogs = blogDAO.findBlogsWithFilters(null, status, null, 1, 5);
+        List<Blog> latestBlogs = blogDAO.findLatestPosts();
 
         // Tính toán phân trang
         int totalPages = (int) Math.ceil((double) totalBlogs / pageSize);

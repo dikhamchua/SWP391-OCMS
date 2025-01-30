@@ -42,6 +42,7 @@
                                 <ul class="navigation">
                                     <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
                                     <li><a href="#">Courses</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/blog">Blog</a></li>
                                     <c:if test="${sessionScope.account != null}">
                                         <li>
                                             <a href="${pageContext.request.contextPath}/dashboard-profile">Dashboard</a>

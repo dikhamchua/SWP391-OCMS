@@ -31,7 +31,7 @@
         .blog__post-item {
             display: flex;
             flex-direction: column;
-            height: 80%;
+            height: 400px;
         }
         
         .blog__post-content {
@@ -74,9 +74,17 @@
                             <c:forEach items="${blogs}" var="blog">
                                 <div class="col-xl-4 col-md-6">
                                     <div class="blog__post-item shine__animate-item">
-                                        <div class="blog__post-thumb">
-                                            <a href="blog-details?id=${blog.id}" class="shine__animate-link">
-                                                <img src="${blog.thumbnail}" alt="blog thumbnail">
+                                        <div class="blog__post-thumb" style="width: 300px; height: 300px; overflow: hidden; position: relative;">
+                                            <a href="blog-details?id=${blog.id}" class="shine__animate-link" style="display: block; width: 100%; height: 100%;">
+                                                <img 
+                                                    src="${pageContext.request.contextPath}/assets/img/blog/${blog.thumbnail}" 
+                                                    alt="blog thumbnail" 
+                                                    style="
+                                                        width: 100%;
+                                                        height: 100%;
+                                                        object-fit: cover;
+                                                        display: block;
+                                                    ">
                                             </a>
                                             <!-- <a href="blog?category=${blog.categoryId}" class="post-tag">Category</a> -->
                                         </div>
