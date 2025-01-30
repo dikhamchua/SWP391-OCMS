@@ -32,22 +32,30 @@
     <div class="blog-widget">
         <h4 class="widget-title">Latest Posts</h4>
         <c:forEach items="${latestBlogs}" var="latestBlog">
-            <div class="rc-post-item">
-                <div class="rc-post-thumb">
-                    <a href="blog-details?id=${latestBlog.id}">
-                        <img src="${latestBlog.thumbnail}" alt="blog">
-                    </a>
-                </div>
-                <div class="rc-post-content">
-                    <span class="date">
-                        <i class="flaticon-calendar"></i>
-                        ${fn:formatDate(blog.createdDate, "dd-MM-yyyy HH:mm:ss")}
-                    </span>
-                    <h4 class="title">
-                        <a href="blog-details?id=${latestBlog.id}">${latestBlog.title}</a>
-                    </h4>
-                </div>
-            </div>
-        </c:forEach>
+    <div class="rc-post-item">
+        <div class="rc-post-thumb" style="width: 74px; height: 74px; overflow: hidden;">
+            <a href="blog-details?id=${latestBlog.id}">
+                <img 
+                    src="${pageContext.request.contextPath}/assets/img/blog/${latestBlog.thumbnail}" 
+                    alt="blog" 
+                    style="
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        display: block;
+                    ">
+            </a>
+        </div>
+        <div class="rc-post-content">
+            <span class="date">
+                <i class="flaticon-calendar"></i>
+                ${fn:formatDate(blog.createdDate, "dd-MM-yyyy HH:mm:ss")}
+            </span>
+            <h4 class="title">
+                <a href="blog-details?id=${latestBlog.id}">${latestBlog.title}</a>
+            </h4>
+        </div>
+    </div>
+</c:forEach>
     </div>
 </aside>

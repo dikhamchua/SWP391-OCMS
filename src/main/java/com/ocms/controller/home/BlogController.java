@@ -163,9 +163,9 @@ public class BlogController extends HttpServlet {
                 .collect(Collectors.toMap(BlogCategory::getId, category -> category));
         
         // Lấy các bài viết mới nhất cho sidebar
-        List<Blog> latestBlogs = blogDAO.findBlogsWithFilters(null, "Active", null, 1, 5);
+        List<Blog> latestBlogs = blogDAO.findLatestPosts();
         
-        // request.setAttribute("latestBlogs", latestBlogs);
+        request.setAttribute("latestBlogs", latestBlogs);
         request.setAttribute("blogCategoryMap", blogCategoryMap);
     }
 }

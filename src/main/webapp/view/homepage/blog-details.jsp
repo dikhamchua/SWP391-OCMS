@@ -42,9 +42,9 @@
                 <div class="row">
                     <div class="col-xl-9 col-lg-8">
                         <div class="blog__details-wrapper">
-                            <div class="blog__details-thumb">
+                            <!-- <div class="blog__details-thumb">
                                 <img src="${blog.thumbnail}" alt="${blog.title}">
-                            </div>
+                            </div> -->
                             <div class="blog__details-content">
                                 <div class="blog__post-meta">
                                     <ul class="list-wrap">

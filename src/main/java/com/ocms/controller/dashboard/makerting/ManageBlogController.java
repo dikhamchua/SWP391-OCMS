@@ -170,15 +170,28 @@ public class ManageBlogController extends HttpServlet {
         String title = request.getParameter("title");
         String content = request.getParameter("content");
         String briefInfo = request.getParameter("brief_info");
-        String thumbnail = request.getParameter("thumbnail");
         Integer categoryId = Integer.parseInt(request.getParameter("category_id"));
         String status = request.getParameter("status");
         Integer author = account.getId(); // TODO: xu ly author
+        Part filePart = request.getPart("thumbnail");
+        if (filePart != null && filePart.getSize() > 0) {
+            // Delete old thumbnail if exists
+            if (blog.getThumbnail() != null && !blog.getThumbnail().isEmpty()) {
+                String oldThumbnailPath = request.getServletContext().getRealPath("/assets/img/blog/") 
+                    + File.separator + blog.getThumbnail();
+                File oldFile = new File(oldThumbnailPath);
+                if (oldFile.exists()) {
+                    oldFile.delete();
+                }
+            }
+            // Process and save new thumbnail
+            String newThumbnail = processFileUpload(filePart, request);
+            blog.setThumbnail(newThumbnail);
+        }
 
         blog.setTitle(title);
         blog.setContent(content);
         blog.setBriefInfo(briefInfo);
-        blog.setThumbnail(thumbnail);
         blog.setCategoryId(categoryId);
         blog.setStatus(status);
         blog.setAuthor(author);
