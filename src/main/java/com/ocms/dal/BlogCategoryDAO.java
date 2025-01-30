@@ -110,7 +110,7 @@ public class BlogCategoryDAO extends DBContext implements I_DAO<BlogCategory> {
                 .build();
     }
 
-    public BlogCategory findById(Long id) {
+    public BlogCategory findById(Integer id) {
         String sql = "SELECT * FROM blog_category WHERE id = ?";
         try {
             connection = getConnection();

@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/blog")
+@WebServlet(urlPatterns = { "/blog", "/blog-details" })
 public class BlogController extends HttpServlet {
 
     private BlogDAO blogDAO;
@@ -31,7 +31,41 @@ public class BlogController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String action = request.getServletPath();
 
+        switch (action) {
+            case "/blog":
+                listBlogs(request, response);
+                break;
+            case "/blog-details":
+                showBlogDetails(request, response);
+                break;
+            default:
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Xử lý form tìm kiếm
+        String searchTerm = request.getParameter("search");
+        String categoryId = request.getParameter("category");
+
+        // Redirect về doGet với các tham số tìm kiếm
+        String redirectURL = "blog?page=1";
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            redirectURL += "&search=" + java.net.URLEncoder.encode(searchTerm, "UTF-8");
+        }
+        if (categoryId != null && !categoryId.isEmpty()) {
+            redirectURL += "&category=" + categoryId;
+        }
+
+        response.sendRedirect(redirectURL);
+    }
+
+    private void listBlogs(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         // Lấy các tham số phân trang và tìm kiếm
         String searchTerm = request.getParameter("search");
         Integer categoryId = null;
@@ -50,7 +84,8 @@ public class BlogController extends HttpServlet {
         if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
             try {
                 page = Integer.parseInt(request.getParameter("page"));
-                if (page < 1) page = 1;
+                if (page < 1)
+                    page = 1;
             } catch (NumberFormatException e) {
                 // Log error if needed
             }
@@ -60,7 +95,7 @@ public class BlogController extends HttpServlet {
         String status = "Active";
         List<Blog> blogs = blogDAO.findBlogsWithFilters(searchTerm, status, categoryId, page, pageSize);
         int totalBlogs = blogDAO.getTotalBlogs(searchTerm, status, categoryId);
-        
+
         // Lấy danh sách categories cho sidebar
         List<BlogCategory> blogCategories = blogCategoryDAO.findAll();
         Map<Integer, BlogCategory> blogCategoryMap = blogCategories.stream()
@@ -71,7 +106,7 @@ public class BlogController extends HttpServlet {
 
         // Tính toán phân trang
         int totalPages = (int) Math.ceil((double) totalBlogs / pageSize);
-        
+
         // Set attributes
         request.setAttribute("blogs", blogs);
         request.setAttribute("latestBlogs", latestBlogs);
@@ -85,22 +120,52 @@ public class BlogController extends HttpServlet {
         request.getRequestDispatcher("/view/homepage/blog.jsp").forward(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    private void showBlogDetails(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        // Xử lý form tìm kiếm
-        String searchTerm = request.getParameter("search");
-        String categoryId = request.getParameter("category");
-        
-        // Redirect về doGet với các tham số tìm kiếm
-        String redirectURL = "blog?page=1";
-        if (searchTerm != null && !searchTerm.isEmpty()) {
-            redirectURL += "&search=" + java.net.URLEncoder.encode(searchTerm, "UTF-8");
+        try {
+            int blogId = Integer.parseInt(request.getParameter("id"));
+            Blog blog = blogDAO.findById(blogId);
+            
+            if (blog == null || !"Active".equals(blog.getStatus())) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+
+            // Lấy thông tin category của blog
+            BlogCategory category = blogCategoryDAO.findById(blog.getCategoryId());
+            
+            // // Lấy các bài viết liên quan (cùng category)
+            // List<Blog> relatedBlogs = blogDAO.findBlogsWithFilters(
+            //     null, "Active", blog.getCategoryId(), 1, 3
+            // ).stream()
+            //     .filter(b -> !b.getId().equals(blog.getId()))
+            //     .collect(Collectors.toList());
+
+            // Set attributes
+            request.setAttribute("blog", blog);
+            request.setAttribute("category", category);
+            // request.setAttribute("relatedBlogs", relatedBlogs);
+            
+            // Thêm các thuộc tính sidebar chung
+            setCommonSidebarAttributes(request);
+
+            request.getRequestDispatcher("/view/homepage/blog-details.jsp").forward(request, response);
+            
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        if (categoryId != null && !categoryId.isEmpty()) {
-            redirectURL += "&category=" + categoryId;
-        }
+    }
+
+    private void setCommonSidebarAttributes(HttpServletRequest request) {
+        // Lấy danh sách categories cho sidebar
+        List<BlogCategory> blogCategories = blogCategoryDAO.findAll();
+        Map<Integer, BlogCategory> blogCategoryMap = blogCategories.stream()
+                .collect(Collectors.toMap(BlogCategory::getId, category -> category));
         
-        response.sendRedirect(redirectURL);
+        // Lấy các bài viết mới nhất cho sidebar
+        List<Blog> latestBlogs = blogDAO.findBlogsWithFilters(null, "Active", null, 1, 5);
+        
+        // request.setAttribute("latestBlogs", latestBlogs);
+        request.setAttribute("blogCategoryMap", blogCategoryMap);
     }
 }

@@ -109,7 +109,7 @@
                         </nav>
                     </div>
                     <div class="col-xl-3 col-lg-4">
-                        <jsp:include page="../common/home/blog_aside.jsp"></jsp:include>
+                        <jsp:include page="../common/home/blog_aside.jsp"></jsp:include>  
                     </div>
                 </div>
             </div>
