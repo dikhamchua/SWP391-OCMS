@@ -152,7 +152,7 @@ public class ManageSliderController extends HttpServlet {
         String notes = request.getParameter("notes");
         String status = request.getParameter("status");
 
-        Part filePart = request.getPart("image");
+        Part filePart = request.getPart("image_url");
         String fileName = null;
         if (filePart != null && filePart.getSize() > 0) {
             fileName = System.currentTimeMillis() + "_" + getFileName(filePart);
