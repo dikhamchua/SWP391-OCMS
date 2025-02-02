@@ -135,7 +135,7 @@ public class ManageSliderController extends HttpServlet {
 
     private void showAddForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("view/dashboard/marketing/slider_details.jsp").forward(request, response);
+        request.getRequestDispatcher("view/dashboard/marketing/slider_add.jsp").forward(request, response);
     }
 
     private void addSlider(HttpServletRequest request, HttpServletResponse response)
@@ -201,7 +201,7 @@ public class ManageSliderController extends HttpServlet {
         String notes = request.getParameter("notes");
         String status = request.getParameter("status");
 
-        Part filePart = request.getPart("image");
+        Part filePart = request.getPart("image_url");
         if (filePart != null && filePart.getSize() > 0) {
             // Delete old image if exists
             if (slider.getImageUrl() != null && !slider.getImageUrl().isEmpty()) {

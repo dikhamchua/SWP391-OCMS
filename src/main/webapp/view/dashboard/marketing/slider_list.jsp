@@ -123,7 +123,7 @@
                                                                     <p class="color-black">${slider.id}</p>
                                                                 </td>
                                                                 <td>
-                                                                    <img src="${pageContext.request.contextPath}/assets/img/slider/${slider.imageUrl}"
+                                                                    <img src="${pageContext.request.contextPath}/${slider.imageUrl}"
                                                                          alt="Slider image" class="img-thumbnail"
                                                                          style="width: 100px; height: 60px; object-fit: cover;">
                                                                 </td>
