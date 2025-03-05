@@ -37,7 +37,7 @@
 
                 <!-- dashboard-area -->
                 <section class="dashboard__area section-pb-120">
-                <div class="container-fluid">
+                <div class="container">
                 <jsp:include page="../common/dashboard/avatar.jsp"></jsp:include>
                     <div class="dashboard__inner-wrap">
                         <div class="row">
