@@ -298,4 +298,29 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
         return 0;
     }
 
+    /**
+     * Find a registration by its ID
+     * @param id The ID of the registration to find
+     * @return The Registration object if found, null otherwise
+     */
+    public Registration findById(int id) {
+        String sql = "SELECT * FROM registration WHERE id = ?";
+        
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            
+            ps.setInt(1, id);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return getFromResultSet(rs);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding registration by ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

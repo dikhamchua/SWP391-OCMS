@@ -20,6 +20,10 @@ import com.ocms.entity.Registration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
+import java.util.Date;
 
 
 @WebServlet(name="ManageRegistration", urlPatterns={"/manage-registration"})
@@ -36,9 +40,10 @@ public class ManageRegistration extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null || action.equals("list")) {
             searchByFilter(request, response);
-        } else {
-
-        }    }
+        } else if (action.equals("edit")) {
+            editRegistration(request, response);
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -46,10 +51,10 @@ public class ManageRegistration extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         String action = request.getParameter("action");
-        if (action == null || action == "list") {
+        if (action == null || action.equals("list")) {
             searchByFilter(request, response);
-        } else {
-
+        } else if (action.equals("update")) {
+            updateRegistration(request, response);
         }
     }
 
@@ -165,5 +170,144 @@ public class ManageRegistration extends HttpServlet {
         request.setAttribute("toDate", toDate);
         // Forward to JSP
         request.getRequestDispatcher("/view/dashboard/admin/registration_list.jsp").forward(request, response);
+    }
+
+    private void editRegistration(HttpServletRequest request, HttpServletResponse response) 
+    throws ServletException, IOException {
+        // Get registration ID from request
+        String idStr = request.getParameter("id");
+        int id;
+        
+        try {
+            id = Integer.parseInt(idStr);
+        } catch (NumberFormatException e) {
+            // Handle invalid ID
+            request.getSession().setAttribute("toastMessage", "Invalid registration ID");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-registration");
+            return;
+        }
+        
+        // Get registration details
+        Registration registration = registrationDAO.findById(id);
+        
+        if (registration == null) {
+            // Handle registration not found
+            request.getSession().setAttribute("toastMessage", "Registration not found");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-registration");
+            return;
+        }
+        
+        // Get additional data for display
+        String accountName = accountDAO.getAccountName(registration.getAccountId());
+        String accountEmail = accountDAO.getAccountEmail(registration.getAccountId());
+        String categoryName = categoryDAO.getCategoryName(registration.getCategoryId());
+        String lastUpdatedByName = accountDAO.getAccountName(registration.getLastUpdateByPerson());
+        
+        // Get all categories for dropdown
+        List<Category> categories = categoryDAO.findAll();
+        
+        // Set attributes for JSP
+        request.setAttribute("registration", registration);
+        request.setAttribute("accountName", accountName);
+        request.setAttribute("accountEmail", accountEmail);
+        request.setAttribute("categoryName", categoryName);
+        request.setAttribute("lastUpdatedByName", lastUpdatedByName);
+        request.setAttribute("categories", categories);
+        
+        // Forward to edit page
+        request.getRequestDispatcher("/view/dashboard/admin/registration_edit.jsp").forward(request, response);
+    }
+    
+    private void updateRegistration(HttpServletRequest request, HttpServletResponse response) 
+    throws ServletException, IOException {
+        // Get registration ID from request
+        String idStr = request.getParameter("id");
+        int id;
+        
+        try {
+            id = Integer.parseInt(idStr);
+        } catch (NumberFormatException e) {
+            // Handle invalid ID
+            request.getSession().setAttribute("toastMessage", "Invalid registration ID");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-registration");
+            return;
+        }
+        
+        // Get existing registration
+        Registration registration = registrationDAO.findById(id);
+        
+        if (registration == null) {
+            // Handle registration not found
+            request.getSession().setAttribute("toastMessage", "Registration not found");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-registration");
+            return;
+        }
+        
+        // Get form data
+        String status = request.getParameter("status");
+        String packages = request.getParameter("package");
+        String categoryIdStr = request.getParameter("categoryId");
+        String validFromStr = request.getParameter("validFrom");
+        String validToStr = request.getParameter("validTo");
+        String totalCostStr = request.getParameter("totalCost");
+        String notes = request.getParameter("notes");
+        
+        try {
+            // Update registration object
+            if (status != null && !status.isEmpty()) {
+                registration.setStatus(status);
+            }
+            
+            if (packages != null && !packages.isEmpty()) {
+                registration.setPackages(packages);
+            }
+            
+            if (categoryIdStr != null && !categoryIdStr.isEmpty()) {
+                int categoryId = Integer.parseInt(categoryIdStr);
+                registration.setCategoryId(categoryId);
+            }
+            
+            if (totalCostStr != null && !totalCostStr.isEmpty()) {
+                BigDecimal totalCost = new BigDecimal(totalCostStr);
+                registration.setTotalCost(totalCost);
+            }
+            
+            if (validFromStr != null && !validFromStr.isEmpty()) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date validFromDate = dateFormat.parse(validFromStr);
+                registration.setValidFrom(new Timestamp(validFromDate.getTime()));
+            }
+            
+            if (validToStr != null && !validToStr.isEmpty()) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date validToDate = dateFormat.parse(validToStr);
+                registration.setValidTo(new Timestamp(validToDate.getTime()));
+            }
+            
+            // Set last updated by to current user (for now using ID 1)
+            registration.setLastUpdateByPerson(1);
+            
+            // Update registration in database
+            boolean success = registrationDAO.update(registration);
+            
+            if (success) {
+                request.getSession().setAttribute("toastMessage", "Registration updated successfully");
+                request.getSession().setAttribute("toastType", "success");
+            } else {
+                request.getSession().setAttribute("toastMessage", "Failed to update registration");
+                request.getSession().setAttribute("toastType", "error");
+            }
+            
+        } catch (Exception e) {
+            request.getSession().setAttribute("toastMessage", "Error updating registration: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+        }
+        
+        // Redirect back to registration list
+        response.sendRedirect(request.getContextPath() + "/manage-registration");
     }
 }
