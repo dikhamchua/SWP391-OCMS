@@ -17,7 +17,7 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
     @Override
     public List<Category> findAll() {
         List<Category> categories = new ArrayList<>();
-        String sql = "SELECT * FROM Category";
+        String sql = "SELECT * FROM category";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -35,7 +35,7 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
 
     @Override
     public boolean update(Category category) {
-        String sql = "UPDATE Category SET name = ? WHERE id = ?";
+        String sql = "UPDATE category SET name = ? WHERE id = ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -54,7 +54,7 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
 
     @Override
     public int insert(Category category) {
-        String sql = "INSERT INTO Category (name) VALUES (?)";
+        String sql = "INSERT INTO category (name) VALUES (?)";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -82,7 +82,7 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
 
     @Override
     public boolean delete(Category category) {
-        String sql = "DELETE FROM Category WHERE id = ?";
+        String sql = "DELETE FROM category WHERE id = ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -107,7 +107,7 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
     }
 
     public Category findById(int categoryId) {
-        String sql = "SELECT * FROM Category WHERE id = ?";
+        String sql = "SELECT * FROM category WHERE id = ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -125,7 +125,7 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
     }
 
     public Category findByName(String categoryName) {
-        String sql = "SELECT * FROM Category WHERE name = ?";
+        String sql = "SELECT * FROM category WHERE name = ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -148,7 +148,7 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
             return categoryNames;
         }
 
-        String sql = "SELECT id, name FROM Category WHERE id IN (" + 
+        String sql = "SELECT id, name FROM category WHERE id IN (" + 
                     String.join(",", Collections.nCopies(categoryIds.size(), "?")) + ")";
         
         try {
@@ -177,5 +177,22 @@ public class CategoryDAO extends DBContext implements I_DAO<Category> {
         for (Category category : categories) {
             System.out.println(category);
         }
+    }
+    public String getCategoryName(int categoryId) {
+        String sql = "SELECT name FROM category WHERE id = ?";
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, categoryId);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString("name");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error getting category name: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return null;
     }
 }

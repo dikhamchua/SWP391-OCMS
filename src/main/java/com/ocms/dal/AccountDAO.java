@@ -369,6 +369,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     }
 
     public int getTotalFilteredAccounts(String roleFilter, String genderFilter, 
+
             String statusFilter, String searchFilter) {
         StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM account WHERE role_id != ? ");
         List<Object> params = new ArrayList<>();
@@ -418,7 +419,44 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
         }
         return 0;
     }
+   
+    public String getAccountName(int accountId) {
+        String sql = "SELECT full_name FROM account WHERE id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, accountId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("full_name");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
+    public String getAccountEmail(int accountId) {
+        String sql = "SELECT email FROM account WHERE id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, accountId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("email");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    
+
+    public String getLastUpdatedByName(int lastUpdatedById) {
+        return getAccountName(lastUpdatedById);
+    }
     public static void main(String[] args) {
         AccountDAO accountDAO = new AccountDAO();
         accountDAO.findAll().forEach(item -> {
