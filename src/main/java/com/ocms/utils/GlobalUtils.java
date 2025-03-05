@@ -7,6 +7,9 @@ package com.ocms.utils;
 import com.ocms.config.GlobalConfig;
 import com.ocms.controller.authen.UserGoogleDto;
 import com.ocms.entity.Account;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 /**
@@ -33,5 +36,19 @@ public class GlobalUtils {
         account.setRoleId(GlobalConfig.ROLE_STUDENT); // Default role ID, adjust as needed
         account.setIsActive(true);
         return account;
+    }
+
+    /**
+     * Hàm định dạng LocalDateTime
+     * @param dateTime LocalDateTime cần định dạng
+     * @param pattern Định dạng (ví dụ: "dd-MM-yyyy HH:mm:ss")
+     * @return Chuỗi ngày giờ đã định dạng
+     */
+    public static String formatDate(LocalDateTime dateTime, String pattern) {
+        if (dateTime == null || pattern == null || pattern.isEmpty()) {
+            return "";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return dateTime.format(formatter);
     }
 }

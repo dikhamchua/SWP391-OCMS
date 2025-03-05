@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://example.com/functions" %>
     <%@page contentType="text/html" pageEncoding="UTF-8" %>
         <!doctype html>
         <html class="no-js" lang="en">
@@ -6,7 +7,7 @@
         <head>
             <meta charset="utf-8">
             <meta http-equiv="x-ua-compatible" content="ie=edge">
-            <title>SkillGro - Manage Accounts</title>
+            <title>SkillGro - Manage Settings</title>
             <meta name="description" content="SkillGro - Manage Accounts">
             <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -29,13 +30,10 @@
             <!-- header-area -->
             <jsp:include page="../../common/home/header-home.jsp"></jsp:include>
             <!-- header-area-end -->
-            <c:url value="/manage-account" var="paginationUrl">
+            <c:url value="/manage-blog" var="paginationUrl">
                 <c:param name="action" value="list" />
-                <c:if test="${not empty param.role}">
-                    <c:param name="role" value="${param.role}" />
-                </c:if>
-                <c:if test="${not empty param.gender}">
-                    <c:param name="gender" value="${param.gender}" />
+                <c:if test="${not empty param.type}">
+                    <c:param name="type" value="${param.type}" />
                 </c:if>
                 <c:if test="${not empty param.status}">
                     <c:param name="status" value="${param.status}" />
@@ -56,42 +54,42 @@
                                 <jsp:include page="../../common/dashboard/sideBar.jsp"></jsp:include>
                                 <div class="col-lg-9">
                                     <div class="dashboard__content-wrap">
-                                        <div class="dashboard__content-title">
-                                            <h4 class="title">Manage Accounts</h4>
+                                        <div
+                                            class="dashboard__content-title">
+                                            <div class="title d-flex justify-content-between align-items-center">
+                                                <h4>Manage Blogs</h4>
+                                                <a href="${pageContext.request.contextPath}/manage-blog?action=add"
+                                                    class="btn btn-primary">
+                                                    <i class="fas fa-plus"></i> Add New Blog
+                                                </a>
+                                            </div>
                                         </div>
-                                        <form action="${pageContext.request.contextPath}/manage-account" method="GET"
+                                        <form action="${pageContext.request.contextPath}/manage-blog" method="GET"
                                             class="mb-4">
                                             <div class="row mb-3">
-                                                <div class="col-md-2">
-                                                    <select class="form-select" id="roleFilter" name="role">
-                                                        <option value="">All Roles</option>
-                                                        <option value="2" ${param.role=='2' ? 'selected' : '' }>Teacher
-                                                        </option>
-                                                        <option value="3" ${param.role=='3' ? 'selected' : '' }>Student
-                                                        </option>
+                                                <div class="col-md-3">
+                                                    <select class="form-select" id="categoryFilter" name="categoryId">
+                                                        <option value="">All Categories</option>
+                                                        <c:forEach var="entry" items="${blogCategoryMap}">
+                                                            <option value="${entry.key}" ${param.categoryId==entry.key
+                                                                ? 'selected' : '' }>
+                                                                ${entry.value.name}
+                                                            </option>
+                                                        </c:forEach>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <select class="form-select" id="genderFilter" name="gender">
-                                                        <option value="">Gender</option>
-                                                        <option value="2" ${param.gender=='2' ? 'selected' : '' }>Male
-                                                        </option>
-                                                        <option value="3" ${param.gender=='3' ? 'selected' : '' }>Female
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <select class="form-select" id="statusFilter" name="status">
                                                         <option value="">All Status</option>
-                                                        <option value="true" ${param.status=='true' ? 'selected' : '' }>
-                                                            Active</option>
-                                                        <option value="false" ${param.status=='false' ? 'selected' : ''
-                                                            }>Non-active</option>
+                                                        <option value="Active" ${param.status=='Active' ? 'selected'
+                                                            : '' }>Active</option>
+                                                        <option value="Inactive" ${param.status=='Inactive' ? 'selected'
+                                                            : '' }>Inactive</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <input type="text" class="form-control" id="searchFilter"
-                                                        name="search" placeholder="Search by email..."
+                                                        name="search" placeholder="Search blogs..."
                                                         value="${param.search}">
                                                 </div>
                                                 <div class="col-md-3">
@@ -107,57 +105,58 @@
                                             <div class="col-12">
                                                 <div class="dashboard__review-table">
                                                     <table class="table table-borderless">
-                                                        <!-- ... table header ... -->
                                                         <thead>
                                                             <tr>
-                                                                <th>Account ID</th>
-                                                                <th>Username</th>
-                                                                <th>Email</th>
-                                                                <th>Phone</th>
-                                                                <th>Gender</th>
-                                                                <th>Role</th>
+                                                                <th>ID</th>
+                                                                <th>Thumbnail</th>
+                                                                <th>Title</th>
+                                                                <th>Category</th>
+                                                                <th>Author</th>
                                                                 <th>Status</th>
+                                                                <th>Created Date</th>
+                                                                <th>Updated Date</th>
                                                                 <th style="text-align: center;">Action</th>
                                                             </tr>
                                                         </thead>
-                                                        <c:forEach var="account" items="${accounts}">
+                                                        <c:forEach var="blog" items="${blogs}">
                                                             <tr>
-                                                            <tr>
                                                                 <td>
-                                                                    <p class="color-black">${account.id}</p>
+                                                                    <p class="color-black">${blog.id}</p>
                                                                 </td>
                                                                 <td>
-                                                                    <p class="color-black">${account.username}</p>
+                                                                    <img src="${pageContext.request.contextPath}/assets/img/blog/${blog.thumbnail}"
+                                                                        alt="Blog thumbnail" class="img-thumbnail"
+                                                                        style="width: 100px; height: 60px; object-fit: cover;">
                                                                 </td>
                                                                 <td>
-                                                                    <p class="color-black">${account.email}</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="color-black">${account.phone}</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="color-black">${account.gender ? 'Male' :
-                                                                        'Female'}</p>
+                                                                    <p class="color-black">${blog.title}</p>
                                                                 </td>
                                                                 <td>
                                                                     <p class="color-black">
-                                                                        ${account.roleId == 1 ? 'Admin' : account.roleId
-                                                                        == 2 ? 'Teacher' : 'Student'}
-                                                                    </p>
+                                                                        ${blogCategoryMap[blog.categoryId].name}</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="color-black">${accountMap[blog.author].username}</p>
                                                                 </td>
                                                                 <td>
                                                                     <span
-                                                                        class="dashboard__quiz-result ${account.isActive ? '' : 'fail'}">
-                                                                        ${account.isActive ? 'Active' : 'Non-active'}
+                                                                        class="dashboard__quiz-result ${blog.status == 'Active' ? '' : 'fail'}">
+                                                                        ${blog.status}
                                                                     </span>
                                                                 </td>
                                                                 <td>
+                                                                    <p class="color-black">${fn:formatDate(blog.createdDate, "dd-MM-yyyy HH:mm:ss")}</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="color-black">${fn:formatDate(blog.updatedDate, "dd-MM-yyyy HH:mm:ss")}</p>
+                                                                </td>
+                                                                <td>
                                                                     <div class="dashboard__review-action">
-                                                                        <a href="${pageContext.request.contextPath}/manage-account?action=edit&id=${account.id}"
+                                                                        <a href="${pageContext.request.contextPath}/manage-blog?action=edit&id=${blog.id}"
                                                                             title="Edit"><i
                                                                                 class="skillgro-edit"></i></a>
                                                                         <a href="#"
-                                                                            onclick="confirmDeactivate(${account.id})"
+                                                                            onclick="confirmDeactivate(${blog.id})"
                                                                             title="Deactivate"><i
                                                                                 class="skillgro-bin"></i></a>
                                                                     </div>
@@ -217,9 +216,9 @@
             <jsp:include page="../../common/js-file.jsp"></jsp:include>
 
             <script>
-                function confirmDeactivate(accountId) {
-                    if (confirm('Are you sure you want to deactivate this account?')) {
-                        window.location.href = '${pageContext.request.contextPath}/manage-account?action=deactivate&id=' + accountId;
+                function confirmDeactivate(blogId) {
+                    if (confirm('Are you sure you want to deactivate this blog?')) {
+                        window.location.href = '${pageContext.request.contextPath}/manage-blog?action=deactivate&id=' + blogId;
                     }
                 }
             </script>

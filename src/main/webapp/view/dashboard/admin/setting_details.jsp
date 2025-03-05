@@ -6,7 +6,7 @@
         <head>
             <meta charset="utf-8">
             <meta http-equiv="x-ua-compatible" content="ie=edge">
-            <title>SkillGro - Edit Account</title>
+            <title>SkillGro - Edit Setting</title>
             <meta name="description" content="SkillGro - Edit Account">
             <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -46,54 +46,51 @@
                                 <div class="col-lg-9">
                                     <div class="dashboard__content-wrap">
                                         <div class="dashboard__content-title">
-                                            <h4 class="title">Edit Account</h4>
+                                            <h4 class="title">Edit Setting</h4>
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                <form action="${pageContext.request.contextPath}/manage-account" method="post">
+                                                <form action="${pageContext.request.contextPath}/manage-setting"
+                                                    method="post">
                                                     <input type="hidden" name="action" value="update">
-                                                    <input type="hidden" name="id" value="${account.id}">
-                                        
+                                                    <input type="hidden" name="id" value="${setting.id}">
+
                                                     <div class="form-group">
-                                                        <label for="email">Email</label>
-                                                        <input type="email" class="form-control" id="email" name="email" value="${account.email}" readonly>
+                                                        <label for="type">Type</label>
+                                                        <select class="form-control" id="type" name="type">
+                                                            <option value="System" ${setting.type=='System' ? 'selected'
+                                                                : '' }>System</option>
+                                                            <option value="User" ${setting.type=='User' ? 'selected'
+                                                                : '' }>User</option>
+                                                            <option value="Payment" ${setting.type=='Payment'
+                                                                ? 'selected' : '' }>Payment</option>
+                                                        </select>
                                                     </div>
-                                        
+
                                                     <div class="form-group">
-                                                        <label for="username">Username</label>
-                                                        <input type="text" class="form-control" id="username" name="username" value="${account.username}" readonly>
+                                                        <label for="value">Value</label>
+                                                        <input type="text" class="form-control" id="value" name="value"
+                                                            value="${setting.value}" required>
                                                     </div>
-                                        
+
                                                     <div class="form-group">
-                                                        <label for="phone">Phone Number</label>
-                                                        <input type="tel" class="form-control" id="phone" name="phone" value="${account.phone}" 
-                                                            pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number" required>
+                                                        <label for="order">Display Order</label>
+                                                        <input type="number" class="form-control" id="order"
+                                                            name="order" value="${setting.order}" required min="1">
                                                     </div>
-                                        
-                                                    <div class="form-group">
-                                                        <label for="role">Role</label>
-                                                        <input type="text" class="form-control" id="role" 
-                                                            value="${account.roleId == 1 ? 'Admin' : account.roleId == 2 ? 'Teacher' : 'Student'}" readonly>
-                                                        <input type="hidden" name="role" value="${account.roleId}">
-                                                    </div>
-                                        
+
                                                     <div class="form-group">
                                                         <label for="status">Status</label>
                                                         <select class="form-control" id="status" name="status">
-                                                            <option value="true" ${account.isActive ? 'selected' : ''}>Active</option>
-                                                            <option value="false" ${!account.isActive ? 'selected' : ''}>Inactive</option>
+                                                            <option value="Active" ${setting.status=='Active'
+                                                                ? 'selected' : '' }>Active</option>
+                                                            <option value="Inactive" ${setting.status=='Inactive'
+                                                                ? 'selected' : '' }>Inactive</option>
                                                         </select>
                                                     </div>
-                                        
-                                                    <div class="form-group">
-                                                        <label for="gender">Gender</label>
-                                                        <select class="form-control" id="gender" name="gender">
-                                                            <option value="true" ${account.gender ? 'selected' : ''}>Male</option>
-                                                            <option value="false" ${!account.gender ? 'selected' : ''}>Female</option>
-                                                        </select>
-                                                    </div>
-                                        
-                                                    <button type="submit" class="btn btn-primary">Update Account</button>
+
+                                                    <button type="submit" class="btn btn-primary">Update
+                                                        Setting</button>
                                                 </form>
                                             </div>
                                         </div>
