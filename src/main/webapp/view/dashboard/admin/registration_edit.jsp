@@ -69,7 +69,7 @@
                                                     <div class="row mb-3">
                                                         <div class="col-md-6">
                                                             <div class="mb-2">
-                                                                <strong>Subject:</strong> ${categoryName}
+                                                                <strong>Course:</strong> ${courseName}
                                                             </div>
                                                             <div class="mb-2">
                                                                 <strong>Package:</strong> ${registration.packages}

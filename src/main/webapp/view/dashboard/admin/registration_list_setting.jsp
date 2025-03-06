@@ -56,7 +56,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="optionChoice" value="categoryChoice" 
                                    ${not empty listColum && listColum.contains('categoryChoice') ? 'checked' : ''}>
-                            <label class="form-check-label">Category</label>
+                            <label class="form-check-label">Course</label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="optionChoice" value="packageChoice" 

@@ -20,7 +20,7 @@ public class Registration {
     private String email;
     private int accountId;
     private Timestamp registrationTime;
-    private int categoryId;
+    private int courseId;
     private String packages;
     private BigDecimal totalCost;
     private String status;

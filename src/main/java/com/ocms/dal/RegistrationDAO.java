@@ -29,7 +29,7 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
 
     @Override
     public boolean update(Registration registration) {
-        String sql = "UPDATE registration SET email = ?, account_id = ?, registration_time = ?, category_id = ?, " +
+        String sql = "UPDATE registration SET email = ?, account_id = ?, registration_time = ?, course_id = ?, " +
                 "package = ?, total_cost = ?, status = ?, valid_from = ?, valid_to = ?, last_updated_by = ? WHERE id = ?";
 
         try (Connection connection = getConnection();
@@ -38,7 +38,7 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
             ps.setString(1, registration.getEmail());
             ps.setInt(2, registration.getAccountId());
             ps.setTimestamp(3, registration.getRegistrationTime());
-            ps.setInt(4, registration.getCategoryId());
+            ps.setInt(4, registration.getCourseId());
             ps.setString(5, registration.getPackages());
             ps.setObject(6, registration.getTotalCost());
             ps.setString(7, registration.getStatus());
@@ -71,7 +71,7 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
 
     @Override
     public int insert(Registration registration) {
-        String sql = "INSERT INTO registration (email, account_id, registration_time, category_id, package, " +
+        String sql = "INSERT INTO registration (email, account_id, registration_time, course_id, package, " +
                 "total_cost, status, valid_from, valid_to, last_updated_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
@@ -80,7 +80,7 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
             ps.setString(1, registration.getEmail());
             ps.setInt(2, registration.getAccountId());
             ps.setTimestamp(3, registration.getRegistrationTime());
-            ps.setInt(4, registration.getCategoryId());
+            ps.setInt(4, registration.getCourseId());
             ps.setString(5, registration.getPackages());
             ps.setBigDecimal(6, registration.getTotalCost());
             ps.setString(7, registration.getStatus());
@@ -109,7 +109,7 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
         registration.setEmail(resultSet.getString("email"));
         registration.setAccountId(resultSet.getInt("account_id"));
         registration.setRegistrationTime(resultSet.getTimestamp("registration_time"));
-        registration.setCategoryId(resultSet.getInt("category_id"));
+        registration.setCourseId(resultSet.getInt("course_id"));
         registration.setPackages(resultSet.getString("package"));
         registration.setTotalCost(resultSet.getBigDecimal("total_cost"));
         registration.setStatus(resultSet.getString("status"));
@@ -128,7 +128,7 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
             newRegistration.setEmail("john.doe@example.com");
             newRegistration.setAccountId(1);
             newRegistration.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
-            newRegistration.setCategoryId(2);
+            newRegistration.setCourseId(2);
             newRegistration.setPackages("Standard");
             newRegistration.setTotalCost(new BigDecimal("199.99"));
             newRegistration.setStatus("Active");
@@ -192,7 +192,7 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
 
         // Add category condition
         if (category != null && !category.trim().isEmpty()) {
-            sql.append(" AND r.category_id = ?");
+            sql.append(" AND r.course_id = ?");
             parameters.add(Integer.parseInt(category));
         }
 
@@ -259,7 +259,7 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
 
         // Add category condition
         if (category != null && !category.trim().isEmpty()) {
-            sql.append(" AND r.category_id = ?");
+            sql.append(" AND r.course_id = ?");
             parameters.add(Integer.parseInt(category));
         }
 
@@ -321,6 +321,30 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Find all registrations for a specific student
+     * @param studentId The ID of the student
+     * @return List of Registration objects
+     */
+    public List<Registration> findByStudentId(int studentId) {
+        List<Registration> registrations = new ArrayList<>();
+        String sql = "SELECT * FROM registration WHERE account_id = ?";
+        
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, studentId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    registrations.add(getFromResultSet(rs));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding registrations by student ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return registrations;
     }
 
 }

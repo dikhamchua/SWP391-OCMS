@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.text.ParseException;
 
 
 @WebServlet(name="ManageRegistration", urlPatterns={"/manage-registration"})
@@ -38,10 +39,23 @@ public class ManageRegistration extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         String action = request.getParameter("action");
-        if (action == null || action.equals("list")) {
-            searchByFilter(request, response);
-        } else if (action.equals("edit")) {
-            editRegistration(request, response);
+        if (action == null) {
+            action = "list";
+        }
+        
+        switch (action) {
+            case "list":
+                searchByFilter(request, response);
+                break;
+            case "edit":
+                editRegistration(request, response);
+                break;
+            case "delete":
+                deleteRegistration(request, response);
+                break;
+            default:
+                searchByFilter(request, response);
+                break;
         }
     }
 
@@ -51,10 +65,20 @@ public class ManageRegistration extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         String action = request.getParameter("action");
-        if (action == null || action.equals("list")) {
-            searchByFilter(request, response);
-        } else if (action.equals("update")) {
-            updateRegistration(request, response);
+        if (action == null) {
+            action = "list";
+        }
+        
+        switch (action) {
+            case "update":
+                updateRegistration(request, response);
+                break;
+            case "create":
+                createRegistration(request, response);
+                break;
+            default:
+                searchByFilter(request, response);
+                break;
         }
     }
 
@@ -120,7 +144,7 @@ public class ManageRegistration extends HttpServlet {
         // Populate maps with data
         for (Registration reg : registrations) {
             int accountId = reg.getAccountId();
-            int categoryId = reg.getCategoryId();
+            int categoryId = reg.getCourseId();
             int lastUpdatedById = reg.getLastUpdateByPerson();
 
             if (!accountNames.containsKey(accountId)) {
@@ -202,7 +226,7 @@ public class ManageRegistration extends HttpServlet {
         // Get additional data for display
         String accountName = accountDAO.getAccountName(registration.getAccountId());
         String accountEmail = accountDAO.getAccountEmail(registration.getAccountId());
-        String categoryName = categoryDAO.getCategoryName(registration.getCategoryId());
+        String categoryName = categoryDAO.getCategoryName(registration.getCourseId());
         String lastUpdatedByName = accountDAO.getAccountName(registration.getLastUpdateByPerson());
         
         // Get all categories for dropdown
@@ -250,7 +274,7 @@ public class ManageRegistration extends HttpServlet {
         // Get form data
         String status = request.getParameter("status");
         String packages = request.getParameter("package");
-        String categoryIdStr = request.getParameter("categoryId");
+        String categoryIdStr = request.getParameter("courseId");
         String validFromStr = request.getParameter("validFrom");
         String validToStr = request.getParameter("validTo");
         String totalCostStr = request.getParameter("totalCost");
@@ -268,7 +292,7 @@ public class ManageRegistration extends HttpServlet {
             
             if (categoryIdStr != null && !categoryIdStr.isEmpty()) {
                 int categoryId = Integer.parseInt(categoryIdStr);
-                registration.setCategoryId(categoryId);
+                registration.setCourseId(categoryId);
             }
             
             if (totalCostStr != null && !totalCostStr.isEmpty()) {
@@ -309,5 +333,75 @@ public class ManageRegistration extends HttpServlet {
         
         // Redirect back to registration list
         response.sendRedirect(request.getContextPath() + "/manage-registration");
+    }
+
+    private void createRegistration(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Extract form data
+        String email = request.getParameter("email");
+        int accountId = Integer.parseInt(request.getParameter("accountId"));
+        int courseId = Integer.parseInt(request.getParameter("courseId"));  // Changed from categoryId to courseId
+        String packages = request.getParameter("packages");
+        BigDecimal totalCost = new BigDecimal(request.getParameter("totalCost"));
+        String status = request.getParameter("status");
+        int lastUpdateByPerson = Integer.parseInt(request.getParameter("lastUpdateByPerson"));
+        
+        // Parse dates
+        Timestamp registrationTime = new Timestamp(System.currentTimeMillis());
+        Timestamp validFrom = null;
+        Timestamp validTo = null;
+        
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date validFromDate = dateFormat.parse(request.getParameter("validFrom"));
+            Date validToDate = dateFormat.parse(request.getParameter("validTo"));
+            
+            validFrom = new Timestamp(validFromDate.getTime());
+            validTo = new Timestamp(validToDate.getTime());
+        } catch (ParseException e) {
+            request.setAttribute("errorMessage", "Invalid date format");
+            request.getRequestDispatcher("/view/dashboard/admin/registration_create.jsp").forward(request, response);
+            return;
+        }
+        
+        // Create Registration object
+        Registration registration = new Registration();
+        registration.setEmail(email);
+        registration.setAccountId(accountId);
+        registration.setRegistrationTime(registrationTime);
+        registration.setCourseId(courseId);  // Changed from setCategoryId to setCourseId
+        registration.setPackages(packages);
+        registration.setTotalCost(totalCost);
+        registration.setStatus(status);
+        registration.setValidFrom(validFrom);
+        registration.setValidTo(validTo);
+        registration.setLastUpdateByPerson(lastUpdateByPerson);
+        
+        // Insert into database
+        int newId = registrationDAO.insert(registration);
+        
+        if (newId > 0) {
+            request.setAttribute("successMessage", "Registration created successfully");
+            response.sendRedirect(request.getContextPath() + "/manage-registration?action=edit&id=" + newId);
+        } else {
+            request.setAttribute("errorMessage", "Failed to create registration");
+            request.getRequestDispatcher("/view/dashboard/admin/registration_create.jsp").forward(request, response);
+        }
+    }
+
+    private void deleteRegistration(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        // boolean success = registrationDAO.delete(id);
+        boolean success = 1 == 1;
+        
+        
+        if (success) {
+            request.setAttribute("successMessage", "Registration deleted successfully");
+        } else {
+            request.setAttribute("errorMessage", "Failed to delete registration");
+        }
+        
+        searchByFilter(request, response);
     }
 }

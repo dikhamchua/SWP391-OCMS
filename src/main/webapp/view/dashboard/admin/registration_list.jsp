@@ -93,10 +93,10 @@
                                     <div class="row mb-3">
                                         <div class="col-md-3">
                                             <select class="form-select" name="category">
-                                                <option value="">Category</option>
-                                                <c:forEach items="${categories}" var="cat">
-                                                    <option value="${cat.id}" ${param.category == cat.id ? 'selected' : ''}>
-                                                        ${cat.name}
+                                                <option value="">Course</option>
+                                                <c:forEach items="${courses}" var="course">
+                                                    <option value="${course.id}" ${param.category == course.id ? 'selected' : ''}>
+                                                        ${course.name}
                                                     </option>
                                                 </c:forEach>
                                             </select>
@@ -158,7 +158,7 @@
                                                             <th>Registration Time</th>
                                                         </c:if>
                                                         <c:if test="${not empty listColum && listColum.contains('categoryChoice')}">
-                                                            <th>Category</th>
+                                                            <th>Course</th>
                                                         </c:if>
                                                         <c:if test="${not empty listColum && listColum.contains('packageChoice')}">
                                                             <th>Package</th>
@@ -199,7 +199,7 @@
                                                                 <td><fmt:formatDate value="${reg.registrationTime}" pattern="dd/MM/yyyy HH:mm"/></td>
                                                             </c:if>
                                                             <c:if test="${not empty listColum && listColum.contains('categoryChoice')}">
-                                                                <td>${categoryNames[reg.categoryId]}</td>
+                                                                <td>${courseNames[reg.courseId]}</td>
                                                             </c:if>
                                                             <c:if test="${not empty listColum && listColum.contains('packageChoice')}">
                                                                 <td>${reg.packages}</td>
