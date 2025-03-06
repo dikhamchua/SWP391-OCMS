@@ -33,6 +33,15 @@
                         </a>
                     </li>
                 </c:if>
+                
+                <c:if test="${sessionScope.account.roleId == 3 }">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/my-courses">
+                            <i class="skillgro-book"></i>
+                            My Courses
+                        </a>
+                    </li>
+                </c:if>
 
                 <li>
                     <a href="${pageContext.request.contextPath}/student-wishlist.html">
