@@ -13,7 +13,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
     @Override
     public List<Course> findAll() {
         List<Course> courses = new ArrayList<>();
-        String sql = "SELECT * FROM Course";
+        String sql = "SELECT * FROM course";
         try {
             connection = new DBContext().connection;
             statement = connection.prepareStatement(sql);
@@ -31,7 +31,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
 
     @Override
     public boolean update(Course course) {
-        String sql = "UPDATE Course SET name = ?, description = ?, thumbnail = ?, "
+        String sql = "UPDATE course SET name = ?, description = ?, thumbnail = ?, "
                 + "rating = ?, price = ?, status = ?, modified_date = ?, category_id = ? WHERE id = ?";
         try {
             connection = new DBContext().connection;
@@ -58,7 +58,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
 
     @Override
     public int insert(Course course) {
-        String sql = "INSERT INTO Course (name, description, thumbnail, rating, price, status, "
+        String sql = "INSERT INTO course (name, description, thumbnail, rating, price, status, "
                 + "created_date, modified_date, created_by, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             connection = new DBContext().connection;
@@ -96,7 +96,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
 
     @Override
     public boolean delete(Course course) {
-        String sql = "DELETE FROM Course WHERE id = ?";
+        String sql = "DELETE FROM course WHERE id = ?";
         try {
             connection = new DBContext().connection;
             statement = connection.prepareStatement(sql);
@@ -130,7 +130,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
     }
 
     public Course findById(int courseId) {
-        String sql = "SELECT * FROM Course WHERE id = ?";
+        String sql = "SELECT * FROM course WHERE id = ?";
         try {
             connection = new DBContext().connection;
             statement = connection.prepareStatement(sql);
@@ -149,7 +149,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
 
     public List<Course> findByCategoryId(int categoryId) {
         List<Course> courses = new ArrayList<>();
-        String sql = "SELECT * FROM Course WHERE category_id = ?";
+        String sql = "SELECT * FROM course WHERE category_id = ?";
         try {
             connection = new DBContext().connection;
             statement = connection.prepareStatement(sql);
@@ -168,7 +168,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
 
     public List<Course> findByCreator(int creatorId) {
         List<Course> courses = new ArrayList<>();
-        String sql = "SELECT * FROM Course WHERE created_by = ?";
+        String sql = "SELECT * FROM course WHERE created_by = ?";
         try {
             connection = new DBContext().connection;
             statement = connection.prepareStatement(sql);
@@ -187,7 +187,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
 
     public List<Course> findWithPagination(int pageNumber, int pageSize) {
         List<Course> courses = new ArrayList<>();
-        String sql = "SELECT * FROM Course ORDER BY id LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM course ORDER BY id LIMIT ? OFFSET ?";
         try {
             connection = new DBContext().connection;
             statement = connection.prepareStatement(sql);
@@ -206,7 +206,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
     }
 
     public int getTotalRecords() {
-        String sql = "SELECT COUNT(*) as total FROM Course";
+        String sql = "SELECT COUNT(*) as total FROM course";
         try {
             connection = new DBContext().connection;
             statement = connection.prepareStatement(sql);
@@ -229,7 +229,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
 
     public List<Course> searchWithPagination(String keyword, int pageNumber, int pageSize) {
         List<Course> courses = new ArrayList<>();
-        String sql = "SELECT * FROM Course WHERE name LIKE ? OR description LIKE ? "
+        String sql = "SELECT * FROM course WHERE name LIKE ? OR description LIKE ? "
                 + "ORDER BY id LIMIT ? OFFSET ?";
         try {
             // Mở kết nối đến cơ sở dữ liệu
@@ -250,16 +250,15 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
                 courses.add(getFromResultSet(resultSet));
             }
         } catch (SQLException ex) {
-            System.out.println("Error in search pagination: " + ex.getMessage());
+            System.out.println("Error in search with pagination: " + ex.getMessage());
         } finally {
-            // Đóng tài nguyên
             closeResources();
         }
         return courses;
     }
 
     public int getTotalSearchResults(String keyword) {
-        String sql = "SELECT COUNT(*) as total FROM Course WHERE name LIKE ? OR description LIKE ?";
+        String sql = "SELECT COUNT(*) as total FROM course WHERE name LIKE ? OR description LIKE ?";
         try {
             connection = new DBContext().connection;
             statement = connection.prepareStatement(sql);
@@ -280,7 +279,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
     public List<Course> findWithFilters(List<Integer> categoryIds, List<Integer> ratings,
             String keyword, String sort, int pageNumber, int pageSize) {
         List<Course> courses = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT * FROM Course WHERE 1=1");
+        StringBuilder sql = new StringBuilder("SELECT * FROM course WHERE 1=1");
         List<Object> params = new ArrayList<>();
         String orderBy = "id";
 
@@ -358,7 +357,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
     }
 
     public int getTotalFilteredRecords(List<Integer> categoryIds, List<Integer> ratings, String keyword) {
-        StringBuilder sql = new StringBuilder("SELECT COUNT(*) as total FROM Course WHERE 1=1");
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) as total FROM course WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
         // Add filters similar to findWithFilters method
