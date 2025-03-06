@@ -131,7 +131,7 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
             newRegistration.setCourseId(2);
             newRegistration.setPackages("Standard");
             newRegistration.setTotalCost(new BigDecimal("199.99"));
-            newRegistration.setStatus("Active");
+            newRegistration.setStatus("Pending");
             newRegistration.setValidFrom(new Timestamp(System.currentTimeMillis()));
             newRegistration.setValidTo(new Timestamp(System.currentTimeMillis() + 10000000));  // Một khoảng thời gian giả
             newRegistration.setLastUpdateByPerson(1);

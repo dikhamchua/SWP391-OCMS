@@ -118,8 +118,8 @@
                                         <div class="col-md-3">
                                             <select class="form-select" name="status">
                                                 <option value="">Status</option>
-                                                <option value="Active" ${param.status == 'Active' ? 'selected' : ''}>Active</option>
-                                                <option value="Inactive" ${param.status == 'Inactive' ? 'selected' : ''}>Inactive</option>
+                                                <option value="Pending" ${param.status == 'Pending' ? 'selected' : ''}>Pending</option>
+                                                <option value="Approved" ${param.status == 'Approved' ? 'selected' : ''}>Approved</option>
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -209,10 +209,9 @@
                                                             </c:if>
                                                             <c:if test="${not empty listColum && listColum.contains('statusChoice')}">
                                                                 <td>
-                                                                   <span
-                                                                           class="dashboard__quiz-result ${reg.status == 'Active' ? '' : 'fail'}">
-                                                                           ${reg.status}
-                                                                   </span>
+                                                                    <span class="dashboard__quiz-result ${reg.status == 'Approved' ? '' : 'fail'}">
+                                                                        ${reg.status}
+                                                                    </span>
                                                                 </td>
                                                             </c:if>
                                                             <c:if test="${not empty listColum && listColum.contains('validFromChoice')}">

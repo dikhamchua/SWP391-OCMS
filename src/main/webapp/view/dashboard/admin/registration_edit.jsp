@@ -95,7 +95,7 @@
                                                             </div>
                                                             <div class="mb-2">
                                                                 <strong>Status:</strong> 
-                                                                <span class="badge ${registration.status == 'Active' ? 'bg-success' : 'bg-danger'}">
+                                                                <span class="badge ${registration.status == 'Approved' ? 'bg-success' : 'bg-warning'}">
                                                                     ${registration.status}
                                                                 </span>
                                                                 <button class="btn btn-sm btn-outline-primary ms-2" id="editStatusBtn">Edit</button>
@@ -136,8 +136,8 @@
                                                                 <div class="mb-3">
                                                                     <label class="form-label">Status</label>
                                                                     <select class="form-select" name="status">
-                                                                        <option value="Active" ${registration.status == 'Active' ? 'selected' : ''}>Active</option>
-                                                                        <option value="Inactive" ${registration.status == 'Inactive' ? 'selected' : ''}>Inactive</option>
+                                                                        <option value="Pending" ${registration.status == 'Pending' ? 'selected' : ''}>Pending</option>
+                                                                        <option value="Approved" ${registration.status == 'Approved' ? 'selected' : ''}>Approved</option>
                                                                     </select>
                                                                 </div>
                                                             </div>

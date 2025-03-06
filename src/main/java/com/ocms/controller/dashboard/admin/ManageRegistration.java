@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-import com.ocms.dal.CategoryDAO;
+import com.ocms.dal.CourseDAO;
 import com.ocms.dal.RegistrationDAO;
 import com.ocms.dal.AccountDAO;
-import com.ocms.entity.Category;
+import com.ocms.entity.Course;
 import com.ocms.entity.Registration;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.text.ParseException;
 public class ManageRegistration extends HttpServlet {
     private final RegistrationDAO registrationDAO = new RegistrationDAO();
     private final AccountDAO accountDAO = new AccountDAO();
-    private final CategoryDAO categoryDAO = new CategoryDAO();
+    private final CourseDAO courseDAO = new CourseDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -133,26 +133,27 @@ public class ManageRegistration extends HttpServlet {
         int totalPages = (int) Math.ceil((double) totalRegistrations / pageSize);
 
         // Get additional data for display
-        List<Category> categories = categoryDAO.findAll();
+        List<Course> courses = courseDAO.findAll();
 
         // Create maps for additional information
         Map<Integer, String> accountNames = new HashMap<>();
         Map<Integer, String> accountEmails = new HashMap<>();
-        Map<Integer, String> categoryNames = new HashMap<>();
+        Map<Integer, String> courseNames = new HashMap<>();
         Map<Integer, String> lastUpdatedByNames = new HashMap<>();
 
         // Populate maps with data
         for (Registration reg : registrations) {
             int accountId = reg.getAccountId();
-            int categoryId = reg.getCourseId();
+            int courseId = reg.getCourseId();
             int lastUpdatedById = reg.getLastUpdateByPerson();
 
             if (!accountNames.containsKey(accountId)) {
                 accountNames.put(accountId, accountDAO.getAccountName(accountId));
                 accountEmails.put(accountId, accountDAO.getAccountEmail(accountId));
             }
-            if (!categoryNames.containsKey(categoryId)) {
-                categoryNames.put(categoryId, categoryDAO.getCategoryName(categoryId));
+            if (!courseNames.containsKey(courseId)) {
+                Course course = courseDAO.findById(courseId);
+                courseNames.put(courseId, course != null ? course.getName() : "Unknown Course");
             }
             if (!lastUpdatedByNames.containsKey(lastUpdatedById)) {
                 lastUpdatedByNames.put(lastUpdatedById, accountDAO.getAccountName(lastUpdatedById));
@@ -179,13 +180,13 @@ public class ManageRegistration extends HttpServlet {
         request.setAttribute("pageSize", pageSize);
         // Set attributes for JSP
         request.setAttribute("registrations", registrations);
-        request.setAttribute("categories", categories);
+        request.setAttribute("courses", courses);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("totalRegistrations", totalRegistrations);
         request.setAttribute("accountNames", accountNames);
         request.setAttribute("accountEmails", accountEmails);
-        request.setAttribute("categoryNames", categoryNames);
+        request.setAttribute("courseNames", courseNames);
         request.setAttribute("lastUpdatedByNames", lastUpdatedByNames);
         request.setAttribute("search", search);
         request.setAttribute("category", category);
@@ -226,19 +227,20 @@ public class ManageRegistration extends HttpServlet {
         // Get additional data for display
         String accountName = accountDAO.getAccountName(registration.getAccountId());
         String accountEmail = accountDAO.getAccountEmail(registration.getAccountId());
-        String categoryName = categoryDAO.getCategoryName(registration.getCourseId());
+        Course course = courseDAO.findById(registration.getCourseId());
+        String courseName = course != null ? course.getName() : "Unknown Course";
         String lastUpdatedByName = accountDAO.getAccountName(registration.getLastUpdateByPerson());
         
-        // Get all categories for dropdown
-        List<Category> categories = categoryDAO.findAll();
+        // Get all courses for dropdown
+        List<Course> courses = courseDAO.findAll();
         
         // Set attributes for JSP
         request.setAttribute("registration", registration);
         request.setAttribute("accountName", accountName);
         request.setAttribute("accountEmail", accountEmail);
-        request.setAttribute("categoryName", categoryName);
+        request.setAttribute("courseName", courseName);
         request.setAttribute("lastUpdatedByName", lastUpdatedByName);
-        request.setAttribute("categories", categories);
+        request.setAttribute("courses", courses);
         
         // Forward to edit page
         request.getRequestDispatcher("/view/dashboard/admin/registration_edit.jsp").forward(request, response);
@@ -274,7 +276,7 @@ public class ManageRegistration extends HttpServlet {
         // Get form data
         String status = request.getParameter("status");
         String packages = request.getParameter("package");
-        String categoryIdStr = request.getParameter("courseId");
+        String courseIdStr = request.getParameter("courseId");
         String validFromStr = request.getParameter("validFrom");
         String validToStr = request.getParameter("validTo");
         String totalCostStr = request.getParameter("totalCost");
@@ -283,16 +285,19 @@ public class ManageRegistration extends HttpServlet {
         try {
             // Update registration object
             if (status != null && !status.isEmpty()) {
-                registration.setStatus(status);
+                // Ensure status is either "Pending" or "Approved"
+                if (status.equals("Pending") || status.equals("Approved")) {
+                    registration.setStatus(status);
+                }
             }
             
             if (packages != null && !packages.isEmpty()) {
                 registration.setPackages(packages);
             }
             
-            if (categoryIdStr != null && !categoryIdStr.isEmpty()) {
-                int categoryId = Integer.parseInt(categoryIdStr);
-                registration.setCourseId(categoryId);
+            if (courseIdStr != null && !courseIdStr.isEmpty()) {
+                int courseId = Integer.parseInt(courseIdStr);
+                registration.setCourseId(courseId);
             }
             
             if (totalCostStr != null && !totalCostStr.isEmpty()) {
