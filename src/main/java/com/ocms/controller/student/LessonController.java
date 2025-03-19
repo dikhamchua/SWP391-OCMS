@@ -105,9 +105,8 @@ public class LessonController extends HttpServlet {
             String viewPath;
             switch (lesson.getType()) {
                 case GlobalConfig.LESSON_TYPE_VIDEO:
-                    LessonVideo lessonVideo = lessonVideoDAO.getByLessonId(lesson.getId());
-                    request.setAttribute("lessonVideo", lessonVideo);
-                    viewPath = "/view/dashboard/admin/lesson-detail.jsp";
+                    getLessonVideo(request, response, lesson);
+                    viewPath = "/view/dashboard/student/lesson-video-detail.jsp";
                     break;
                 case GlobalConfig.LESSON_TYPE_DOCUMENT:
                     viewPath = "/view/dashboard/student/document-lesson.jsp";
@@ -227,5 +226,11 @@ public class LessonController extends HttpServlet {
             request.setAttribute("errorMessage", "Error completing lesson: " + e.getMessage());
             request.getRequestDispatcher("/view/error.jsp").forward(request, response);
         }
+    }
+
+    private void getLessonVideo(HttpServletRequest request, HttpServletResponse response, Lesson lesson) {
+        LessonVideo lessonVideo = lessonVideoDAO.getByLessonId(lesson.getId());
+        request.setAttribute("lessonVideo", lessonVideo);
+        
     }
 }
