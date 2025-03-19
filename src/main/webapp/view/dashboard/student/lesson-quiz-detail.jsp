@@ -265,134 +265,51 @@
                                                 </div>
                                             </div>
                                             
-                                            <!-- Question 1 -->
-                                            <div class="question-container" x-show="currentQuestion === 1">
-                                                <div class="question-number">
-                                                    <span>Câu hỏi 1</span>
-                                                    <span>Tổng số câu hỏi: 4 | Tổng số điểm: 7</span>
-                                                </div>
-                                                <div class="question-text">
-                                                    request.getParameter([x]) ở đây là gì?
-                                                </div>
-                                                <div class="options-container">
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question1" value="type">
-                                                        type
-                                                    </label>
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question1" value="text">
-                                                        text
-                                                    </label>
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question1" value="value">
-                                                        value
-                                                    </label>
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question1" value="name">
-                                                        name
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- Question 2 -->
-                                            <div class="question-container" x-show="currentQuestion === 2" x-cloak>
-                                                <div class="question-number">
-                                                    <span>Câu hỏi 2</span>
-                                                    <span>Tổng số câu hỏi: 4 | Tổng số điểm: 7</span>
-                                                </div>
-                                                <div class="question-text">
-                                                    Muốn lấy các giá trị đã chọn ở bên thì input có type bằng check box thì nên chọn phương thức nào?
-                                                </div>
-                                                <div class="options-container">
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question2" value="getParameter">
-                                                        getParameter
-                                                    </label>
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question2" value="getParameterValues">
-                                                        getParameterValues
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- Question 3 -->
-                                            <div class="question-container" x-show="currentQuestion === 3" x-cloak>
-                                                <div class="question-number">
-                                                    <span>Câu hỏi 3</span>
-                                                    <span>Tổng số câu hỏi: 4 | Tổng số điểm: 7</span>
-                                                </div>
-                                                <div class="question-text">
-                                                    request.getParameter sẽ trả về kiểu dữ liệu gì?
-                                                </div>
-                                                <div class="options-container">
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question3" value="int">
-                                                        int
-                                                    </label>
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question3" value="string">
-                                                        string
-                                                    </label>
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question3" value="double">
-                                                        double
-                                                    </label>
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question3" value="number">
-                                                        number
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- Question 4 -->
-                                            <div class="question-container" x-show="currentQuestion === 4" x-cloak>
-                                                <div class="question-number">
-                                                    <span>Câu hỏi 4</span>
-                                                    <span>Tổng số câu hỏi: 4 | Tổng số điểm: 7</span>
-                                                </div>
-                                                <div class="question-text">
-                                                    request.getParameterValues sẽ trả về kiểu dữ liệu gì?
-                                                </div>
-                                                <div class="options-container">
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question4" value="mảng">
-                                                        mảng
-                                                    </label>
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question4" value="int">
-                                                        int
-                                                    </label>
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question4" value="number">
-                                                        number
-                                                    </label>
-                                                    <label class="option-item">
-                                                        <input type="radio" name="question4" value="string">
-                                                        string
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="quiz-navigation">
-                                                <button class="btn btn-outline-primary" 
-                                                    x-show="currentQuestion > 1"
-                                                    @click="currentQuestion--">
-                                                    <i class="fa fa-arrow-left"></i> Câu trước
-                                                </button>
-                                                <div x-show="currentQuestion === 1"></div>
+                                            <form id="quizForm" action="${pageContext.request.contextPath}/submit-quiz" method="post">
+                                                <input type="hidden" name="lessonQuizId" value="${lessonQuiz.id}">
                                                 
-                                                <button class="btn btn-primary" 
-                                                    x-show="currentQuestion < totalQuestions"
-                                                    @click="currentQuestion++">
-                                                    Câu tiếp theo <i class="fa fa-arrow-right"></i>
-                                                </button>
+                                                <!-- Hiển thị các câu hỏi động từ dữ liệu -->
+                                                <c:forEach var="question" items="${listQuestions}" varStatus="status">
+                                                    <div class="question-container" x-show="currentQuestion === ${status.index + 1}" x-cloak>
+                                                        <div class="question-number">
+                                                            <span>Câu hỏi ${status.index + 1}</span>
+                                                            <span>Tổng số câu hỏi: ${listQuestions.size()} | Điểm: ${question.points}</span>
+                                                        </div>
+                                                        <div class="question-text">
+                                                            ${question.questionText}
+                                                        </div>
+                                                        <div class="options-container">
+                                                            <c:forEach var="answer" items="${questionAnswersMap[question]}">
+                                                                <label class="option-item">
+                                                                    <input type="radio" name="question_${question.id}" value="${answer.id}">
+                                                                    ${answer.answerText}
+                                                                </label>
+                                                            </c:forEach>
+                                                        </div>
+                                                    </div>
+                                                </c:forEach>
                                                 
-                                                <button class="btn btn-success" 
-                                                    x-show="currentQuestion === totalQuestions"
-                                                    @click="document.getElementById('quizForm').submit()">
-                                                    Nộp bài <i class="fa fa-check"></i>
-                                                </button>
-                                            </div>
+                                                <!-- Navigation -->
+                                                <div class="quiz-navigation">
+                                                    <button type="button" class="btn btn-outline-primary" 
+                                                        x-show="currentQuestion > 1"
+                                                        @click="currentQuestion--">
+                                                        <i class="fa fa-arrow-left"></i> Câu trước
+                                                    </button>
+                                                    <div x-show="currentQuestion === 1"></div>
+                                                    
+                                                    <button type="button" class="btn btn-primary" 
+                                                        x-show="currentQuestion < totalQuestions"
+                                                        @click="currentQuestion++">
+                                                        Câu tiếp theo <i class="fa fa-arrow-right"></i>
+                                                    </button>
+                                                    
+                                                    <button type="submit" class="btn btn-success" 
+                                                        x-show="currentQuestion === totalQuestions">
+                                                        Nộp bài <i class="fa fa-check"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                     
