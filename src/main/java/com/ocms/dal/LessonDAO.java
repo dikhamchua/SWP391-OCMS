@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
+import com.ocms.entity.*;
 
 public class LessonDAO extends DBContext {
     
@@ -204,7 +205,60 @@ public class LessonDAO extends DBContext {
         lesson.setModifiedDate(rs.getDate("modified_date"));
         return lesson;
     }
+
+    /**
+     * Update an existing lesson video
+     * @param lessonVideo The lesson video with updated values
+     * @return true if update was successful, false otherwise
+     */
+    public boolean updateLessonVideo(LessonVideo lessonVideo) {
+        String sql = "UPDATE lesson_video SET video_url = ?, video_provider = ?, " +
+                "video_duration = ? WHERE lesson_id = ?";
+        
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, lessonVideo.getVideoUrl());
+            statement.setString(2, lessonVideo.getVideoProvider());
+            statement.setInt(3, lessonVideo.getVideoDuration());
+            statement.setInt(4, lessonVideo.getLessonId());
+            
+            int affectedRows = statement.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException ex) {
+            System.out.println("Error updating lesson video: " + ex.getMessage());
+            return false;
+        } finally {
+            closeResources();
+        }
+    }
     
+    /**
+     * Delete a lesson video by lesson ID
+     * @param lessonId The lesson ID
+     * @return true if deletion was successful, false otherwise
+     */
+    public boolean deleteLessonVideo(int lessonId) {
+        String sql = "DELETE FROM lesson_video WHERE lesson_id = ?";
+        
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, lessonId);
+            
+            int affectedRows = statement.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException ex) {
+            System.out.println("Error deleting lesson video: " + ex.getMessage());
+            return false;
+        } finally {
+            closeResources();
+        }
+    }
+    
+
+
+
     /**
      * Main method for testing LessonDAO functionality
      * @param args Command line arguments (not used)
@@ -237,39 +291,6 @@ public class LessonDAO extends DBContext {
             System.out.println("ID: " + lesson.getId() + ", Title: " + lesson.getTitle());
         }
         
-        // Uncomment to test insert, update, and delete operations
-        /*
-        // Test inserting a new lesson
-        System.out.println("\n=== Inserting New Lesson ===");
-        Lesson newLesson = new Lesson();
-        newLesson.setSectionId(1);
-        newLesson.setTitle("Test Lesson");
-        newLesson.setDescription("This is a test lesson");
-        newLesson.setType("text");
-        newLesson.setOrderNumber(999);
-        newLesson.setDurationMinutes(30);
-        newLesson.setStatus("active");
-        newLesson.setCreatedDate(new java.sql.Date(System.currentTimeMillis()));
-        newLesson.setModifiedDate(new java.sql.Date(System.currentTimeMillis()));
         
-        int newId = lessonDAO.insert(newLesson);
-        System.out.println("New lesson inserted with ID: " + newId);
-        
-        // Test updating a lesson
-        if (newId > 0) {
-            System.out.println("\n=== Updating Lesson ===");
-            Lesson updatedLesson = lessonDAO.getById(newId);
-            updatedLesson.setTitle("Updated Test Lesson");
-            updatedLesson.setModifiedDate(new java.sql.Date(System.currentTimeMillis()));
-            
-            boolean updateSuccess = lessonDAO.update(updatedLesson);
-            System.out.println("Lesson update " + (updateSuccess ? "successful" : "failed"));
-            
-            // Test deleting a lesson
-            System.out.println("\n=== Deleting Lesson ===");
-            boolean deleteSuccess = lessonDAO.delete(newId);
-            System.out.println("Lesson deletion " + (deleteSuccess ? "successful" : "failed"));
-        }
-        */
     }
 } 
