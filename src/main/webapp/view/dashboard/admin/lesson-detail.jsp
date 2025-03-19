@@ -172,22 +172,13 @@
                                     <div class="col-lg-8">
                                         <!-- Video Container -->
                                         <div class="lesson-video-container">
-                                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            <iframe src="${lessonVideo.videoUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                         </div>
                                         
                                         <!-- Lesson Content -->
                                         <div class="lesson-content">
-                                            <h3 class="lesson-title">Introduction to Servlets</h3>
+                                            <h3 class="lesson-title">${lesson.title}</h3>
                                             <div class="lesson-description">
-                                                <p>Servlets are Java programs that run on a Java-enabled web server or application server. They are used to handle requests from web clients, typically across HTTP, the HyperText Transfer Protocol.</p>
-                                                <p>In this lesson, you will learn:</p>
-                                                <ul>
-                                                    <li>What are Servlets and how they work</li>
-                                                    <li>The Servlet architecture and lifecycle</li>
-                                                    <li>How to create and deploy a basic Servlet</li>
-                                                    <li>Handling HTTP requests and responses</li>
-                                                </ul>
-                                                <p>Servlets provide a component-based, platform-independent method for building web applications, without the performance limitations of CGI programs.</p>
                                             </div>
                                             
                                             <!-- Lesson Navigation -->
