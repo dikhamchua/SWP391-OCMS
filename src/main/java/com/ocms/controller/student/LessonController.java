@@ -1,5 +1,6 @@
 package com.ocms.controller.student;
 
+import com.ocms.config.GlobalConfig;
 import com.ocms.dal.LessonDAO;
 import com.ocms.entity.Lesson;
 import jakarta.servlet.ServletException;
@@ -8,16 +9,20 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import com.ocms.dal.*;
+import com.ocms.entity.*;
 
 @WebServlet(name = "LessonController", urlPatterns = {"/lesson"})
 public class LessonController extends HttpServlet {
     
     private LessonDAO lessonDAO;
+    private LessonVideoDAO lessonVideoDAO;
     
     @Override
     public void init() throws ServletException {
         super.init();
         lessonDAO = new LessonDAO();
+        lessonVideoDAO = new LessonVideoDAO();
     }
     
     @Override
@@ -99,19 +104,21 @@ public class LessonController extends HttpServlet {
             // Forward to appropriate view based on lesson type
             String viewPath;
             switch (lesson.getType()) {
-                case "video":
-                    viewPath = "/view/dashboard/student/video-lesson.jsp";
+                case GlobalConfig.LESSON_TYPE_VIDEO:
+                    LessonVideo lessonVideo = lessonVideoDAO.getByLessonId(lesson.getId());
+                    request.setAttribute("lessonVideo", lessonVideo);
+                    viewPath = "/view/dashboard/admin/lesson-detail.jsp";
                     break;
-                case "document":
+                case GlobalConfig.LESSON_TYPE_DOCUMENT:
                     viewPath = "/view/dashboard/student/document-lesson.jsp";
                     break;
-                case "quiz":
+                case GlobalConfig.LESSON_TYPE_QUIZ:
                     viewPath = "/view/dashboard/student/quiz-lesson.jsp";
                     break;
-                case "file":
+                case GlobalConfig.LESSON_TYPE_FILE:
                     viewPath = "/view/dashboard/student/file-lesson.jsp";
                     break;
-                case "text":
+                case GlobalConfig.LESSON_TYPE_TEXT:
                     viewPath = "/view/dashboard/student/text-lesson.jsp";
                     break;
                 default:
@@ -119,6 +126,7 @@ public class LessonController extends HttpServlet {
                     break;
             }
             
+            request.setAttribute("lesson", lesson);
             request.getRequestDispatcher(viewPath).forward(request, response);
             
         } catch (NumberFormatException e) {
