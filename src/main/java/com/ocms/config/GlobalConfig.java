@@ -68,4 +68,14 @@ public class GlobalConfig {
 
     public static final Integer ROLE_TEACHER = 2;
 
+    public static final String LESSON_TYPE_VIDEO = "video";
+
+    public static final String LESSON_TYPE_DOCUMENT = "document";
+
+    public static final String LESSON_TYPE_QUIZ = "quiz";
+
+    public static final String LESSON_TYPE_FILE = "file";
+
+    public static final String LESSON_TYPE_TEXT = "text";
+    
 }
