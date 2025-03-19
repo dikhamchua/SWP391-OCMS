@@ -11,18 +11,27 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import com.ocms.dal.*;
 import com.ocms.entity.*;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 @WebServlet(name = "LessonController", urlPatterns = {"/lesson"})
 public class LessonController extends HttpServlet {
     
     private LessonDAO lessonDAO;
     private LessonVideoDAO lessonVideoDAO;
+    private LessonQuizDAO lessonQuizDAO;
+    private QuestionDAO questionDAO;
+    private QuizAnswerDAO quizAnswerDAO;
     
     @Override
     public void init() throws ServletException {
         super.init();
         lessonDAO = new LessonDAO();
         lessonVideoDAO = new LessonVideoDAO();
+        lessonQuizDAO = new LessonQuizDAO();
+        questionDAO = new QuestionDAO();
+        quizAnswerDAO = new QuizAnswerDAO();
     }
     
     @Override
@@ -112,7 +121,8 @@ public class LessonController extends HttpServlet {
                     viewPath = "/view/dashboard/student/document-lesson.jsp";
                     break;
                 case GlobalConfig.LESSON_TYPE_QUIZ:
-                    viewPath = "/view/dashboard/student/quiz-lesson.jsp";
+                    getLessonQuiz(request, response, lesson);
+                    viewPath = "/view/dashboard/student/lesson-quiz-detail.jsp";
                     break;
                 case GlobalConfig.LESSON_TYPE_FILE:
                     viewPath = "/view/dashboard/student/file-lesson.jsp";
@@ -231,6 +241,31 @@ public class LessonController extends HttpServlet {
     private void getLessonVideo(HttpServletRequest request, HttpServletResponse response, Lesson lesson) {
         LessonVideo lessonVideo = lessonVideoDAO.getByLessonId(lesson.getId());
         request.setAttribute("lessonVideo", lessonVideo);
+
+    }
+
+    private void getLessonQuiz(HttpServletRequest request, HttpServletResponse response, Lesson lesson) {
+        LessonQuiz lessonQuiz = lessonQuizDAO.getByLessonId(lesson.getId());
+
+        if (lessonQuiz == null) {
+            request.setAttribute("errorMessage", "Quiz not found");
+            return;
+        }
         
+        // Get list of questions
+        List<Question> questions = questionDAO.getByLessonQuizId(lessonQuiz.getId());
+        
+        // Create a map to store questions and their answers
+        Map<Question, List<QuizAnswer>> questionAnswersMap = new HashMap<>();
+        
+        // For each question, get its answers and add to the map
+        for (Question question : questions) {
+            List<QuizAnswer> answers = quizAnswerDAO.getByQuestionId(question.getId());
+            questionAnswersMap.put(question, answers);
+        }
+        
+        request.setAttribute("lessonQuiz", lessonQuiz);
+        request.setAttribute("listQuestions", questions);
+        request.setAttribute("questionAnswersMap", questionAnswersMap);
     }
 }
