@@ -91,14 +91,15 @@ public class LessonDAO extends DBContext {
      * @param lesson The lesson to insert
      * @return The ID of the inserted lesson, or -1 if insertion failed
      */
-    public int insert(Lesson lesson) {
-        String sql = "INSERT INTO lesson (section_id, title, description, type, order_number, " +
-                "duration_minutes, status, created_date, modified_date) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public Integer insert(Lesson lesson) {
+        String sql = "INSERT INTO lesson (section_id, title, description, type, order_number, duration_minutes, status, created_date, modified_date) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Integer insertedId = -1;
         
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            
             statement.setInt(1, lesson.getSectionId());
             statement.setString(2, lesson.getTitle());
             statement.setString(3, lesson.getDescription());
@@ -111,22 +112,20 @@ public class LessonDAO extends DBContext {
             
             int affectedRows = statement.executeUpdate();
             
-            if (affectedRows == 0) {
-                throw new SQLException("Creating lesson failed, no rows affected.");
-            }
-            
-            resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
-            } else {
-                throw new SQLException("Creating lesson failed, no ID obtained.");
+            if (affectedRows > 0) {
+                // Get the generated ID
+                resultSet = statement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    insertedId = resultSet.getInt(1);
+                }
             }
         } catch (SQLException ex) {
             System.out.println("Error inserting lesson: " + ex.getMessage());
-            return -1;
         } finally {
             closeResources();
         }
+        
+        return insertedId;
     }
     
     /**
