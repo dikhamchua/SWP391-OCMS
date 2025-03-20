@@ -209,22 +209,42 @@
                                                 <textarea class="form-control" name="description" rows="3"></textarea>
                                             </div>
                                             
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Thời gian làm bài (phút)</label>
-                                                        <div class="icon-input">
-                                                            <i class="fa fa-clock"></i>
-                                                            <input type="number" class="form-control" name="durationMinutes" value="15" min="1">
+                                            <!-- Quiz Settings -->
+                                            <div class="form-section">
+                                                <h5 class="form-section-title">Cài đặt bài kiểm tra</h5>
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Thời gian làm bài (phút)</label>
+                                                            <div class="icon-input">
+                                                                <i class="fa fa-clock"></i>
+                                                                <input type="number" class="form-control" name="durationMinutes" value="30" min="1">
+                                                            </div>
+                                                            <small class="form-text">Thời gian tối đa để hoàn thành bài kiểm tra</small>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Điểm đạt</label>
-                                                        <input type="number" class="form-control" name="passingScore" value="70" min="0" max="100">
-                                                        <small class="form-text">Điểm tối thiểu để đạt (0-100)</small>
+                                                    
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Điểm đạt yêu cầu (%)</label>
+                                                            <div class="icon-input">
+                                                                <i class="fa fa-percent"></i>
+                                                                <input type="number" class="form-control" name="passingScore" value="70" min="1" max="100">
+                                                            </div>
+                                                            <small class="form-text">Phần trăm điểm tối thiểu để đạt</small>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Số lần làm tối đa</label>
+                                                            <div class="icon-input">
+                                                                <i class="fa fa-redo"></i>
+                                                                <input type="number" class="form-control" name="attemptsAllowed" value="3" min="1">
+                                                            </div>
+                                                            <small class="form-text">Số lần được phép làm lại bài kiểm tra</small>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
