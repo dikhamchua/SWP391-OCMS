@@ -43,14 +43,21 @@ public class ManageCourseController extends HttpServlet {
         quizAnswerDAO = new QuizAnswerDAO();
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getServletPath();
+        String action = request.getParameter("action");
+        
         switch (path) {
             case "/manage-course":
                 doGetManageCourse(request, response);
                 break;
             case "/lesson-edit":
-                doGetLessonEdit(request, response);
+                if ("add".equals(action)) {
+                    doGetLessonAdd(request, response);
+                } else {
+                    doGetLessonEdit(request, response);
+                }
                 break;
         }
     }
@@ -63,6 +70,8 @@ public class ManageCourseController extends HttpServlet {
         if (path.equals("/lesson-edit")) {
             if ("update".equals(action)) {
                 doPostLessonUpdate(request, response);
+            } else if ("add".equals(action)) {
+                doPostLessonAdd(request, response);
             } else if ("upload".equals(action)) {
                 doPostVideoUpload(request, response);
             }
@@ -83,7 +92,7 @@ public class ManageCourseController extends HttpServlet {
         //get sections by course id
         List<Section> sections = sectionDAO.getByCourseId(courseId);
         //get lessons by section id
-        List<Lesson> lessons = lessonDAO.getBySectionId(sections.get(0).getId());
+        // List<Lesson> lessons = lessonDAO.getBySectionId(sections.get(0).getId());
         
         //hashmap to store lessons by section id
         Map<Integer, List<Lesson>> lessonsBySectionId = new HashMap<>();
@@ -146,7 +155,7 @@ public class ManageCourseController extends HttpServlet {
             request.setAttribute("course", course);
             
             String url = request.getRequestURL().toString();
-            String baseUrl = url.substring(0, url.lastIndexOf("/") + 1);
+            // String baseUrl = url.substring(0, url.lastIndexOf("/") + 1);
             // Get additional data based on lesson type
             switch (lesson.getType()) {
                 case GlobalConfig.LESSON_TYPE_VIDEO:
@@ -454,5 +463,232 @@ public class ManageCourseController extends HttpServlet {
         }
         
         return null;
+    }
+
+    /**
+     * Handle GET request for adding a new lesson
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @throws ServletException If a servlet-specific error occurs
+     * @throws IOException If an I/O error occurs
+     */
+    private void doGetLessonAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            // Get course ID from request parameters
+            String courseIdParam = request.getParameter("courseId");
+            String type = request.getParameter("type");
+            
+            if (courseIdParam == null || courseIdParam.isEmpty()) {
+                // If no course ID is provided, redirect to course management
+                response.sendRedirect(request.getContextPath() + "/manage-course");
+                return;
+            }
+            
+            Integer courseId = Integer.parseInt(courseIdParam);
+            
+            // Get course information
+            Course course = courseDAO.findById(courseId);
+            
+            if (course == null) {
+                // If course not found, show error
+                request.setAttribute("errorMessage", "Course not found");
+                request.getRequestDispatcher("/view/error.jsp").forward(request, response);
+                return;
+            }
+            
+            // Get all sections for the course for the dropdown
+            List<Section> sections = sectionDAO.getByCourseId(courseId);
+            
+            if (sections.isEmpty()) {
+                // If no sections found, redirect to course management with message
+                request.getSession().setAttribute("toastMessage", "Please add a section before adding lessons");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
+                return;
+            }
+            
+            // Set attributes for the view
+            request.setAttribute("course", course);
+            request.setAttribute("sections", sections);
+            
+            // Determine which view to forward to based on lesson type
+            String url = "view/dashboard/admin/lesson-add-video.jsp";
+            if (type != null) {
+                switch (type) {
+                    case GlobalConfig.LESSON_TYPE_VIDEO:
+                        url = "view/dashboard/admin/lesson-add-video.jsp";
+                        break;
+                    case GlobalConfig.LESSON_TYPE_QUIZ:
+                        url = "view/dashboard/admin/lesson-add-quiz.jsp";
+                        break;
+                    // Add other types as needed
+                }
+            }
+            
+            // Forward to the add view
+            request.getRequestDispatcher(url).forward(request, response);
+            
+        } catch (NumberFormatException e) {
+            // Handle invalid course ID format
+            request.setAttribute("errorMessage", "Invalid course ID format");
+            request.getRequestDispatcher("/view/error.jsp").forward(request, response);
+        } catch (Exception e) {
+            // Handle other exceptions
+            request.setAttribute("errorMessage", "Error loading course: " + e.getMessage());
+            request.getRequestDispatcher("/view/error.jsp").forward(request, response);
+        }
+    }
+
+    /**
+     * Handle POST request for adding a new lesson
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @throws ServletException If a servlet-specific error occurs
+     * @throws IOException If an I/O error occurs
+     */
+    private void doPostLessonAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            // Get basic lesson information from form
+            String title = request.getParameter("title");
+            String description = request.getParameter("description");
+            Integer sectionId = Integer.parseInt(request.getParameter("sectionId"));
+            String type = request.getParameter("type");
+            Integer durationMinutes = 0;
+            
+            try {
+                durationMinutes = Integer.parseInt(request.getParameter("durationMinutes"));
+            } catch (NumberFormatException e) {
+                // Use default value if parsing fails
+            }
+            
+            String status = request.getParameter("status");
+            
+            // Get the next available order number for this section
+            Integer orderNumber = getNextOrderNumber(sectionId);
+            
+            // Create new lesson object
+            Lesson lesson = new Lesson();
+            lesson.setTitle(title);
+            lesson.setDescription(description);
+            lesson.setSectionId(sectionId);
+            lesson.setType(type);
+            lesson.setDurationMinutes(durationMinutes);
+            lesson.setOrderNumber(orderNumber);
+            lesson.setStatus(status);
+            
+            // Set creation and modification dates
+            java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
+            lesson.setCreatedDate(currentDate);
+            lesson.setModifiedDate(currentDate);
+            
+            // Insert the lesson into database
+            Integer lessonId = lessonDAO.insert(lesson);
+            
+            if (lessonId <= 0) {
+                request.setAttribute("errorMessage", "Failed to add lesson");
+                request.getRequestDispatcher("/view/error.jsp").forward(request, response);
+                return;
+            }
+            
+            // Handle type-specific data
+            if (GlobalConfig.LESSON_TYPE_VIDEO.equals(type)) {
+                // Handle video file upload
+                String videoUrl = null;
+                
+                // Check if there's a file upload
+                Part filePart = request.getPart("videoFile");
+                
+                if (filePart != null && filePart.getSize() > 0) {
+                    // Process the uploaded file
+                    String fileName = getFileName(filePart);
+                    
+                    if (fileName != null && !fileName.isEmpty()) {
+                        // Generate a unique filename
+                        String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+                        
+                        // Create upload directory if it doesn't exist
+                        String uploadPath = getServletContext().getRealPath("/uploads/videos/");
+                        File uploadDir = new File(uploadPath);
+                        if (!uploadDir.exists()) {
+                            uploadDir.mkdirs();
+                        }
+                        
+                        // Write the file to the server
+                        String filePath = uploadPath + File.separator + uniqueFileName;
+                        filePart.write(filePath);
+                        
+                        // Set the video URL
+                        videoUrl = request.getContextPath() + "/uploads/videos/" + uniqueFileName;
+                    }
+                }
+                
+                // Create new lesson video object
+                LessonVideo lessonVideo = new LessonVideo();
+                lessonVideo.setLessonId(lessonId);
+                lessonVideo.setVideoProvider("local");
+                lessonVideo.setVideoUrl(videoUrl);
+                
+                // Try to parse video duration if provided
+                String videoDurationStr = request.getParameter("videoDuration");
+                if (videoDurationStr != null && !videoDurationStr.isEmpty()) {
+                    try {
+                        Integer videoDuration = Integer.parseInt(videoDurationStr);
+                        lessonVideo.setVideoDuration(videoDuration);
+                    } catch (NumberFormatException e) {
+                        // Ignore if parsing fails
+                    }
+                }
+                
+                // Insert video information
+                Integer videoInserted = lessonVideoDAO.insert(lessonVideo);
+                
+                if (videoInserted <= 0) {
+                    // Log the error but continue
+                    System.out.println("Warning: Failed to add video information");
+                }
+            }
+            
+            // Add success message
+            request.getSession().setAttribute("toastMessage", "Lesson added successfully");
+            request.getSession().setAttribute("toastType", "success");
+            
+            // Get course ID from section
+            Section section = sectionDAO.getById(sectionId);
+            Integer courseId = section.getCourseId();
+            
+            // Redirect back to course content
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
+            
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "Invalid number format: " + e.getMessage());
+            request.getRequestDispatcher("/view/error.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.setAttribute("errorMessage", "Error adding lesson: " + e.getMessage());
+            request.getRequestDispatcher("/view/error.jsp").forward(request, response);
+        }
+    }
+
+    /**
+     * Get the next available order number for a section
+     * @param sectionId The section ID
+     * @return The next available order number
+     */
+    private Integer getNextOrderNumber(Integer sectionId) {
+        List<Lesson> lessons = lessonDAO.getBySectionId(sectionId);
+        
+        if (lessons.isEmpty()) {
+            return 1; // If no lessons exist, start with 1
+        }
+        
+        // Find the maximum order number
+        Integer maxOrderNumber = 0;
+        for (Lesson lesson : lessons) {
+            if (lesson.getOrderNumber() > maxOrderNumber) {
+                maxOrderNumber = lesson.getOrderNumber();
+            }
+        }
+        
+        // Return the next order number
+        return maxOrderNumber + 1;
     }
 }
