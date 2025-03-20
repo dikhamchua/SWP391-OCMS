@@ -31,6 +31,7 @@ public class ManageCourseController extends HttpServlet {
     private LessonQuizDAO lessonQuizDAO;
     private QuestionDAO questionDAO;
     private QuizAnswerDAO quizAnswerDAO;
+    private QuizQuestionDAO quizQuestionDAO;
 
     @Override
     public void init() throws ServletException {
@@ -41,6 +42,7 @@ public class ManageCourseController extends HttpServlet {
         lessonQuizDAO = new LessonQuizDAO();
         questionDAO = new QuestionDAO();
         quizAnswerDAO = new QuizAnswerDAO();
+        quizQuestionDAO = new QuizQuestionDAO();
     }
 
     @Override
@@ -206,35 +208,36 @@ public class ManageCourseController extends HttpServlet {
     }
 
     /**
-     * Get quiz information for a lesson
+     * Get quiz data for editing
      * @param request The HTTP request
      * @param response The HTTP response
      * @param lesson The lesson object
+     * @throws ServletException If a servlet-specific error occurs
+     * @throws IOException If an I/O error occurs
      */
-    private void getLessonQuizForEdit(HttpServletRequest request, HttpServletResponse response, Lesson lesson) {
+    private void getLessonQuizForEdit(HttpServletRequest request, HttpServletResponse response, Lesson lesson) throws ServletException, IOException {
         // Get quiz information
-        LessonQuiz lessonQuiz = lessonQuizDAO.getByLessonId(lesson.getId());
+        LessonQuiz quiz = lessonQuizDAO.getByLessonId(lesson.getId());
         
-        if (lessonQuiz == null) {
-            request.setAttribute("errorMessage", "Quiz not found");
-            return;
+        if (quiz != null) {
+            // Get questions for this quiz
+            List<QuizQuestion> questions = quizQuestionDAO.getByQuizId(quiz.getId());
+            
+            // Get answers for each question
+            Map<Integer, List<QuizAnswer>> answersByQuestionId = new HashMap<>();
+            for (QuizQuestion question : questions) {
+                List<QuizAnswer> answers = quizAnswerDAO.getByQuestionId(question.getId());
+                answersByQuestionId.put(question.getId(), answers);
+            }
+            
+            // Set attributes for the view
+            request.setAttribute("quiz", quiz);
+            request.setAttribute("questions", questions);
+            request.setAttribute("answersByQuestionId", answersByQuestionId);
         }
         
-        // Get list of questions
-        List<Question> questions = questionDAO.getByLessonQuizId(lessonQuiz.getId());
-        
-        // Create a map to store questions and their answers
-        Map<Question, List<QuizAnswer>> questionAnswersMap = new HashMap<>();
-        
-        // For each question, get its answers and add to the map
-        for (Question question : questions) {
-            List<QuizAnswer> answers = quizAnswerDAO.getByQuestionId(question.getId());
-            questionAnswersMap.put(question, answers);
-        }
-        
-        request.setAttribute("lessonQuiz", lessonQuiz);
-        request.setAttribute("questions", questions);
-        request.setAttribute("questionAnswersMap", questionAnswersMap);
+        // Forward to the quiz edit page
+        request.getRequestDispatcher("view/dashboard/admin/lesson-detail-quiz.jsp").forward(request, response);
     }
 
     /**
@@ -680,13 +683,15 @@ public class ManageCourseController extends HttpServlet {
                         Integer correctAnswerIndex = Integer.parseInt(request.getParameter("correct_answer_" + i));
                         
                         // Create new question
-                        Question question = new Question();
-                        question.setQuizId(quizId);
-                        question.setQuestionText(questionText);
-                        question.setOrderNumber(i);
+                        QuizQuestion quizQuestion = new QuizQuestion();
+                        quizQuestion.setQuizId(quizId);
+                        quizQuestion.setQuestionText(questionText);
+                        quizQuestion.setOrderNumber(i);
+                        quizQuestion.setPoints(1); // Default points value
+                        quizQuestion.setStatus("active");
                         
                         // Insert question into database
-                        Integer questionId = questionDAO.insert(question);
+                        Integer questionId = quizQuestionDAO.insert(quizQuestion);
                         
                         if (questionId <= 0) {
                             // Log the error but continue
