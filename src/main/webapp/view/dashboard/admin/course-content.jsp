@@ -203,7 +203,7 @@
                                                                 </p>
                                                             </div>
                                                             <div>
-                                                                <a href="${pageContext.request.contextPath}/manage-lesson?action=edit&id=${lesson.id}" class="btn btn-sm btn-outline-secondary me-2">
+                                                                <a href="${pageContext.request.contextPath}/lesson-edit?action=edit&id=${lesson.id}" class="btn btn-sm btn-outline-secondary me-2">
                                                                     <i class="fa fa-edit"></i>
                                                                 </a>
                                                                 <a href="${pageContext.request.contextPath}/lesson?action=view&id=${lesson.id}" class="btn btn-sm btn-outline-primary">
