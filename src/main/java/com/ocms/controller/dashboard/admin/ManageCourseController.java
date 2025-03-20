@@ -125,10 +125,13 @@ public class ManageCourseController extends HttpServlet {
             request.setAttribute("section", section);
             request.setAttribute("course", course);
             
+            String url = request.getRequestURL().toString();
+            String baseUrl = url.substring(0, url.lastIndexOf("/") + 1);
             // Get additional data based on lesson type
             switch (lesson.getType()) {
                 case GlobalConfig.LESSON_TYPE_VIDEO:
                     getLessonVideoForEdit(request, response, lesson);
+                    url = "view/dashboard/admin/lesson-detail-video.jsp";
                     break;
                 case GlobalConfig.LESSON_TYPE_QUIZ:
                     getLessonQuizForEdit(request, response, lesson);
@@ -149,7 +152,7 @@ public class ManageCourseController extends HttpServlet {
             request.setAttribute("sections", sections);
             
             // Forward to the edit view
-            request.getRequestDispatcher("/view/dashboard/admin/edit-lesson.jsp").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
             
         } catch (NumberFormatException e) {
             // Handle invalid lesson ID format
