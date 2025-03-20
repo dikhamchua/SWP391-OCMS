@@ -163,6 +163,22 @@
                                     </a>
                                 </div>
                                 
+                                <!-- Add this button in the appropriate location in course-content.jsp -->
+                                <div class="add-lesson-buttons mt-3 mb-4">
+                                    <h5>Thêm bài học mới</h5>
+                                    <div class="btn-group">
+                                        <a href="${pageContext.request.contextPath}/lesson-edit?action=add&courseId=${course.id}&type=video" class="btn btn-primary me-2">
+                                            <i class="fa fa-video"></i> Thêm bài học video
+                                        </a>
+                                        <a href="${pageContext.request.contextPath}/lesson-edit?action=add&courseId=${course.id}&type=quiz" class="btn btn-info me-2">
+                                            <i class="fa fa-question-circle"></i> Thêm bài kiểm tra
+                                        </a>
+                                        <a href="${pageContext.request.contextPath}/lesson-edit?action=add&courseId=${course.id}&type=document" class="btn btn-success me-2">
+                                            <i class="fa fa-file-alt"></i> Thêm tài liệu
+                                        </a>
+                                    </div>
+                                </div>
+                                
                                 <!-- Course Content -->
                                 <div class="row">
                                     <div class="col-12">
