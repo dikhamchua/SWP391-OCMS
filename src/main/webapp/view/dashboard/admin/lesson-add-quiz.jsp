@@ -374,41 +374,29 @@
         function addQuestion() {
             questionCounter++;
             
-            var questionHtml = `
-                <div class="question-container" data-question-id="${questionCounter}">
-                    <div class="question-header">
-                        <h6 class="question-title">Câu hỏi ${questionCounter}</h6>
-                        <span class="remove-question" onclick="removeQuestion(this)"><i class="fa fa-times"></i></span>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Nội dung câu hỏi</label>
-                        <input type="text" class="form-control" name="question_text_${questionCounter}" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Các đáp án</label>
-                        <div class="answers-container" data-question-id="${questionCounter}">
-                            <div class="answer-option">
-                                <input type="radio" name="correct_answer_${questionCounter}" value="1" checked>
-                                <input type="text" class="form-control" name="answer_text_${questionCounter}_1" placeholder="Đáp án 1" required>
-                            </div>
-                            <div class="answer-option">
-                                <input type="radio" name="correct_answer_${questionCounter}" value="2">
-                                <input type="text" class="form-control" name="answer_text_${questionCounter}_2" placeholder="Đáp án 2" required>
-                            </div>
-                            <div class="answer-option">
-                                <input type="radio" name="correct_answer_${questionCounter}" value="3">
-                                <input type="text" class="form-control" name="answer_text_${questionCounter}_3" placeholder="Đáp án 3" required>
-                            </div>
-                            <div class="answer-option">
-                                <input type="radio" name="correct_answer_${questionCounter}" value="4">
-                                <input type="text" class="form-control" name="answer_text_${questionCounter}_4" placeholder="Đáp án 4" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
+            var questionHtml = 
+                '<div class="question-container" data-question-id="' + questionCounter + '">' +
+                    '<div class="question-header">' +
+                        '<h6 class="question-title">Câu hỏi ' + questionCounter + '</h6>' +
+                        '<span class="remove-question" onclick="removeQuestion(this)"><i class="fa fa-times"></i></span>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label class="form-label">Nội dung câu hỏi</label>' +
+                        '<input type="text" class="form-control" name="question_text_' + questionCounter + '" required>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label class="form-label">Các đáp án</label>' +
+                        '<div class="answers-container" data-question-id="' + questionCounter + '">' +
+                            Array(4).fill().map(function(_, idx) {
+                                var answerNum = idx + 1;
+                                return '<div class="answer-option">' +
+                                    '<input type="radio" name="correct_answer_' + questionCounter + '" value="' + answerNum + '" ' + (answerNum === 1 ? 'checked' : '') + '>' +
+                                    '<input type="text" class="form-control" name="answer_text_' + questionCounter + '_' + answerNum + '" placeholder="Đáp án ' + answerNum + '" required>' +
+                                '</div>';
+                            }).join('') +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
             
             $('#questions-container').append(questionHtml);
             $('#questionCount').val(questionCounter);
@@ -428,25 +416,25 @@
             $(element).closest('.question-container').remove();
             questionCounter--;
             
-            // Renumber the remaining questions
-            $('.question-container').each(function(index) {
+            // Renumber remaining questions
+            var $questions = $('.question-container');
+            $questions.each(function(index) {
                 var newIndex = index + 1;
-                $(this).attr('data-question-id', newIndex);
-                $(this).find('.question-title').text('Câu hỏi ' + newIndex);
+                var $question = $(this);
                 
-                // Update the name attributes for the question
-                $(this).find('input[name^="question_text_"]').attr('name', 'question_text_' + newIndex);
+                // Update all elements
+                $question.attr('data-question-id', newIndex);
+                $question.find('.question-title').text('Câu hỏi ' + newIndex);
                 
-                // Update the name attributes for the correct answer radio buttons
-                $(this).find('input[name^="correct_answer_"]').attr('name', 'correct_answer_' + newIndex);
+                // Update input names
+                $question.find('[name^="question_text_"]').attr('name', 'question_text_' + newIndex);
+                $question.find('[name^="correct_answer_"]').attr('name', 'correct_answer_' + newIndex);
                 
-                // Update the answers container
-                var answersContainer = $(this).find('.answers-container');
-                answersContainer.attr('data-question-id', newIndex);
-                
-                // Update the name attributes for each answer
-                answersContainer.find('input[name^="answer_text_"]').each(function(answerIndex) {
-                    $(this).attr('name', 'answer_text_' + newIndex + '_' + (answerIndex + 1));
+                $question.find('[name^="answer_text_"]').each(function() {
+                    var currentName = $(this).attr('name');
+                    var parts = currentName.split('_');
+                    parts[2] = newIndex; // answer_text_X_Y -> X is question index
+                    $(this).attr('name', parts.join('_'));
                 });
             });
             
