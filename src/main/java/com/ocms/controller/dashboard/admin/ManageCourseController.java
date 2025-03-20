@@ -646,6 +646,76 @@ public class ManageCourseController extends HttpServlet {
                     // Log the error but continue
                     System.out.println("Warning: Failed to add video information");
                 }
+            } else if (GlobalConfig.LESSON_TYPE_QUIZ.equals(type)) {
+                // Handle quiz data
+                Integer passingScore = 70; // Default value
+                Integer attemptsAllowed = 3; // Default value
+                try {
+                    passingScore = Integer.parseInt(request.getParameter("passingScore"));
+                    attemptsAllowed = Integer.parseInt(request.getParameter("attemptsAllowed"));
+                } catch (NumberFormatException e) {
+                    // Use default values if parsing fails
+                }
+                
+                // Create new quiz object
+                LessonQuiz quiz = new LessonQuiz();
+                quiz.setLessonId(lessonId);
+                quiz.setPassPercentage(passingScore);
+                quiz.setTimeLimitMinutes(durationMinutes);
+                quiz.setAttemptsAllowed(attemptsAllowed);
+                
+                // Insert quiz into database
+                Integer quizId = lessonQuizDAO.insert(quiz);
+                
+                if (quizId <= 0) {
+                    // Log the error but continue
+                    System.out.println("Warning: Failed to add quiz information");
+                } else {
+                    // Get the number of questions
+                    Integer questionCount = Integer.parseInt(request.getParameter("questionCount"));
+                    
+                    // Process each question
+                    for (int i = 1; i <= questionCount; i++) {
+                        String questionText = request.getParameter("question_text_" + i);
+                        Integer correctAnswerIndex = Integer.parseInt(request.getParameter("correct_answer_" + i));
+                        
+                        // Create new question
+                        Question question = new Question();
+                        question.setQuizId(quizId);
+                        question.setQuestionText(questionText);
+                        question.setOrderNumber(i);
+                        
+                        // Insert question into database
+                        Integer questionId = questionDAO.insert(question);
+                        
+                        if (questionId <= 0) {
+                            // Log the error but continue
+                            System.out.println("Warning: Failed to add question " + i);
+                            continue;
+                        }
+                        
+                        // Process each answer for this question
+                        for (int j = 1; j <= 4; j++) {
+                            String answerText = request.getParameter("answer_text_" + i + "_" + j);
+                            Boolean isCorrect = (j == correctAnswerIndex);
+                            
+                            // Create new answer
+                            QuizAnswer answer = new QuizAnswer();
+                            answer.setQuestionId(questionId);
+                            answer.setAnswerText(answerText);
+                            answer.setIsCorrect(isCorrect);
+                            answer.setOrderNumber(j);
+                            
+                            // Insert answer into database
+                            Integer answerId = quizAnswerDAO.insert(answer);
+                            
+                            if (answerId <= 0) {
+                                // Log the error but continue
+                                System.out.println("Warning: Failed to add answer " + j + " for question " + i);
+                            }
+                        }
+                    }
+                }
             }
             
             // Add success message
