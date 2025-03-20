@@ -680,7 +680,14 @@ public class ManageCourseController extends HttpServlet {
                     // Process each question
                     for (int i = 1; i <= questionCount; i++) {
                         String questionText = request.getParameter("question_text_" + i);
-                        Integer correctAnswerIndex = Integer.parseInt(request.getParameter("correct_answer_" + i));
+                        String correctAnswerStr = request.getParameter("correct_answer_" + i);
+                        
+                        if (questionText == null || correctAnswerStr == null) {
+                            System.out.println("Warning: Missing data for question " + i);
+                            continue;
+                        }
+                        
+                        Integer correctAnswerIndex = Integer.parseInt(correctAnswerStr);
                         
                         // Create new question
                         QuizQuestion quizQuestion = new QuizQuestion();
@@ -702,6 +709,12 @@ public class ManageCourseController extends HttpServlet {
                         // Process each answer for this question
                         for (int j = 1; j <= 4; j++) {
                             String answerText = request.getParameter("answer_text_" + i + "_" + j);
+                            
+                            if (answerText == null) {
+                                System.out.println("Warning: Missing answer text for question " + i + ", answer " + j);
+                                continue;
+                            }
+                            
                             Boolean isCorrect = (j == correctAnswerIndex);
                             
                             // Create new answer
@@ -739,6 +752,7 @@ public class ManageCourseController extends HttpServlet {
             request.getRequestDispatcher("/view/error.jsp").forward(request, response);
         } catch (Exception e) {
             request.setAttribute("errorMessage", "Error adding lesson: " + e.getMessage());
+            e.printStackTrace();
             request.getRequestDispatcher("/view/error.jsp").forward(request, response);
         }
     }
