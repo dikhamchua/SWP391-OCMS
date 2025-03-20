@@ -162,7 +162,7 @@
                                 
                                 <!-- Edit Form -->
                                 <div class="form-container">
-                                    <form action="${pageContext.request.contextPath}/lesson-edit" method="post">
+                                    <form action="${pageContext.request.contextPath}/lesson-edit" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="action" value="update">
                                         <input type="hidden" name="id" value="${lesson.id}">
                                         
@@ -227,54 +227,28 @@
                                             <h5 class="form-section-title">Thông tin video</h5>
                                             
                                             <div class="form-group">
-                                                <label class="form-label">Nhà cung cấp</label>
-                                                <select name="videoProvider" id="videoProvider" class="form-control">
-                                                    <option value="youtube" ${lessonVideo.videoProvider == 'youtube' ? 'selected' : ''}>YouTube</option>
-                                                    <option value="local" ${lessonVideo.videoProvider == 'local' ? 'selected' : ''}>Local (Tải lên)</option>
-                                                </select>
-                                            </div>
-                                            
-                                            <div id="youtubeUrlContainer" class="form-group" ${lessonVideo.videoProvider == 'local' ? 'style="display:none;"' : ''}>
-                                                <label class="form-label">URL Video YouTube</label>
-                                                <div class="icon-input">
-                                                    <i class="fa fa-youtube"></i>
-                                                    <input type="url" class="form-control" name="youtubeUrl" id="youtubeUrl" 
-                                                           value="${lessonVideo.videoProvider == 'youtube' ? lessonVideo.videoUrl : ''}" 
-                                                           placeholder="https://www.youtube.com/watch?v=...">
-                                                </div>
-                                                <small class="form-text">Nhập URL YouTube (ví dụ: https://www.youtube.com/watch?v=abcdef123456)</small>
-                                            </div>
-                                            
-                                            <div id="localVideoContainer" class="form-group" ${lessonVideo.videoProvider != 'local' ? 'style="display:none;"' : ''}>
                                                 <label class="form-label">Tải lên video</label>
                                                 <div class="file-upload">
                                                     <input type="file" name="videoFile" id="videoFile" accept="video/*">
                                                     <button type="button" class="btn btn-outline-secondary">Chọn tệp video</button>
                                                 </div>
-                                                <small class="form-text">Tải lên video trực tiếp (MP4, WebM, Ogg). Kích thước tối đa: 100MB</small>
+                                                <small class="form-text">Tải lên video trực tiếp (MP4, WebM, Ogg). Kích thước tối đa: 50MB</small>
                                                 
-                                                <!-- Upload Progress Bar -->
-                                                <div id="uploadProgressContainer" class="mt-3" style="display: none;">
-                                                    <div class="progress" style="height: 20px;">
-                                                        <div id="uploadProgressBar" class="progress-bar progress-bar-striped progress-bar-animated" 
-                                                             role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                                                            <span id="uploadProgressText">0%</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between mt-1">
-                                                        <small id="uploadSpeed">0 KB/s</small>
-                                                        <small id="uploadRemaining">Thời gian còn lại: Đang tính...</small>
-                                                    </div>
-                                                </div>
-                                                
-                                                <c:if test="${lessonVideo.videoProvider == 'local' && lessonVideo.videoUrl != null}">
+                                                <c:if test="${lessonVideo != null && lessonVideo.videoUrl != null}">
                                                     <div class="mt-2">
                                                         <span class="text-success">
                                                             <i class="fa fa-check-circle"></i> 
-                                                            Video đã tải lên: ${lessonVideo.videoUrl.substring(lessonVideo.videoUrl.lastIndexOf('/') + 1)}
+                                                            Video hiện tại: ${lessonVideo.videoUrl.substring(lessonVideo.videoUrl.lastIndexOf('/') + 1)}
                                                         </span>
+                                                        <input type="hidden" name="videoUrl" value="${lessonVideo.videoUrl}">
                                                     </div>
                                                 </c:if>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label class="form-label">Thời lượng video (phút)</label>
+                                                <input type="number" class="form-control" name="videoDuration" value="${lessonVideo.videoDuration}" min="0">
+                                                <small class="form-text">Nhập thời lượng video tính bằng phút</small>
                                             </div>
                                             
                                             <!-- Video Preview -->
@@ -284,21 +258,10 @@
                                                         <h6>Xem trước video</h6>
                                                         <div style="max-width: 400px; margin: 0 auto;">
                                                             <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-                                                                <c:choose>
-                                                                    <c:when test="${lessonVideo.videoProvider == 'youtube' || lessonVideo.videoUrl.contains('youtube.com') || lessonVideo.videoUrl.contains('youtu.be')}">
-                                                                        <c:set var="videoId" value="${lessonVideo.videoUrl.contains('v=') ? lessonVideo.videoUrl.substring(lessonVideo.videoUrl.indexOf('v=') + 2) : lessonVideo.videoUrl.substring(lessonVideo.videoUrl.lastIndexOf('/') + 1)}" />
-                                                                        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
-                                                                                src="https://www.youtube.com/embed/${videoId}" 
-                                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                                                                allowfullscreen></iframe>
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        <video controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                                                                            <source src="${lessonVideo.videoUrl}" type="video/mp4">
-                                                                            Your browser does not support the video tag.
-                                                                        </video>
-                                                                    </c:otherwise>
-                                                                </c:choose>
+                                                                <video controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                                                                    <source src="${lessonVideo.videoUrl}" type="video/mp4">
+                                                                    Your browser does not support the video tag.
+                                                                </video>
                                                             </div>
                                                         </div>
                                                     </c:when>
@@ -377,126 +340,6 @@
                     $(this).siblings('button').text(filename);
                 } else {
                     $(this).siblings('button').text('Chọn tệp video');
-                }
-            });
-            
-            // Toggle video provider fields
-            $('#videoProvider').change(function() {
-                var provider = $(this).val();
-                if (provider === 'youtube') {
-                    $('#youtubeUrlContainer').show();
-                    $('#localVideoContainer').hide();
-                } else {
-                    $('#youtubeUrlContainer').hide();
-                    $('#localVideoContainer').show();
-                }
-            });
-            
-            // Handle form submission with file upload
-            $('form').submit(function(e) {
-                var videoProvider = $('#videoProvider').val();
-                
-                // Only handle file upload if provider is local and a file is selected
-                if (videoProvider === 'local' && $('#videoFile')[0].files.length > 0) {
-                    e.preventDefault(); // Prevent default form submission
-                    
-                    var formData = new FormData(this);
-                    var file = $('#videoFile')[0].files[0];
-                    formData.append('videoFile', file);
-                    
-                    // Show progress container
-                    $('#uploadProgressContainer').show();
-                    
-                    // Variables for upload speed calculation
-                    var startTime = new Date().getTime();
-                    var uploadedBytes = 0;
-                    var totalBytes = file.size;
-                    
-                    $.ajax({
-                        url: '${pageContext.request.contextPath}/lesson-edit?action=upload',
-                        type: 'POST',
-                        data: formData,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        xhr: function() {
-                            var xhr = new window.XMLHttpRequest();
-                            
-                            // Upload progress
-                            xhr.upload.addEventListener("progress", function(evt) {
-                                if (evt.lengthComputable) {
-                                    var percentComplete = Math.round((evt.loaded / evt.total) * 100);
-                                    
-                                    // Update progress bar
-                                    $('#uploadProgressBar').css('width', percentComplete + '%');
-                                    $('#uploadProgressBar').attr('aria-valuenow', percentComplete);
-                                    $('#uploadProgressText').text(percentComplete + '%');
-                                    
-                                    // Calculate upload speed
-                                    var currentTime = new Date().getTime();
-                                    var elapsedTime = (currentTime - startTime) / 1000; // seconds
-                                    uploadedBytes = evt.loaded;
-                                    
-                                    if (elapsedTime > 0) {
-                                        var bytesPerSecond = uploadedBytes / elapsedTime;
-                                        var speedKbps = Math.round(bytesPerSecond / 1024);
-                                        $('#uploadSpeed').text(speedKbps + ' KB/s');
-                                        
-                                        // Calculate remaining time
-                                        var remainingBytes = evt.total - evt.loaded;
-                                        var remainingTime = remainingBytes / bytesPerSecond; // seconds
-                                        
-                                        if (remainingTime > 60) {
-                                            var minutes = Math.floor(remainingTime / 60);
-                                            var seconds = Math.round(remainingTime % 60);
-                                            $('#uploadRemaining').text('Thời gian còn lại: ' + minutes + ' phút ' + seconds + ' giây');
-                                        } else {
-                                            $('#uploadRemaining').text('Thời gian còn lại: ' + Math.round(remainingTime) + ' giây');
-                                        }
-                                    }
-                                }
-                            }, false);
-                            
-                            return xhr;
-                        },
-                        success: function(response) {
-                            // Handle successful upload
-                            if (response.success) {
-                                // Update form with the uploaded file URL
-                                $('<input>').attr({
-                                    type: 'hidden',
-                                    name: 'videoUrl',
-                                    value: response.fileUrl
-                                }).appendTo('form');
-                                
-                                // Submit the form to save other data
-                                $('form')[0].submit();
-                            } else {
-                                // Show error message
-                                iziToast.error({
-                                    title: 'Error',
-                                    message: response.message || 'Failed to upload video',
-                                    position: 'topRight',
-                                    timeout: 5000
-                                });
-                                
-                                // Hide progress container
-                                $('#uploadProgressContainer').hide();
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            // Show error message
-                            iziToast.error({
-                                title: 'Error',
-                                message: 'Failed to upload video: ' + error,
-                                position: 'topRight',
-                                timeout: 5000
-                            });
-                            
-                            // Hide progress container
-                            $('#uploadProgressContainer').hide();
-                        }
-                    });
                 }
             });
             

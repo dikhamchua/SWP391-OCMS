@@ -12,8 +12,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import com.ocms.config.GlobalConfig;
+import java.io.File;
+import java.io.PrintWriter;
+import jakarta.servlet.http.Part;
+import jakarta.servlet.annotation.MultipartConfig;
 
 @WebServlet({"/manage-course", "/lesson-edit"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 5, // 5MB
+                 maxFileSize = 1024 * 1024 * 50,      // 50MB
+                 maxRequestSize = 1024 * 1024 * 100)  // 100MB
 public class ManageCourseController extends HttpServlet {
     
 
@@ -48,6 +55,19 @@ public class ManageCourseController extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String path = request.getServletPath();
+        String action = request.getParameter("action");
+        
+        if (path.equals("/lesson-edit")) {
+            if ("update".equals(action)) {
+                doPostLessonUpdate(request, response);
+            } else if ("upload".equals(action)) {
+                doPostVideoUpload(request, response);
+            }
+        }
+    }
 
     private void doGetManageCourse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //get id of course
@@ -215,181 +235,224 @@ public class ManageCourseController extends HttpServlet {
      * @throws ServletException If a servlet-specific error occurs
      * @throws IOException If an I/O error occurs
      */
-    private void doPostLessonEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void doPostLessonUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            // Get lesson ID from request parameters
-            String lessonIdParam = request.getParameter("id");
+            // Get lesson ID and basic information
+            Integer lessonId = Integer.parseInt(request.getParameter("id"));
+            String title = request.getParameter("title");
+            String description = request.getParameter("description");
+            Integer sectionId = Integer.parseInt(request.getParameter("sectionId"));
+            Integer durationMinutes = 0;
+            Integer orderNumber = 1;
             
-            if (lessonIdParam == null || lessonIdParam.isEmpty()) {
-                // If no lesson ID is provided, redirect to course management
-                response.sendRedirect(request.getContextPath() + "/manage-course");
-                return;
+            try {
+                durationMinutes = Integer.parseInt(request.getParameter("durationMinutes"));
+            } catch (NumberFormatException e) {
+                // Use default value if parsing fails
             }
             
-            int lessonId = Integer.parseInt(lessonIdParam);
+            try {
+                orderNumber = Integer.parseInt(request.getParameter("orderNumber"));
+            } catch (NumberFormatException e) {
+                // Use default value if parsing fails
+            }
             
-            // Get existing lesson
+            String status = request.getParameter("status");
+            
+            // Get the lesson from database
             Lesson lesson = lessonDAO.getById(lessonId);
             
             if (lesson == null) {
-                // If lesson not found, show error
                 request.setAttribute("errorMessage", "Lesson not found");
                 request.getRequestDispatcher("/view/error.jsp").forward(request, response);
                 return;
             }
             
-            // Update basic lesson information
-            String title = request.getParameter("title");
-            String description = request.getParameter("description");
-            String sectionIdParam = request.getParameter("sectionId");
-            String orderNumberParam = request.getParameter("orderNumber");
-            String status = request.getParameter("status");
-            
-            if (title == null || title.trim().isEmpty() || 
-                sectionIdParam == null || sectionIdParam.trim().isEmpty()) {
-                // Required fields are missing
-                request.setAttribute("errorMessage", "Title and section are required");
-                doGetLessonEdit(request, response); // Redisplay the form with error
-                return;
-            }
-            
-            int sectionId = Integer.parseInt(sectionIdParam);
-            int orderNumber = orderNumberParam != null && !orderNumberParam.trim().isEmpty() ? 
-                              Integer.parseInt(orderNumberParam) : 1;
-            
-            // Update lesson object
+            // Update lesson basic information
             lesson.setTitle(title);
             lesson.setDescription(description);
             lesson.setSectionId(sectionId);
+            lesson.setDurationMinutes(durationMinutes);
             lesson.setOrderNumber(orderNumber);
-            lesson.setStatus(status != null ? status : "active");
+            lesson.setStatus(status);
             
-            // Update lesson in database
-            boolean updated = lessonDAO.update(lesson);
+            // Update the lesson in database
+            Boolean lessonUpdated = lessonDAO.update(lesson);
             
-            if (!updated) {
-                // If update failed, show error
+            if (!lessonUpdated) {
                 request.setAttribute("errorMessage", "Failed to update lesson");
-                doGetLessonEdit(request, response); // Redisplay the form with error
+                request.getRequestDispatcher("/view/error.jsp").forward(request, response);
                 return;
             }
             
-            // Update type-specific information
-            switch (lesson.getType()) {
-                case GlobalConfig.LESSON_TYPE_VIDEO:
-                    updateLessonVideo(request, response, lesson);
-                    break;
-                case GlobalConfig.LESSON_TYPE_QUIZ:
-                    updateLessonQuiz(request, response, lesson);
-                    break;
-                case GlobalConfig.LESSON_TYPE_FILE:
-                    // Update file information if needed
-                    break;
-                case GlobalConfig.LESSON_TYPE_DOCUMENT:
-                    // Update document information if needed
-                    break;
-                case GlobalConfig.LESSON_TYPE_TEXT:
-                    // Update text information if needed
-                    break;
+            // Handle video file upload
+            String videoUrl = request.getParameter("videoUrl"); // Get existing URL if any
+            
+            // Check if there's a file upload
+            Part filePart = request.getPart("videoFile");
+            
+            if (filePart != null && filePart.getSize() > 0) {
+                // Process the uploaded file
+                String fileName = getFileName(filePart);
+                
+                if (fileName != null && !fileName.isEmpty()) {
+                    // Generate a unique filename
+                    String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+                    
+                    // Create upload directory if it doesn't exist
+                    String uploadPath = getServletContext().getRealPath("/uploads/videos/");
+                    File uploadDir = new File(uploadPath);
+                    if (!uploadDir.exists()) {
+                        uploadDir.mkdirs();
+                    }
+                    
+                    // Write the file to the server
+                    String filePath = uploadPath + File.separator + uniqueFileName;
+                    filePart.write(filePath);
+                    
+                    // Set the video URL
+                    videoUrl = request.getContextPath() + "/uploads/videos/" + uniqueFileName;
+                }
             }
             
-            // Add success message to session
+            // Get existing video or create new one
+            LessonVideo lessonVideo = lessonVideoDAO.getByLessonId(lessonId);
+            
+            if (lessonVideo == null) {
+                lessonVideo = new LessonVideo();
+                lessonVideo.setLessonId(lessonId);
+            }
+            
+            // Update video information
+            lessonVideo.setVideoProvider("local"); // Always set to local
+            lessonVideo.setVideoUrl(videoUrl);
+            
+            // Try to parse video duration if provided
+            String videoDurationStr = request.getParameter("videoDuration");
+            if (videoDurationStr != null && !videoDurationStr.isEmpty()) {
+                try {
+                    Integer videoDuration = Integer.parseInt(videoDurationStr);
+                    lessonVideo.setVideoDuration(videoDuration);
+                } catch (NumberFormatException e) {
+                    // Ignore if parsing fails
+                }
+            }
+            
+            // Update or insert video information
+            Boolean videoUpdated;
+            if (lessonVideoDAO.getByLessonId(lessonId) != null) {
+                videoUpdated = lessonVideoDAO.update(lessonVideo);
+            } else {
+                Integer insertedId = lessonVideoDAO.insert(lessonVideo);
+                videoUpdated = insertedId > 0;
+            }
+            
+            if (!videoUpdated) {
+                // Log the error but continue
+                System.out.println("Warning: Failed to update video information");
+            }
+            
+            // Add success message
             request.getSession().setAttribute("toastMessage", "Lesson updated successfully");
             request.getSession().setAttribute("toastType", "success");
             
-            // Get section to redirect back to course content
-            Section section = sectionDAO.getById(lesson.getSectionId());
-            
-            // Redirect to course content page
+            // Redirect back to course content
+            Section section = sectionDAO.getById(sectionId);
             response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + section.getCourseId());
             
         } catch (NumberFormatException e) {
-            // Handle invalid number format
             request.setAttribute("errorMessage", "Invalid number format: " + e.getMessage());
             request.getRequestDispatcher("/view/error.jsp").forward(request, response);
         } catch (Exception e) {
-            // Handle other exceptions
             request.setAttribute("errorMessage", "Error updating lesson: " + e.getMessage());
             request.getRequestDispatcher("/view/error.jsp").forward(request, response);
         }
     }
 
     /**
-     * Update video information for a lesson
+     * Handle video file upload using Part API
      * @param request The HTTP request
      * @param response The HTTP response
-     * @param lesson The lesson object
+     * @throws ServletException If a servlet-specific error occurs
+     * @throws IOException If an I/O error occurs
      */
-    private void updateLessonVideo(HttpServletRequest request, HttpServletResponse response, Lesson lesson) throws ServletException, IOException {
-        String videoUrl = request.getParameter("videoUrl");
-        String duration = request.getParameter("duration");
+    private void doPostVideoUpload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
         
-        if (videoUrl == null || videoUrl.trim().isEmpty()) {
-            // Video URL is required
-            request.setAttribute("errorMessage", "Video URL is required");
-            doGetLessonEdit(request, response); // Redisplay the form with error
-            return;
+        // Create JSON response object manually
+        StringBuilder jsonResponse = new StringBuilder();
+        jsonResponse.append("{");
+        
+        try {
+            // Get the file part from the request
+            Part filePart = request.getPart("videoFile");
+            
+            if (filePart == null) {
+                jsonResponse.append("\"success\": false,");
+                jsonResponse.append("\"message\": \"No file found in the request\"");
+                jsonResponse.append("}");
+                out.print(jsonResponse.toString());
+                return;
+            }
+            
+            // Get file name from part
+            String fileName = getFileName(filePart);
+            
+            if (fileName == null || fileName.isEmpty()) {
+                jsonResponse.append("\"success\": false,");
+                jsonResponse.append("\"message\": \"Invalid file name\"");
+                jsonResponse.append("}");
+                out.print(jsonResponse.toString());
+                return;
+            }
+            
+            // Generate a unique filename to prevent overwriting
+            String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+            
+            // Create upload directory if it doesn't exist
+            String uploadPath = getServletContext().getRealPath("/uploads/videos/");
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+            
+            // Write the file to the server
+            String filePath = uploadPath + File.separator + uniqueFileName;
+            filePart.write(filePath);
+            
+            // Return the file URL
+            String fileUrl = request.getContextPath() + "/uploads/videos/" + uniqueFileName;
+            
+            jsonResponse.append("\"success\": true,");
+            jsonResponse.append("\"fileUrl\": \"").append(fileUrl).append("\",");
+            jsonResponse.append("\"fileName\": \"").append(uniqueFileName).append("\"");
+            
+        } catch (Exception e) {
+            jsonResponse.append("\"success\": false,");
+            jsonResponse.append("\"message\": \"Error uploading file: ").append(e.getMessage()).append("\"");
+            e.printStackTrace();
         }
         
-        // Get existing video or create new one
-        LessonVideo lessonVideo = lessonVideoDAO.getByLessonId(lesson.getId());
-        
-        if (lessonVideo == null) {
-            lessonVideo = new LessonVideo();
-            lessonVideo.setLessonId(lesson.getId());
-        }
-        
-        lessonVideo.setVideoUrl(videoUrl);
-        // lessonVideo.setDuration(duration);
-        
-        // Update or insert video
-        // if (lessonVideo.getId() != null) {
-        //     lessonVideoDAO.update(lessonVideo);
-        // } else {
-        //     lessonVideoDAO.insert(lessonVideo);
-        // }
+        jsonResponse.append("}");
+        out.print(jsonResponse.toString());
     }
 
     /**
-     * Update quiz information for a lesson
-     * @param request The HTTP request
-     * @param response The HTTP response
-     * @param lesson The lesson object
+     * Extract filename from Part header
+     * @param part The Part containing the file
+     * @return The filename
      */
-    private void updateLessonQuiz(HttpServletRequest request, HttpServletResponse response, Lesson lesson) throws ServletException, IOException {
-        String passPercentageParam = request.getParameter("passPercentage");
-        String timeLimitParam = request.getParameter("timeLimit");
-        String attemptsAllowedParam = request.getParameter("attemptsAllowed");
+    private String getFileName(Part part) {
+        String contentDisposition = part.getHeader("content-disposition");
+        String[] elements = contentDisposition.split(";");
         
-        // Get existing quiz or create new one
-        LessonQuiz lessonQuiz = lessonQuizDAO.getByLessonId(lesson.getId());
-        
-        if (lessonQuiz == null) {
-            lessonQuiz = new LessonQuiz();
-            lessonQuiz.setLessonId(lesson.getId());
+        for (String element : elements) {
+            if (element.trim().startsWith("filename")) {
+                return element.substring(element.indexOf('=') + 1).trim().replace("\"", "");
+            }
         }
         
-        // Update quiz properties
-        if (passPercentageParam != null && !passPercentageParam.trim().isEmpty()) {
-            lessonQuiz.setPassPercentage(Integer.parseInt(passPercentageParam));
-        }
-        
-        if (timeLimitParam != null && !timeLimitParam.trim().isEmpty()) {
-            // lessonQuiz.setTimeLimit(Integer.parseInt(timeLimitParam));
-        }
-        
-        if (attemptsAllowedParam != null && !attemptsAllowedParam.trim().isEmpty()) {
-            lessonQuiz.setAttemptsAllowed(Integer.parseInt(attemptsAllowedParam));
-        }
-        
-        // Update or insert quiz
-        if (lessonQuiz.getId() != null) {
-            lessonQuizDAO.update(lessonQuiz);
-        } else {
-            lessonQuizDAO.insert(lessonQuiz);
-        }
-        
-        // Note: Updating questions and answers would be more complex
-        // and would likely require a separate controller or method
+        return null;
     }
 }

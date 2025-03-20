@@ -3,6 +3,7 @@ package com.ocms.dal;
 import com.ocms.entity.LessonVideo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,30 +89,45 @@ public class LessonVideoDAO extends DBContext {
     }
     
     /**
-     * Insert a new lesson video
+     * Insert a new lesson video record
      * @param lessonVideo The lesson video to insert
-     * @return true if insertion was successful, false otherwise
+     * @return The ID of the inserted record, or -1 if insertion failed
      */
-    public boolean insert(LessonVideo lessonVideo) {
-        String sql = "INSERT INTO lesson_video (lesson_id, video_url, video_provider, video_duration) " +
-                "VALUES (?, ?, ?, ?)";
+    public Integer insert(LessonVideo lessonVideo) {
+        String sql = "INSERT INTO lesson_video (lesson_id, video_url, video_provider, video_duration) VALUES (?, ?, ?, ?)";
+        Integer insertedId = -1;
         
         try {
             connection = getConnection();
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            
             statement.setInt(1, lessonVideo.getLessonId());
             statement.setString(2, lessonVideo.getVideoUrl());
             statement.setString(3, lessonVideo.getVideoProvider());
-            statement.setInt(4, lessonVideo.getVideoDuration());
+            
+            // Handle null video duration
+            if (lessonVideo.getVideoDuration() != null) {
+                statement.setInt(4, lessonVideo.getVideoDuration());
+            } else {
+                statement.setNull(4, java.sql.Types.INTEGER);
+            }
             
             int affectedRows = statement.executeUpdate();
-            return affectedRows > 0;
+            
+            if (affectedRows > 0) {
+                // Get the generated ID
+                resultSet = statement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    insertedId = resultSet.getInt(1);
+                }
+            }
         } catch (SQLException ex) {
             System.out.println("Error inserting lesson video: " + ex.getMessage());
-            return false;
         } finally {
             closeResources();
         }
+        
+        return insertedId;
     }
     
     /**
