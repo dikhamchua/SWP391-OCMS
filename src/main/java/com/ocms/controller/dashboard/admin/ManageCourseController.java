@@ -20,8 +20,8 @@ import java.util.ArrayList;
 
 @WebServlet({"/manage-course", "/lesson-edit"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 5, // 5MB
-                 maxFileSize = 1024 * 1024 * 50,      // 50MB
-                 maxRequestSize = 1024 * 1024 * 100)  // 100MB
+                 maxFileSize = 1024 * 1024 * 1024,      // 50MB
+                 maxRequestSize = 1024 * 1024 * 1024)  // 100MB
 public class ManageCourseController extends HttpServlet {
     
 
@@ -320,7 +320,7 @@ public class ManageCourseController extends HttpServlet {
             
             if (GlobalConfig.LESSON_TYPE_VIDEO.equals(type)) {
                 // Handle video update
-                // ... (existing video update code)
+                updateVideoData(request, lessonId);
             } else if (GlobalConfig.LESSON_TYPE_QUIZ.equals(type)) {
                 // Handle quiz update
                 updateQuizData(request, lessonId);
@@ -341,6 +341,85 @@ public class ManageCourseController extends HttpServlet {
             request.setAttribute("errorMessage", "Error updating lesson: " + e.getMessage());
             e.printStackTrace();
             request.getRequestDispatcher("/view/error.jsp").forward(request, response);
+        }
+    }
+
+    /**
+     * Update video data during lesson update
+     * @param request The HTTP request
+     * @param lessonId The lesson ID
+     * @throws Exception If an error occurs
+     */
+    private void updateVideoData(HttpServletRequest request, Integer lessonId) throws Exception {
+        // Get video information
+        LessonVideo lessonVideo = lessonVideoDAO.getByLessonId(lessonId);
+        
+        if (lessonVideo == null) {
+            throw new Exception("Video not found for this lesson");
+        }
+        
+        // Check if there's a new file upload
+        Part filePart = null;
+        try {
+            filePart = request.getPart("videoFile");
+        } catch (Exception e) {
+            // No file uploaded, continue with other updates
+        }
+        
+        String videoUrl = request.getParameter("videoUrl");
+        
+        // If a new file was uploaded, process it
+        if (filePart != null && filePart.getSize() > 0) {
+            // Process the uploaded file
+            String fileName = getFileName(filePart);
+            
+            if (fileName != null && !fileName.isEmpty()) {
+                // Generate a unique filename
+                String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+                
+                // Create upload directory if it doesn't exist
+                String uploadPath = getServletContext().getRealPath("/uploads/videos/");
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
+                
+                // Write the file to the server
+                String filePath = uploadPath + File.separator + uniqueFileName;
+                filePart.write(filePath);
+                
+                // Set the video URL
+                videoUrl = request.getContextPath() + "/uploads/videos/" + uniqueFileName;
+            }
+        }
+        
+        // Update video information
+        if (videoUrl != null && !videoUrl.isEmpty()) {
+            lessonVideo.setVideoUrl(videoUrl);
+        }
+        
+        // Update video provider if provided
+        String videoProvider = request.getParameter("videoProvider");
+        if (videoProvider != null && !videoProvider.isEmpty()) {
+            lessonVideo.setVideoProvider(videoProvider);
+        }
+        
+        // Try to parse video duration if provided
+        String videoDurationStr = request.getParameter("videoDuration");
+        if (videoDurationStr != null && !videoDurationStr.isEmpty()) {
+            try {
+                Integer videoDuration = Integer.parseInt(videoDurationStr);
+                lessonVideo.setVideoDuration(videoDuration);
+            } catch (NumberFormatException e) {
+                // Ignore if parsing fails
+            }
+        }
+        
+        // Update video in database
+        boolean videoUpdated = lessonVideoDAO.update(lessonVideo);
+        
+        if (!videoUpdated) {
+            throw new Exception("Failed to update video information");
         }
     }
 
@@ -461,7 +540,6 @@ public class ManageCourseController extends HttpServlet {
                             answer.setOrderNumber(j);
                             
                             // Set creation and modification dates
-                            java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
 //                            answer.setCreatedDate(currentDate);
 //                            answer.setModifiedDate(currentDate);
                             

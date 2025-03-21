@@ -172,7 +172,10 @@
                                     <div class="col-lg-8">
                                         <!-- Video Container -->
                                         <div class="lesson-video-container">
-                                            <iframe src="${lessonVideo.videoUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            <video controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                                                <source src="${lessonVideo.videoUrl}" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>                                            
                                         </div>
                                         
                                         <!-- Lesson Content -->
