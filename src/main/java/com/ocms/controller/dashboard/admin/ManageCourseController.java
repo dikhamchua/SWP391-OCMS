@@ -458,6 +458,8 @@ public class ManageCourseController extends HttpServlet {
             //create new quiz
             quiz = new LessonQuiz();
             quiz.setLessonId(lesson.getId());
+            //insert new quiz into database
+            lessonQuizDAO.insert(quiz);
         }
 
         try {
