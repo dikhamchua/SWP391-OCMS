@@ -71,12 +71,20 @@ public class ManageCourseController extends HttpServlet {
         String action = request.getParameter("action");
         
         if (path.equals("/lesson-edit")) {
-            if ("update".equals(action)) {
-                doPostLessonUpdate(request, response);
-            } else if ("add".equals(action)) {
-                doPostLessonAdd(request, response);
-            } else if ("upload".equals(action)) {
-                doPostVideoUpload(request, response);
+            switch (action) {
+                case "update":
+                    doPostLessonUpdate(request, response);
+                    break;
+                case "add":
+                    doPostLessonAdd(request, response);
+                    break;
+                case "upload":
+                    doPostVideoUpload(request, response);
+                    break;
+                default:
+                    // Handle unknown action
+                    response.sendRedirect(request.getContextPath() + "/manage-course");
+                    break;
             }
         }
     }
