@@ -2,7 +2,6 @@ package com.ocms.entity;
 
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Data

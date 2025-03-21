@@ -3,7 +3,6 @@ package com.ocms.entity;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
