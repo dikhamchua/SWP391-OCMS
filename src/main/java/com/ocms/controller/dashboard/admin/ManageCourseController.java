@@ -30,7 +30,6 @@ public class ManageCourseController extends HttpServlet {
     private LessonDAO lessonDAO;
     private LessonVideoDAO lessonVideoDAO;
     private LessonQuizDAO lessonQuizDAO;
-    private QuestionDAO questionDAO;
     private QuizAnswerDAO quizAnswerDAO;
     private QuizQuestionDAO quizQuestionDAO;
 
@@ -41,7 +40,6 @@ public class ManageCourseController extends HttpServlet {
         lessonDAO = new LessonDAO();
         lessonVideoDAO = new LessonVideoDAO();
         lessonQuizDAO = new LessonQuizDAO();
-        questionDAO = new QuestionDAO();
         quizAnswerDAO = new QuizAnswerDAO();
         quizQuestionDAO = new QuizQuestionDAO();
     }
@@ -319,8 +317,9 @@ public class ManageCourseController extends HttpServlet {
             boolean lessonUpdated = lessonDAO.update(lesson);
             
             if (!lessonUpdated) {
-                request.setAttribute("errorMessage", "Failed to update lesson");
-                request.getRequestDispatcher("/view/error.jsp").forward(request, response);
+                request.getSession().setAttribute("toastMessage", "Failed to update lesson");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
                 return;
             }
             
@@ -329,26 +328,23 @@ public class ManageCourseController extends HttpServlet {
 
             switch (type) {
                 case GlobalConfig.LESSON_TYPE_VIDEO:
-                    updateVideoData(request, response, lessonId, sectionId);
+                    updateVideoData(request, response, lesson, sectionId);
                     break;
                 case GlobalConfig.LESSON_TYPE_QUIZ:
-                    updateQuizData(request, lessonId);
+                    updateQuizData(request, response, lesson, sectionId);
                     break;
                 default:
                     break;
             }
             
-            // Redirect back to course content
-            Section section = sectionDAO.getById(sectionId);
-            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + section.getCourseId());
-            
         } catch (NumberFormatException e) {
-            request.setAttribute("errorMessage", "Invalid number format: " + e.getMessage());
-            request.getRequestDispatcher("/view/error.jsp").forward(request, response);
+            request.getSession().setAttribute("toastMessage", "Error updating lesson: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + 1);
         } catch (Exception e) {
-            request.setAttribute("errorMessage", "Error updating lesson: " + e.getMessage());
-            e.printStackTrace();
-            request.getRequestDispatcher("/view/error.jsp").forward(request, response);
+            request.getSession().setAttribute("toastMessage", "Error updating lesson: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + 1);
         }
     }
 
@@ -358,9 +354,9 @@ public class ManageCourseController extends HttpServlet {
      * @param lessonId The lesson ID
      * @throws Exception If an error occurs
      */
-    private void updateVideoData(HttpServletRequest request, HttpServletResponse response, Integer lessonId, Integer sectionId) throws IOException {
+    private void updateVideoData(HttpServletRequest request, HttpServletResponse response, Lesson lesson, Integer sectionId) throws IOException {
         // Get video information
-        LessonVideo lessonVideo = lessonVideoDAO.getByLessonId(lessonId);
+        LessonVideo lessonVideo = lessonVideoDAO.getByLessonId(lesson.getId());
         
         if (lessonVideo == null) {
             request.getSession().setAttribute("toastMessage", "Video not found for this lesson");
@@ -454,219 +450,221 @@ public class ManageCourseController extends HttpServlet {
      * @param lessonId The lesson ID
      * @throws Exception If an error occurs
      */
-    private void updateQuizData(HttpServletRequest request, Integer lessonId) throws Exception {
+    private void updateQuizData(HttpServletRequest request, HttpServletResponse response, Lesson lesson, Integer sectionId) throws Exception {
         // Get quiz information
-        LessonQuiz quiz = lessonQuizDAO.getByLessonId(lessonId);
-        
+        LessonQuiz quiz = lessonQuizDAO.getByLessonId(lesson.getId());
+
         if (quiz == null) {
-            throw new Exception("Quiz not found for this lesson");
+            //create new quiz
+            quiz = new LessonQuiz();
+            quiz.setLessonId(lesson.getId());
         }
-        
-        // Update quiz settings
-        Integer passingScore = 70; // Default value
-        Integer attemptsAllowed = 3; // Default value
-        Integer durationMinutes = 30; // Default value
-        
+
         try {
-            passingScore = Integer.parseInt(request.getParameter("passingScore"));
-            attemptsAllowed = Integer.parseInt(request.getParameter("attemptsAllowed"));
-            durationMinutes = Integer.parseInt(request.getParameter("durationMinutes"));
-        } catch (NumberFormatException e) {
-            // Use default values if parsing fails
-        }
-        
-        quiz.setPassPercentage(passingScore);
-        quiz.setTimeLimitMinutes(durationMinutes);
-        quiz.setAttemptsAllowed(attemptsAllowed);
-        
-        // Update quiz in database
-        boolean quizUpdated = lessonQuizDAO.update(quiz);
-        
-        if (!quizUpdated) {
-            throw new Exception("Failed to update quiz settings");
-        }
-        
-        // Get the number of questions
-        Integer questionCount = Integer.parseInt(request.getParameter("questionCount"));
-        
-        // Keep track of processed question IDs to identify deleted questions
-        List<Integer> processedQuestionIds = new ArrayList<>();
-        
-        // Process each question
-        for (int i = 1; i <= questionCount; i++) {
-            String questionText = request.getParameter("question_text_" + i);
-            String questionIdStr = request.getParameter("question_id_" + i);
-            String correctAnswerStr = request.getParameter("correct_answer_" + i);
-            
-            if (questionText == null || correctAnswerStr == null || questionIdStr == null) {
-                System.out.println("Warning: Missing data for question " + i);
-                continue;
+            // Update quiz in database
+            boolean quizUpdated = lessonQuizDAO.update(quiz);
+
+            if (!quizUpdated) {
+                request.getSession().setAttribute("toastMessage", "Failed to update quiz settings");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
+                return;
             }
-            
-            Integer correctAnswerIndex = Integer.parseInt(correctAnswerStr);
-            Integer questionId = Integer.parseInt(questionIdStr);
-            
-            if (questionId > 0) {
-                // Update existing question
-                QuizQuestion question = quizQuestionDAO.getById(questionId);
-                
-                if (question != null) {
+
+        } catch (Exception e) {
+            request.getSession().setAttribute("toastMessage", "Failed to update quiz settings: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
+            return;
+        }
+
+        try {
+            // Get the number of questions
+            Integer questionCount = Integer.parseInt(request.getParameter("questionCount"));
+
+            // Keep track of processed question IDs to identify deleted questions
+            List<Integer> processedQuestionIds = new ArrayList<>();
+
+            // Process each question
+            for (int i = 1; i <= questionCount; i++) {
+                String questionText = request.getParameter("question_text_" + i);
+                String questionIdStr = request.getParameter("question_id_" + i);
+                String correctAnswerStr = request.getParameter("correct_answer_" + i);
+
+                if (questionText == null || correctAnswerStr == null || questionIdStr == null) {
+                    System.out.println("Warning: Missing data for question " + i);
+                    continue;
+                }
+
+                Integer correctAnswerIndex = Integer.parseInt(correctAnswerStr);
+                Integer questionId = Integer.parseInt(questionIdStr);
+
+                if (questionId > 0) {
+                    // Update existing question
+                    QuizQuestion question = quizQuestionDAO.getById(questionId);
+
+                    if (question != null) {
+                        question.setQuestionText(questionText);
+                        question.setOrderNumber(i);
+
+                        boolean questionUpdated = quizQuestionDAO.update(question);
+
+                        if (!questionUpdated) {
+                            System.out.println("Warning: Failed to update question " + i);
+                        }
+
+                        // Add to processed question IDs
+                        processedQuestionIds.add(questionId);
+
+                        // Keep track of processed answer IDs to identify deleted answers
+                        List<Integer> processedAnswerIds = new ArrayList<>();
+
+                        // Process each answer for this question
+                        for (int j = 1; j <= 4; j++) {
+                            String answerText = request.getParameter("answer_text_" + i + "_" + j);
+                            String answerIdStr = request.getParameter("answer_id_" + i + "_" + j);
+
+                            if (answerText == null || answerIdStr == null) {
+                                System.out.println("Warning: Missing answer data for question " + i + ", answer " + j);
+                                continue;
+                            }
+
+                            Boolean isCorrect = (j == correctAnswerIndex);
+                            Integer answerId = Integer.parseInt(answerIdStr);
+
+                            if (answerId > 0) {
+                                // Update existing answer
+                                QuizAnswer answer = quizAnswerDAO.getById(answerId);
+
+                                if (answer != null) {
+                                    answer.setAnswerText(answerText);
+                                    answer.setIsCorrect(isCorrect);
+
+                                    boolean answerUpdated = quizAnswerDAO.update(answer);
+
+                                    if (!answerUpdated) {
+                                        System.out.println(
+                                                "Warning: Failed to update answer " + j + " for question " + i);
+                                    }
+
+                                    // Add to processed answer IDs
+                                    processedAnswerIds.add(answerId);
+                                }
+                            } else {
+                                // Create new answer
+                                QuizAnswer answer = new QuizAnswer();
+                                answer.setQuestionId(questionId);
+                                answer.setAnswerText(answerText);
+                                answer.setIsCorrect(isCorrect);
+                                answer.setOrderNumber(j);
+
+                                // Insert answer into database
+                                Integer newAnswerId = quizAnswerDAO.insert(answer);
+
+                                if (newAnswerId <= 0) {
+                                    System.out.println("Warning: Failed to add new answer " + j + " for question " + i);
+                                } else {
+                                    // Add to processed answer IDs
+                                    processedAnswerIds.add(newAnswerId);
+                                }
+                            }
+                        }
+
+                        // Delete answers that were not processed (removed from the form)
+                        List<QuizAnswer> existingAnswers = quizAnswerDAO.getByQuestionId(questionId);
+                        for (QuizAnswer answer : existingAnswers) {
+                            if (!processedAnswerIds.contains(answer.getId())) {
+                                boolean answerDeleted = quizAnswerDAO.delete(answer.getId());
+                                if (!answerDeleted) {
+                                    System.out.println("Warning: Failed to delete answer " + answer.getId());
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // Create new question
+                    QuizQuestion question = new QuizQuestion();
+                    question.setQuizId(quiz.getId());
                     question.setQuestionText(questionText);
                     question.setOrderNumber(i);
-                    
-                    boolean questionUpdated = quizQuestionDAO.update(question);
-                    
-                    if (!questionUpdated) {
-                        System.out.println("Warning: Failed to update question " + i);
+                    question.setPoints(1); // Default points value
+                    question.setStatus("active");
+
+                    // Set creation and modification dates
+                    java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
+                    question.setCreatedDate(currentDate);
+                    question.setModifiedDate(currentDate);
+
+                    // Insert question into database
+                    questionId = quizQuestionDAO.insert(question);
+
+                    if (questionId <= 0) {
+                        System.out.println("Warning: Failed to add new question " + i);
+                        continue;
                     }
-                    
+
                     // Add to processed question IDs
                     processedQuestionIds.add(questionId);
-                    
-                    // Keep track of processed answer IDs to identify deleted answers
-                    List<Integer> processedAnswerIds = new ArrayList<>();
-                    
+
                     // Process each answer for this question
                     for (int j = 1; j <= 4; j++) {
                         String answerText = request.getParameter("answer_text_" + i + "_" + j);
-                        String answerIdStr = request.getParameter("answer_id_" + i + "_" + j);
-                        
-                        if (answerText == null || answerIdStr == null) {
-                            System.out.println("Warning: Missing answer data for question " + i + ", answer " + j);
+
+                        if (answerText == null) {
+                            System.out.println("Warning: Missing answer text for question " + i + ", answer " + j);
                             continue;
                         }
-                        
+
                         Boolean isCorrect = (j == correctAnswerIndex);
-                        Integer answerId = Integer.parseInt(answerIdStr);
-                        
-                        if (answerId > 0) {
-                            // Update existing answer
-                            QuizAnswer answer = quizAnswerDAO.getById(answerId);
-                            
-                            if (answer != null) {
-                                answer.setAnswerText(answerText);
-                                answer.setIsCorrect(isCorrect);
-                                
-                                boolean answerUpdated = quizAnswerDAO.update(answer);
-                                
-                                if (!answerUpdated) {
-                                    System.out.println("Warning: Failed to update answer " + j + " for question " + i);
-                                }
-                                
-                                // Add to processed answer IDs
-                                processedAnswerIds.add(answerId);
-                            }
-                        } else {
-                            // Create new answer
-                            QuizAnswer answer = new QuizAnswer();
-                            answer.setQuestionId(questionId);
-                            answer.setAnswerText(answerText);
-                            answer.setIsCorrect(isCorrect);
-                            answer.setOrderNumber(j);
-                            
-                            // Set creation and modification dates
-//                            answer.setCreatedDate(currentDate);
-//                            answer.setModifiedDate(currentDate);
-                            
-                            // Insert answer into database
-                            Integer newAnswerId = quizAnswerDAO.insert(answer);
-                            
-                            if (newAnswerId <= 0) {
-                                System.out.println("Warning: Failed to add new answer " + j + " for question " + i);
-                            } else {
-                                // Add to processed answer IDs
-                                processedAnswerIds.add(newAnswerId);
-                            }
-                        }
-                    }
-                    
-                    // Delete answers that were not processed (removed from the form)
-                    List<QuizAnswer> existingAnswers = quizAnswerDAO.getByQuestionId(questionId);
-                    for (QuizAnswer answer : existingAnswers) {
-                        if (!processedAnswerIds.contains(answer.getId())) {
-                            boolean answerDeleted = quizAnswerDAO.delete(answer.getId());
-                            if (!answerDeleted) {
-                                System.out.println("Warning: Failed to delete answer " + answer.getId());
-                            }
+
+                        // Create new answer
+                        QuizAnswer answer = new QuizAnswer();
+                        answer.setQuestionId(questionId);
+                        answer.setAnswerText(answerText);
+                        answer.setIsCorrect(isCorrect);
+                        answer.setOrderNumber(j);
+
+                        // Set creation and modification dates
+                        // answer.setCreatedDate(currentDate);
+                        // answer.setModifiedDate(currentDate);
+                        // Insert answer into database
+                        Integer answerId = quizAnswerDAO.insert(answer);
+
+                        if (answerId <= 0) {
+                            System.out.println("Warning: Failed to add answer " + j + " for question " + i);
                         }
                     }
                 }
-            } else {
-                // Create new question
-                QuizQuestion question = new QuizQuestion();
-                question.setQuizId(quiz.getId());
-                question.setQuestionText(questionText);
-                question.setOrderNumber(i);
-                question.setPoints(1); // Default points value
-                question.setStatus("active");
-                
-                // Set creation and modification dates
-                java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
-                question.setCreatedDate(currentDate);
-                question.setModifiedDate(currentDate);
-                
-                // Insert question into database
-                questionId = quizQuestionDAO.insert(question);
-                
-                if (questionId <= 0) {
-                    System.out.println("Warning: Failed to add new question " + i);
-                    continue;
-                }
-                
-                // Add to processed question IDs
-                processedQuestionIds.add(questionId);
-                
-                // Process each answer for this question
-                for (int j = 1; j <= 4; j++) {
-                    String answerText = request.getParameter("answer_text_" + i + "_" + j);
-                    
-                    if (answerText == null) {
-                        System.out.println("Warning: Missing answer text for question " + i + ", answer " + j);
-                        continue;
+            }
+
+            // Delete questions that were not processed (removed from the form)
+            List<QuizQuestion> existingQuestions = quizQuestionDAO.getByQuizId(quiz.getId());
+            for (QuizQuestion question : existingQuestions) {
+                if (!processedQuestionIds.contains(question.getId())) {
+                    // Delete all answers for this question first
+                    List<QuizAnswer> answers = quizAnswerDAO.getByQuestionId(question.getId());
+                    for (QuizAnswer answer : answers) {
+                        boolean answerDeleted = quizAnswerDAO.delete(answer.getId());
+                        if (!answerDeleted) {
+                            System.out.println("Warning: Failed to delete answer " + answer.getId());
+                        }
                     }
-                    
-                    Boolean isCorrect = (j == correctAnswerIndex);
-                    
-                    // Create new answer
-                    QuizAnswer answer = new QuizAnswer();
-                    answer.setQuestionId(questionId);
-                    answer.setAnswerText(answerText);
-                    answer.setIsCorrect(isCorrect);
-                    answer.setOrderNumber(j);
-                    
-                    // Set creation and modification dates
-//                    answer.setCreatedDate(currentDate);
-//                    answer.setModifiedDate(currentDate);
-                    
-                    // Insert answer into database
-                    Integer answerId = quizAnswerDAO.insert(answer);
-                    
-                    if (answerId <= 0) {
-                        System.out.println("Warning: Failed to add answer " + j + " for question " + i);
+
+                    // Then delete the question
+                    boolean questionDeleted = quizQuestionDAO.delete(question.getId());
+                    if (!questionDeleted) {
+                        System.out.println("Warning: Failed to delete question " + question.getId());
                     }
                 }
             }
-        }
-        
-        // Delete questions that were not processed (removed from the form)
-        List<QuizQuestion> existingQuestions = quizQuestionDAO.getByQuizId(quiz.getId());
-        for (QuizQuestion question : existingQuestions) {
-            if (!processedQuestionIds.contains(question.getId())) {
-                // Delete all answers for this question first
-                List<QuizAnswer> answers = quizAnswerDAO.getByQuestionId(question.getId());
-                for (QuizAnswer answer : answers) {
-                    boolean answerDeleted = quizAnswerDAO.delete(answer.getId());
-                    if (!answerDeleted) {
-                        System.out.println("Warning: Failed to delete answer " + answer.getId());
-                    }
-                }
-                
-                // Then delete the question
-                boolean questionDeleted = quizQuestionDAO.delete(question.getId());
-                if (!questionDeleted) {
-                    System.out.println("Warning: Failed to delete question " + question.getId());
-                }
-            }
+
+            // Redirect back to course content
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
+        } catch (Exception e) {
+            request.getSession().setAttribute("toastMessage", "Failed to update quiz information: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
+            return;
         }
     }
 
@@ -952,10 +950,6 @@ public class ManageCourseController extends HttpServlet {
                 // Create new quiz object
                 LessonQuiz quiz = new LessonQuiz();
                 quiz.setLessonId(lessonId);
-                quiz.setPassPercentage(passingScore);
-                quiz.setTimeLimitMinutes(durationMinutes);
-                quiz.setAttemptsAllowed(attemptsAllowed);
-                
                 // Insert quiz into database
                 Integer quizId = lessonQuizDAO.insert(quiz);
                 
