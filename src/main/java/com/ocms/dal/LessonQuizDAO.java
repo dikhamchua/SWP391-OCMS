@@ -132,6 +132,7 @@ public class LessonQuizDAO extends DBContext {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, quiz.getLessonId());
+            statement.setInt(2, quiz.getId());
             
             int affectedRows = statement.executeUpdate();
             return affectedRows > 0;
