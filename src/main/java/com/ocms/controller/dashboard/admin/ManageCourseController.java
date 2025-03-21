@@ -141,9 +141,9 @@ public class ManageCourseController extends HttpServlet {
             Lesson lesson = lessonDAO.getById(lessonId);
             
             if (lesson == null) {
-                // If lesson not found, show error
-                request.setAttribute("errorMessage", "Lesson not found");
-                request.getRequestDispatcher("/view/error.jsp").forward(request, response);
+                request.getSession().setAttribute("toastMessage", "Lesson not found");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-course");
                 return;
             }
             
@@ -300,8 +300,9 @@ public class ManageCourseController extends HttpServlet {
             Lesson lesson = lessonDAO.getById(lessonId);
             
             if (lesson == null) {
-                request.setAttribute("errorMessage", "Lesson not found");
-                request.getRequestDispatcher("/view/error.jsp").forward(request, response);
+                request.getSession().setAttribute("toastMessage", "Lesson not found");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-course");
                 return;
             }
             
@@ -325,18 +326,17 @@ public class ManageCourseController extends HttpServlet {
             
             // Handle type-specific data
             String type = lesson.getType();
-            
-            if (GlobalConfig.LESSON_TYPE_VIDEO.equals(type)) {
-                // Handle video update
-                updateVideoData(request, lessonId);
-            } else if (GlobalConfig.LESSON_TYPE_QUIZ.equals(type)) {
-                // Handle quiz update
-                updateQuizData(request, lessonId);
+
+            switch (type) {
+                case GlobalConfig.LESSON_TYPE_VIDEO:
+                    updateVideoData(request, response, lessonId, sectionId);
+                    break;
+                case GlobalConfig.LESSON_TYPE_QUIZ:
+                    updateQuizData(request, lessonId);
+                    break;
+                default:
+                    break;
             }
-            
-            // Add success message
-            request.getSession().setAttribute("toastMessage", "Lesson updated successfully");
-            request.getSession().setAttribute("toastType", "success");
             
             // Redirect back to course content
             Section section = sectionDAO.getById(sectionId);
@@ -358,12 +358,15 @@ public class ManageCourseController extends HttpServlet {
      * @param lessonId The lesson ID
      * @throws Exception If an error occurs
      */
-    private void updateVideoData(HttpServletRequest request, Integer lessonId) throws Exception {
+    private void updateVideoData(HttpServletRequest request, HttpServletResponse response, Integer lessonId, Integer sectionId) throws IOException {
         // Get video information
         LessonVideo lessonVideo = lessonVideoDAO.getByLessonId(lessonId);
         
         if (lessonVideo == null) {
-            throw new Exception("Video not found for this lesson");
+            request.getSession().setAttribute("toastMessage", "Video not found for this lesson");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
+            return;
         }
         
         // Check if there's a new file upload
@@ -423,12 +426,26 @@ public class ManageCourseController extends HttpServlet {
             }
         }
         
-        // Update video in database
-        boolean videoUpdated = lessonVideoDAO.update(lessonVideo);
-        
+        try {
+            // Update video in database
+            boolean videoUpdated = lessonVideoDAO.update(lessonVideo);
+            
         if (!videoUpdated) {
-            throw new Exception("Failed to update video information");
+            request.getSession().setAttribute("toastMessage", "Failed to update video information");
+            request.getSession().setAttribute("toastType", "error");
+        }else {
+            // Add success message
+            request.getSession().setAttribute("toastMessage", "Lesson updated successfully");
+            request.getSession().setAttribute("toastType", "success");
         }
+        
+        // Redirect back to course content
+        response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
+        } catch (Exception e) {
+            request.getSession().setAttribute("toastMessage", "Failed to update video information: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+        }
+
     }
 
     /**

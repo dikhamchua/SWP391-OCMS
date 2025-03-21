@@ -135,7 +135,7 @@ public class LessonVideoDAO extends DBContext {
      * @param lessonVideo The lesson video with updated values
      * @return true if update was successful, false otherwise
      */
-    public boolean update(LessonVideo lessonVideo) {
+    public boolean update(LessonVideo lessonVideo) throws Exception {
         String sql = "UPDATE lesson_video SET video_url = ?, video_provider = ?, " +
                 "video_duration = ? WHERE lesson_id = ?";
         
@@ -151,7 +151,7 @@ public class LessonVideoDAO extends DBContext {
             return affectedRows > 0;
         } catch (SQLException ex) {
             System.out.println("Error updating lesson video: " + ex.getMessage());
-            return false;
+            throw new Exception("Error updating lesson video: " + ex.getMessage());
         } finally {
             closeResources();
         }

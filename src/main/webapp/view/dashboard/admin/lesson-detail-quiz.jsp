@@ -329,12 +329,15 @@
             }
         });
         
-        // Question counter - initialize with the number of existing questions
-        var questionCounter = parseInt("${questions.size()}");
-        
+        <%-- Khởi tạo biến đếm câu hỏi --%>
+        <c:set var="initialQuestionCount" value="${not empty questions ? questions.size() : 0}" />
+        var questionCounter = <%= pageContext.getAttribute("initialQuestionCount") %>;
+        var existingQuestions = <%= pageContext.getAttribute("initialQuestionCount") %>;
+
         // Function to add a new question
         function addQuestion() {
             questionCounter++;
+            var tempId = 'new_' + Date.now() + '_' + questionCounter;
             
             var questionHtml = 
                 '<div class="question-container" data-question-id="' + questionCounter + '">' +
@@ -345,7 +348,7 @@
                     '<div class="form-group">' +
                         '<label class="form-label">Nội dung câu hỏi</label>' +
                         '<input type="text" class="form-control" name="question_text_' + questionCounter + '" required>' +
-                        '<input type="hidden" name="question_id_' + questionCounter + '" value="0">' + // 0 indicates a new question
+                        '<input type="hidden" name="question_id_' + questionCounter + '" value="0">' +
                     '</div>' +
                     '<div class="form-group">' +
                         '<label class="form-label">Các đáp án</label>' +
@@ -355,7 +358,7 @@
                                 return '<div class="answer-option">' +
                                     '<input type="radio" name="correct_answer_' + questionCounter + '" value="' + answerNum + '" ' + (answerNum === 1 ? 'checked' : '') + '>' +
                                     '<input type="text" class="form-control" name="answer_text_' + questionCounter + '_' + answerNum + '" placeholder="Đáp án ' + answerNum + '" required>' +
-                                    '<input type="hidden" name="answer_id_' + questionCounter + '_' + answerNum + '" value="0">' + // 0 indicates a new answer
+                                    '<input type="hidden" name="answer_id_' + questionCounter + '_' + answerNum + '" value="0">' +
                                 '</div>';
                             }).join('') +
                         '</div>' +
@@ -393,6 +396,8 @@
                 // Update input names
                 $question.find('[name^="question_text_"]').attr('name', 'question_text_' + newIndex);
                 $question.find('[name^="question_id_"]').attr('name', 'question_id_' + newIndex);
+                
+                // Update radio button names
                 $question.find('[name^="correct_answer_"]').attr('name', 'correct_answer_' + newIndex);
                 
                 $question.find('[name^="answer_text_"]').each(function() {
