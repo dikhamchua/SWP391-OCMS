@@ -181,4 +181,25 @@ public class SectionDAO extends DBContext {
         
         return 0;
     }
+    
+    public int getLastOrderNumber(Integer courseId) {
+        String sql = "SELECT MAX(order_number) FROM section WHERE course_id = ?";
+        
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, courseId);
+            resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error getting last order number: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        
+        return 0; // Return 0 if no sections exist or if there's an error
+    }
 } 
