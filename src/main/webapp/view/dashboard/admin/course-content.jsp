@@ -163,7 +163,7 @@
                                 
                                 <!-- Add Section Button -->
                                 <div class="add-section-btn">
-                                    <a href="${pageContext.request.contextPath}/manage-section?action=add&courseId=${course.id}" class="btn btn-primary">
+                                    <a href="${pageContext.request.contextPath}/add-section?courseId=${course.id}" class="btn btn-primary">
                                         <i class="fa fa-plus"></i> Thêm phần mới
                                     </a>
                                 </div>
