@@ -117,6 +117,11 @@
         .add-section-btn {
             margin-bottom: 20px;
         }
+        
+        .highlight-move {
+            transition: all 0.3s ease;
+            background-color: #d1f7d6 !important;
+        }
     </style>
 </head>
 
@@ -194,40 +199,48 @@
                                                     </div>
                                                 </div>
                                                 <div x-show="open" x-transition>
-                                                    <c:forEach var="lesson" items="${lessonsBySectionId[section.id]}">
-                                                        <div class="course-content-item">
-                                                            <div>
-                                                                <p class="course-content-title">
-                                                                    ${lesson.title}
-                                                                    <c:choose>
-                                                                        <c:when test="${lesson.type == 'video'}">
-                                                                            <span class="lesson-type-badge lesson-type-video">Video</span>
-                                                                        </c:when>
-                                                                        <c:when test="${lesson.type == 'document'}">
-                                                                            <span class="lesson-type-badge lesson-type-document">Document</span>
-                                                                        </c:when>
-                                                                        <c:when test="${lesson.type == 'quiz'}">
-                                                                            <span class="lesson-type-badge lesson-type-quiz">Quiz</span>
-                                                                        </c:when>
-                                                                        <c:when test="${lesson.type == 'file'}">
-                                                                            <span class="lesson-type-badge lesson-type-file">File</span>
-                                                                        </c:when>
-                                                                        <c:when test="${lesson.type == 'text'}">
-                                                                            <span class="lesson-type-badge lesson-type-text">Text</span>
-                                                                        </c:when>
-                                                                    </c:choose>
-                                                                </p>
+                                                    <div class="lessons-container">
+                                                        <c:forEach var="lesson" items="${lessonsBySectionId[section.id]}">
+                                                            <div class="course-content-item">
+                                                                <div>
+                                                                    <p class="course-content-title mb-0">
+                                                                        ${lesson.title}
+                                                                        <c:choose>
+                                                                            <c:when test="${lesson.type == 'video'}">
+                                                                                <span class="lesson-type-badge lesson-type-video">Video</span>
+                                                                            </c:when>
+                                                                            <c:when test="${lesson.type == 'document'}">
+                                                                                <span class="lesson-type-badge lesson-type-document">Document</span>
+                                                                            </c:when>
+                                                                            <c:when test="${lesson.type == 'quiz'}">
+                                                                                <span class="lesson-type-badge lesson-type-quiz">Quiz</span>
+                                                                            </c:when>
+                                                                            <c:when test="${lesson.type == 'file'}">
+                                                                                <span class="lesson-type-badge lesson-type-file">File</span>
+                                                                            </c:when>
+                                                                            <c:when test="${lesson.type == 'text'}">
+                                                                                <span class="lesson-type-badge lesson-type-text">Text</span>
+                                                                            </c:when>
+                                                                        </c:choose>
+                                                                    </p>
+                                                                </div>
+                                                                <div>
+                                                                    <button class="btn btn-sm btn-outline-primary move-up me-1" data-lesson-id="${lesson.id}" data-section-id="${section.id}">
+                                                                        <i class="fa fa-arrow-up"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-sm btn-outline-primary move-down me-2" data-lesson-id="${lesson.id}" data-section-id="${section.id}">
+                                                                        <i class="fa fa-arrow-down"></i>
+                                                                    </button>
+                                                                    <a href="${pageContext.request.contextPath}/lesson-edit?action=edit&id=${lesson.id}" class="btn btn-sm btn-outline-secondary me-2">
+                                                                        <i class="fa fa-edit"></i>
+                                                                    </a>
+                                                                    <a href="${pageContext.request.contextPath}/lesson?action=view&id=${lesson.id}" class="btn btn-sm btn-outline-primary">
+                                                                        <i class="fa fa-eye"></i>
+                                                                    </a>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <a href="${pageContext.request.contextPath}/lesson-edit?action=edit&id=${lesson.id}" class="btn btn-sm btn-outline-secondary me-2">
-                                                                    <i class="fa fa-edit"></i>
-                                                                </a>
-                                                                <a href="${pageContext.request.contextPath}/lesson?action=view&id=${lesson.id}" class="btn btn-sm btn-outline-primary">
-                                                                    <i class="fa fa-eye"></i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </c:forEach>
+                                                        </c:forEach>
+                                                    </div>
                                                     
                                                     <!-- Add Lesson Button -->
                                                     <div class="text-center mt-3">
@@ -290,6 +303,54 @@
                             console.error('Error:', error);
                         });
                     }
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.move-up').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    changeLessonOrder(btn.dataset.lessonId, btn.dataset.sectionId, 'up', btn.closest('.course-content-item'));
+                });
+            });
+            document.querySelectorAll('.move-down').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    changeLessonOrder(btn.dataset.lessonId, btn.dataset.sectionId, 'down', btn.closest('.course-content-item'));
+                });
+            });
+
+            function changeLessonOrder(lessonId, sectionId, direction, element) {
+                const currentItem = element;
+                const parent = currentItem.parentElement;
+
+                fetch('${pageContext.request.contextPath}/change-lesson-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ lessonId: lessonId, sectionId: sectionId, direction: direction })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    iziToast.success({ title: 'OK', message: data.message, position: 'topRight' });
+
+                    // Add animation effect before moving element in DOM
+                    const sibling = direction === 'up' ? currentItem.previousElementSibling : currentItem.nextElementSibling;
+                    if (!sibling) return;
+
+                    currentItem.classList.add('highlight-move');
+                    sibling.classList.add('highlight-move');
+
+                    setTimeout(() => {
+                        if (direction === 'up') {
+                            parent.insertBefore(currentItem, sibling);
+                        } else {
+                            parent.insertBefore(sibling, currentItem);
+                        }
+                        currentItem.classList.remove('highlight-move');
+                        sibling.classList.remove('highlight-move');
+                    }, 250);
+                })
+                .catch(err => {
+                    iziToast.error({ title: 'Error', message: 'Lỗi thay đổi thứ tự bài học', position: 'topRight' });
                 });
             }
         });
