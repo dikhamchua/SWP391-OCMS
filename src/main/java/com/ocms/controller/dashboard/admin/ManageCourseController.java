@@ -232,8 +232,8 @@ public class ManageCourseController extends HttpServlet {
             LessonQuiz quiz = lessonQuizDAO.getByLessonId(lesson.getId());
             
             if (quiz == null) {
-                request.setAttribute("errorMessage", "Quiz not found for this lesson");
-                request.getRequestDispatcher("/view/error.jsp").forward(request, response);
+                request.setAttribute("toastMessage", "Quiz not found for this lesson");
+                request.setAttribute("toastType", "error");
                 return;
             }
             

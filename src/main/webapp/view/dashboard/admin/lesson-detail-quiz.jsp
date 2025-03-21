@@ -330,7 +330,7 @@
         });
         
         // Question counter - initialize with the number of existing questions
-        var questionCounter = ${questions.size()};
+        var questionCounter = parseInt("${questions.size()}");
         
         // Function to add a new question
         function addQuestion() {
