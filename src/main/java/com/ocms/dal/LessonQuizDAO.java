@@ -91,31 +91,13 @@ public class LessonQuizDAO extends DBContext {
      * @return The ID of the inserted quiz, or -1 if insertion failed
      */
     public int insert(LessonQuiz quiz) {
-        String sql = "INSERT INTO lesson_quiz (pass_percentage, time_limit_minutes, attempts_allowed, lesson_id) " +
-                "VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO lesson_quiz (lesson_id) " +
+                "VALUES (?)";
         
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, quiz.getPassPercentage());
-            
-            if (quiz.getTimeLimitMinutes() != null) {
-                statement.setInt(2, quiz.getTimeLimitMinutes());
-            } else {
-                statement.setNull(2, java.sql.Types.INTEGER);
-            }
-            
-            if (quiz.getAttemptsAllowed() != null) {
-                statement.setInt(3, quiz.getAttemptsAllowed());
-            } else {
-                statement.setNull(3, java.sql.Types.INTEGER);
-            }
-            
-            if (quiz.getLessonId() != null) {
-                statement.setInt(4, quiz.getLessonId());
-            } else {
-                statement.setNull(4, java.sql.Types.INTEGER);
-            }
+            statement.setInt(1, quiz.getLessonId());
             
             int affectedRows = statement.executeUpdate();
             
@@ -144,33 +126,12 @@ public class LessonQuizDAO extends DBContext {
      * @return true if update was successful, false otherwise
      */
     public boolean update(LessonQuiz quiz) {
-        String sql = "UPDATE lesson_quiz SET pass_percentage = ?, time_limit_minutes = ?, " +
-                "attempts_allowed = ?, lesson_id = ? WHERE id = ?";
+        String sql = "UPDATE lesson_quiz SET lesson_id = ? WHERE id = ?";
         
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, quiz.getPassPercentage());
-            
-            if (quiz.getTimeLimitMinutes() != null) {
-                statement.setInt(2, quiz.getTimeLimitMinutes());
-            } else {
-                statement.setNull(2, java.sql.Types.INTEGER);
-            }
-            
-            if (quiz.getAttemptsAllowed() != null) {
-                statement.setInt(3, quiz.getAttemptsAllowed());
-            } else {
-                statement.setNull(3, java.sql.Types.INTEGER);
-            }
-            
-            if (quiz.getLessonId() != null) {
-                statement.setInt(4, quiz.getLessonId());
-            } else {
-                statement.setNull(4, java.sql.Types.INTEGER);
-            }
-            
-            statement.setInt(5, quiz.getId());
+            statement.setInt(1, quiz.getLessonId());
             
             int affectedRows = statement.executeUpdate();
             return affectedRows > 0;
@@ -237,17 +198,6 @@ public class LessonQuizDAO extends DBContext {
     public LessonQuiz getFromResultSet(ResultSet rs) throws SQLException {
         LessonQuiz quiz = new LessonQuiz();
         quiz.setId(rs.getInt("id"));
-        quiz.setPassPercentage(rs.getInt("pass_percentage"));
-        
-        int timeLimitMinutes = rs.getInt("time_limit_minutes");
-        if (!rs.wasNull()) {
-            quiz.setTimeLimitMinutes(timeLimitMinutes);
-        }
-        
-        int attemptsAllowed = rs.getInt("attempts_allowed");
-        if (!rs.wasNull()) {
-            quiz.setAttemptsAllowed(attemptsAllowed);
-        }
         
         int lessonId = rs.getInt("lesson_id");
         if (!rs.wasNull()) {
@@ -269,7 +219,6 @@ public class LessonQuizDAO extends DBContext {
         List<LessonQuiz> allQuizzes = quizDAO.getAll();
         for (LessonQuiz quiz : allQuizzes) {
             System.out.println("ID: " + quiz.getId() + 
-                    ", Pass Percentage: " + quiz.getPassPercentage() + 
                     ", Lesson ID: " + quiz.getLessonId());
         }
         
@@ -277,11 +226,7 @@ public class LessonQuizDAO extends DBContext {
         System.out.println("\n=== Quiz with ID 1 ===");
         LessonQuiz quizById = quizDAO.getById(1);
         if (quizById != null) {
-            System.out.println("Pass Percentage: " + quizById.getPassPercentage());
-            System.out.println("Time Limit: " + 
-                    (quizById.getTimeLimitMinutes() != null ? quizById.getTimeLimitMinutes() + " minutes" : "No limit"));
-            System.out.println("Attempts Allowed: " + 
-                    (quizById.getAttemptsAllowed() != null ? quizById.getAttemptsAllowed() : "Unlimited"));
+            System.out.println("Lesson ID: " + quizById.getLessonId());
         } else {
             System.out.println("Quiz with ID 1 not found");
         }
@@ -291,7 +236,7 @@ public class LessonQuizDAO extends DBContext {
         LessonQuiz quizByLessonId = quizDAO.getByLessonId(1);
         if (quizByLessonId != null) {
             System.out.println("Quiz ID: " + quizByLessonId.getId());
-            System.out.println("Pass Percentage: " + quizByLessonId.getPassPercentage());
+            System.out.println("Lesson ID: " + quizByLessonId.getLessonId());
         } else {
             System.out.println("No quiz found for lesson ID 1");
         }
