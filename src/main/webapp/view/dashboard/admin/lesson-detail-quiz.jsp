@@ -194,35 +194,13 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="form-label">Thời gian làm bài (phút)</label>
-                                                    <div class="icon-input">
-                                                        <i class="fa fa-clock"></i>
-                                                        <input type="number" class="form-control" name="durationMinutes" value="${quiz.timeLimitMinutes}" min="1">
-                                                    </div>
-                                                    <small class="form-text">Thời gian tối đa để hoàn thành bài kiểm tra</small>
                                                 </div>
                                             </div>
                                             
                                             <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="form-label">Điểm đạt yêu cầu (%)</label>
-                                                    <div class="icon-input">
-                                                        <i class="fa fa-percent"></i>
-                                                        <input type="number" class="form-control" name="passingScore" value="${quiz.passPercentage}" min="1" max="100">
-                                                    </div>
-                                                    <small class="form-text">Phần trăm điểm tối thiểu để đạt</small>
-                                                </div>
                                             </div>
                                             
                                             <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="form-label">Số lần làm tối đa</label>
-                                                    <div class="icon-input">
-                                                        <i class="fa fa-redo"></i>
-                                                        <input type="number" class="form-control" name="attemptsAllowed" value="${quiz.attemptsAllowed}" min="1">
-                                                    </div>
-                                                    <small class="form-text">Số lần được phép làm lại bài kiểm tra</small>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
