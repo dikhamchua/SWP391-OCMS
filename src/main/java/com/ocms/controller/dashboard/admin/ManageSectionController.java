@@ -30,6 +30,12 @@ public class ManageSectionController extends HttpServlet {
                 case "add":
                     doGetAddSection(request, response);
                     break;
+                case "edit":
+                    doGetEditSection(request, response);
+                    break;
+                default:
+                    // Handle default case
+                    break;
             }
         }
     }
@@ -100,23 +106,67 @@ public class ManageSectionController extends HttpServlet {
        request.getRequestDispatcher("/view/dashboard/admin/section/add-section.jsp").forward(request, response);
     }
 
+    private void doGetEditSection(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String sectionId = request.getParameter("id");
+        if (sectionId == null) {
+            request.getSession().setAttribute("toastMessage", "Section ID is required");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-course");
+            return;
+        }
+        
+        try {
+            int sectionIdInt = Integer.parseInt(sectionId);
+            Section section = sectionDAO.getById(sectionIdInt);
+            
+            if (section == null) {
+                request.getSession().setAttribute("toastMessage", "Section not found");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-course");
+                return;
+            }
+            
+            request.setAttribute("section", section);
+            request.getRequestDispatcher("/view/dashboard/admin/section/edit-section.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("toastMessage", "Invalid section ID");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-course");
+        }
+    }
+
     private void updateSection(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-        int id = Integer.parseInt(request.getParameter("id"));
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        String status = request.getParameter("status");
         int courseId = Integer.parseInt(request.getParameter("courseId"));
-        
-        Section section = Section.builder()
-            .id(id)
-            .title(name)
-            .description(description)
-            .courseId(courseId)
-            .status(status)
-            .build();
-        
-        sectionDAO.update(section);
-        response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
+            String status = request.getParameter("status");
+            
+            //find section by id
+            Section section = sectionDAO.getById(id);
+            if (section == null) {
+                request.getSession().setAttribute("toastMessage", "Section not found");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
+                return;
+            }
+            
+            section.setTitle(name);
+            section.setDescription(description);
+            section.setStatus(status);
+
+            //update section
+            sectionDAO.update(section);
+            request.getSession().setAttribute("toastMessage", "Section updated successfully");
+            request.getSession().setAttribute("toastType", "success");
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("toastMessage", "Failed to update section: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
+        }
     }
 
 }
