@@ -178,9 +178,6 @@
                                         <a href="${pageContext.request.contextPath}/lesson-edit?action=add&courseId=${course.id}&type=quiz" class="btn btn-info me-2">
                                             <i class="fa fa-question-circle"></i> Thêm bài kiểm tra
                                         </a>
-                                        <a href="${pageContext.request.contextPath}/lesson-edit?action=add&courseId=${course.id}&type=document" class="btn btn-success me-2">
-                                            <i class="fa fa-file-alt"></i> Thêm tài liệu
-                                        </a>
                                     </div>
                                 </div>
                                 
