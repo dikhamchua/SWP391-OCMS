@@ -163,7 +163,7 @@
                                 
                                 <!-- Add Section Button -->
                                 <div class="add-section-btn">
-                                    <a href="${pageContext.request.contextPath}/add-section?courseId=${course.id}" class="btn btn-primary">
+                                    <a href="${pageContext.request.contextPath}/manage-section?action=add&courseId=${course.id}" class="btn btn-primary">
                                         <i class="fa fa-plus"></i> Thêm phần mới
                                     </a>
                                 </div>
@@ -240,13 +240,6 @@
                                                                 </div>
                                                             </div>
                                                         </c:forEach>
-                                                    </div>
-                                                    
-                                                    <!-- Add Lesson Button -->
-                                                    <div class="text-center mt-3">
-                                                        <a href="${pageContext.request.contextPath}/manage-lesson?action=add&sectionId=${section.id}" class="btn btn-sm btn-outline-primary">
-                                                            <i class="fa fa-plus"></i> Thêm bài học
-                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
