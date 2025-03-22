@@ -133,8 +133,11 @@
                 <jsp:include page="../../../common/dashboard/avatar.jsp"></jsp:include>
 
                 <div class="dashboard__inner-wrap">
+
                     <div class="row">
-                        <div class="col-xl-12">
+                        <jsp:include page="../../../common/dashboard/sideBar.jsp"></jsp:include>
+
+                        <div class="col-xl-9">
                             <div class="dashboard__content-area">
                                 <div class="dashboard__content-title d-flex justify-content-between align-items-center">
                                     <h4 class="title">Quản lý bài kiểm tra</h4>
