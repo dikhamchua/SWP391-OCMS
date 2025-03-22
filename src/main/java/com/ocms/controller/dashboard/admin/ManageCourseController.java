@@ -18,7 +18,7 @@ import jakarta.servlet.http.Part;
 import jakarta.servlet.annotation.MultipartConfig;
 import java.util.ArrayList;
 
-@WebServlet({"/manage-course", "/lesson-edit", "/add-section"})
+@WebServlet({"/manage-course", "/lesson-edit"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 5, // 5MB
                  maxFileSize = 1024 * 1024 * 1024,      // 50MB
                  maxRequestSize = 1024 * 1024 * 1024)  // 100MB
@@ -59,9 +59,6 @@ public class ManageCourseController extends HttpServlet {
                 } else {
                     doGetLessonEdit(request, response);
                 }
-                break;
-            case "/add-section":
-                doGetManageSection(request, response);
                 break;
         }
     }
@@ -206,28 +203,6 @@ public class ManageCourseController extends HttpServlet {
             e.printStackTrace();
 //            request.getRequestDispatcher("/view/error.jsp").forward(request, response);
         }
-    }
-
-    /**
-     * Handle GET request for adding a section
-     * @param request The HTTP request
-     * @param response The HTTP response
-     * @throws ServletException If a servlet-specific error occurs
-     * @throws IOException If an I/O error occurs
-     */
-    private void doGetManageSection(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //get course id
-        String courseId = request.getParameter("courseId");
-        if (courseId == null) {
-            request.getSession().setAttribute("toastMessage", "Course ID is required");
-            request.getSession().setAttribute("toastType", "error");
-            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
-            return;
-        }
-        int courseIdInt = Integer.parseInt(courseId);
-        request.setAttribute("courseId", courseIdInt);
-        
-        request.getRequestDispatcher("/view/dashboard/admin/section/add-section.jsp").forward(request, response);
     }
 
     /**
