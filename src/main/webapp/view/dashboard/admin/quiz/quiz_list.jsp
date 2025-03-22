@@ -74,6 +74,24 @@
             border-radius: 8px;
             margin-bottom: 20px;
         }
+        
+        .settings-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .modal-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .column-option {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 
@@ -103,6 +121,9 @@
         <c:if test="${not empty param.pageSize}">
             <c:param name="pageSize" value="${param.pageSize}" />
         </c:if>
+        <c:forEach items="${paramValues.optionChoice}" var="option">
+            <c:param name="optionChoice" value="${option}" />
+        </c:forEach>
     </c:url>
 
     <!-- main-area -->
@@ -113,64 +134,63 @@
 
                 <div class="dashboard__inner-wrap">
                     <div class="row">
-                        <jsp:include page="../../../common/dashboard/sideBar.jsp"></jsp:include>
-                        <div class="col-lg-9">
-                            <div class="dashboard__content-wrap">
-                                <!-- Title and Buttons Row -->
-                                <div class="row mb-4">
-                                    <div class="col">
-                                        <div class="dashboard__content-title">
-                                            <h4 class="title">Quiz Management</h4>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <a href="${pageContext.request.contextPath}/lesson-edit?action=add&type=quiz" class="btn btn-primary">
-                                            <i class="fa fa-plus"></i> Add New Quiz
-                                        </a>
-                                    </div>
+                        <div class="col-xl-12">
+                            <div class="dashboard__content-area">
+                                <div class="dashboard__content-title d-flex justify-content-between align-items-center">
+                                    <h4 class="title">Quản lý bài kiểm tra</h4>
+                                    <button type="button" class="settings-btn" data-toggle="modal" data-target="#settingModal">
+                                        <i class="fa fa-cog"></i> Cài đặt hiển thị
+                                    </button>
                                 </div>
 
                                 <!-- Filter Form -->
-                                <form action="${pageContext.request.contextPath}/manage-quiz" method="get" class="filter-form">
-                                    <input type="hidden" name="action" value="list">
-                                    <div class="row align-items-end">
-                                        <div class="col-md-4 mb-3 mb-md-0">
-                                            <label for="courseId" class="form-label">Course</label>
-                                            <select class="form-select" id="courseId" name="courseId" onchange="this.form.submit()">
-                                                <option value="">All Courses</option>
-                                                <c:forEach items="${courseList}" var="course">
-                                                    <option value="${course.id}" ${param.courseId == course.id ? 'selected' : ''}>
-                                                        ${course.name}
-                                                    </option>
-                                                </c:forEach>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4 mb-3 mb-md-0">
-                                            <label for="sectionId" class="form-label">Section</label>
-                                            <select class="form-select" id="sectionId" name="sectionId" ${empty param.courseId ? 'disabled' : ''}>
-                                                <option value="">All Sections</option>
-                                                <c:if test="${not empty sectionList}">
-                                                    <c:forEach items="${sectionList}" var="section">
-                                                        <option value="${section.id}" ${param.sectionId == section.id ? 'selected' : ''}>
-                                                            ${section.title}
-                                                        </option>
-                                                    </c:forEach>
-                                                </c:if>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="search" class="form-label">Search</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="search" placeholder="Search quizzes..." name="search" value="${param.search}">
-                                                <button class="btn btn-primary" type="submit">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
+                                <div class="filter-form">
+                                    <form action="${pageContext.request.contextPath}/manage-quiz" method="get">
+                                        <input type="hidden" name="action" value="list">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="courseId">Khóa học</label>
+                                                    <select class="form-control" id="courseId" name="courseId">
+                                                        <option value="">Tất cả khóa học</option>
+                                                        <c:forEach items="${courseList}" var="course">
+                                                            <option value="${course.id}" ${param.courseId == course.id ? 'selected' : ''}>
+                                                                ${course.name}
+                                                            </option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="sectionId">Phần học</label>
+                                                    <select class="form-control" id="sectionId" name="sectionId" ${empty param.courseId ? 'disabled' : ''}>
+                                                        <option value="">Tất cả phần học</option>
+                                                        <c:if test="${not empty sectionList}">
+                                                            <c:forEach items="${sectionList}" var="section">
+                                                                <option value="${section.id}" ${param.sectionId == section.id ? 'selected' : ''}>
+                                                                    ${section.title}
+                                                                </option>
+                                                            </c:forEach>
+                                                        </c:if>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="search">Tìm kiếm</label>
+                                                    <input type="text" class="form-control" id="search" name="search" 
+                                                           placeholder="Tìm theo tiêu đề bài kiểm tra" value="${param.search}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 d-flex align-items-end">
+                                                <button type="submit" class="btn btn-primary w-100">Lọc</button>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
 
-                                <!-- Results Count and Page Size -->
+                                <!-- Quiz List -->
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <div>
                                         Showing <span class="fw-bold">${startRecord}</span> to 
@@ -178,7 +198,7 @@
                                         <span class="fw-bold">${totalQuizzes}</span> quizzes
                                     </div>
                                     <div>
-                                        <select class="form-select form-select-sm" onchange="changePageSize(this.value)">
+                                        <select class="form-control" onchange="changePageSize(this.value)">
                                             <option value="10" ${pageSize == 10 ? 'selected' : ''}>10 per page</option>
                                             <option value="25" ${pageSize == 25 ? 'selected' : ''}>25 per page</option>
                                             <option value="50" ${pageSize == 50 ? 'selected' : ''}>50 per page</option>
@@ -192,28 +212,52 @@
                                     <table class="table table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
-                                                <th>Quiz Title</th>
-                                                <th>Course</th>
-                                                <th>Section</th>
-                                                <th>Questions</th>
-                                                <th>Status</th>
+                                                <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'id'}">
+                                                    <th>ID</th>
+                                                </c:if>
+                                                <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'title'}">
+                                                    <th>Quiz Title</th>
+                                                </c:if>
+                                                <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'course'}">
+                                                    <th>Course</th>
+                                                </c:if>
+                                                <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'section'}">
+                                                    <th>Section</th>
+                                                </c:if>
+                                                <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'questions'}">
+                                                    <th>Questions</th>
+                                                </c:if>
+                                                <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'status'}">
+                                                    <th>Status</th>
+                                                </c:if>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <c:forEach items="${quizList}" var="quizInfo">
                                                 <tr>
-                                                    <td>${quizInfo.lesson.id}</td>
-                                                    <td>${quizInfo.lesson.title}</td>
-                                                    <td>${quizInfo.course.name}</td>
-                                                    <td>${quizInfo.section.title}</td>
-                                                    <td>${quizInfo.questionCount}</td>
-                                                    <td>
-                                                        <span class="quiz-status status-${quizInfo.lesson.status.toLowerCase()}">
-                                                            ${quizInfo.lesson.status}
-                                                        </span>
-                                                    </td>
+                                                    <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'id'}">
+                                                        <td>${quizInfo.lesson.id}</td>
+                                                    </c:if>
+                                                    <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'title'}">
+                                                        <td>${quizInfo.lesson.title}</td>
+                                                    </c:if>
+                                                    <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'course'}">
+                                                        <td>${quizInfo.course.name}</td>
+                                                    </c:if>
+                                                    <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'section'}">
+                                                        <td>${quizInfo.section.title}</td>
+                                                    </c:if>
+                                                    <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'questions'}">
+                                                        <td>${quizInfo.questionCount}</td>
+                                                    </c:if>
+                                                    <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'status'}">
+                                                        <td>
+                                                            <span class="quiz-status status-${quizInfo.lesson.status.toLowerCase()}">
+                                                                ${quizInfo.lesson.status}
+                                                            </span>
+                                                        </td>
+                                                    </c:if>
                                                     <td>
                                                         <div class="table-actions">
                                                             <a href="${pageContext.request.contextPath}/manage-quiz?action=view&id=${quizInfo.lesson.id}" class="action-view">
@@ -275,6 +319,102 @@
     </main>
     <!-- main-area-end -->
 
+    <!-- Settings Modal -->
+    <div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="settingModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="settingModalLabel">Cài đặt hiển thị</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="${pageContext.request.contextPath}/manage-quiz" method="get" id="settingsForm">
+                        <input type="hidden" name="action" value="list">
+                        <c:if test="${not empty param.courseId}">
+                            <input type="hidden" name="courseId" value="${param.courseId}">
+                        </c:if>
+                        <c:if test="${not empty param.sectionId}">
+                            <input type="hidden" name="sectionId" value="${param.sectionId}">
+                        </c:if>
+                        <c:if test="${not empty param.search}">
+                            <input type="hidden" name="search" value="${param.search}">
+                        </c:if>
+                        <c:if test="${not empty param.pageSize}">
+                            <input type="hidden" name="pageSize" value="${param.pageSize}">
+                        </c:if>
+                        <c:if test="${not empty param.page}">
+                            <input type="hidden" name="page" value="${param.page}">
+                        </c:if>
+                        
+                        <div class="form-group">
+                            <label>Chọn cột hiển thị:</label>
+                            <div class="column-option">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="optionChoice" value="id" id="idColumn"
+                                           <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'id'}">checked</c:if>>
+                                    <label class="form-check-label" for="idColumn">
+                                        ID
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column-option">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="optionChoice" value="title" id="titleColumn"
+                                           <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'title'}">checked</c:if>>
+                                    <label class="form-check-label" for="titleColumn">
+                                        Quiz Title
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column-option">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="optionChoice" value="course" id="courseColumn"
+                                           <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'course'}">checked</c:if>>
+                                    <label class="form-check-label" for="courseColumn">
+                                        Course
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column-option">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="optionChoice" value="section" id="sectionColumn"
+                                           <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'section'}">checked</c:if>>
+                                    <label class="form-check-label" for="sectionColumn">
+                                        Section
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column-option">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="optionChoice" value="questions" id="questionsColumn"
+                                           <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'questions'}">checked</c:if>>
+                                    <label class="form-check-label" for="questionsColumn">
+                                        Questions
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column-option">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="optionChoice" value="status" id="statusColumn"
+                                           <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'status'}">checked</c:if>>
+                                    <label class="form-check-label" for="statusColumn">
+                                        Status
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="document.getElementById('settingsForm').submit();">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- footer-area -->
     <jsp:include page="../../../common/home/footer-home.jsp"></jsp:include>
     <!-- footer-area-end -->
@@ -331,6 +471,16 @@
                     sectionDropdown.empty();
                     sectionDropdown.append('<option value="">All Sections</option>');
                 }
+            });
+            
+            // Xử lý đóng modal
+            $('.close, .btn-secondary[data-dismiss="modal"]').click(function() {
+                $('#settingModal').modal('hide');
+            });
+
+            // Xử lý mở modal
+            $('[data-toggle="modal"]').click(function() {
+                $('#settingModal').modal('show');
             });
             
             // Toast message display
