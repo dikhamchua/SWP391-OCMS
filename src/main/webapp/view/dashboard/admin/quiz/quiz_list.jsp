@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -215,52 +216,50 @@
                                     <table class="table table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'id'}">
-                                                    <th>ID</th>
-                                                </c:if>
-                                                <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'title'}">
-                                                    <th>Quiz Title</th>
-                                                </c:if>
-                                                <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'course'}">
-                                                    <th>Course</th>
-                                                </c:if>
-                                                <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'section'}">
-                                                    <th>Section</th>
-                                                </c:if>
-                                                <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'questions'}">
-                                                    <th>Questions</th>
-                                                </c:if>
-                                                <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'status'}">
-                                                    <th>Status</th>
-                                                </c:if>
+                                                <c:set var="showId" value="${empty selectedColumns}" />
+                                                <c:set var="showTitle" value="${empty selectedColumns}" />
+                                                <c:set var="showCourse" value="${empty selectedColumns}" />
+                                                <c:set var="showSection" value="${empty selectedColumns}" />
+                                                <c:set var="showQuestionCount" value="${empty selectedColumns}" />
+                                                <c:set var="showStatus" value="${empty selectedColumns}" />
+                                                <c:set var="showDuration" value="false" />
+                                                
+                                                <c:forEach items="${selectedColumns}" var="col">
+                                                    <c:if test="${col eq 'id'}"><c:set var="showId" value="true" /></c:if>
+                                                    <c:if test="${col eq 'title'}"><c:set var="showTitle" value="true" /></c:if>
+                                                    <c:if test="${col eq 'course'}"><c:set var="showCourse" value="true" /></c:if>
+                                                    <c:if test="${col eq 'section'}"><c:set var="showSection" value="true" /></c:if>
+                                                    <c:if test="${col eq 'questionCount'}"><c:set var="showQuestionCount" value="true" /></c:if>
+                                                    <c:if test="${col eq 'status'}"><c:set var="showStatus" value="true" /></c:if>
+                                                    <c:if test="${col eq 'duration'}"><c:set var="showDuration" value="true" /></c:if>
+                                                </c:forEach>
+                                                
+                                                <c:if test="${showId}"><th>ID</th></c:if>
+                                                <c:if test="${showTitle}"><th>Quiz Title</th></c:if>
+                                                <c:if test="${showCourse}"><th>Course</th></c:if>
+                                                <c:if test="${showSection}"><th>Section</th></c:if>
+                                                <c:if test="${showQuestionCount}"><th>Questions</th></c:if>
+                                                <c:if test="${showStatus}"><th>Status</th></c:if>
+                                                <c:if test="${showDuration}"><th>Duration (minutes)</th></c:if>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach items="${quizList}" var="quizInfo">
+                                            <c:forEach items="${quizList}" var="quizInfo" varStatus="loop">
                                                 <tr>
-                                                    <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'id'}">
-                                                        <td>${quizInfo.lesson.id}</td>
-                                                    </c:if>
-                                                    <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'title'}">
-                                                        <td>${quizInfo.lesson.title}</td>
-                                                    </c:if>
-                                                    <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'course'}">
-                                                        <td>${quizInfo.course.name}</td>
-                                                    </c:if>
-                                                    <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'section'}">
-                                                        <td>${quizInfo.section.title}</td>
-                                                    </c:if>
-                                                    <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'questions'}">
-                                                        <td>${quizInfo.questionCount}</td>
-                                                    </c:if>
-                                                    <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'status'}">
+                                                    <c:if test="${showId}"><td>${quizInfo.lesson.id}</td></c:if>
+                                                    <c:if test="${showTitle}"><td>${quizInfo.lesson.title}</td></c:if>
+                                                    <c:if test="${showCourse}"><td>${quizInfo.course.name}</td></c:if>
+                                                    <c:if test="${showSection}"><td>${quizInfo.section.title}</td></c:if>
+                                                    <c:if test="${showQuestionCount}"><td>${quizInfo.questionCount}</td></c:if>
+                                                    <c:if test="${showStatus}">
                                                         <td>
                                                             <span class="quiz-status status-${quizInfo.lesson.status.toLowerCase()}">
                                                                 ${quizInfo.lesson.status}
                                                             </span>
                                                         </td>
                                                     </c:if>
+                                                    <c:if test="${showDuration}"><td>${quizInfo.lesson.duration}</td></c:if>
                                                     <td>
                                                         <div class="table-actions">
                                                             <a href="${pageContext.request.contextPath}/manage-quiz?action=view&id=${quizInfo.lesson.id}" class="action-view">
@@ -355,8 +354,11 @@
                             <label>Chọn cột hiển thị:</label>
                             <div class="column-option">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="optionChoice" value="id" id="idColumn"
-                                           <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'id'}">checked</c:if>>
+                                    <input class="form-check-input" type="checkbox" name="columns" value="id" id="idColumn"
+                                           <c:forEach items="${selectedColumns}" var="col">
+                                               <c:if test="${col eq 'id'}">checked</c:if>
+                                           </c:forEach>
+                                           <c:if test="${empty selectedColumns}">checked</c:if>>
                                     <label class="form-check-label" for="idColumn">
                                         ID
                                     </label>
@@ -364,8 +366,11 @@
                             </div>
                             <div class="column-option">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="optionChoice" value="title" id="titleColumn"
-                                           <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'title'}">checked</c:if>>
+                                    <input class="form-check-input" type="checkbox" name="columns" value="title" id="titleColumn"
+                                           <c:forEach items="${selectedColumns}" var="col">
+                                               <c:if test="${col eq 'title'}">checked</c:if>
+                                           </c:forEach>
+                                           <c:if test="${empty selectedColumns}">checked</c:if>>
                                     <label class="form-check-label" for="titleColumn">
                                         Quiz Title
                                     </label>
@@ -373,8 +378,11 @@
                             </div>
                             <div class="column-option">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="optionChoice" value="course" id="courseColumn"
-                                           <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'course'}">checked</c:if>>
+                                    <input class="form-check-input" type="checkbox" name="columns" value="course" id="courseColumn"
+                                           <c:forEach items="${selectedColumns}" var="col">
+                                               <c:if test="${col eq 'course'}">checked</c:if>
+                                           </c:forEach>
+                                           <c:if test="${empty selectedColumns}">checked</c:if>>
                                     <label class="form-check-label" for="courseColumn">
                                         Course
                                     </label>
@@ -382,8 +390,11 @@
                             </div>
                             <div class="column-option">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="optionChoice" value="section" id="sectionColumn"
-                                           <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'section'}">checked</c:if>>
+                                    <input class="form-check-input" type="checkbox" name="columns" value="section" id="sectionColumn"
+                                           <c:forEach items="${selectedColumns}" var="col">
+                                               <c:if test="${col eq 'section'}">checked</c:if>
+                                           </c:forEach>
+                                           <c:if test="${empty selectedColumns}">checked</c:if>>
                                     <label class="form-check-label" for="sectionColumn">
                                         Section
                                     </label>
@@ -391,8 +402,11 @@
                             </div>
                             <div class="column-option">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="optionChoice" value="questions" id="questionsColumn"
-                                           <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'questions'}">checked</c:if>>
+                                    <input class="form-check-input" type="checkbox" name="columns" value="questionCount" id="questionsColumn"
+                                           <c:forEach items="${selectedColumns}" var="col">
+                                               <c:if test="${col eq 'questionCount'}">checked</c:if>
+                                           </c:forEach>
+                                           <c:if test="${empty selectedColumns}">checked</c:if>>
                                     <label class="form-check-label" for="questionsColumn">
                                         Questions
                                     </label>
@@ -400,10 +414,24 @@
                             </div>
                             <div class="column-option">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="optionChoice" value="status" id="statusColumn"
-                                           <c:if test="${empty paramValues.optionChoice || paramValues.optionChoice.length == 0 || paramValues.optionChoice[0] == 'status'}">checked</c:if>>
+                                    <input class="form-check-input" type="checkbox" name="columns" value="status" id="statusColumn"
+                                           <c:forEach items="${selectedColumns}" var="col">
+                                               <c:if test="${col eq 'status'}">checked</c:if>
+                                           </c:forEach>
+                                           <c:if test="${empty selectedColumns}">checked</c:if>>
                                     <label class="form-check-label" for="statusColumn">
                                         Status
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column-option">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="columns" value="duration" id="durationColumn"
+                                           <c:forEach items="${selectedColumns}" var="col">
+                                               <c:if test="${col eq 'duration'}">checked</c:if>
+                                           </c:forEach>>
+                                    <label class="form-check-label" for="durationColumn">
+                                        Duration
                                     </label>
                                 </div>
                             </div>

@@ -100,6 +100,15 @@ public class ManageQuizController extends HttpServlet {
         String sectionId = request.getParameter("sectionId");
         String search = request.getParameter("search");
         
+        // Handle column selection
+        String[] selectedColumns = request.getParameterValues("columns");
+        if (selectedColumns != null) {
+            request.getSession().setAttribute("selectedColumns", selectedColumns);
+        } else if (request.getSession().getAttribute("selectedColumns") != null) {
+            selectedColumns = (String[]) request.getSession().getAttribute("selectedColumns");
+        }
+        request.setAttribute("selectedColumns", selectedColumns);
+        
         // Get pagination parameters
         int page = 1;
         int pageSize = 10;
