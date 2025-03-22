@@ -14,6 +14,9 @@ import com.ocms.entity.*;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 @WebServlet(name = "LessonController", urlPatterns = {"/lesson"})
 public class LessonController extends HttpServlet {
@@ -23,6 +26,8 @@ public class LessonController extends HttpServlet {
     private LessonQuizDAO lessonQuizDAO;
     private QuestionDAO questionDAO;
     private QuizAnswerDAO quizAnswerDAO;
+    private CourseDAO courseDAO;
+    private SectionDAO sectionDAO;
     
     @Override
     public void init() throws ServletException {
@@ -32,6 +37,8 @@ public class LessonController extends HttpServlet {
         lessonQuizDAO = new LessonQuizDAO();
         questionDAO = new QuestionDAO();
         quizAnswerDAO = new QuizAnswerDAO();
+        courseDAO = new CourseDAO();
+        sectionDAO = new SectionDAO();
     }
     
     @Override
@@ -107,6 +114,62 @@ public class LessonController extends HttpServlet {
                 return;
             }
             
+            // Get section information
+            Section section = sectionDAO.getById(lesson.getSectionId());
+            if (section != null) {
+                request.setAttribute("section", section);
+                
+                // Get course information
+                Course course = courseDAO.findById(section.getCourseId());
+                request.setAttribute("course", course);
+                
+                // Get all sections for this course
+                List<Section> courseSections = sectionDAO.getByCourseId(section.getCourseId());
+                request.setAttribute("courseSections", courseSections);
+                
+                // Get all lessons for each section
+                Map<Integer, List<Lesson>> sectionLessons = new HashMap<>();
+                for (Section sec : courseSections) {
+                    List<Lesson> lessons = lessonDAO.getBySectionId(sec.getId());
+                    sectionLessons.put(sec.getId(), lessons);
+                }
+                request.setAttribute("sectionLessons", sectionLessons);
+                
+                // Find previous and next lessons for navigation
+                Lesson prevLesson = null;
+                Lesson nextLesson = null;
+                
+                // Get all lessons in order
+                List<Lesson> allLessons = new ArrayList<>();
+                for (Section sec : courseSections) {
+                    allLessons.addAll(lessonDAO.getBySectionId(sec.getId()));
+                }
+                
+                // Sort lessons by order number
+                Collections.sort(allLessons, Comparator.comparing(Lesson::getOrderNumber));
+                
+                // Find current lesson index
+                int currentIndex = -1;
+                for (int i = 0; i < allLessons.size(); i++) {
+                    if (allLessons.get(i).getId().equals(lesson.getId())) {
+                        currentIndex = i;
+                        break;
+                    }
+                }
+                
+                // Get previous and next lessons
+                if (currentIndex > 0) {
+                    prevLesson = allLessons.get(currentIndex - 1);
+                }
+                
+                if (currentIndex < allLessons.size() - 1) {
+                    nextLesson = allLessons.get(currentIndex + 1);
+                }
+                
+                request.setAttribute("prevLesson", prevLesson);
+                request.setAttribute("nextLesson", nextLesson);
+            }
+            
             // Set lesson as request attribute
             request.setAttribute("lesson", lesson);
             
@@ -135,7 +198,6 @@ public class LessonController extends HttpServlet {
                     break;
             }
             
-            request.setAttribute("lesson", lesson);
             request.getRequestDispatcher(viewPath).forward(request, response);
             
         } catch (NumberFormatException e) {

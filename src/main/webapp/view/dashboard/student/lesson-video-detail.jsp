@@ -162,8 +162,8 @@
                             <div class="dashboard__content-wrap">
                                 <div class="dashboard__content-title d-flex justify-content-between align-items-center">
                                     <h4 class="title">Chi tiết bài học</h4>
-                                    <a href="${pageContext.request.contextPath}/view/dashboard/admin/course-content.jsp" class="btn" style="background-color: #f5f5f5; border: none;">
-                                        <i class="fa fa-arrow-left"></i> Quay lại
+                                    <a href="${pageContext.request.contextPath}/course-detail?id=${course.id}" class="btn" style="background-color: #f5f5f5; border: none;">
+                                        <i class="fa fa-arrow-left"></i> Quay lại khóa học
                                     </a>
                                 </div>
                                 
@@ -186,12 +186,20 @@
                                             
                                             <!-- Lesson Navigation -->
                                             <div class="lesson-navigation">
-                                                <a href="#" class="btn btn-outline-primary">
-                                                    <i class="fa fa-arrow-left"></i> Previous Lesson
-                                                </a>
-                                                <a href="#" class="btn btn-primary">
-                                                    Next Lesson <i class="fa fa-arrow-right"></i>
-                                                </a>
+                                                <c:if test="${prevLesson != null}">
+                                                    <a href="${pageContext.request.contextPath}/lesson?action=view&id=${prevLesson.id}" class="btn btn-outline-primary">
+                                                        <i class="fa fa-arrow-left"></i> Bài học trước
+                                                    </a>
+                                                </c:if>
+                                                <c:if test="${prevLesson == null}">
+                                                    <div></div>
+                                                </c:if>
+                                                
+                                                <c:if test="${nextLesson != null}">
+                                                    <a href="${pageContext.request.contextPath}/lesson?action=view&id=${nextLesson.id}" class="btn btn-primary">
+                                                        Bài học tiếp theo <i class="fa fa-arrow-right"></i>
+                                                    </a>
+                                                </c:if>
                                             </div>
                                         </div>
                                     </div>
@@ -199,100 +207,30 @@
                                     <div class="col-lg-4">
                                         <!-- Course Outline -->
                                         <div class="course-outline">
-                                            <h4 class="course-outline-title">Nội dung khóa học</h4>
+                                            <h4 class="course-outline-title">Nội dung khóa học: ${course.name}</h4>
                                             
-                                            <!-- Introduction -->
-                                            <div x-data="{open: true}">
-                                                <div class="d-flex justify-content-between align-items-center mb-2 cursor-pointer" @click="open = !open">
-                                                    <h5 class="mb-0">Introduction</h5>
-                                                    <span x-text="open ? '-' : '+'"></span>
-                                                </div>
-                                                <div x-show="open" x-transition>
-                                                    <div class="outline-item">
-                                                        <div class="outline-item-checkbox">
-                                                            <input type="checkbox" checked disabled>
-                                                        </div>
-                                                        <div class="outline-item-content">
-                                                            <div class="outline-item-title">1. Install JDK 17 and Apache Netbeans 17</div>
-                                                            <div class="outline-item-duration">10 min</div>
-                                                        </div>
+                                            <c:forEach var="courseSection" items="${courseSections}">
+                                                <div x-data="{open: ${courseSection.id == section.id}}">
+                                                    <div class="d-flex justify-content-between align-items-center mb-2 cursor-pointer" @click="open = !open">
+                                                        <h5 class="mb-0">${courseSection.title}</h5>
+                                                        <span x-text="open ? '-' : '+'"></span>
                                                     </div>
-                                                    <div class="outline-item">
-                                                        <div class="outline-item-checkbox">
-                                                            <input type="checkbox" checked disabled>
-                                                        </div>
-                                                        <div class="outline-item-content">
-                                                            <div class="outline-item-title">2. Overview</div>
-                                                            <div class="outline-item-duration">15 min</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="outline-item">
-                                                        <div class="outline-item-checkbox">
-                                                            <input type="checkbox" checked disabled>
-                                                        </div>
-                                                        <div class="outline-item-content">
-                                                            <div class="outline-item-title">3. Set up environment</div>
-                                                            <div class="outline-item-duration">12 min</div>
-                                                        </div>
+                                                    <div x-show="open" x-transition>
+                                                        <c:forEach var="sectionLesson" items="${sectionLessons[courseSection.id]}">
+                                                            <div class="outline-item ${sectionLesson.id == lesson.id ? 'active' : ''}">
+                                                                <div class="outline-item-content">
+                                                                    <div class="outline-item-title">
+                                                                        <a href="${pageContext.request.contextPath}/lesson?action=view&id=${sectionLesson.id}">
+                                                                            ${sectionLesson.title}
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="outline-item-duration">${sectionLesson.durationMinutes} min</div>
+                                                                </div>
+                                                            </div>
+                                                        </c:forEach>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            
-                                            <!-- Servlet -->
-                                            <div x-data="{open: true}">
-                                                <div class="d-flex justify-content-between align-items-center mb-2 mt-3 cursor-pointer" @click="open = !open">
-                                                    <h5 class="mb-0">Servlet</h5>
-                                                    <span x-text="open ? '-' : '+'"></span>
-                                                </div>
-                                                <div x-show="open" x-transition>
-                                                    <div class="outline-item active">
-                                                        <div class="outline-item-checkbox">
-                                                            <input type="checkbox" checked disabled>
-                                                        </div>
-                                                        <div class="outline-item-content">
-                                                            <div class="outline-item-title">4. Introduction to Servlets</div>
-                                                            <div class="outline-item-duration">20 min</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="outline-item">
-                                                        <div class="outline-item-checkbox">
-                                                            <input type="checkbox" disabled>
-                                                        </div>
-                                                        <div class="outline-item-content">
-                                                            <div class="outline-item-title">5. Servlet Lifecycle</div>
-                                                            <div class="outline-item-duration">18 min</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- Exercise 01 -->
-                                            <div x-data="{open: false}">
-                                                <div class="d-flex justify-content-between align-items-center mb-2 mt-3 cursor-pointer" @click="open = !open">
-                                                    <h5 class="mb-0">Exercise 01</h5>
-                                                    <span x-text="open ? '-' : '+'"></span>
-                                                </div>
-                                                <div x-show="open" x-transition>
-                                                    <div class="outline-item">
-                                                        <div class="outline-item-checkbox">
-                                                            <input type="checkbox" disabled>
-                                                        </div>
-                                                        <div class="outline-item-content">
-                                                            <div class="outline-item-title">6. Basic Servlet Implementation</div>
-                                                            <div class="outline-item-duration">25 min</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- More sections collapsed -->
-                                            <div class="mt-3">
-                                                <div class="outline-item">
-                                                    <div class="outline-item-content text-center">
-                                                        <a href="#" class="text-primary">Show all sections</a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                 </div>

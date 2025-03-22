@@ -939,16 +939,6 @@ public class ManageCourseController extends HttpServlet {
                     System.out.println("Warning: Failed to add video information");
                 }
             } else if (GlobalConfig.LESSON_TYPE_QUIZ.equals(type)) {
-                // Handle quiz data
-                Integer passingScore = 70; // Default value
-                Integer attemptsAllowed = 3; // Default value
-                try {
-                    passingScore = Integer.parseInt(request.getParameter("passingScore"));
-                    attemptsAllowed = Integer.parseInt(request.getParameter("attemptsAllowed"));
-                } catch (NumberFormatException e) {
-                    // Use default values if parsing fails
-                }
-                
                 // Create new quiz object
                 LessonQuiz quiz = new LessonQuiz();
                 quiz.setLessonId(lessonId);

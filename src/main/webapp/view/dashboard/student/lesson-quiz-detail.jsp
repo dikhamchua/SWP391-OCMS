@@ -119,51 +119,112 @@
         }
         
         .course-outline {
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            padding: 20px;
-            height: 100%;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
+            margin-bottom: 20px;
         }
         
         .course-outline-title {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 22px;
+            font-weight: 700;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #007aff;
+            color: #1a1a1a;
+            position: relative;
+        }
+        
+        .course-outline-title:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background-color: #007aff;
+        }
+        
+        .outline-section-title {
+            font-size: 17px;
+            font-weight: 600;
+            padding: 12px 15px;
+            background-color: #f5f8ff;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+            border-left: 3px solid #c8d8f7;
+        }
+        
+        .outline-section-title:hover {
+            background-color: #e9f3ff;
+            border-left-color: #007aff;
+            transform: translateX(2px);
         }
         
         .outline-item {
             display: flex;
-            align-items: flex-start;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
         }
         
         .outline-item.active {
-            background-color: #e9f5ff;
-            padding: 10px;
-            margin: 0 -10px;
-            border-radius: 5px;
+            background-color: #e6f4ff;
+            border-left: 3px solid #007aff;
+            box-shadow: 0 2px 5px rgba(0, 122, 255, 0.1);
         }
         
-        .outline-item-checkbox {
-            margin-right: 10px;
-            margin-top: 3px;
+        .outline-item:hover {
+            background-color: #f7faff;
+            transform: translateX(2px);
         }
         
         .outline-item-content {
             flex-grow: 1;
+            padding-left: 10px;
         }
         
         .outline-item-title {
+            font-size: 15px;
             font-weight: 500;
-            margin-bottom: 3px;
+            color: #333;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .outline-item-title a {
+            text-decoration: none;
+            color: #007aff;
+            transition: color 0.2s ease;
+        }
+        
+        .outline-item-title a:hover {
+            text-decoration: underline;
+            color: #0056b3;
         }
         
         .outline-item-duration {
             font-size: 12px;
-            color: #6c757d;
+            color: #777;
+            display: flex;
+            align-items: center;
+        }
+        
+        .outline-item-duration i {
+            margin-right: 5px;
+            font-size: 11px;
+            color: #999;
         }
         
         .quiz-progress {
@@ -216,8 +277,8 @@
                             <div class="dashboard__content-wrap">
                                 <div class="dashboard__content-title d-flex justify-content-between align-items-center">
                                     <h4 class="title">Bài kiểm tra</h4>
-                                    <a href="${pageContext.request.contextPath}/view/dashboard/admin/course-content.jsp" class="btn" style="background-color: #f5f5f5; border: none;">
-                                        <i class="fa fa-arrow-left"></i> Quay lại
+                                    <a href="${pageContext.request.contextPath}/course-detail?id=${course.id}" class="btn" style="background-color: #f5f5f5; border: none;">
+                                        <i class="fa fa-arrow-left"></i> Quay lại khóa học
                                     </a>
                                 </div>
                                 
@@ -238,21 +299,6 @@
                                                 <h3 class="quiz-title">${lesson.title}</h3>
                                                 <div class="timer-container">
                                                     <i class="fa fa-clock"></i> <span x-text="formatTime(timeLeft)"></span>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="quiz-info">
-                                                <div class="quiz-info-item">
-                                                    <i class="fa fa-check-circle"></i>
-                                                    <span>Điểm đạt: ${lessonQuiz.passPercentage}%</span>
-                                                </div>
-                                                <div class="quiz-info-item">
-                                                    <i class="fa fa-redo"></i>
-                                                    <span>Số lần làm: ${lessonQuiz.attemptsAllowed != null ? lessonQuiz.attemptsAllowed : 'Không giới hạn'}</span>
-                                                </div>
-                                                <div class="quiz-info-item">
-                                                    <i class="fa fa-users"></i>
-                                                    <span>Tổng số học sinh tham gia: 163</span>
                                                 </div>
                                             </div>
                                             
@@ -316,100 +362,30 @@
                                     <div class="col-lg-4">
                                         <!-- Course Outline -->
                                         <div class="course-outline">
-                                            <h4 class="course-outline-title">Nội dung khóa học</h4>
+                                            <h4 class="course-outline-title">Nội dung khóa học: ${course.name}</h4>
                                             
-                                            <!-- Introduction -->
-                                            <div x-data="{open: true}">
-                                                <div class="d-flex justify-content-between align-items-center mb-2 cursor-pointer" @click="open = !open">
-                                                    <h5 class="mb-0">Introduction</h5>
-                                                    <span x-text="open ? '-' : '+'"></span>
-                                                </div>
-                                                <div x-show="open" x-transition>
-                                                    <div class="outline-item">
-                                                        <div class="outline-item-checkbox">
-                                                            <input type="checkbox" checked disabled>
-                                                        </div>
-                                                        <div class="outline-item-content">
-                                                            <div class="outline-item-title">1. Install JDK 17 and Apache Netbeans 17</div>
-                                                            <div class="outline-item-duration">10 min</div>
-                                                        </div>
+                                            <c:forEach var="courseSection" items="${courseSections}">
+                                                <div x-data="{open: ${courseSection.id == section.id}}">
+                                                    <div class="d-flex justify-content-between align-items-center mb-2 cursor-pointer" @click="open = !open">
+                                                        <h5 class="mb-0">${courseSection.title}</h5>
+                                                        <span x-text="open ? '-' : '+'"></span>
                                                     </div>
-                                                    <div class="outline-item">
-                                                        <div class="outline-item-checkbox">
-                                                            <input type="checkbox" checked disabled>
-                                                        </div>
-                                                        <div class="outline-item-content">
-                                                            <div class="outline-item-title">2. Overview</div>
-                                                            <div class="outline-item-duration">15 min</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="outline-item">
-                                                        <div class="outline-item-checkbox">
-                                                            <input type="checkbox" checked disabled>
-                                                        </div>
-                                                        <div class="outline-item-content">
-                                                            <div class="outline-item-title">3. Set up environment</div>
-                                                            <div class="outline-item-duration">12 min</div>
-                                                        </div>
+                                                    <div x-show="open" x-transition>
+                                                        <c:forEach var="sectionLesson" items="${sectionLessons[courseSection.id]}">
+                                                            <div class="outline-item ${sectionLesson.id == lesson.id ? 'active' : ''}">
+                                                                <div class="outline-item-content">
+                                                                    <div class="outline-item-title">
+                                                                        <a href="${pageContext.request.contextPath}/lesson?action=view&id=${sectionLesson.id}">
+                                                                            ${sectionLesson.title}
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="outline-item-duration">${sectionLesson.durationMinutes} min</div>
+                                                                </div>
+                                                            </div>
+                                                        </c:forEach>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            
-                                            <!-- Servlet -->
-                                            <div x-data="{open: true}">
-                                                <div class="d-flex justify-content-between align-items-center mb-2 mt-3 cursor-pointer" @click="open = !open">
-                                                    <h5 class="mb-0">Servlet</h5>
-                                                    <span x-text="open ? '-' : '+'"></span>
-                                                </div>
-                                                <div x-show="open" x-transition>
-                                                    <div class="outline-item">
-                                                        <div class="outline-item-checkbox">
-                                                            <input type="checkbox" checked disabled>
-                                                        </div>
-                                                        <div class="outline-item-content">
-                                                            <div class="outline-item-title">4. Introduction to Servlets</div>
-                                                            <div class="outline-item-duration">20 min</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="outline-item active">
-                                                        <div class="outline-item-checkbox">
-                                                            <input type="checkbox" disabled>
-                                                        </div>
-                                                        <div class="outline-item-content">
-                                                            <div class="outline-item-title">5. Servlet Quiz</div>
-                                                            <div class="outline-item-duration">30 min</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- Exercise 01 -->
-                                            <div x-data="{open: false}">
-                                                <div class="d-flex justify-content-between align-items-center mb-2 mt-3 cursor-pointer" @click="open = !open">
-                                                    <h5 class="mb-0">Exercise 01</h5>
-                                                    <span x-text="open ? '-' : '+'"></span>
-                                                </div>
-                                                <div x-show="open" x-transition>
-                                                    <div class="outline-item">
-                                                        <div class="outline-item-checkbox">
-                                                            <input type="checkbox" disabled>
-                                                        </div>
-                                                        <div class="outline-item-content">
-                                                            <div class="outline-item-title">6. Basic Servlet Implementation</div>
-                                                            <div class="outline-item-duration">25 min</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- More sections collapsed -->
-                                            <div class="mt-3">
-                                                <div class="outline-item">
-                                                    <div class="outline-item-content text-center">
-                                                        <a href="#" class="text-primary">Show all sections</a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                 </div>
