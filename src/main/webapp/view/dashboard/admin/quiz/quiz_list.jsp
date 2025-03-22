@@ -262,10 +262,7 @@
                                                     <c:if test="${showDuration}"><td>${quizInfo.lesson.duration}</td></c:if>
                                                     <td>
                                                         <div class="table-actions">
-                                                            <a href="${pageContext.request.contextPath}/manage-quiz?action=view&id=${quizInfo.lesson.id}" class="action-view">
-                                                                <i class="fa fa-eye"></i> View
-                                                            </a>
-                                                            <a href="${pageContext.request.contextPath}/manage-quiz?action=edit&id=${quizInfo.lesson.id}" class="action-edit">
+                                                            <a href="${pageContext.request.contextPath}/manage-quiz?action=editQuestion&questionId=${quizInfo.lesson.id}" class="action-edit">
                                                                 <i class="fa fa-edit"></i> Edit
                                                             </a>
                                                             <a href="#" onclick="confirmDelete(${quizInfo.lesson.id})" class="action-delete">
