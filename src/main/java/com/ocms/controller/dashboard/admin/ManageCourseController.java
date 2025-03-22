@@ -51,7 +51,11 @@ public class ManageCourseController extends HttpServlet {
         
         switch (path) {
             case "/manage-course":
-                doGetManageCourse(request, response);
+                if ("manage".equals(action)) {
+                    doGetManageCourse(request, response);
+                } else if ("list".equals(action)) {
+                    doGetManageCourseList(request, response);
+                }
                 break;
             case "/lesson-edit":
                 if ("add".equals(action)) {
@@ -203,6 +207,12 @@ public class ManageCourseController extends HttpServlet {
             e.printStackTrace();
 //            request.getRequestDispatcher("/view/error.jsp").forward(request, response);
         }
+    }
+
+    private void doGetManageCourseList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Course> courses = courseDAO.findAll();
+        request.setAttribute("courses", courses);
+        request.getRequestDispatcher("/view/dashboard/admin/course-list.jsp").forward(request, response);
     }
 
     /**

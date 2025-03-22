@@ -17,6 +17,9 @@
     <!-- CSS here -->
     <jsp:include page="../../common/css-file.jsp"></jsp:include>
     
+    <!-- TinyMCE CDN -->
+    <script src="https://cdn.tiny.cloud/1/1u2sqtwzv5mnznfeh0gp0y5wnpqarxf9yx4bn0pjzvot8xy2/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    
     <style>
         .form-container {
             background-color: #fff;
@@ -138,6 +141,20 @@
         .add-question-btn {
             margin-top: 15px;
         }
+        
+        /* TinyMCE specific styles */
+        .tox-tinymce {
+            border-radius: 4px;
+            border: 1px solid #ddd !important;
+        }
+        
+        .tox-statusbar {
+            border-top: 1px solid #eee !important;
+        }
+        
+        .tox-tinymce-aux {
+            z-index: 9999 !important;
+        }
     </style>
 </head>
 
@@ -229,7 +246,7 @@
                                                 
                                                 <div class="form-group">
                                                     <label class="form-label">Nội dung câu hỏi</label>
-                                                    <input type="text" class="form-control" name="question_text_${status.index + 1}" value="${question.questionText}" required>
+                                                    <textarea class="question-editor form-control" name="question_text_${status.index + 1}">${question.questionText}</textarea>
                                                     <input type="hidden" name="question_id_${status.index + 1}" value="${question.id}">
                                                 </div>
                                                 
@@ -305,12 +322,89 @@
                     }
                 });
             }
+            
+            // Initialize TinyMCE for existing question editors
+            initTinyMCE();
         });
         
         <%-- Khởi tạo biến đếm câu hỏi --%>
         <c:set var="initialQuestionCount" value="${not empty questions ? questions.size() : 0}" />
         var questionCounter = <%= pageContext.getAttribute("initialQuestionCount") %>;
         var existingQuestions = <%= pageContext.getAttribute("initialQuestionCount") %>;
+
+        // Function to initialize TinyMCE
+            function initTinyMCE(selector = '.question-editor') {
+                tinymce.init({
+                    selector: selector,
+                    plugins: 'image media code table lists link',
+                    toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image media insertAudio | table | code',
+                    height: 250,
+                    image_caption: true,
+                    automatic_uploads: true,
+                    media_live_embeds: true,
+                    file_picker_types: 'image',
+                    file_picker_callback: function(cb, value, meta) {
+                        if (meta.filetype === 'image') {
+                            const input = document.createElement('input');
+                            input.setAttribute('type', 'file');
+                            input.setAttribute('accept', 'image/*');
+                            input.click();
+                            input.onchange = function () {
+                                const file = this.files[0];
+                                const reader = new FileReader();
+                                reader.onload = function () {
+                                    const id = 'blobid' + (new Date()).getTime();
+                                    const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                                    const base64 = reader.result.split(',')[1];
+                                    const blobInfo = blobCache.create(id, file, base64);
+                                    blobCache.add(blobInfo);
+                                    cb(blobInfo.blobUri(), { title: file.name });
+                                };
+                                reader.readAsDataURL(file);
+                            };
+                        }
+                    },
+                    setup: function (editor) {
+                        // Add custom audio upload button
+                        editor.ui.registry.addButton('insertAudio', {
+                            text: 'Upload Audio',
+                            icon: 'audio',
+                            onAction: function () {
+                                const input = document.createElement('input');
+                                input.type = 'file';
+                                input.accept = 'audio/*';
+                                input.click();
+            
+                                input.onchange = function () {
+                                    const file = input.files[0];
+                                    const formData = new FormData();
+                                    formData.append('audio', file);
+            
+                                    fetch('${pageContext.request.contextPath}/uploadAudioServlet', {
+                                        method: 'POST',
+                                        body: formData
+                                    })
+                                    .then(res => res.text())
+                                    .then(url => {
+                                        editor.insertContent(
+                                            '<p>🎧 File âm thanh:</p>' +
+                                            '<audio controls>' +
+                                            '<source src=\"' + url + '\" type=\"' + file.type + '\">' +
+                                            'Trình duyệt của bạn không hỗ trợ audio.' +
+                                            '</audio><br>'
+                                        );
+                                    });
+                                };
+                            }
+                        });
+            
+                        editor.on('change', function () {
+                            editor.save();
+                        });
+                    }
+                });
+            }
+            
 
         // Function to add a new question
         function addQuestion() {
@@ -325,7 +419,7 @@
                     '</div>' +
                     '<div class="form-group">' +
                         '<label class="form-label">Nội dung câu hỏi</label>' +
-                        '<input type="text" class="form-control" name="question_text_' + questionCounter + '" required>' +
+                        '<textarea class="question-editor-new form-control" id="question_' + questionCounter + '" name="question_text_' + questionCounter + '"></textarea>' +
                         '<input type="hidden" name="question_id_' + questionCounter + '" value="0">' +
                     '</div>' +
                     '<div class="form-group">' +
@@ -345,6 +439,9 @@
             
             $('#questions-container').append(questionHtml);
             $('#questionCount').val(questionCounter);
+            
+            // Initialize TinyMCE for the new question editor
+            initTinyMCE('#question_' + questionCounter);
         }
         
         // Function to remove a question
@@ -358,7 +455,14 @@
                 return;
             }
             
-            $(element).closest('.question-container').remove();
+            // Get the editor instance for this question and destroy it
+            var questionContainer = $(element).closest('.question-container');
+            var editorId = questionContainer.find('textarea').attr('id');
+            if (editorId && tinymce.get(editorId)) {
+                tinymce.get(editorId).remove();
+            }
+            
+            questionContainer.remove();
             questionCounter--;
             
             // Renumber remaining questions
@@ -372,7 +476,12 @@
                 $question.find('.question-title').text('Câu hỏi ' + newIndex);
                 
                 // Update input names
-                $question.find('[name^="question_text_"]').attr('name', 'question_text_' + newIndex);
+                var $textarea = $question.find('textarea');
+                $textarea.attr('name', 'question_text_' + newIndex);
+                if ($textarea.attr('id')) {
+                    $textarea.attr('id', 'question_' + newIndex);
+                }
+                
                 $question.find('[name^="question_id_"]').attr('name', 'question_id_' + newIndex);
                 
                 // Update radio button names
