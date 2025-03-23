@@ -151,9 +151,12 @@
                             </div>
                             
                             <c:if test="${not empty cartItems}">
-                                <a href="${pageContext.request.contextPath}/checkout" class="btn btn-primary btn-block">
-                                    Proceed to Checkout
-                                </a>
+                                <form action="${pageContext.request.contextPath}/cart" method="post" id="checkoutForm">
+                                    <input type="hidden" name="action" value="checkout">
+                                    <button type="submit" class="btn btn-primary btn-block" id="checkoutBtn">
+                                        Proceed to Checkout
+                                    </button>
+                                </form>
                             </c:if>
                             
                             <a href="${pageContext.request.contextPath}/courses" class="btn btn-outline-secondary btn-block mt-3">
@@ -230,6 +233,19 @@
             <c:remove var="message" scope="session" />
             <c:remove var="messageType" scope="session" />
         </c:if>
+        
+        // Handle checkout confirmation
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkoutForm = document.getElementById('checkoutForm');
+            if (checkoutForm) {
+                checkoutForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to complete your purchase? This will register you for all courses in your cart.')) {
+                        this.submit();
+                    }
+                });
+            }
+        });
     </script>
 </body>
 
