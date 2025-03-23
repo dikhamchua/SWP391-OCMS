@@ -1,27 +1,65 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://example.com/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html class="no-js" lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>SkillGro - Online Courses & Education Template</title>
-    <meta name="description" content="SkillGro - Online Courses & Education Template">
+    <title>SkillGro - Checkout</title>
+    <meta name="description" content="SkillGro - Checkout">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon.png">
     <!-- Place favicon.ico in the root directory -->
 
     <!-- CSS here -->
     <jsp:include page="../common/home/css-home.jsp" />
-
+    
+    <!-- Toast CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    
+    <style>
+        .cart-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+            margin-bottom: 15px;
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        .cart-item-image {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .cart-item-details {
+            display: flex;
+            align-items: center;
+        }
+        .cart-item-info {
+            margin-left: 15px;
+        }
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .cart-item-price {
+            color: #333;
+            font-weight: 500;
+        }
+        .checkout-summary {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
 <body>
-
-
     <!-- Scroll-top -->
     <button class="scroll__top scroll-to-target" data-target="html">
         <i class="tg-flaticon-arrowhead-up"></i>
@@ -29,24 +67,21 @@
     <!-- Scroll-top-end-->
 
     <!-- header-area -->
-         <jsp:include page="../common/home/header-home.jsp"></jsp:include>
+    <jsp:include page="../common/home/header-home.jsp"></jsp:include>
     <!-- header-area-end -->
-
-
 
     <!-- main-area -->
     <main class="main-area fix">
-
         <!-- breadcrumb-area -->
-        <section class="breadcrumb__area breadcrumb__bg" data-background="assets/img/bg/breadcrumb_bg.jpg">
+        <section class="breadcrumb-area breadcrumb-bg" data-background="${pageContext.request.contextPath}/assets/img/bg/breadcrumb_bg.jpg">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <div class="breadcrumb__content">
+                        <div class="breadcrumb-content">
                             <h3 class="title">Checkout</h3>
                             <nav class="breadcrumb">
                                 <span property="itemListElement" typeof="ListItem">
-                                    <a href="index.html">Home</a>
+                                    <a href="${pageContext.request.contextPath}/">Home</a>
                                 </span>
                                 <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
                                 <span property="itemListElement" typeof="ListItem">Checkout</span>
@@ -55,13 +90,6 @@
                     </div>
                 </div>
             </div>
-            <div class="breadcrumb__shape-wrap">
-                <img src="assets/img/others/breadcrumb_shape01.svg" alt="img" class="alltuchtopdown">
-                <img src="assets/img/others/breadcrumb_shape02.svg" alt="img" data-aos="fade-right" data-aos-delay="300">
-                <img src="assets/img/others/breadcrumb_shape03.svg" alt="img" data-aos="fade-up" data-aos-delay="400">
-                <img src="assets/img/others/breadcrumb_shape04.svg" alt="img" data-aos="fade-down-left" data-aos-delay="400">
-                <img src="assets/img/others/breadcrumb_shape05.svg" alt="img" data-aos="fade-left" data-aos-delay="400">
-            </div>
         </section>
         <!-- breadcrumb-area-end -->
 
@@ -69,133 +97,128 @@
         <div class="checkout__area section-py-120">
             <div class="container">
                 <div class="row">
-                    <div class="col-12">
-                        <div class="coupon__code-wrap">
-                            <div class="coupon__code-info">
-                                <span><i class="far fa-bookmark"></i> Have a coupon?</span>
-                                <a href="#" id="coupon-element">Click here to enter your code</a>
-                            </div>
-                            <form action="#" class="coupon__code-form">
-                                <p>If you have a coupon code, please apply it below.</p>
-                                <input type="text" placeholder="Coupon code">
-                                <button type="submit" class="btn">Apply coupon</button>
-                            </form>
-                        </div>
-                    </div>
                     <div class="col-lg-7">
-                        <form action="#" class="customer__form-wrap">
-                            <span class="title">Billing Details</span>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-grp">
-                                        <label for="first-name">First name *</label>
-                                        <input type="text" id="first-name">
+                        <div class="checkout-cart-items">
+                            <h4 class="mb-4">Your Cart Items (${sessionScope.checkoutItemCount})</h4>
+                            
+                            <c:forEach items="${sessionScope.checkoutCartItems}" var="item">
+                                <c:set var="course" value="${courseDAO.findById(item.courseId)}" />
+                                <div class="cart-item">
+                                    <div class="cart-item-details">
+                                        <img src="${course.thumbnail}" alt="${course.name}" class="cart-item-image">
+                                        <div class="cart-item-info">
+                                            <h5 class="cart-item-title">${course.name}</h5>
+                                            <p class="cart-item-price">$<fmt:formatNumber value="${item.price}" pattern="#,##0.00"/></p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-grp">
-                                        <label for="last-name">Last name *</label>
-                                        <input type="text" id="last-name">
-                                    </div>
+                            </c:forEach>
+                            
+                            <div class="checkout-summary">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span>Subtotal:</span>
+                                    <span>$<fmt:formatNumber value="${sessionScope.checkoutCartTotal}" pattern="#,##0.00"/></span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <strong>Total:</strong>
+                                    <strong>$<fmt:formatNumber value="${sessionScope.checkoutCartTotal}" pattern="#,##0.00"/></strong>
                                 </div>
                             </div>
-                            <div class="form-grp">
-                                <label for="company-name">Company name (optional)</label>
-                                <input type="text" id="company-name">
-                            </div>
-                            <div class="form-grp select-grp">
-                                <label for="country-name">Country / Region *</label>
-                                <select id="country-name" name="country-name" class="country-name">
-                                    <option value="United Kingdom (UK)">United Kingdom (UK)</option>
-                                    <option value="United States (US)">United States (US)</option>
-                                    <option value="Turkey">Turkey</option>
-                                    <option value="Saudi Arabia">Saudi Arabia</option>
-                                    <option value="Portugal">Portugal</option>
-                                </select>
-                            </div>
-                            <div class="form-grp">
-                                <label for="street-address">Street address *</label>
-                                <input type="text" id="street-address" placeholder="House number and street name">
-                            </div>
-                            <div class="form-grp">
-                                <input type="text" id="street-address-two" placeholder="Apartment, suite, unit, etc. (optional)">
-                            </div>
-                            <div class="form-grp">
-                                <label for="town-name">Town / City *</label>
-                                <input type="text" id="town-name">
-                            </div>
-                            <div class="form-grp select-grp">
-                                <label for="district-name">District *</label>
-                                <select id="district-name" name="district-name" class="district-name">
-                                    <option value="Alabama">Alabama</option>
-                                    <option value="Alaska">Alaska</option>
-                                    <option value="Arizona">Arizona</option>
-                                    <option value="California">California</option>
-                                    <option value="New York">New York</option>
-                                </select>
-                            </div>
-                            <div class="form-grp">
-                                <label for="zip-code">ZIP Code *</label>
-                                <input type="text" id="zip-code">
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-grp">
-                                        <label for="phone">Phone *</label>
-                                        <input type="number" id="phone">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-grp">
-                                        <label for="email">Email address *</label>
-                                        <input type="email" id="email">
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="title title-two">Additional Information</span>
-                            <div class="form-grp">
-                                <label for="note">Order notes (optional)</label>
-                                <textarea id="note" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
-                            </div>
-                        </form>
+                        </div>
+                        
                     </div>
+                    
                     <div class="col-lg-5">
                         <div class="order__info-wrap">
-                            <h2 class="title">YOUR ORDER</h2>
+                            <h2 class="title">ORDER SUMMARY</h2>
                             <ul class="list-wrap">
                                 <li class="title">Product <span>Subtotal</span></li>
-                                <li>Antiaging and Longevity × 1 <span>$19.99</span></li>
-                                <li>Subtotal <span>$19.99</span></li>
-                                <li>Total <span>$19.99</span></li>
+                                
+                                <c:forEach items="${sessionScope.checkoutCartItems}" var="item">
+                                    <c:set var="course" value="${courseDAO.findById(item.courseId)}" />
+                                    <li>${course.name} <span>$<fmt:formatNumber value="${item.price}" pattern="#,##0.00"/></span></li>
+                                </c:forEach>
+                                
+                                <li>Subtotal <span>$<fmt:formatNumber value="${sessionScope.checkoutCartTotal}" pattern="#,##0.00"/></span></li>
+                                <li>Total <span>$<fmt:formatNumber value="${sessionScope.checkoutCartTotal}" pattern="#,##0.00"/></span></li>
                             </ul>
-                            <p>Sorry, it seems that there are no available payment methods for your state. Please contact us if you require assistance or wish to make alternate arrangements.</p>
-                            <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy.</a></p>
-                            <button class="btn">Place order</button>
+                            
+                            <div class="mt-4">
+                                <h4>What You'll Get:</h4>
+                                <ul class="benefits-list">
+                                    <li><i class="fas fa-check-circle text-success"></i> Full lifetime access to all course materials</li>
+                                    <li><i class="fas fa-check-circle text-success"></i> Access on mobile and desktop</li>
+                                    <li><i class="fas fa-check-circle text-success"></i> Certificate of completion</li>
+                                    <li><i class="fas fa-check-circle text-success"></i> 30-day money-back guarantee</li>
+                                </ul>
+                            </div>
+                            
+                            <p class="mt-4">Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy</a>.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- checkout-area-end -->
-
     </main>
     <!-- main-area-end -->
 
-
-
     <!-- footer-area -->
     <jsp:include page="../common/home/footer-home.jsp"></jsp:include>
-
     <!-- footer-area-end -->
-
-
 
     <!-- JS here -->
     <jsp:include page="../common/home/js-home.jsp" />
-
+    
+    <!-- Toast JS -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    
     <script>
-        SVGInject(document.querySelectorAll("img.injectable"));
+        // Function to show toast message
+        function showToast(message, type) {
+            let backgroundColor = "#28a745"; // Default success color
+            
+            if (type === "error") {
+                backgroundColor = "#dc3545"; // Danger color
+            } else if (type === "info") {
+                backgroundColor = "#17a2b8"; // Info color
+            } else if (type === "warning") {
+                backgroundColor = "#ffc107"; // Warning color
+            }
+            
+            Toastify({
+                text: message,
+                duration: 5000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: backgroundColor,
+                stopOnFocus: true
+            }).showToast();
+        }
+        
+        // Check for session messages and display toast
+        <c:if test="${not empty sessionScope.message}">
+            document.addEventListener("DOMContentLoaded", function() {
+                showToast("${sessionScope.message}", "${sessionScope.messageType}");
+            });
+            <c:remove var="message" scope="session" />
+            <c:remove var="messageType" scope="session" />
+        </c:if>
+        
+        // Form validation
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            if (!this.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+                showToast("Please fill out all required fields", "error");
+            } else {
+                if (!confirm('Are you sure you want to complete your purchase?')) {
+                    e.preventDefault();
+                }
+            }
+            this.classList.add('was-validated');
+        });
     </script>
 </body>
-
 </html>

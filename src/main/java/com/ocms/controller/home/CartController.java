@@ -32,6 +32,7 @@ public class CartController extends HttpServlet {
     private RegistrationDAO registrationDAO;
 
     private static final String CART_JSP = "view/homepage/cart.jsp";
+    private static final String CHECKOUT_JSP = "view/homepage/checkout.jsp";
 
     @Override
     public void init() throws ServletException {
@@ -82,6 +83,9 @@ public class CartController extends HttpServlet {
                     break;
                 case "checkout":
                     processCheckout(request, response);
+                    break;
+                case "complete-checkout":
+                    completeCheckout(request, response);
                     break;
                 default:
                     response.sendRedirect(request.getContextPath() + "/cart");
@@ -209,37 +213,86 @@ public class CartController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute(GlobalConfig.SESSION_ACCOUNT);
-
+        
         if (account == null) {
             response.sendRedirect(request.getContextPath() + "/authen?action=login");
             return;
         }
-
+        
         // Get user's cart
         Cart cart = cartDAO.findByAccountId(account.getId());
-
+        
         if (cart == null || cartItemDAO.countCartItems(cart.getId()) == 0) {
             session.setAttribute("message", "Your cart is empty. Please add courses before checkout.");
             session.setAttribute("messageType", "warning");
             response.sendRedirect(request.getContextPath() + "/cart");
             return;
         }
-
+        
         // Get all items in the cart
         List<CartItem> cartItems = cartItemDAO.getCartItemsWithCourseDetails(cart.getId());
+        
+        // Calculate cart total
+        BigDecimal cartTotal = cartItemDAO.getCartTotal(cart.getId());
+        
+        // Store cart information in session for checkout page
+        session.setAttribute("checkoutCartItems", cartItems);
+        session.setAttribute("checkoutCartTotal", cartTotal);
+        session.setAttribute("checkoutItemCount", cartItems.size());
+        request.setAttribute("courseDAO", courseDAO);
+        
+        // Redirect to checkout page
+        request.getRequestDispatcher(CHECKOUT_JSP).forward(request, response);
+    }
 
+    private void completeCheckout(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute(GlobalConfig.SESSION_ACCOUNT);
+        
+        if (account == null) {
+            response.sendRedirect(request.getContextPath() + "/authen?action=login");
+            return;
+        }
+        
+        // Get checkout information from session
+        @SuppressWarnings("unchecked")
+        List<CartItem> cartItems = (List<CartItem>) session.getAttribute("checkoutCartItems");
+        
+        if (cartItems == null || cartItems.isEmpty()) {
+            session.setAttribute("message", "Your checkout session has expired. Please try again.");
+            session.setAttribute("messageType", "error");
+            response.sendRedirect(request.getContextPath() + "/cart");
+            return;
+        }
+        
+        // Get form data
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String phone = request.getParameter("phone");
+        String paymentMethod = request.getParameter("paymentMethod");
+        String notes = request.getParameter("notes");
+        
+        // Validate required fields
+        if (firstName == null || lastName == null || phone == null || paymentMethod == null) {
+            session.setAttribute("message", "Please fill out all required fields.");
+            session.setAttribute("messageType", "error");
+            response.sendRedirect(request.getContextPath() + "/view/homepage/checkout.jsp");
+            return;
+        }
+        
         // Current timestamp for registration
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-
+        
         // Calculate valid from and valid to dates (1 year validity)
         Calendar calendar = Calendar.getInstance();
         Timestamp validFrom = new Timestamp(calendar.getTimeInMillis());
-
+        
         calendar.add(Calendar.YEAR, 1);
         Timestamp validTo = new Timestamp(calendar.getTimeInMillis());
-
+        
         boolean allSuccess = true;
-
+        
         try {
             // Process each cart item as a registration
             for (CartItem item : cartItems) {
@@ -254,10 +307,10 @@ public class CartController extends HttpServlet {
                 registration.setValidFrom(validFrom);
                 registration.setValidTo(validTo);
                 registration.setLastUpdateByPerson(account.getId());
-
+                
                 // Insert registration
                 int registrationId = registrationDAO.insert(registration);
-
+                
                 if (registrationId <= 0) {
                     allSuccess = false;
                     break;
@@ -266,23 +319,34 @@ public class CartController extends HttpServlet {
         } catch (Exception e) {
             session.setAttribute("message", "An error occurred while processing your checkout. Please try again.");
             session.setAttribute("messageType", "error");
-            response.sendRedirect(request.getContextPath() + "/cart");
+            response.sendRedirect(request.getContextPath() + "/view/homepage/checkout.jsp");
             return;
         }
-
+        
         if (allSuccess) {
+            // Get user's cart
+            Cart cart = cartDAO.findByAccountId(account.getId());
+            
             // Clear the cart after successful checkout
-            for (CartItem item : cartItems) {
-                cartItemDAO.delete(item);
+            if (cart != null) {
+                List<CartItem> userCartItems = cartItemDAO.findByCartId(cart.getId());
+                for (CartItem item : userCartItems) {
+                    cartItemDAO.delete(item);
+                }
             }
-
+            
+            // Clear checkout session attributes
+            session.removeAttribute("checkoutCartItems");
+            session.removeAttribute("checkoutCartTotal");
+            session.removeAttribute("checkoutItemCount");
+            
             session.setAttribute("message", "Checkout completed successfully! You can now access your courses.");
             session.setAttribute("messageType", "success");
             response.sendRedirect(request.getContextPath() + "/my-courses"); // Redirect to my courses page
         } else {
             session.setAttribute("message", "There was an error processing your checkout. Please try again.");
             session.setAttribute("messageType", "error");
-            response.sendRedirect(request.getContextPath() + "/cart");
+            response.sendRedirect(request.getContextPath() + "/view/homepage/checkout.jsp");
         }
     }
 }
