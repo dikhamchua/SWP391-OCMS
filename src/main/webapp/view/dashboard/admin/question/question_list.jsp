@@ -138,7 +138,7 @@
     <jsp:include page="../../../common/home/header-home.jsp"></jsp:include>
     <!-- header-area-end -->
 
-    <c:url value="/manage-quiz" var="paginationUrl">
+    <c:url value="/manage-question" var="paginationUrl">
         <c:param name="action" value="list" />
         <c:if test="${not empty param.courseId}">
             <c:param name="courseId" value="${param.courseId}" />
@@ -179,7 +179,7 @@
 
                                 <!-- Filter Form -->
                                 <div class="filter-form">
-                                    <form action="${pageContext.request.contextPath}/manage-quiz" method="get">
+                                    <form action="${pageContext.request.contextPath}/manage-question" method="get">
                                         <input type="hidden" name="action" value="list">
                                         <div class="row">
                                             <div class="col-md-3">
@@ -250,27 +250,18 @@
                                                 <c:set var="showTitle" value="${empty selectedColumns}" />
                                                 <c:set var="showCourse" value="${empty selectedColumns}" />
                                                 <c:set var="showSection" value="${empty selectedColumns}" />
-                                                <!-- <c:set var="showQuestionCount" value="${empty selectedColumns}" /> -->
-                                                <!-- <c:set var="showStatus" value="${empty selectedColumns}" /> -->
-                                                <!-- <c:set var="showDuration" value="false" /> -->
                                                 
                                                 <c:forEach items="${selectedColumns}" var="col">
                                                     <c:if test="${col eq 'id'}"><c:set var="showId" value="true" /></c:if>
                                                     <c:if test="${col eq 'title'}"><c:set var="showTitle" value="true" /></c:if>
                                                     <c:if test="${col eq 'course'}"><c:set var="showCourse" value="true" /></c:if>
                                                     <c:if test="${col eq 'section'}"><c:set var="showSection" value="true" /></c:if>
-                                                    <!-- <c:if test="${col eq 'questionCount'}"><c:set var="showQuestionCount" value="true" /></c:if> -->
-                                                    <!-- <c:if test="${col eq 'status'}"><c:set var="showStatus" value="true" /></c:if> -->
-                                                    <!-- <c:if test="${col eq 'duration'}"><c:set var="showDuration" value="true" /></c:if> -->
                                                 </c:forEach>
                                                 
                                                 <c:if test="${showId}"><th>ID</th></c:if>
                                                 <c:if test="${showTitle}"><th>Question Title</th></c:if>
                                                 <c:if test="${showCourse}"><th>Course</th></c:if>
                                                 <c:if test="${showSection}"><th>Section</th></c:if>
-                                                <!-- <c:if test="${showQuestionCount}"><th>Questions</th></c:if> -->
-                                                <!-- <c:if test="${showStatus}"><th>Status</th></c:if> -->
-                                                <!-- <c:if test="${showDuration}"><th>Duration (minutes)</th></c:if> -->
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -287,11 +278,9 @@
                                                     </c:if>
                                                     <c:if test="${showCourse}"><td>${courseDAO.getByQuestionId(question.id).name}</td></c:if>
                                                     <c:if test="${showSection}"><td>${sectionDAO.findByQuestionId(question.id).title}</td></c:if>
-                                                    <!-- <c:if test="${showQuestionCount}"><td>${quizInfo.questionCount}</td></c:if> -->
-                                                    <!-- <c:if test="${showDuration}"><td>${quizInfo.lesson.duration}</td></c:if> -->
                                                     <td>
                                                         <div class="table-actions">
-                                                            <a href="${pageContext.request.contextPath}/manage-quiz?action=editQuestion&questionId=${question.id}" class="action-edit">
+                                                            <a href="${pageContext.request.contextPath}/manage-question?action=editQuestion&questionId=${question.id}" class="action-edit">
                                                                 <i class="fa fa-edit"></i> Edit
                                                             </a>
                                                             <a href="#" onclick="confirmDelete(${question.id})" class="action-delete">
@@ -358,7 +347,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="${pageContext.request.contextPath}/manage-quiz" method="get" id="settingsForm">
+                    <form action="${pageContext.request.contextPath}/manage-question" method="get" id="settingsForm">
                         <input type="hidden" name="action" value="list">
                         <c:if test="${not empty param.courseId}">
                             <input type="hidden" name="courseId" value="${param.courseId}">
@@ -398,7 +387,7 @@
                                            </c:forEach>
                                            <c:if test="${empty selectedColumns}">checked</c:if>>
                                     <label class="form-check-label" for="titleColumn">
-                                        Quiz Title
+                                        Question Text
                                     </label>
                                 </div>
                             </div>
@@ -426,41 +415,6 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="column-option">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="columns" value="questionCount" id="questionsColumn"
-                                           <c:forEach items="${selectedColumns}" var="col">
-                                               <c:if test="${col eq 'questionCount'}">checked</c:if>
-                                           </c:forEach>
-                                           <c:if test="${empty selectedColumns}">checked</c:if>>
-                                    <label class="form-check-label" for="questionsColumn">
-                                        Questions
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="column-option">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="columns" value="status" id="statusColumn"
-                                           <c:forEach items="${selectedColumns}" var="col">
-                                               <c:if test="${col eq 'status'}">checked</c:if>
-                                           </c:forEach>
-                                           <c:if test="${empty selectedColumns}">checked</c:if>>
-                                    <label class="form-check-label" for="statusColumn">
-                                        Status
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="column-option">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="columns" value="duration" id="durationColumn"
-                                           <c:forEach items="${selectedColumns}" var="col">
-                                               <c:if test="${col eq 'duration'}">checked</c:if>
-                                           </c:forEach>>
-                                    <label class="form-check-label" for="durationColumn">
-                                        Duration
-                                    </label>
-                                </div>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -482,7 +436,7 @@
     <script>
         function confirmDelete(quizId) {
             if (confirm('Are you sure you want to delete this quiz? This action cannot be undone.')) {
-                window.location.href = '${pageContext.request.contextPath}/manage-quiz?action=delete&id=' + quizId;
+                window.location.href = '${pageContext.request.contextPath}/manage-question?action=delete&id=' + quizId;
             }
         }
         

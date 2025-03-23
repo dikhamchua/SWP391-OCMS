@@ -131,4 +131,131 @@ public class QuestionDAO extends DBContext implements I_DAO<Question> {
     public int insert(Question t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    /**
+     * Count total questions with filters
+     */
+    public int countQuestions(String courseId, String sectionId, String search) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM quiz_question q");
+        
+        // Add joins if filtering by course or section
+        if ((courseId != null && !courseId.isEmpty()) || (sectionId != null && !sectionId.isEmpty())) {
+            sql.append(" JOIN lesson_quiz lq ON q.quiz_id = lq.id");
+            sql.append(" JOIN lesson l ON lq.lesson_id = l.id");
+            
+            if (sectionId != null && !sectionId.isEmpty()) {
+                sql.append(" AND l.section_id = ?");
+            } else if (courseId != null && !courseId.isEmpty()) {
+                sql.append(" JOIN section s ON l.section_id = s.id AND s.course_id = ?");
+            }
+        }
+        
+        // Add search condition if provided
+        if (search != null && !search.isEmpty()) {
+            if (sql.toString().contains("WHERE")) {
+                sql.append(" AND q.question_text LIKE ?");
+            } else {
+                sql.append(" WHERE q.question_text LIKE ?");
+            }
+        }
+        
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql.toString());
+            
+            int paramIndex = 1;
+            
+            // Set parameters for course or section filter
+            if (sectionId != null && !sectionId.isEmpty()) {
+                statement.setInt(paramIndex++, Integer.parseInt(sectionId));
+            } else if (courseId != null && !courseId.isEmpty()) {
+                statement.setInt(paramIndex++, Integer.parseInt(courseId));
+            }
+            
+            // Set parameter for search
+            if (search != null && !search.isEmpty()) {
+                statement.setString(paramIndex, "%" + search + "%");
+            }
+            
+            resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error counting questions: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        
+        return 0;
+    }
+
+    /**
+     * Get paginated questions with filters
+     */
+    public List<Question> getQuestionsPaginated(String courseId, String sectionId, String search, int page, int pageSize) {
+        List<Question> questions = new ArrayList<>();
+        
+        StringBuilder sql = new StringBuilder("SELECT q.* FROM quiz_question q");
+        
+        // Add joins if filtering by course or section
+        if ((courseId != null && !courseId.isEmpty()) || (sectionId != null && !sectionId.isEmpty())) {
+            sql.append(" JOIN lesson_quiz lq ON q.quiz_id = lq.id");
+            sql.append(" JOIN lesson l ON lq.lesson_id = l.id");
+            
+            if (sectionId != null && !sectionId.isEmpty()) {
+                sql.append(" WHERE l.section_id = ?");
+            } else if (courseId != null && !courseId.isEmpty()) {
+                sql.append(" JOIN section s ON l.section_id = s.id WHERE s.course_id = ?");
+            }
+        }
+        
+        // Add search condition if provided
+        if (search != null && !search.isEmpty()) {
+            if (sql.toString().contains("WHERE")) {
+                sql.append(" AND q.question_text LIKE ?");
+            } else {
+                sql.append(" WHERE q.question_text LIKE ?");
+            }
+        }
+        
+        // Add order by and limit
+        sql.append(" ORDER BY q.id DESC LIMIT ?, ?");
+        
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql.toString());
+            
+            int paramIndex = 1;
+            
+            // Set parameters for course or section filter
+            if (sectionId != null && !sectionId.isEmpty()) {
+                statement.setInt(paramIndex++, Integer.parseInt(sectionId));
+            } else if (courseId != null && !courseId.isEmpty()) {
+                statement.setInt(paramIndex++, Integer.parseInt(courseId));
+            }
+            
+            // Set parameter for search
+            if (search != null && !search.isEmpty()) {
+                statement.setString(paramIndex++, "%" + search + "%");
+            }
+            
+            // Set pagination parameters
+            statement.setInt(paramIndex++, (page - 1) * pageSize);
+            statement.setInt(paramIndex, pageSize);
+            
+            resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                questions.add(getFromResultSet(resultSet));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error getting paginated questions: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        
+        return questions;
+    }
 } 

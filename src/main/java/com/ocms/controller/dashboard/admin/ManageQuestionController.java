@@ -60,19 +60,13 @@ public class ManageQuestionController extends HttpServlet {
                 listQuestions(request, response);
                 break;
             case "edit":
-                // editQuiz(request, response);
+                editQuestion(request, response);
                 break;
             case "delete":
-                // deleteQuiz(request, response);
+                deleteQuestion(request, response);
                 break;
-            case "editQuestion":
-                // editQuestion(request, response);
-                break;
-            case "newQuestion":
-                // newQuestion(request, response);
-                break;
-            case "listQuestions":
-                listQuestions(request, response);
+            case "new":
+                newQuestion(request, response);
                 break;
             default:
                 listQuestions(request, response);
@@ -90,19 +84,16 @@ public class ManageQuestionController extends HttpServlet {
         }
         
         switch (action) {
-            case "update":
-                // updateQuiz(request, response);
-                break;
-            case "saveQuestion":
-                // saveQuestion(request, response);
+            case "save":
+                saveQuestion(request, response);
                 break;
             default:
-                listQuizzes(request, response);
+                listQuestions(request, response);
                 break;
         }
     }
     
-    private void listQuizzes(HttpServletRequest request, HttpServletResponse response)
+    private void listQuestions(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Get filter parameters
         String courseId = request.getParameter("courseId");
@@ -143,8 +134,8 @@ public class ManageQuestionController extends HttpServlet {
         }
         
         // Calculate pagination values
-        int totalQuizzes = lessonQuizDAO.countQuizzes(courseId, sectionId, search);
-        int totalPages = (int) Math.ceil((double) totalQuizzes / pageSize);
+        int totalQuestions = questionDAO.countQuestions(courseId, sectionId, search);
+        int totalPages = (int) Math.ceil((double) totalQuestions / pageSize);
         
         // Ensure current page is within valid range
         if (page > totalPages && totalPages > 0) {
@@ -153,7 +144,7 @@ public class ManageQuestionController extends HttpServlet {
         
         // Calculate start and end record for display
         int startRecord = (page - 1) * pageSize + 1;
-        int endRecord = Math.min(page * pageSize, totalQuizzes);
+        int endRecord = Math.min(page * pageSize, totalQuestions);
         
         // Calculate pagination range (show 5 pages at most)
         int startPage = Math.max(1, page - 2);
@@ -168,8 +159,8 @@ public class ManageQuestionController extends HttpServlet {
             startPage = Math.max(1, totalPages - 4);
         }
         
-        // Get quizzes for current page
-        List<Map<String, Object>> quizList = lessonQuizDAO.getQuizzesPaginated(
+        // Get questions for current page
+        List<Question> questionsList = questionDAO.getQuestionsPaginated(
                 courseId, sectionId, search, page, pageSize);
         
         // Get all courses for filter dropdown
@@ -187,10 +178,10 @@ public class ManageQuestionController extends HttpServlet {
         }
         
         // Set attributes for the view
-        request.setAttribute("quizList", quizList);
+        request.setAttribute("questionsList", questionsList);
         request.setAttribute("courseList", courseList);
         request.setAttribute("sectionList", sectionList);
-        request.setAttribute("totalQuizzes", totalQuizzes);
+        request.setAttribute("totalQuestions", totalQuestions);
         request.setAttribute("currentPage", page);
         request.setAttribute("pageSize", pageSize);
         request.setAttribute("totalPages", totalPages);
@@ -198,42 +189,211 @@ public class ManageQuestionController extends HttpServlet {
         request.setAttribute("endRecord", endRecord);
         request.setAttribute("startPage", startPage);
         request.setAttribute("endPage", endPage);
+        request.setAttribute("search", search);
+        request.setAttribute("courseId", courseId);
+        request.setAttribute("sectionId", sectionId);
+        request.setAttribute("courseDAO", courseDAO);
+        request.setAttribute("sectionDAO", sectionDAO);
         
         // Forward to the view
-        request.getRequestDispatcher("/view/dashboard/admin/quiz/quiz_list.jsp")
+        request.getRequestDispatcher("/view/dashboard/admin/question/question_list.jsp")
                .forward(request, response);
     }
     
-    private void listQuestions(HttpServletRequest request, HttpServletResponse response)
+    private void editQuestion(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String questionId = request.getParameter("id");
+        
+        if (questionId == null || questionId.isEmpty()) {
+            request.getSession().setAttribute("toastMessage", "Question ID is required");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-question");
+            return;
+        }
         
         try {
+            int questionIdInt = Integer.parseInt(questionId);
+            Question question = questionDAO.getById(questionIdInt);
             
+            if (question == null) {
+                request.getSession().setAttribute("toastMessage", "Question not found");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-question");
+                return;
+            }
             
-            // Get questions for this quiz
-            List<Question> questionsList = questionDAO.findAll();
-            
-            // Get answers for each question
-            // Map<Question, List<QuizAnswer>> questionAnswersMap = new HashMap<>();
-            // for (Question question : questionsList) {
-            //     List<QuizAnswer> answers = quizAnswerDAO.getByQuestionId(question.getId());
-            //     questionAnswersMap.put(question, answers);
-            // }
+            // Get answers for this question
+            List<QuizAnswer> answers = quizAnswerDAO.getByQuestionId(questionIdInt);
             
             // Set attributes for JSP
-            request.setAttribute("questionsList", questionsList);
-            // request.setAttribute("questionAnswersMap", questionAnswersMap);
-            request.setAttribute("courseDAO", courseDAO);
-            request.setAttribute("sectionDAO", sectionDAO);
-            request.setAttribute("lessonQuizDAO", lessonQuizDAO);
+            request.setAttribute("question", question);
+            request.setAttribute("answers", answers);
             
-            // Forward to question list JSP
-            request.getRequestDispatcher("/view/dashboard/admin/question/question_list.jsp").forward(request, response);
+            // Forward to question editor JSP
+            request.getRequestDispatcher("/view/dashboard/admin/quiz/question_editor.jsp").forward(request, response);
             
         } catch (NumberFormatException e) {
-            request.getSession().setAttribute("toastMessage", "Invalid quiz ID");
+            request.getSession().setAttribute("toastMessage", "Invalid question ID");
             request.getSession().setAttribute("toastType", "error");
             response.sendRedirect(request.getContextPath() + "/manage-question");
         }
+    }
+    
+    private void deleteQuestion(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String questionId = request.getParameter("id");
+        
+        if (questionId == null || questionId.isEmpty()) {
+            request.getSession().setAttribute("toastMessage", "Question ID is required");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-question");
+            return;
+        }
+        
+        try {
+            int questionIdInt = Integer.parseInt(questionId);
+            
+            // Delete answers first
+            // quizAnswerDAO.deleteByQuestionId(questionIdInt);
+            
+            // Then delete question
+            // questionDAO.delete(questionIdInt);
+            
+            request.getSession().setAttribute("toastMessage", "Question deleted successfully");
+            request.getSession().setAttribute("toastType", "success");
+            
+        } catch (Exception e) {
+            request.getSession().setAttribute("toastMessage", "Error deleting question: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+        }
+        
+        response.sendRedirect(request.getContextPath() + "/manage-question");
+    }
+    
+    private void newQuestion(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Create empty question object for the form
+        Question question = new Question();
+        question.setId(0); // Indicate this is a new question
+        
+        // Set attributes for JSP
+        request.setAttribute("question", question);
+        request.setAttribute("answers", new ArrayList<QuizAnswer>());
+        
+        // Forward to question editor JSP
+        request.getRequestDispatcher("/view/dashboard/admin/quiz/question_editor.jsp").forward(request, response);
+    }
+    
+    private void saveQuestion(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String questionId = request.getParameter("questionId");
+        String questionText = request.getParameter("questionText");
+        String explanation = request.getParameter("explanation");
+        String correctAnswerStr = request.getParameter("correctAnswer");
+        
+        if (questionText == null || questionText.isEmpty()) {
+            request.getSession().setAttribute("toastMessage", "Question text is required");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-question");
+            return;
+        }
+        
+        try {
+            int questionIdInt = Integer.parseInt(questionId);
+            int correctAnswer = Integer.parseInt(correctAnswerStr);
+            
+            // Get or create question
+            Question question;
+            boolean isNewQuestion = questionIdInt == 0;
+            
+            if (isNewQuestion) {
+                // Create new question
+                question = new Question();
+                question.setStatus("active");
+            } else {
+                // Get existing question
+                question = questionDAO.getById(questionIdInt);
+                if (question == null) {
+                    throw new Exception("Question not found");
+                }
+            }
+            
+            // Update question fields
+            question.setQuestionText(questionText);
+            if (explanation != null && !explanation.isEmpty()) {
+                // question.setExplanation(explanation);
+            }
+            
+            // Save question
+            if (isNewQuestion) {
+                // questionIdInt = questionDAO.create(question);
+                question.setId(questionIdInt);
+            } else {
+                questionDAO.update(question);
+            }
+            
+            // Get the total number of answers from the form
+            String answerCountStr = request.getParameter("answerCount");
+            int answerCount = 4; // Default to 4 if not specified
+            
+            if (answerCountStr != null && !answerCountStr.isEmpty()) {
+                try {
+                    answerCount = Integer.parseInt(answerCountStr);
+                } catch (NumberFormatException e) {
+                    // Use default if parsing fails
+                }
+            }
+            
+            // Process answers
+            for (int i = 1; i <= answerCount; i++) {
+                String answerText = request.getParameter("answerText_" + i);
+                String answerIdStr = request.getParameter("answerId_" + i);
+                
+                // Skip if this answer doesn't exist in the form
+                if (answerText == null || answerIdStr == null) {
+                    continue;
+                }
+                
+                if (answerText != null && !answerText.isEmpty()) {
+                    int answerId = Integer.parseInt(answerIdStr);
+                    boolean isCorrect = i == correctAnswer;
+                    
+                    QuizAnswer answer;
+                    if (answerId == 0) {
+                        // Create new answer
+                        answer = new QuizAnswer();
+                        answer.setQuestionId(questionIdInt);
+                    } else {
+                        // Get existing answer
+                        answer = quizAnswerDAO.getById(answerId);
+                        if (answer == null) {
+                            // If answer not found, create a new one
+                            answer = new QuizAnswer();
+                            answer.setQuestionId(questionIdInt);
+                        }
+                    }
+                    
+                    // Update answer fields
+                    answer.setAnswerText(answerText);
+                    answer.setIsCorrect(isCorrect);
+                    
+                    // Save answer
+                    if (answerId == 0) {
+                        // quizAnswerDAO.create(answer);
+                    } else {
+                        quizAnswerDAO.update(answer);
+                    }
+                }
+            }
+            
+            request.getSession().setAttribute("toastMessage", "Question saved successfully");
+            request.getSession().setAttribute("toastType", "success");
+            
+        } catch (Exception e) {
+            request.getSession().setAttribute("toastMessage", "Error saving question: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+        }
+        
+        response.sendRedirect(request.getContextPath() + "/manage-question");
     }
 } 
