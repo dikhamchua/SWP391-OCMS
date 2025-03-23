@@ -43,6 +43,12 @@
                         Manage Course
                     </a>
                 </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/manage-registration">
+                        <i class="skillgro-avatar"></i>
+                        Manage Registration
+                    </a>
+                </li>
                 <c:if test="${sessionScope.account.roleId == 1 }">
                     <li>
                         <a href="${pageContext.request.contextPath}/manage-account">

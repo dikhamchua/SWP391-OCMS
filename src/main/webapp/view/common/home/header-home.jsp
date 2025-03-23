@@ -36,12 +36,12 @@
                     <div class="tgmenu__wrap">
                         <nav class="tgmenu__nav">
                             <div class="logo">
-                                <a href="index.html"><img src="${pageContext.request.contextPath}/assets/img/logo/logo.svg" alt="Logo"></a>
+                                <a href="${pageContext.request.contextPath}/home"><img src="${pageContext.request.contextPath}/assets/img/logo/logo.svg" alt="Logo"></a>
                             </div>
                             <div class="tgmenu__navbar-wrap tgmenu__main-menu d-none d-xl-flex">
                                 <ul class="navigation">
                                     <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
-                                    <li><a href="#">Courses</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/course-list">Courses</a></li>
                                     <c:if test="${sessionScope.account != null}">
                                         <li>
                                             <a href="${pageContext.request.contextPath}/dashboard-profile">Dashboard</a>
