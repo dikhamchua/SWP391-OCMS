@@ -36,7 +36,7 @@ public class CartController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        cartDAO = new CartDAO();
+        cartDAO = new CartDAO();    
         cartItemDAO = new CartItemDAO();
         courseDAO = new CourseDAO();
         registrationDAO = new RegistrationDAO();
@@ -112,7 +112,7 @@ public class CartController extends HttpServlet {
 
         if (courseId != null && priceStr != null) {
             try {
-                int courseIdInt = Integer.parseInt(courseId);
+            int courseIdInt = Integer.parseInt(courseId);
                 BigDecimal price = new BigDecimal(priceStr);
 
                 // Get or create cart for the user
@@ -266,21 +266,6 @@ public class CartController extends HttpServlet {
             return;
         }
         
-        // Get form data
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String phone = request.getParameter("phone");
-        String paymentMethod = request.getParameter("paymentMethod");
-        String notes = request.getParameter("notes");
-        
-        // Validate required fields
-        if (firstName == null || lastName == null || phone == null || paymentMethod == null) {
-            session.setAttribute("message", "Please fill out all required fields.");
-            session.setAttribute("messageType", "error");
-            response.sendRedirect(request.getContextPath() + "/view/homepage/checkout.jsp");
-            return;
-        }
-        
         // Current timestamp for registration
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         
@@ -319,7 +304,7 @@ public class CartController extends HttpServlet {
         } catch (Exception e) {
             session.setAttribute("message", "An error occurred while processing your checkout. Please try again.");
             session.setAttribute("messageType", "error");
-            response.sendRedirect(request.getContextPath() + "/view/homepage/checkout.jsp");
+            request.getRequestDispatcher(CHECKOUT_JSP).forward(request, response);
             return;
         }
         
@@ -346,7 +331,7 @@ public class CartController extends HttpServlet {
         } else {
             session.setAttribute("message", "There was an error processing your checkout. Please try again.");
             session.setAttribute("messageType", "error");
-            response.sendRedirect(request.getContextPath() + "/view/homepage/checkout.jsp");
+            request.getRequestDispatcher(CHECKOUT_JSP).forward(request, response);
         }
     }
 }

@@ -31,25 +31,18 @@ public class MyCoursesController extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute(GlobalConfig.SESSION_ACCOUNT);
         
-        // Check if user is logged in and is a student (roleId = 3)
-        if (account == null || account.getRoleId() != 3) {
+        // Check if user is logged in
+        if (account == null) {
             response.sendRedirect(request.getContextPath() + "/authen?action=login");
             return;
         }
         
         // Get student's registered courses
         List<Registration> registrations = registrationDAO.findByStudentId(account.getId());
-        List<Course> myCourses = new ArrayList<>();
         
-        // For each registration, get the course details
-        for (Registration registration : registrations) {
-            if ("Active".equals(registration.getStatus())) {
-                Course course = courseDAO.findById(registration.getCourseId());
-                if (course != null) {
-                    myCourses.add(course);
-                }
-            }
-        }
+        // Set attributes for the JSP
+        request.setAttribute("registrations", registrations);
+        request.setAttribute("courseDAO", courseDAO);
         
         // Pagination parameters
         int page = 1;
