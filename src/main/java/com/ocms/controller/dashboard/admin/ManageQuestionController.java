@@ -59,10 +59,10 @@ public class ManageQuestionController extends HttpServlet {
                 editQuestion(request, response);
                 break;
             case "delete":
-                deleteQuestion(request, response);
+                // deleteQuestion(request, response);
                 break;
             case "new":
-                newQuestion(request, response);
+                // newQuestion(request, response);
                 break;
             default:
                 listQuestions(request, response);
@@ -80,7 +80,7 @@ public class ManageQuestionController extends HttpServlet {
         }
         
         switch (action) {
-            case "save":
+            case "saveQuestion":
                 saveQuestion(request, response);
                 break;
             default:
@@ -229,7 +229,7 @@ public class ManageQuestionController extends HttpServlet {
             request.setAttribute("answers", answers);
             
             // Forward to question editor JSP
-            request.getRequestDispatcher("/view/dashboard/admin/quiz/question_editor.jsp").forward(request, response);
+            request.getRequestDispatcher("/view/dashboard/admin/question/question_editor.jsp").forward(request, response);
             
         } catch (NumberFormatException e) {
             request.getSession().setAttribute("toastMessage", "Invalid question ID");
@@ -238,56 +238,11 @@ public class ManageQuestionController extends HttpServlet {
         }
     }
     
-    private void deleteQuestion(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String questionId = request.getParameter("id");
-        
-        if (questionId == null || questionId.isEmpty()) {
-            request.getSession().setAttribute("toastMessage", "Question ID is required");
-            request.getSession().setAttribute("toastType", "error");
-            response.sendRedirect(request.getContextPath() + "/manage-question");
-            return;
-        }
-        
-        try {
-            int questionIdInt = Integer.parseInt(questionId);
-            
-            // Delete answers first
-            // quizAnswerDAO.deleteByQuestionId(questionIdInt);
-            
-            // Then delete question
-            // questionDAO.delete(questionIdInt);
-            
-            request.getSession().setAttribute("toastMessage", "Question deleted successfully");
-            request.getSession().setAttribute("toastType", "success");
-            
-        } catch (Exception e) {
-            request.getSession().setAttribute("toastMessage", "Error deleting question: " + e.getMessage());
-            request.getSession().setAttribute("toastType", "error");
-        }
-        
-        response.sendRedirect(request.getContextPath() + "/manage-question");
-    }
-    
-    private void newQuestion(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Create empty question object for the form
-        Question question = new Question();
-        question.setId(0); // Indicate this is a new question
-        
-        // Set attributes for JSP
-        request.setAttribute("question", question);
-        request.setAttribute("answers", new ArrayList<QuizAnswer>());
-        
-        // Forward to question editor JSP
-        request.getRequestDispatcher("/view/dashboard/admin/quiz/question_editor.jsp").forward(request, response);
-    }
-    
     private void saveQuestion(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String questionId = request.getParameter("questionId");
         String questionText = request.getParameter("questionText");
-        String explanation = request.getParameter("explanation");
+        // String explanation = request.getParameter("explanation");
         String correctAnswerStr = request.getParameter("correctAnswer");
         
         if (questionText == null || questionText.isEmpty()) {
@@ -319,13 +274,13 @@ public class ManageQuestionController extends HttpServlet {
             
             // Update question fields
             question.setQuestionText(questionText);
-            if (explanation != null && !explanation.isEmpty()) {
-                // question.setExplanation(explanation);
-            }
+            // if (explanation != null && !explanation.isEmpty()) {
+            //     // question.setExplanation(explanation);
+            // }
             
             // Save question
             if (isNewQuestion) {
-                // questionIdInt = questionDAO.create(question);
+                questionIdInt = questionDAO.create(question);
                 question.setId(questionIdInt);
             } else {
                 questionDAO.update(question);

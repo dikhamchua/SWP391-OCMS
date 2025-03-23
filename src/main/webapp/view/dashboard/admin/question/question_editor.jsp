@@ -159,27 +159,28 @@
                                         <c:otherwise>Chỉnh sửa câu hỏi</c:otherwise>
                                     </c:choose>
                                 </h4>
-                                <a href="${pageContext.request.contextPath}/manage-quiz?action=edit&id=${quiz.id}" class="btn btn-outline-secondary">
+                                <a href="${pageContext.request.contextPath}/manage-question" class="btn btn-outline-secondary">
                                     <i class="fa fa-arrow-left"></i> Quay lại danh sách câu hỏi
                                 </a>
                             </div>
                             
-                            <form action="${pageContext.request.contextPath}/manage-quiz" method="post">
+                            <form action="${pageContext.request.contextPath}/manage-question" method="post" id="questionForm">
                                 <input type="hidden" name="action" value="saveQuestion">
-                                <input type="hidden" name="quizId" value="${quizId}">
                                 <input type="hidden" name="questionId" value="${question.id}">
+                                <input type="hidden" name="quizId" value="${question.quizId}">
                                 <input type="hidden" id="answerCount" name="answerCount" value="${empty answers ? 4 : answers.size()}">
                                 
-                                <!-- Question Editor -->
-                                <div class="question-container">
-                                    <div class="question-header">
-                                        <h6 class="question-title">Nội dung câu hỏi</h6>
-                                    </div>
-                                    
+                                <div class="form-section">
+                                    <div class="form-section-title">Thông tin câu hỏi</div>
                                     <div class="form-group">
-                                        <textarea class="question-editor form-control" id="questionText" name="questionText">${question.questionText}</textarea>
+                                        <label class="form-label">Nội dung câu hỏi</label>
+                                        <textarea class="form-control question-editor" name="questionText" rows="5">${question.questionText}</textarea>
+                                        <small class="form-text">Bạn có thể thêm hình ảnh, âm thanh hoặc định dạng văn bản.</small>
                                     </div>
-                                    
+                                </div>
+                                
+                                <div class="form-section">
+                                    <div class="form-section-title">Đáp án</div>
                                     <div class="form-group">
                                         <label class="form-label">Các đáp án</label>
                                         <div class="answers-container" id="answers-container">
@@ -208,7 +209,7 @@
                                 </div>
                                 
                                 <div class="form-actions">
-                                    <a href="${pageContext.request.contextPath}/manage-quiz?action=edit&id=${quizId}" class="btn btn-outline-secondary">Hủy</a>
+                                    <a href="${pageContext.request.contextPath}/manage-question" class="btn btn-outline-secondary">Hủy</a>
                                     <button type="submit" class="btn btn-primary">Lưu câu hỏi</button>
                                 </div>
                             </form>
@@ -258,6 +259,67 @@
             
             // Initialize TinyMCE
             initTinyMCE();
+            
+            // Form submission
+            $('#questionForm').submit(function(e) {
+                // Save TinyMCE content before submitting
+                tinymce.triggerSave();
+                
+                // Validate form
+                if (!validateForm()) {
+                    e.preventDefault();
+                    return false;
+                }
+                
+                return true;
+            });
+            
+            // Validate form
+            function validateForm() {
+                // Check if question text is not empty
+                var questionText = tinymce.get('questionText').getContent();
+                if (!questionText || questionText.trim() === '') {
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'Question text cannot be empty',
+                        position: 'topRight',
+                        timeout: 3000
+                    });
+                    return false;
+                }
+                
+                // Check if at least one answer is selected as correct
+                if (!$('input[name="correctAnswer"]:checked').length) {
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'Please select a correct answer',
+                        position: 'topRight',
+                        timeout: 3000
+                    });
+                    return false;
+                }
+                
+                // Check if all answer fields are filled
+                var allFilled = true;
+                $('input[name^="answerText_"]').each(function() {
+                    if ($(this).val().trim() === '') {
+                        allFilled = false;
+                        return false; // break the loop
+                    }
+                });
+                
+                if (!allFilled) {
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'All answer fields must be filled',
+                        position: 'topRight',
+                        timeout: 3000
+                    });
+                    return false;
+                }
+                
+                return true;
+            }
             
             // Add answer option
             $('#addAnswerBtn').click(function() {

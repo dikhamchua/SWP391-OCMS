@@ -118,18 +118,90 @@ public class QuestionDAO extends DBContext implements I_DAO<Question> {
     }
 
     @Override
-    public boolean update(Question t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean update(Question question) {
+        String sql = "UPDATE quiz_question SET quiz_id = ?, question_text = ?, points = ?, " +
+                     "order_number = ?, status = ?, modified_date = NOW() " +
+                     "WHERE id = ?";
+        
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, question.getQuizId());
+            statement.setString(2, question.getQuestionText());
+            statement.setInt(3, question.getPoints());
+            statement.setInt(4, question.getOrderNumber());
+            statement.setString(5, question.getStatus());
+            statement.setInt(6, question.getId());
+            
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            System.out.println("Error updating question: " + ex.getMessage());
+            return false;
+        } finally {
+            closeResources();
+        }
     }
 
     @Override
-    public boolean delete(Question t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean delete(Question question) {
+        return delete(question.getId());
+    }
+
+    public boolean delete(int questionId) {
+        String sql = "DELETE FROM quiz_question WHERE id = ?";
+        
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, questionId);
+            
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            System.out.println("Error deleting question: " + ex.getMessage());
+            return false;
+        } finally {
+            closeResources();
+        }
+    }
+
+    public int create(Question question) {
+        String sql = "INSERT INTO quiz_question (quiz_id, question_text, points, order_number, status, created_date, modified_date) " +
+                     "VALUES (?, ?, ?, ?, ?, NOW(), NOW())";
+        
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, question.getQuizId());
+            statement.setString(2, question.getQuestionText());
+            statement.setInt(3, question.getPoints());
+            statement.setInt(4, question.getOrderNumber());
+            statement.setString(5, question.getStatus());
+            
+            int affectedRows = statement.executeUpdate();
+            
+            if (affectedRows == 0) {
+                throw new SQLException("Creating question failed, no rows affected.");
+            }
+            
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            } else {
+                throw new SQLException("Creating question failed, no ID obtained.");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error creating question: " + ex.getMessage());
+            return -1;
+        } finally {
+            closeResources();
+        }
     }
 
     @Override
-    public int insert(Question t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int insert(Question question) {
+        return create(question);
     }
 
     /**
