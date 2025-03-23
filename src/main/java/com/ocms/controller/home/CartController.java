@@ -22,7 +22,6 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Calendar;
 
-
 @WebServlet("/cart")
 public class CartController extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -36,40 +35,42 @@ public class CartController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        cartDAO = new CartDAO();    
+        cartDAO = new CartDAO();
         cartItemDAO = new CartItemDAO();
         courseDAO = new CourseDAO();
         registrationDAO = new RegistrationDAO();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute(GlobalConfig.SESSION_ACCOUNT);
         if (account == null) {
             response.sendRedirect(request.getContextPath() + "/authen?action=login");
             return;
         }
-        
+
         // Get the user's cart
         Cart cart = cartDAO.getOrCreateCart(account.getId());
-        
+
         // Get cart items with course details
         List<CartItem> cartItems = cartItemDAO.getCartItemsWithCourseDetails(cart.getId());
-        
+
         // Calculate cart total
         BigDecimal cartTotal = cartItemDAO.getCartTotal(cart.getId());
-        
+
         // Set attributes for the JSP
         request.setAttribute("cart", cart);
         request.setAttribute("cartItems", cartItems);
         request.setAttribute("cartTotal", cartTotal);
         request.setAttribute("itemCount", cartItems.size());
         request.setAttribute("courseDAO", courseDAO);
-        
+
         request.getRequestDispatcher(CART_JSP).forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action != null) {
             switch (action) {
@@ -91,27 +92,28 @@ public class CartController extends HttpServlet {
         }
     }
 
-    private void addToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void addToCart(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute(GlobalConfig.SESSION_ACCOUNT);
-        
+
         if (account == null) {
             // Redirect to login if not logged in
             response.sendRedirect(request.getContextPath() + "/authen?action=login");
             return;
         }
-        
+
         String courseId = request.getParameter("courseId");
         String priceStr = request.getParameter("price");
-        
+
         if (courseId != null && priceStr != null) {
             try {
                 int courseIdInt = Integer.parseInt(courseId);
                 BigDecimal price = new BigDecimal(priceStr);
-                
+
                 // Get or create cart for the user
                 Cart cart = cartDAO.getOrCreateCart(account.getId());
-                
+
                 // Check if course is already in cart
                 if (!cartItemDAO.isInCart(cart.getId(), courseIdInt)) {
                     // Create new cart item
@@ -119,10 +121,10 @@ public class CartController extends HttpServlet {
                     cartItem.setCartId(cart.getId());
                     cartItem.setCourseId(courseIdInt);
                     cartItem.setPrice(price);
-                    
+
                     // Add to cart
                     int result = cartItemDAO.insert(cartItem);
-                    
+
                     if (result > 0) {
                         session.setAttribute("message", "Course added to cart successfully!");
                         session.setAttribute("messageType", "success");
@@ -142,38 +144,39 @@ public class CartController extends HttpServlet {
             session.setAttribute("message", "Missing required information.");
             session.setAttribute("messageType", "error");
         }
-        
+
         // Redirect back to cart page
         response.sendRedirect(request.getContextPath() + "/cart");
     }
-    
-    private void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    private void removeFromCart(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute(GlobalConfig.SESSION_ACCOUNT);
-        
+
         if (account == null) {
             response.sendRedirect(request.getContextPath() + "/authen?action=login");
             return;
         }
-        
+
         // Get the item ID from the request
         String itemId = request.getParameter("itemId");
-        
+
         if (itemId != null && !itemId.isEmpty()) {
             try {
                 int itemIdInt = Integer.parseInt(itemId);
-                
+
                 // Get user's cart
                 Cart cart = cartDAO.findByAccountId(account.getId());
-                
+
                 if (cart != null) {
                     // Get the cart item to verify it belongs to this user's cart
                     CartItem cartItem = cartItemDAO.getById(itemIdInt);
-                    
+
                     if (cartItem != null && cartItem.getCartId().equals(cart.getId())) {
                         // Remove item from cart
                         boolean removed = cartItemDAO.delete(cartItem);
-                        
+
                         if (removed) {
                             session.setAttribute("message", "Course removed from cart successfully!");
                             session.setAttribute("messageType", "success");
@@ -197,74 +200,82 @@ public class CartController extends HttpServlet {
             session.setAttribute("message", "Missing required information.");
             session.setAttribute("messageType", "error");
         }
-        
+
         // Redirect back to cart page
         response.sendRedirect(request.getContextPath() + "/cart");
     }
-    
-    private void processCheckout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    private void processCheckout(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute(GlobalConfig.SESSION_ACCOUNT);
-        
+
         if (account == null) {
             response.sendRedirect(request.getContextPath() + "/authen?action=login");
             return;
         }
-        
+
         // Get user's cart
         Cart cart = cartDAO.findByAccountId(account.getId());
-        
+
         if (cart == null || cartItemDAO.countCartItems(cart.getId()) == 0) {
             session.setAttribute("message", "Your cart is empty. Please add courses before checkout.");
             session.setAttribute("messageType", "warning");
             response.sendRedirect(request.getContextPath() + "/cart");
             return;
         }
-        
+
         // Get all items in the cart
         List<CartItem> cartItems = cartItemDAO.getCartItemsWithCourseDetails(cart.getId());
-        
+
         // Current timestamp for registration
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        
+
         // Calculate valid from and valid to dates (1 year validity)
         Calendar calendar = Calendar.getInstance();
         Timestamp validFrom = new Timestamp(calendar.getTimeInMillis());
-        
+
         calendar.add(Calendar.YEAR, 1);
         Timestamp validTo = new Timestamp(calendar.getTimeInMillis());
-        
+
         boolean allSuccess = true;
-        
-        // Process each cart item as a registration
-        for (CartItem item : cartItems) {
-            Registration registration = new Registration();
-            registration.setEmail(account.getEmail());
-            registration.setAccountId(account.getId());
-            registration.setRegistrationTime(currentTime);
-            registration.setCourseId(item.getCourseId());
-            registration.setPackages("Standard"); // Default package
-            registration.setTotalCost(item.getPrice());
-            registration.setStatus("Active");
-            registration.setValidFrom(validFrom);
-            registration.setValidTo(validTo);
-            registration.setLastUpdateByPerson(account.getId());
-            
-            // Insert registration
-            int registrationId = registrationDAO.insert(registration);
-            
-            if (registrationId <= 0) {
-                allSuccess = false;
-                break;
+
+        try {
+            // Process each cart item as a registration
+            for (CartItem item : cartItems) {
+                Registration registration = new Registration();
+                registration.setEmail(account.getEmail());
+                registration.setAccountId(account.getId());
+                registration.setRegistrationTime(currentTime);
+                registration.setCourseId(item.getCourseId());
+                registration.setPackages("Standard"); // Default package
+                registration.setTotalCost(item.getPrice());
+                registration.setStatus("Pending");
+                registration.setValidFrom(validFrom);
+                registration.setValidTo(validTo);
+                registration.setLastUpdateByPerson(account.getId());
+
+                // Insert registration
+                int registrationId = registrationDAO.insert(registration);
+
+                if (registrationId <= 0) {
+                    allSuccess = false;
+                    break;
+                }
             }
+        } catch (Exception e) {
+            session.setAttribute("message", "An error occurred while processing your checkout. Please try again.");
+            session.setAttribute("messageType", "error");
+            response.sendRedirect(request.getContextPath() + "/cart");
+            return;
         }
-        
+
         if (allSuccess) {
             // Clear the cart after successful checkout
             for (CartItem item : cartItems) {
                 cartItemDAO.delete(item);
             }
-            
+
             session.setAttribute("message", "Checkout completed successfully! You can now access your courses.");
             session.setAttribute("messageType", "success");
             response.sendRedirect(request.getContextPath() + "/my-courses"); // Redirect to my courses page
