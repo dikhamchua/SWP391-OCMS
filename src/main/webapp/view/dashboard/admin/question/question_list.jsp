@@ -280,11 +280,8 @@
                                                     <c:if test="${showSection}"><td>${sectionDAO.findByQuestionId(question.id).title}</td></c:if>
                                                     <td>
                                                         <div class="table-actions">
-                                                            <a href="${pageContext.request.contextPath}/manage-question?action=editQuestion&questionId=${question.id}" class="action-edit">
-                                                                <i class="fa fa-edit"></i> Edit
-                                                            </a>
-                                                            <a href="#" onclick="confirmDelete(${question.id})" class="action-delete">
-                                                                <i class="fa fa-trash"></i> Delete
+                                                            <a href="${pageContext.request.contextPath}/manage-question?action=viewQuestion&questionId=${question.id}" class="action-edit">
+                                                                <i class="fa fa-eye"></i> View
                                                             </a>
                                                         </div>
                                                     </td>

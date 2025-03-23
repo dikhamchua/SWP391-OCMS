@@ -9,8 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.ocms.dal.CourseDAO;
 import com.ocms.dal.SectionDAO;
@@ -20,8 +18,6 @@ import com.ocms.dal.QuestionDAO;
 import com.ocms.dal.QuizAnswerDAO;
 import com.ocms.entity.Course;
 import com.ocms.entity.Section;
-import com.ocms.entity.Lesson;
-import com.ocms.entity.LessonQuiz;
 import com.ocms.entity.Question;
 import com.ocms.entity.QuizAnswer;
 
@@ -59,7 +55,7 @@ public class ManageQuestionController extends HttpServlet {
             case "list":
                 listQuestions(request, response);
                 break;
-            case "edit":
+            case "viewQuestion":
                 editQuestion(request, response);
                 break;
             case "delete":
@@ -99,6 +95,9 @@ public class ManageQuestionController extends HttpServlet {
         String courseId = request.getParameter("courseId");
         String sectionId = request.getParameter("sectionId");
         String search = request.getParameter("search");
+        if (search != null && !search.isEmpty()) {
+            search = search.trim();
+        }
         
         // Handle column selection
         String[] selectedColumns = request.getParameterValues("columns");
@@ -202,7 +201,7 @@ public class ManageQuestionController extends HttpServlet {
     
     private void editQuestion(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String questionId = request.getParameter("id");
+        String questionId = request.getParameter("questionId");
         
         if (questionId == null || questionId.isEmpty()) {
             request.getSession().setAttribute("toastMessage", "Question ID is required");
