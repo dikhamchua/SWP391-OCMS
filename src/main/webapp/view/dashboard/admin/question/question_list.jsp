@@ -459,30 +459,60 @@
                     
                     // AJAX call to get sections for selected course
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/get-sections',
+                        url: '${pageContext.request.contextPath}/api/sections',
                         type: 'GET',
                         data: { courseId: courseId },
+                        dataType: 'json',
                         success: function(data) {
                             // Clear current options
                             sectionDropdown.empty();
-                            sectionDropdown.append('<option value="">All Sections</option>');
+                            sectionDropdown.append('<option value="">Tất cả phần học</option>');
                             
                             // Add new options
                             $.each(data, function(index, section) {
                                 sectionDropdown.append('<option value="' + section.id + '">' + section.title + '</option>');
                             });
+                            
+                            // If there was a previously selected section for this course, select it again
+                            var previousSectionId = "${param.sectionId}";
+                            if (previousSectionId) {
+                                sectionDropdown.val(previousSectionId);
+                            }
                         },
-                        error: function() {
-                            console.error('Failed to load sections');
+                        error: function(xhr, status, error) {
+                            console.error('Failed to load sections: ' + error);
+                            // Fallback: load sections from the server-side provided list
+                            loadSectionsFromServerData(courseId);
                         }
                     });
                 } else {
                     // Disable and reset section dropdown
                     sectionDropdown.prop('disabled', true);
                     sectionDropdown.empty();
-                    sectionDropdown.append('<option value="">All Sections</option>');
+                    sectionDropdown.append('<option value="">Tất cả phần học</option>');
                 }
             });
+            
+            // Function to load sections from server-side data if AJAX fails
+            function loadSectionsFromServerData(courseId) {
+                var sectionDropdown = $('#sectionId');
+                sectionDropdown.empty();
+                sectionDropdown.append('<option value="">Tất cả phần học</option>');
+                
+                <c:if test="${not empty sectionList}">
+                    <c:forEach items="${sectionList}" var="section">
+                        if (${section.courseId} == courseId) {
+                            var selected = ${param.sectionId == section.id} ? 'selected' : '';
+                            sectionDropdown.append('<option value="${section.id}" ' + selected + '>${section.title}</option>');
+                        }
+                    </c:forEach>
+                </c:if>
+            }
+            
+            // Trigger change event on page load if a course is selected
+            if ($('#courseId').val()) {
+                $('#courseId').trigger('change');
+            }
             
             // Xử lý đóng modal
             $('.close, .btn-secondary[data-dismiss="modal"]').click(function() {
