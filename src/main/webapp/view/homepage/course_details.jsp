@@ -410,10 +410,15 @@
                             </div>
                             <div class="courses__details-enroll">
                                 <div class="tg-button-wrap">
-                                    <a href="courses.html" class="btn btn-two arrow-btn">
-                                        Add To Cart
-                                        <img src="assets/img/icons/right_arrow.svg" alt="img" class="injectable">
-                                    </a>
+                                    <form action="${pageContext.request.contextPath}/cart" method="post" id="addToCartForm">
+                                        <input type="hidden" name="action" value="add">
+                                        <input type="hidden" name="courseId" value="${course.id}">
+                                        <input type="hidden" name="price" value="${course.price}">
+                                        <button type="submit" class="btn btn-two arrow-btn">
+                                            Add To Cart
+                                            <img src="assets/img/icons/right_arrow.svg" alt="img" class="injectable">
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
