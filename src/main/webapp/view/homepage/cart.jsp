@@ -118,10 +118,10 @@
                                                     <span class="price">$<fmt:formatNumber value="${item.price}" pattern="#,##0.00"/></span>
                                                 </div>
                                                 <div class="col-md-2 text-right">
-                                                    <form action="${pageContext.request.contextPath}/cart" method="post">
+                                                    <form action="${pageContext.request.contextPath}/cart" method="post" class="remove-item-form" id="removeForm_${item.id}" data-course-name="${course.name}">
                                                         <input type="hidden" name="action" value="remove">
                                                         <input type="hidden" name="itemId" value="${item.id}">
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmRemove(${item.id}, '${course.name}')">
                                                             <i class="fas fa-trash"></i> Remove
                                                         </button>
                                                     </form>
@@ -178,6 +178,27 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     
     <script>
+        // Function to confirm item removal
+        function confirmRemove(itemId, courseName) {
+            if (confirm('Are you sure you want to remove "' + courseName + '" from your cart?')) {
+                document.getElementById('removeForm_' + itemId).submit();
+            }
+            return false;
+        }
+        
+        // Update the remove buttons to use the confirmation function
+        document.addEventListener('DOMContentLoaded', function() {
+            const removeForms = document.querySelectorAll('.remove-item-form');
+            removeForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const itemId = this.querySelector('input[name="itemId"]').value;
+                    const courseName = this.getAttribute('data-course-name');
+                    confirmRemove(itemId, courseName);
+                });
+            });
+        });
+        
         // Function to show toast message
         function showToast(message, type) {
             let backgroundColor = "#28a745"; // Default success color

@@ -264,4 +264,28 @@ public class CartItemDAO extends DBContext implements I_DAO<CartItem> {
         }
         return cartItems;
     }
+
+    /**
+     * Get cart item by ID
+     * @param id The cart item ID
+     * @return The cart item, or null if not found
+     */
+    public CartItem getById(Integer id) {
+        String sql = "SELECT * FROM cart_item WHERE id = ?";
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                return getFromResultSet(resultSet);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error getting cart item by ID: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return null;
+    }
 } 

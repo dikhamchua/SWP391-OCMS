@@ -79,7 +79,7 @@
                                         </a>
                                     </li>
                                     <li class="mini-cart-icon">
-                                        <a href="cart.html" class="cart-count">
+                                        <a href="${pageContext.request.contextPath}/cart" class="cart-count">
                                             <img src="${pageContext.request.contextPath}/assets/img/icons/cart.svg" class="injectable" alt="img">
                                             <span class="mini-cart-count">0</span>
                                         </a>

@@ -151,24 +151,33 @@ public class CartController extends HttpServlet {
             return;
         }
         
-        String courseId = request.getParameter("courseId");
+        // Get the item ID from the request
+        String itemId = request.getParameter("itemId");
         
-        if (courseId != null) {
+        if (itemId != null && !itemId.isEmpty()) {
             try {
-                int courseIdInt = Integer.parseInt(courseId);
+                int itemIdInt = Integer.parseInt(itemId);
                 
                 // Get user's cart
                 Cart cart = cartDAO.findByAccountId(account.getId());
                 
                 if (cart != null) {
-                    // Remove item from cart
-                    boolean removed = cartItemDAO.removeFromCart(cart.getId(), courseIdInt);
+                    // Get the cart item to verify it belongs to this user's cart
+                    CartItem cartItem = cartItemDAO.getById(itemIdInt);
                     
-                    if (removed) {
-                        session.setAttribute("message", "Course removed from cart successfully!");
-                        session.setAttribute("messageType", "success");
+                    if (cartItem != null && cartItem.getCartId().equals(cart.getId())) {
+                        // Remove item from cart
+                        boolean removed = cartItemDAO.delete(cartItem);
+                        
+                        if (removed) {
+                            session.setAttribute("message", "Course removed from cart successfully!");
+                            session.setAttribute("messageType", "success");
+                        } else {
+                            session.setAttribute("message", "Failed to remove course from cart.");
+                            session.setAttribute("messageType", "error");
+                        }
                     } else {
-                        session.setAttribute("message", "Failed to remove course from cart.");
+                        session.setAttribute("message", "Item not found in your cart.");
                         session.setAttribute("messageType", "error");
                     }
                 } else {
@@ -176,7 +185,7 @@ public class CartController extends HttpServlet {
                     session.setAttribute("messageType", "error");
                 }
             } catch (NumberFormatException e) {
-                session.setAttribute("message", "Invalid course information.");
+                session.setAttribute("message", "Invalid item information.");
                 session.setAttribute("messageType", "error");
             }
         } else {
