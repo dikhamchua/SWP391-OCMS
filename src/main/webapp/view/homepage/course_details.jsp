@@ -367,16 +367,16 @@
                                         Level
                                         <span>Expert</span>
                                     </li>
-                                    <li>
+                                    <!-- <li>
                                         <img src="assets/img/icons/course_icon02.svg" alt="img" class="injectable">
                                         Duration
                                         <span>11h 20m</span>
-                                    </li>
-                                    <li>
+                                    </li> -->
+                                    <!-- <li>
                                         <img src="assets/img/icons/course_icon03.svg" alt="img" class="injectable">
                                         Lessons
                                         <span>12</span>
-                                    </li>
+                                    </li> -->
                                     <li>
                                         <img src="assets/img/icons/course_icon04.svg" alt="img" class="injectable">
                                         Quizzes
@@ -411,7 +411,7 @@
                             <div class="courses__details-enroll">
                                 <div class="tg-button-wrap">
                                     <a href="courses.html" class="btn btn-two arrow-btn">
-                                        See All Instructors
+                                        Add To Cart
                                         <img src="assets/img/icons/right_arrow.svg" alt="img" class="injectable">
                                     </a>
                                 </div>
