@@ -405,11 +405,35 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
         return 0;
     }
 
+    public Course getByQuestionId(int questionId) {
+        String sql = "SELECT c.* FROM course c " +
+                     "JOIN section s ON c.id = s.course_id " +
+                     "JOIN lesson l ON s.id = l.section_id " +
+                     "JOIN lesson_quiz lq ON l.id = lq.lesson_id " +
+                     "JOIN quiz_question qq ON lq.id = qq.quiz_id " +
+                     "WHERE qq.id = ?";
+        try {
+            connection = new DBContext().connection;
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, questionId);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return getFromResultSet(resultSet);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error getting course by question ID: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         CourseDAO courseDAO = new CourseDAO();
-        List<Course> courses = courseDAO.findAll();
-        for (Course course : courses) {
-            System.out.println(course);
-        }
+        // List<Course> courses = courseDAO.findAll();
+        // for (Course course : courses) {
+        //     System.out.println(course);
+        // }
+        System.out.println(courseDAO.getByQuestionId(32));
     }
 }

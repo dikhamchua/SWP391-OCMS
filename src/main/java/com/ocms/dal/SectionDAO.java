@@ -202,4 +202,40 @@ public class SectionDAO extends DBContext {
         
         return 0; // Return 0 if no sections exist or if there's an error
     }
+
+    /**
+     * Retrieves a Section associated with a specific question ID
+     * 
+     * @param id The ID of the question
+     * @return The Section object associated with the question, or null if not found
+     */
+    public Section findByQuestionId(Integer id) {
+        String sql = "SELECT s.* FROM section s " +
+                     "JOIN lesson l ON s.id = l.section_id " +
+                     "JOIN lesson_quiz lq ON l.id = lq.lesson_id " +
+                     "JOIN quiz_question qq ON lq.id = qq.quiz_id " +
+                     "WHERE qq.id = ? AND s.status = 'active'";
+        
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                return getFromResultSet(resultSet);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error finding section by question ID: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        
+        return null;
+    }
+
+    public static void main(String[] args) {
+        SectionDAO sectionDAO = new SectionDAO();
+        System.out.println(sectionDAO.findByQuestionId(32));
+    }
 } 

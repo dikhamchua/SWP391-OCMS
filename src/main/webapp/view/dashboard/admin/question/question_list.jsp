@@ -220,46 +220,39 @@
                                                 <c:set var="showTitle" value="${empty selectedColumns}" />
                                                 <c:set var="showCourse" value="${empty selectedColumns}" />
                                                 <c:set var="showSection" value="${empty selectedColumns}" />
-                                                <c:set var="showQuestionCount" value="${empty selectedColumns}" />
-                                                <c:set var="showStatus" value="${empty selectedColumns}" />
-                                                <c:set var="showDuration" value="false" />
+                                                <!-- <c:set var="showQuestionCount" value="${empty selectedColumns}" /> -->
+                                                <!-- <c:set var="showStatus" value="${empty selectedColumns}" /> -->
+                                                <!-- <c:set var="showDuration" value="false" /> -->
                                                 
                                                 <c:forEach items="${selectedColumns}" var="col">
                                                     <c:if test="${col eq 'id'}"><c:set var="showId" value="true" /></c:if>
                                                     <c:if test="${col eq 'title'}"><c:set var="showTitle" value="true" /></c:if>
                                                     <c:if test="${col eq 'course'}"><c:set var="showCourse" value="true" /></c:if>
                                                     <c:if test="${col eq 'section'}"><c:set var="showSection" value="true" /></c:if>
-                                                    <c:if test="${col eq 'questionCount'}"><c:set var="showQuestionCount" value="true" /></c:if>
-                                                    <c:if test="${col eq 'status'}"><c:set var="showStatus" value="true" /></c:if>
-                                                    <c:if test="${col eq 'duration'}"><c:set var="showDuration" value="true" /></c:if>
+                                                    <!-- <c:if test="${col eq 'questionCount'}"><c:set var="showQuestionCount" value="true" /></c:if> -->
+                                                    <!-- <c:if test="${col eq 'status'}"><c:set var="showStatus" value="true" /></c:if> -->
+                                                    <!-- <c:if test="${col eq 'duration'}"><c:set var="showDuration" value="true" /></c:if> -->
                                                 </c:forEach>
                                                 
                                                 <c:if test="${showId}"><th>ID</th></c:if>
-                                                <c:if test="${showTitle}"><th>Quiz Title</th></c:if>
+                                                <c:if test="${showTitle}"><th>Question Title</th></c:if>
                                                 <c:if test="${showCourse}"><th>Course</th></c:if>
                                                 <c:if test="${showSection}"><th>Section</th></c:if>
-                                                <c:if test="${showQuestionCount}"><th>Questions</th></c:if>
-                                                <c:if test="${showStatus}"><th>Status</th></c:if>
-                                                <c:if test="${showDuration}"><th>Duration (minutes)</th></c:if>
+                                                <!-- <c:if test="${showQuestionCount}"><th>Questions</th></c:if> -->
+                                                <!-- <c:if test="${showStatus}"><th>Status</th></c:if> -->
+                                                <!-- <c:if test="${showDuration}"><th>Duration (minutes)</th></c:if> -->
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach items="${quizList}" var="quizInfo" varStatus="loop">
+                                            <c:forEach items="${questionsList}" var="question" varStatus="loop">
                                                 <tr>
-                                                    <c:if test="${showId}"><td>${quizInfo.lesson.id}</td></c:if>
-                                                    <c:if test="${showTitle}"><td>${quizInfo.lesson.title}</td></c:if>
-                                                    <c:if test="${showCourse}"><td>${quizInfo.course.name}</td></c:if>
-                                                    <c:if test="${showSection}"><td>${quizInfo.section.title}</td></c:if>
-                                                    <c:if test="${showQuestionCount}"><td>${quizInfo.questionCount}</td></c:if>
-                                                    <c:if test="${showStatus}">
-                                                        <td>
-                                                            <span class="quiz-status status-${quizInfo.lesson.status.toLowerCase()}">
-                                                                ${quizInfo.lesson.status}
-                                                            </span>
-                                                        </td>
-                                                    </c:if>
-                                                    <c:if test="${showDuration}"><td>${quizInfo.lesson.duration}</td></c:if>
+                                                    <c:if test="${showId}"><td>${question.id}</td></c:if>
+                                                    <c:if test="${showTitle}"><td>${question.questionText}</td></c:if>
+                                                    <c:if test="${showCourse}"><td>${courseDAO.getByQuestionId(question.id).name}</td></c:if>
+                                                    <c:if test="${showSection}"><td>${sectionDAO.findByQuestionId(question.id).title}</td></c:if>
+                                                    <!-- <c:if test="${showQuestionCount}"><td>${quizInfo.questionCount}</td></c:if> -->
+                                                    <!-- <c:if test="${showDuration}"><td>${quizInfo.lesson.duration}</td></c:if> -->
                                                     <td>
                                                         <div class="table-actions">
                                                             <a href="${pageContext.request.contextPath}/manage-quiz?action=editQuestion&questionId=${quizInfo.lesson.id}" class="action-edit">
