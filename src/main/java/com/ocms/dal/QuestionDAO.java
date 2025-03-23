@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionDAO extends DBContext {
+public class QuestionDAO extends DBContext implements I_DAO<Question> {
     
     public List<Question> getByLessonQuizId(Integer quizId) {
         List<Question> questions = new ArrayList<>();
@@ -52,7 +52,7 @@ public class QuestionDAO extends DBContext {
         return null;
     }
     
-    public Integer insert(Question question) {
+    public Integer insert02(Question question) {
         String sql = "INSERT INTO quiz_question (quiz_id, question_text, points, order_number, status, created_date, modified_date) "
                 + "VALUES (?, ?, ?, ?, ?, NOW(), NOW())";
         
@@ -96,5 +96,39 @@ public class QuestionDAO extends DBContext {
         question.setCreatedDate(rs.getDate("created_date"));
         question.setModifiedDate(rs.getDate("modified_date"));
         return question;
+    }
+
+    @Override
+    public List<Question> findAll() {
+        List<Question> questions = new ArrayList<>();
+        String sql = "SELECT * FROM quiz_question";
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                questions.add(getFromResultSet(resultSet));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error getting all questions: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return questions;
+    }
+
+    @Override
+    public boolean update(Question t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean delete(Question t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public int insert(Question t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 } 
