@@ -17,6 +17,9 @@
     <!-- CSS here -->
     <jsp:include page="../common/home/css-home.jsp" />
     
+    <!-- Toast CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    
     <style>
         .cart-item {
             border-bottom: 1px solid #eee;
@@ -69,10 +72,10 @@
                         <div class="breadcrumb-content">
                             <h3 class="title">Shopping Cart</h3>
                             <nav class="breadcrumb">
-                                <span property="itemListElement" typeof="ListItem">
+                                <!-- <span property="itemListElement" typeof="ListItem">
                                     <a href="${pageContext.request.contextPath}/">Home</a>
                                 </span>
-                                <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
+                                <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span> -->
                                 <span property="itemListElement" typeof="ListItem">Shopping Cart</span>
                             </nav>
                         </div>
@@ -83,14 +86,7 @@
 
         <section class="cart-area section-py-120">
             <div class="container">
-                <!-- Display messages if any -->
-                <c:if test="${not empty sessionScope.message}">
-                    <div class="alert alert-${sessionScope.messageType == 'error' ? 'danger' : sessionScope.messageType}">
-                        ${sessionScope.message}
-                    </div>
-                    <c:remove var="message" scope="session" />
-                    <c:remove var="messageType" scope="session" />
-                </c:if>
+                <!-- Toast messages will be shown via JavaScript -->
                 
                 <div class="row">
                     <div class="col-lg-8">
@@ -110,11 +106,12 @@
                                     <c:forEach items="${cartItems}" var="item" varStatus="status">
                                         <div class="cart-item">
                                             <div class="row align-items-center">
+                                                <c:set var="course" value="${courseDAO.findById(item.courseId)}" />
                                                 <div class="col-md-2">
-                                                    <!-- <img src="#" alt="Course thumbnail" class="cart-item-image"> -->
+                                                    <img src="${course.thumbnail}" alt="Course thumbnail" class="cart-item-image">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <h5>abc</h5>
+                                                    <h5>${course.name}</h5>
                                                     <small>Added on: <fmt:formatDate value="${item.addedDate}" pattern="MMM dd, yyyy"/></small>
                                                 </div>
                                                 <div class="col-md-2 text-right">
@@ -176,11 +173,42 @@
 
     <!-- JS here -->
     <jsp:include page="../common/home/js-home.jsp" />
+    
+    <!-- Toast JS -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    
     <script>
-        // Clear session messages after 5 seconds
-        setTimeout(function() {
-            $('.alert').fadeOut('slow');
-        }, 5000);
+        // Function to show toast message
+        function showToast(message, type) {
+            let backgroundColor = "#28a745"; // Default success color
+            
+            if (type === "error") {
+                backgroundColor = "#dc3545"; // Danger color
+            } else if (type === "info") {
+                backgroundColor = "#17a2b8"; // Info color
+            } else if (type === "warning") {
+                backgroundColor = "#ffc107"; // Warning color
+            }
+            
+            Toastify({
+                text: message,
+                duration: 5000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: backgroundColor,
+                stopOnFocus: true
+            }).showToast();
+        }
+        
+        // Check for session messages and display toast
+        <c:if test="${not empty sessionScope.message}">
+            document.addEventListener("DOMContentLoaded", function() {
+                showToast("${sessionScope.message}", "${sessionScope.messageType}");
+            });
+            <c:remove var="message" scope="session" />
+            <c:remove var="messageType" scope="session" />
+        </c:if>
     </script>
 </body>
 

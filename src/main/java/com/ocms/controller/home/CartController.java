@@ -59,6 +59,7 @@ public class CartController extends HttpServlet {
         request.setAttribute("cartItems", cartItems);
         request.setAttribute("cartTotal", cartTotal);
         request.setAttribute("itemCount", cartItems.size());
+        request.setAttribute("courseDAO", courseDAO);
         
         request.getRequestDispatcher(CART_JSP).forward(request, response);
     }
