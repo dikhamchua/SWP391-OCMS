@@ -25,6 +25,24 @@
                         Change password
                     </a>
                 </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/manage-question">
+                        <i class="skillgro-avatar"></i>
+                        Manage Question
+                    </a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/manage-quiz">
+                        <i class="skillgro-avatar"></i>
+                        Manage Quiz
+                    </a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/manage-course">
+                        <i class="skillgro-avatar"></i>
+                        Manage Course
+                    </a>
+                </li>
                 <c:if test="${sessionScope.account.roleId == 1 }">
                     <li>
                         <a href="${pageContext.request.contextPath}/manage-account">

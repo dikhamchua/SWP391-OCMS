@@ -171,7 +171,7 @@
                         <div class="col-xl-9">
                             <div class="dashboard__content-area">
                                 <div class="dashboard__content-title d-flex justify-content-between align-items-center">
-                                    <h4 class="title">Quản lý bài kiểm tra</h4>
+                                    <h4 class="title">Quản lý câu hỏi</h4>
                                     <button type="button" class="settings-btn" data-toggle="modal" data-target="#settingModal">
                                         <i class="fa fa-cog"></i> Cài đặt hiển thị
                                     </button>

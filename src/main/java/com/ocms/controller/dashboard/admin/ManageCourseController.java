@@ -212,7 +212,7 @@ public class ManageCourseController extends HttpServlet {
     private void doGetManageCourseList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Course> courses = courseDAO.findAll();
         request.setAttribute("courses", courses);
-        request.getRequestDispatcher("/view/dashboard/admin/course-list.jsp").forward(request, response);
+        request.getRequestDispatcher("/view/dashboard/admin/course/course-list.jsp").forward(request, response);
     }
 
     /**
