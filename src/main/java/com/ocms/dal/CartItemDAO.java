@@ -1,7 +1,6 @@
 package com.ocms.dal;
 
 import com.ocms.entity.CartItem;
-import com.ocms.entity.Course;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
