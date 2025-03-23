@@ -93,6 +93,36 @@
         .column-option {
             margin-bottom: 10px;
         }
+        
+        /* Thêm CSS để giới hạn nội dung question text */
+        .truncate-text {
+            max-width: 300px; /* Điều chỉnh chiều rộng tối đa theo nhu cầu */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+        }
+        
+        /* Thêm tooltip khi hover để hiển thị đầy đủ nội dung */
+        .truncate-text:hover {
+            position: relative;
+        }
+        
+        .truncate-text:hover::after {
+            content: attr(data-full-text);
+            position: absolute;
+            left: 0;
+            top: 100%;
+            z-index: 1000;
+            background-color: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            white-space: normal;
+            max-width: 400px;
+            width: max-content;
+        }
     </style>
 </head>
 
@@ -248,26 +278,32 @@
                                             <c:forEach items="${questionsList}" var="question" varStatus="loop">
                                                 <tr>
                                                     <c:if test="${showId}"><td>${question.id}</td></c:if>
-                                                    <c:if test="${showTitle}"><td>${question.questionText}</td></c:if>
+                                                    <c:if test="${showTitle}">
+                                                        <td>
+                                                            <span class="truncate-text" data-full-text="${fn:escapeXml(question.questionText)}">
+                                                                <!-- Nội dung sẽ được điền bởi JavaScript -->
+                                                            </span>
+                                                        </td>
+                                                    </c:if>
                                                     <c:if test="${showCourse}"><td>${courseDAO.getByQuestionId(question.id).name}</td></c:if>
                                                     <c:if test="${showSection}"><td>${sectionDAO.findByQuestionId(question.id).title}</td></c:if>
                                                     <!-- <c:if test="${showQuestionCount}"><td>${quizInfo.questionCount}</td></c:if> -->
                                                     <!-- <c:if test="${showDuration}"><td>${quizInfo.lesson.duration}</td></c:if> -->
                                                     <td>
                                                         <div class="table-actions">
-                                                            <a href="${pageContext.request.contextPath}/manage-quiz?action=editQuestion&questionId=${quizInfo.lesson.id}" class="action-edit">
+                                                            <a href="${pageContext.request.contextPath}/manage-quiz?action=editQuestion&questionId=${question.id}" class="action-edit">
                                                                 <i class="fa fa-edit"></i> Edit
                                                             </a>
-                                                            <a href="#" onclick="confirmDelete(${quizInfo.lesson.id})" class="action-delete">
+                                                            <a href="#" onclick="confirmDelete(${question.id})" class="action-delete">
                                                                 <i class="fa fa-trash"></i> Delete
                                                             </a>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
-                                            <c:if test="${empty quizList}">
+                                            <c:if test="${empty questionsList}">
                                                 <tr>
-                                                    <td colspan="7" class="text-center">No quizzes found</td>
+                                                    <td colspan="7" class="text-center">No questions found</td>
                                                 </tr>
                                             </c:if>
                                         </tbody>
@@ -532,6 +568,35 @@
                 });
             }
         });
+
+        // Hàm loại bỏ các thẻ HTML và trả về văn bản thuần túy
+        function stripHtml(html) {
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+            return temp.textContent || temp.innerText || '';
+        }
+        
+        // Hàm cắt ngắn văn bản nếu quá dài
+        function truncateText(text, maxLength) {
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        }
+        
+        // Hàm khởi tạo tooltip cho các phần tử có class truncate-text
+        function initTooltips() {
+            const elements = document.querySelectorAll('.truncate-text');
+            elements.forEach(el => {
+                const fullText = el.getAttribute('data-full-text');
+                const plainText = stripHtml(fullText);
+                el.textContent = truncateText(plainText, 100);
+                
+                // Tạo tooltip với nội dung đầy đủ khi hover
+                el.setAttribute('title', plainText);
+            });
+        }
+        
+        // Khởi tạo tooltips khi trang đã tải xong
+        document.addEventListener('DOMContentLoaded', initTooltips);
     </script>
 </body>
 
