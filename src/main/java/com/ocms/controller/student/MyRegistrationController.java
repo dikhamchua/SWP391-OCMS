@@ -3,6 +3,7 @@ package com.ocms.controller.student;
 import com.ocms.config.GlobalConfig;
 import com.ocms.dal.CourseDAO;
 import com.ocms.dal.RegistrationDAO;
+import com.ocms.dal.AccountDAO;
 import com.ocms.entity.Account;
 import com.ocms.entity.Course;
 import com.ocms.entity.Registration;
@@ -28,11 +29,13 @@ public class MyRegistrationController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private RegistrationDAO registrationDAO;
     private CourseDAO courseDAO;
+    private AccountDAO accountDAO;
     
     @Override
     public void init() throws ServletException {
         registrationDAO = new RegistrationDAO();
         courseDAO = new CourseDAO();
+        accountDAO = new AccountDAO();
     }
 
     @Override
@@ -47,10 +50,18 @@ public class MyRegistrationController extends HttpServlet {
         }
         
         try {
-            handleRegistrationList(request, response, account);
+            String action = request.getParameter("action");
+            
+            if (action == null) {
+                handleRegistrationList(request, response, account);
+            } else if (action.equals("view")) {
+                handleRegistrationDetails(request, response, account);
+            } else {
+                handleRegistrationList(request, response, account);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Error fetching registrations: " + e.getMessage());
+            request.setAttribute("error", "Error processing request: " + e.getMessage());
             request.getRequestDispatcher("/view/error.jsp").forward(request, response);
         }
     }
@@ -169,5 +180,70 @@ public class MyRegistrationController extends HttpServlet {
         
         // Forward to the JSP page
         request.getRequestDispatcher("/view/dashboard/student/my-registration.jsp").forward(request, response);
+    }
+    
+    /**
+     * Handle displaying details for a specific registration
+     * Retrieves the registration details and additional information 
+     * needed for displaying the full registration information
+     * 
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @param account The currently logged-in student account
+     * @throws ServletException If a servlet-specific error occurs
+     * @throws IOException If an I/O error occurs
+     */
+    private void handleRegistrationDetails(HttpServletRequest request, HttpServletResponse response, Account account)
+            throws ServletException, IOException {
+        // Get registration ID from request
+        String idStr = request.getParameter("id");
+        int id;
+        
+        try {
+            id = Integer.parseInt(idStr);
+        } catch (NumberFormatException e) {
+            // Handle invalid ID
+            request.getSession().setAttribute("toastMessage", "Invalid registration ID");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/my-registration");
+            return;
+        }
+        
+        // Get registration details
+        Registration registration = registrationDAO.findById(id);
+        
+        if (registration == null) {
+            // Handle registration not found
+            request.getSession().setAttribute("toastMessage", "Registration not found");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/my-registration");
+            return;
+        }
+        
+        // Security check - verify this registration belongs to the current user
+        if (registration.getAccountId() != account.getId()) {
+            request.getSession().setAttribute("toastMessage", "You do not have permission to view this registration");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/my-registration");
+            return;
+        }
+        
+        // Get additional data for display
+        String accountName = accountDAO.getAccountName(registration.getAccountId());
+        String accountEmail = accountDAO.getAccountEmail(registration.getAccountId());
+        Course course = courseDAO.findById(registration.getCourseId());
+        String courseName = course != null ? course.getName() : "Unknown Course";
+        String lastUpdatedByName = accountDAO.getLastUpdatedByName(registration.getLastUpdateByPerson());
+        
+        // Set attributes for JSP
+        request.setAttribute("registration", registration);
+        request.setAttribute("accountName", accountName);
+        request.setAttribute("accountEmail", accountEmail);
+        request.setAttribute("courseName", courseName);
+        request.setAttribute("course", course);
+        request.setAttribute("lastUpdatedByName", lastUpdatedByName);
+        
+        // Forward to detail page
+        request.getRequestDispatcher("/view/dashboard/student/registration-detail.jsp").forward(request, response);
     }
 }

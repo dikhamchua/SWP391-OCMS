@@ -317,8 +317,11 @@
                                                     </c:if>
                                                     <td>
                                                         <div class="table-actions">
+                                                            <a href="${pageContext.request.contextPath}/my-registration?action=view&id=${registration.id}" class="action-view">
+                                                                <i class="fa fa-info-circle"></i> Details
+                                                            </a>
                                                             <a href="${pageContext.request.contextPath}/course-detail?id=${registration.courseId}" class="action-view">
-                                                                <i class="fa fa-eye"></i> View
+                                                                <i class="fa fa-eye"></i> View Course
                                                             </a>
                                                             <c:if test="${registration.status eq 'Active'}">
                                                                 <a href="${pageContext.request.contextPath}/course-content?courseId=${registration.courseId}" class="action-resume">
