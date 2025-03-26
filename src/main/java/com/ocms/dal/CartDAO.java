@@ -33,7 +33,7 @@ public class CartDAO extends DBContext implements I_DAO<Cart> {
 
     @Override
     public boolean update(Cart cart) {
-        String sql = "UPDATE cart SET account_id = ?, modified_date = NOW() WHERE id = ?";
+        String sql = "UPDATE cart SET account_id = ?, modified_date = NOW(), status = ? WHERE id = ?";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);

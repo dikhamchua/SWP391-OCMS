@@ -371,9 +371,33 @@ public class CartController extends HttpServlet {
             
             // Clear the cart after successful checkout
             if (cart != null) {
-                List<CartItem> userCartItems = cartItemDAO.findByCartId(cart.getId());
-                for (CartItem item : userCartItems) {
-                    cartItemDAO.delete(item);
+                try {
+                    // Use the efficient clearCart method to remove all items at once
+                    boolean cartCleared = cartItemDAO.clearCart(cart.getId());
+                    
+                    if (!cartCleared) {
+                        System.out.println("Warning: Failed to clear cart items");
+                    } else {
+                        System.out.println("Cart items successfully cleared");
+                    }
+
+                    //remove cart in DB
+                    boolean cartRemoved = cartDAO.delete(cart);
+                    if (!cartRemoved) {
+                        System.out.println("Warning: Failed to remove cart");
+                    } else {
+                        System.out.println("Cart successfully removed");
+                    }
+                    
+                } catch (Exception e) {
+                    System.out.println("Error updating cart after checkout: " + e.getMessage());
+                    // Continue with checkout process even if cart update fails
+                    // The items have already been processed into registrations
+                    //set message
+                    session.setAttribute("message", "There was an error processing your order. Please contact support.");
+                    session.setAttribute("messageType", "error");
+                    request.getRequestDispatcher(CHECKOUT_JSP).forward(request, response);
+                    return;
                 }
             }
             

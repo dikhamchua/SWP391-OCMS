@@ -288,4 +288,26 @@ public class CartItemDAO extends DBContext implements I_DAO<CartItem> {
         }
         return null;
     }
+    
+    /**
+     * Clear all items from a cart
+     * @param cartId The cart ID to clear
+     * @return true if successful, false otherwise
+     */
+    public boolean clearCart(Integer cartId) {
+        String sql = "DELETE FROM cart_item WHERE cart_id = ?";
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, cartId);
+            
+            int affectedRows = statement.executeUpdate();
+            return affectedRows >= 0; // Return true even if no rows were deleted (empty cart)
+        } catch (SQLException ex) {
+            System.out.println("Error clearing cart: " + ex.getMessage());
+            return false;
+        } finally {
+            closeResources();
+        }
+    }
 } 
