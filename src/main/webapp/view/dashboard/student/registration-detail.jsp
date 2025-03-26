@@ -250,7 +250,7 @@
                                                 
                                                 <!-- Action Buttons Section -->
                                                 <div class="mt-4 text-end">
-                                                    <a href="${pageContext.request.contextPath}/course-detail?id=${registration.courseId}" class="btn btn-info action-button">
+                                                    <a href="${pageContext.request.contextPath}/course-details?id=${registration.courseId}" class="btn btn-info action-button">
                                                         <i class="fa fa-eye"></i> View Course
                                                     </a>
                                                     <c:if test="${registration.status eq 'Active'}">
