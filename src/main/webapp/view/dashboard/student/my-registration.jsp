@@ -202,6 +202,12 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        
+                                        <!-- Hidden inputs for column selections -->
+                                        <c:forEach items="${selectedColumns}" var="col">
+                                            <input type="hidden" name="columns" value="${col}">
+                                        </c:forEach>
+                                        
                                         <div class="row mt-2">
                                             <div class="col-md-12 d-flex justify-content-end">
                                                 <button type="submit" class="btn btn-primary">Filter</button>
@@ -219,12 +225,34 @@
                                         <span class="fw-bold">${totalRegistrations}</span> registrations
                                     </div>
                                     <div>
-                                        <select class="form-control" onchange="changePageSize(this.value)">
-                                            <option value="10" ${pageSize == 10 ? 'selected' : ''}>10 per page</option>
-                                            <option value="25" ${pageSize == 25 ? 'selected' : ''}>25 per page</option>
-                                            <option value="50" ${pageSize == 50 ? 'selected' : ''}>50 per page</option>
-                                            <option value="100" ${pageSize == 100 ? 'selected' : ''}>100 per page</option>
-                                        </select>
+                                        <form id="pageSizeForm" method="get" action="${pageContext.request.contextPath}/my-registration">
+                                            <c:if test="${not empty param.courseId}">
+                                                <input type="hidden" name="courseId" value="${param.courseId}">
+                                            </c:if>
+                                            <c:if test="${not empty param.status}">
+                                                <input type="hidden" name="status" value="${param.status}">
+                                            </c:if>
+                                            <c:if test="${not empty param.search}">
+                                                <input type="hidden" name="search" value="${param.search}">
+                                            </c:if>
+                                            <c:if test="${not empty param.fromDate}">
+                                                <input type="hidden" name="fromDate" value="${param.fromDate}">
+                                            </c:if>
+                                            <c:if test="${not empty param.toDate}">
+                                                <input type="hidden" name="toDate" value="${param.toDate}">
+                                            </c:if>
+                                            <!-- Hidden inputs for column selections -->
+                                            <c:forEach items="${selectedColumns}" var="col">
+                                                <input type="hidden" name="columns" value="${col}">
+                                            </c:forEach>
+                                            <input type="hidden" name="page" value="1">
+                                            <select class="form-control" name="pageSize" onchange="document.getElementById('pageSizeForm').submit()">
+                                                <option value="10" ${pageSize == 10 ? 'selected' : ''}>10 per page</option>
+                                                <option value="25" ${pageSize == 25 ? 'selected' : ''}>25 per page</option>
+                                                <option value="50" ${pageSize == 50 ? 'selected' : ''}>50 per page</option>
+                                                <option value="100" ${pageSize == 100 ? 'selected' : ''}>100 per page</option>
+                                            </select>
+                                        </form>
                                     </div>
                                 </div>
 
@@ -236,7 +264,6 @@
                                                 <c:set var="showId" value="${empty selectedColumns}" />
                                                 <c:set var="showCourse" value="${empty selectedColumns}" />
                                                 <c:set var="showDate" value="${empty selectedColumns}" />
-                                                <c:set var="showPackage" value="${empty selectedColumns}" />
                                                 <c:set var="showCost" value="${empty selectedColumns}" />
                                                 <c:set var="showStatus" value="${empty selectedColumns}" />
                                                 <c:set var="showValidity" value="${empty selectedColumns}" />
@@ -245,7 +272,6 @@
                                                     <c:if test="${col eq 'id'}"><c:set var="showId" value="true" /></c:if>
                                                     <c:if test="${col eq 'course'}"><c:set var="showCourse" value="true" /></c:if>
                                                     <c:if test="${col eq 'date'}"><c:set var="showDate" value="true" /></c:if>
-                                                    <c:if test="${col eq 'package'}"><c:set var="showPackage" value="true" /></c:if>
                                                     <c:if test="${col eq 'cost'}"><c:set var="showCost" value="true" /></c:if>
                                                     <c:if test="${col eq 'status'}"><c:set var="showStatus" value="true" /></c:if>
                                                     <c:if test="${col eq 'validity'}"><c:set var="showValidity" value="true" /></c:if>
@@ -254,7 +280,6 @@
                                                 <c:if test="${showId}"><th>ID</th></c:if>
                                                 <c:if test="${showCourse}"><th>Course</th></c:if>
                                                 <c:if test="${showDate}"><th>Registration Date</th></c:if>
-                                                <c:if test="${showPackage}"><th>Package</th></c:if>
                                                 <c:if test="${showCost}"><th>Cost</th></c:if>
                                                 <c:if test="${showStatus}"><th>Status</th></c:if>
                                                 <c:if test="${showValidity}"><th>Valid Until</th></c:if>
@@ -270,7 +295,6 @@
                                                     <c:if test="${showDate}">
                                                         <td><fmt:formatDate value="${registration.registrationTime}" pattern="yyyy-MM-dd" /></td>
                                                     </c:if>
-                                                    <c:if test="${showPackage}"><td>${registration.packages}</td></c:if>
                                                     <c:if test="${showCost}">
                                                         <td><fmt:formatNumber value="${registration.totalCost}" type="currency" currencySymbol="$" /></td>
                                                     </c:if>
@@ -311,7 +335,6 @@
                                                     <c:if test="${showId}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
                                                     <c:if test="${showCourse}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
                                                     <c:if test="${showDate}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
-                                                    <c:if test="${showPackage}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
                                                     <c:if test="${showCost}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
                                                     <c:if test="${showStatus}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
                                                     <c:if test="${showValidity}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
@@ -438,18 +461,6 @@
                             </div>
                             <div class="column-option">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="columns" value="package" id="packageColumn"
-                                           <c:forEach items="${selectedColumns}" var="col">
-                                               <c:if test="${col eq 'package'}">checked</c:if>
-                                           </c:forEach>
-                                           <c:if test="${empty selectedColumns}">checked</c:if>>
-                                    <label class="form-check-label" for="packageColumn">
-                                        Package
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="column-option">
-                                <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="columns" value="cost" id="costColumn"
                                            <c:forEach items="${selectedColumns}" var="col">
                                                <c:if test="${col eq 'cost'}">checked</c:if>
@@ -503,28 +514,6 @@
     <jsp:include page="../../common/js-file.jsp"></jsp:include>
 
     <script>
-        function changePageSize(size) {
-            var url = new URL(window.location.href);
-            url.searchParams.set('pageSize', size);
-            url.searchParams.set('page', '1'); // Reset to first page when changing page size
-            
-            // Preserve selected columns
-            const selectedColumns = [];
-            document.querySelectorAll('input[name="columns"]:checked').forEach(function(checkbox) {
-                selectedColumns.push(checkbox.value);
-            });
-            
-            // First clear any existing columns parameters
-            url.searchParams.delete('columns');
-            
-            // Then add each selected column
-            selectedColumns.forEach(function(column) {
-                url.searchParams.append('columns', column);
-            });
-            
-            window.location.href = url.toString();
-        }
-        
         $(document).ready(function() {
             // Initialize Bootstrap modal
             if (typeof $.fn.modal === 'function') {

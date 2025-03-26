@@ -173,15 +173,16 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
         }
 
     public List<Registration> getRegistrationsByFilter(String search, String category, 
-            String status, String fromDate, String toDate, int page, int pageSize) {
+            String status, String fromDate, String toDate, int page, int pageSize, int studentId) {
         List<Registration> registrations = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
             "SELECT r.* FROM registration r " +
             "LEFT JOIN account a ON r.account_id = a.id " +
-            "WHERE 1=1"
+            "WHERE r.account_id = ?"
         );
         
         List<Object> parameters = new ArrayList<>();
+        parameters.add(studentId);
 
         // Add search condition
         if (search != null && !search.trim().isEmpty()) {
@@ -241,14 +242,15 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
     
 
     public int getTotalRegistrationsByFilter(String search, String category, String status, String fromDate,
-            String toDate) {
+            String toDate, int studentId) {
         StringBuilder sql = new StringBuilder(
             "SELECT COUNT(*) FROM registration r " +
             "LEFT JOIN account a ON r.account_id = a.id " +
-            "WHERE 1=1"
+            "WHERE r.account_id = ?"
         );
         
         List<Object> parameters = new ArrayList<>();
+        parameters.add(studentId);
 
         // Add search condition
         if (search != null && !search.trim().isEmpty()) {
@@ -370,6 +372,138 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
             e.printStackTrace();
         }
         return false;
+    }
+
+    // Backward compatibility methods
+
+    /**
+     * Get registrations by filter without student ID (used by admin/teacher interfaces)
+     */
+    public List<Registration> getRegistrationsByFilter(String search, String category, 
+            String status, String fromDate, String toDate, int page, int pageSize) {
+        // Use the new method with -1 as studentId to get all registrations
+        StringBuilder sql = new StringBuilder(
+            "SELECT r.* FROM registration r " +
+            "LEFT JOIN account a ON r.account_id = a.id " +
+            "WHERE 1=1"
+        );
+        
+        List<Object> parameters = new ArrayList<>();
+
+        // Add search condition
+        if (search != null && !search.trim().isEmpty()) {
+            sql.append(" AND (a.full_name LIKE ? OR a.email LIKE ?)");
+            parameters.add("%" + search + "%");
+            parameters.add("%" + search + "%");
+        }
+
+        // Add category condition
+        if (category != null && !category.trim().isEmpty()) {
+            sql.append(" AND r.course_id = ?");
+            parameters.add(Integer.parseInt(category));
+        }
+
+        // Add status condition
+        if (status != null && !status.trim().isEmpty()) {
+            sql.append(" AND r.status = ?");
+            parameters.add(status);
+        }
+
+        // Add date range conditions
+        if (fromDate != null && !fromDate.trim().isEmpty()) {
+            sql.append(" AND r.valid_from >= ?");
+            parameters.add(fromDate + " 00:00:00");
+        }
+        if (toDate != null && !toDate.trim().isEmpty()) {
+            sql.append(" AND r.valid_to <= ?");
+            parameters.add(toDate + " 23:59:59");
+        }
+
+        // Add pagination
+        sql.append(" ORDER BY r.registration_time DESC LIMIT ? OFFSET ?");
+        parameters.add(pageSize);
+        parameters.add((page - 1) * pageSize);
+
+        List<Registration> registrations = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            
+            // Set parameters
+            for (int i = 0; i < parameters.size(); i++) {
+                ps.setObject(i + 1, parameters.get(i));
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    registrations.add(getFromResultSet(rs));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error executing query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return registrations;
+    }
+    
+    /**
+     * Get total registrations by filter without student ID (used by admin/teacher interfaces)
+     */
+    public int getTotalRegistrationsByFilter(String search, String category, String status, String fromDate,
+            String toDate) {
+        StringBuilder sql = new StringBuilder(
+            "SELECT COUNT(*) FROM registration r " +
+            "LEFT JOIN account a ON r.account_id = a.id " +
+            "WHERE 1=1"
+        );
+        
+        List<Object> parameters = new ArrayList<>();
+
+        // Add search condition
+        if (search != null && !search.trim().isEmpty()) {
+            sql.append(" AND (a.full_name LIKE ? OR a.email LIKE ?)");
+            parameters.add("%" + search + "%");
+            parameters.add("%" + search + "%");
+        }
+
+        // Add category condition
+        if (category != null && !category.trim().isEmpty()) {
+            sql.append(" AND r.course_id = ?");
+            parameters.add(Integer.parseInt(category));
+        }
+
+        // Add status condition
+        if (status != null && !status.trim().isEmpty()) {
+            sql.append(" AND r.status = ?");
+            parameters.add(status);
+        }
+
+        // Add date range conditions
+        if (fromDate != null && !fromDate.trim().isEmpty()) {
+            sql.append(" AND r.valid_from >= ?");
+            parameters.add(fromDate + " 00:00:00");
+        }
+        if (toDate != null && !toDate.trim().isEmpty()) {
+            sql.append(" AND r.valid_to <= ?");
+            parameters.add(toDate + " 23:59:59");
+        }
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            
+            // Set parameters
+            for (int i = 0; i < parameters.size(); i++) {
+                ps.setObject(i + 1, parameters.get(i));
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 }
