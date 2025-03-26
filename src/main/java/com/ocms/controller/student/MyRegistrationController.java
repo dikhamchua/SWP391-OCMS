@@ -136,20 +136,19 @@ public class MyRegistrationController extends HttpServlet {
         }
         
         // Calculate start and end record for display
-        int startRecord = (page - 1) * pageSize + 1;
+        int startRecord = totalRegistrations > 0 ? (page - 1) * pageSize + 1 : 0;
         int endRecord = Math.min(page * pageSize, totalRegistrations);
         
-        // Calculate pagination range (show 5 pages at most)
-        int startPage = Math.max(1, page - 2);
-        int endPage = Math.min(totalPages, page + 2);
+        // Simplified pagination range logic (show 5 pages at most)
+        int paginationWidth = 5; // Number of page buttons to show
+        int halfWidth = paginationWidth / 2;
         
-        // Adjust if we're near the start or end
-        if (startPage <= 3) {
-            endPage = Math.min(5, totalPages);
-        }
+        int startPage = Math.max(1, page - halfWidth);
+        int endPage = Math.min(totalPages, startPage + paginationWidth - 1);
         
-        if (endPage >= totalPages - 2) {
-            startPage = Math.max(1, totalPages - 4);
+        // Adjust start page if we're near the end
+        if (endPage - startPage + 1 < paginationWidth && startPage > 1) {
+            startPage = Math.max(1, endPage - paginationWidth + 1);
         }
         
         // Get registrations for current page with all filters applied
@@ -228,6 +227,62 @@ public class MyRegistrationController extends HttpServlet {
             return;
         }
         
+        // Capture query string parameters to return to the right page
+        StringBuilder returnQueryStringBuilder = new StringBuilder();
+        String pageSize = request.getParameter("pageSize");
+        String page = request.getParameter("page");
+        String courseId = request.getParameter("courseId");
+        String status = request.getParameter("status");
+        String search = request.getParameter("search");
+        String fromDate = request.getParameter("fromDate");
+        String toDate = request.getParameter("toDate");
+        String[] columns = request.getParameterValues("columns");
+        
+        // Build the return query string
+        boolean first = true;
+        
+        if (pageSize != null && !pageSize.isEmpty()) {
+            returnQueryStringBuilder.append(first ? "" : "&").append("pageSize=").append(pageSize);
+            first = false;
+        }
+        
+        if (page != null && !page.isEmpty()) {
+            returnQueryStringBuilder.append(first ? "" : "&").append("page=").append(page);
+            first = false;
+        }
+        
+        if (courseId != null && !courseId.isEmpty()) {
+            returnQueryStringBuilder.append(first ? "" : "&").append("courseId=").append(courseId);
+            first = false;
+        }
+        
+        if (status != null && !status.isEmpty()) {
+            returnQueryStringBuilder.append(first ? "" : "&").append("status=").append(status);
+            first = false;
+        }
+        
+        if (search != null && !search.isEmpty()) {
+            returnQueryStringBuilder.append(first ? "" : "&").append("search=").append(search);
+            first = false;
+        }
+        
+        if (fromDate != null && !fromDate.isEmpty()) {
+            returnQueryStringBuilder.append(first ? "" : "&").append("fromDate=").append(fromDate);
+            first = false;
+        }
+        
+        if (toDate != null && !toDate.isEmpty()) {
+            returnQueryStringBuilder.append(first ? "" : "&").append("toDate=").append(toDate);
+            first = false;
+        }
+        
+        if (columns != null && columns.length > 0) {
+            for (String column : columns) {
+                returnQueryStringBuilder.append(first ? "" : "&").append("columns=").append(column);
+                first = false;
+            }
+        }
+        
         // Get additional data for display
         String accountName = accountDAO.getAccountName(registration.getAccountId());
         String accountEmail = accountDAO.getAccountEmail(registration.getAccountId());
@@ -242,6 +297,7 @@ public class MyRegistrationController extends HttpServlet {
         request.setAttribute("courseName", courseName);
         request.setAttribute("course", course);
         request.setAttribute("lastUpdatedByName", lastUpdatedByName);
+        request.setAttribute("returnQueryString", returnQueryStringBuilder.toString());
         
         // Forward to detail page
         request.getRequestDispatcher("/view/dashboard/student/registration-detail.jsp").forward(request, response);

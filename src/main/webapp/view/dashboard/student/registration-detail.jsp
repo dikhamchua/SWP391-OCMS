@@ -127,7 +127,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="${pageContext.request.contextPath}/my-registration" class="btn btn-secondary rounded-pill">
+                                        <a href="${pageContext.request.contextPath}/my-registration?${param.returnQueryString}" class="btn btn-secondary rounded-pill">
                                             <i class="fa fa-arrow-left me-2"></i> Back to My Registrations
                                         </a>
                                     </div>

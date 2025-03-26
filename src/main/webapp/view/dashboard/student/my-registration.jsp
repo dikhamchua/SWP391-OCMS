@@ -109,29 +109,30 @@
     <jsp:include page="../../common/home/header-home.jsp"></jsp:include>
     <!-- header-area-end -->
 
-    <c:url value="/my-registration" var="paginationUrl">
-        <c:if test="${not empty param.courseId}">
-            <c:param name="courseId" value="${param.courseId}" />
-        </c:if>
-        <c:if test="${not empty param.status}">
-            <c:param name="status" value="${param.status}" />
-        </c:if>
-        <c:if test="${not empty param.search}">
-            <c:param name="search" value="${param.search}" />
-        </c:if>
-        <c:if test="${not empty param.fromDate}">
-            <c:param name="fromDate" value="${param.fromDate}" />
-        </c:if>
-        <c:if test="${not empty param.toDate}">
-            <c:param name="toDate" value="${param.toDate}" />
-        </c:if>
-        <c:if test="${not empty param.pageSize}">
-            <c:param name="pageSize" value="${param.pageSize}" />
-        </c:if>
-        <c:forEach items="${selectedColumns}" var="column">
-            <c:param name="columns" value="${column}" />
-        </c:forEach>
-    </c:url>
+    <!-- Create a properly formatted pagination URL string -->
+    <c:set var="paginationUrl" value="" />
+    
+    <c:if test="${not empty param.courseId}">
+        <c:set var="paginationUrl" value="${paginationUrl}courseId=${param.courseId}&" />
+    </c:if>
+    <c:if test="${not empty param.status}">
+        <c:set var="paginationUrl" value="${paginationUrl}status=${param.status}&" />
+    </c:if>
+    <c:if test="${not empty param.search}">
+        <c:set var="paginationUrl" value="${paginationUrl}search=${param.search}&" />
+    </c:if>
+    <c:if test="${not empty param.fromDate}">
+        <c:set var="paginationUrl" value="${paginationUrl}fromDate=${param.fromDate}&" />
+    </c:if>
+    <c:if test="${not empty param.toDate}">
+        <c:set var="paginationUrl" value="${paginationUrl}toDate=${param.toDate}&" />
+    </c:if>
+    <c:if test="${not empty param.pageSize}">
+        <c:set var="paginationUrl" value="${paginationUrl}pageSize=${param.pageSize}&" />
+    </c:if>
+    <c:forEach items="${selectedColumns}" var="column">
+        <c:set var="paginationUrl" value="${paginationUrl}columns=${column}&" />
+    </c:forEach>
 
     <!-- main-area -->
     <main class="main-area">
@@ -156,6 +157,10 @@
                                 <!-- Filter Form -->
                                 <div class="filter-form">
                                     <form action="${pageContext.request.contextPath}/my-registration" method="get">
+                                        <!-- Add hidden input for action if needed -->
+                                        <c:if test="${not empty param.action}">
+                                            <input type="hidden" name="action" value="${param.action}">
+                                        </c:if>
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <div class="form-group">
@@ -226,6 +231,10 @@
                                     </div>
                                     <div>
                                         <form id="pageSizeForm" method="get" action="${pageContext.request.contextPath}/my-registration">
+                                            <!-- Add hidden input for action if present -->
+                                            <c:if test="${not empty param.action}">
+                                                <input type="hidden" name="action" value="${param.action}">
+                                            </c:if>
                                             <c:if test="${not empty param.courseId}">
                                                 <input type="hidden" name="courseId" value="${param.courseId}">
                                             </c:if>
@@ -317,11 +326,8 @@
                                                     </c:if>
                                                     <td>
                                                         <div class="table-actions">
-                                                            <a href="${pageContext.request.contextPath}/my-registration?action=view&id=${registration.id}" class="action-view">
+                                                            <a href="${pageContext.request.contextPath}/my-registration?action=view&id=${registration.id}&page=${currentPage}&pageSize=${pageSize}${not empty param.courseId ? '&courseId='.concat(param.courseId) : ''}${not empty param.status ? '&status='.concat(param.status) : ''}${not empty param.search ? '&search='.concat(param.search) : ''}${not empty param.fromDate ? '&fromDate='.concat(param.fromDate) : ''}${not empty param.toDate ? '&toDate='.concat(param.toDate) : ''}<c:forEach items="${selectedColumns}" var="col">&columns=${col}</c:forEach>" class="action-view">
                                                                 <i class="fa fa-info-circle"></i> Details
-                                                            </a>
-                                                            <a href="${pageContext.request.contextPath}/course-detail?id=${registration.courseId}" class="action-view">
-                                                                <i class="fa fa-eye"></i> View Course
                                                             </a>
                                                             <c:if test="${registration.status eq 'Active'}">
                                                                 <a href="${pageContext.request.contextPath}/course-content?courseId=${registration.courseId}" class="action-resume">
@@ -355,7 +361,7 @@
                                         <ul class="pagination">
                                             <c:if test="${currentPage > 1}">
                                                 <li class="page-item">
-                                                    <a class="page-link" href="${paginationUrl}&page=${currentPage - 1}" aria-label="Previous">
+                                                    <a class="page-link" href="${pageContext.request.contextPath}/my-registration?${paginationUrl}page=${currentPage - 1}" aria-label="Previous">
                                                         <span aria-hidden="true">&laquo;</span>
                                                     </a>
                                                 </li>
@@ -363,13 +369,13 @@
                                             
                                             <c:forEach begin="${startPage}" end="${endPage}" var="i">
                                                 <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                                    <a class="page-link" href="${paginationUrl}&page=${i}">${i}</a>
+                                                    <a class="page-link" href="${pageContext.request.contextPath}/my-registration?${paginationUrl}page=${i}">${i}</a>
                                                 </li>
                                             </c:forEach>
                                             
                                             <c:if test="${currentPage < totalPages}">
                                                 <li class="page-item">
-                                                    <a class="page-link" href="${paginationUrl}&page=${currentPage + 1}" aria-label="Next">
+                                                    <a class="page-link" href="${pageContext.request.contextPath}/my-registration?${paginationUrl}page=${currentPage + 1}" aria-label="Next">
                                                         <span aria-hidden="true">&raquo;</span>
                                                     </a>
                                                 </li>
@@ -398,6 +404,10 @@
                 </div>
                 <div class="modal-body">
                     <form action="${pageContext.request.contextPath}/my-registration" method="get" id="settingsForm">
+                        <!-- Add hidden input for action if present -->
+                        <c:if test="${not empty param.action}">
+                            <input type="hidden" name="action" value="${param.action}">
+                        </c:if>
                         <c:if test="${not empty param.courseId}">
                             <input type="hidden" name="courseId" value="${param.courseId}">
                         </c:if>
