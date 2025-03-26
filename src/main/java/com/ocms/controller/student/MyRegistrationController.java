@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -45,6 +47,13 @@ public class MyRegistrationController extends HttpServlet{
             String fromDate = request.getParameter("fromDate");
             String toDate = request.getParameter("toDate");
             String courseId = request.getParameter("courseId");
+            
+            // Get display settings parameters
+            String[] columns = request.getParameterValues("columns");
+            List<String> selectedColumns = new ArrayList<>();
+            if (columns != null && columns.length > 0) {
+                selectedColumns = Arrays.asList(columns);
+            }
             
             // Get pagination parameters
             int page = 1;
@@ -120,6 +129,7 @@ public class MyRegistrationController extends HttpServlet{
             request.setAttribute("toDate", toDate);
             request.setAttribute("courseId", courseId);
             request.setAttribute("courseDAO", courseDAO);
+            request.setAttribute("selectedColumns", selectedColumns);
             
             // Forward to the JSP page
             request.getRequestDispatcher("/view/dashboard/student/my-registration.jsp").forward(request, response);

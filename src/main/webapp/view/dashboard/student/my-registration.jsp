@@ -128,8 +128,8 @@
         <c:if test="${not empty param.pageSize}">
             <c:param name="pageSize" value="${param.pageSize}" />
         </c:if>
-        <c:forEach items="${paramValues.optionChoice}" var="option">
-            <c:param name="optionChoice" value="${option}" />
+        <c:forEach items="${selectedColumns}" var="column">
+            <c:param name="columns" value="${column}" />
         </c:forEach>
     </c:url>
 
@@ -307,7 +307,16 @@
                                             </c:forEach>
                                             <c:if test="${empty registrations}">
                                                 <tr>
-                                                    <td colspan="8" class="text-center">No registrations found</td>
+                                                    <c:set var="visibleColCount" value="1" /> <!-- Start with 1 for Actions column -->
+                                                    <c:if test="${showId}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
+                                                    <c:if test="${showCourse}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
+                                                    <c:if test="${showDate}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
+                                                    <c:if test="${showPackage}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
+                                                    <c:if test="${showCost}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
+                                                    <c:if test="${showStatus}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
+                                                    <c:if test="${showValidity}"><c:set var="visibleColCount" value="${visibleColCount + 1}" /></c:if>
+                                                    
+                                                    <td colspan="${visibleColCount}" class="text-center">No registrations found</td>
                                                 </tr>
                                             </c:if>
                                         </tbody>
@@ -386,7 +395,11 @@
                         </c:if>
                         
                         <div class="form-group">
-                            <label>Select columns to display:</label>
+                            <label class="font-weight-bold mb-3">Select columns to display:</label>
+                            <div class="d-flex justify-content-end mb-3">
+                                <button type="button" class="btn btn-sm btn-outline-primary mr-2" id="selectAllColumns">Select All</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" id="deselectAllColumns">Deselect All</button>
+                            </div>
                             <div class="column-option">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="columns" value="id" id="idColumn"
@@ -494,27 +507,60 @@
             var url = new URL(window.location.href);
             url.searchParams.set('pageSize', size);
             url.searchParams.set('page', '1'); // Reset to first page when changing page size
+            
+            // Preserve selected columns
+            const selectedColumns = [];
+            document.querySelectorAll('input[name="columns"]:checked').forEach(function(checkbox) {
+                selectedColumns.push(checkbox.value);
+            });
+            
+            // First clear any existing columns parameters
+            url.searchParams.delete('columns');
+            
+            // Then add each selected column
+            selectedColumns.forEach(function(column) {
+                url.searchParams.append('columns', column);
+            });
+            
             window.location.href = url.toString();
         }
         
         $(document).ready(function() {
-            // Course dropdown change event
-            $('#courseId').change(function() {
-                // Additional logic if needed
+            // Initialize Bootstrap modal
+            if (typeof $.fn.modal === 'function') {
+                $('#settingModal').modal({
+                    show: false
+                });
+                
+                // Handle modal open/close
+                $('.close, .btn-secondary[data-dismiss="modal"]').click(function() {
+                    $('#settingModal').modal('hide');
+                });
+    
+                $('[data-toggle="modal"]').click(function() {
+                    $('#settingModal').modal('show');
+                });
+            } else {
+                console.warn('Bootstrap modal plugin not loaded');
+                
+                // Fallback for modal show/hide
+                $('.close, .btn-secondary[data-dismiss="modal"]').click(function() {
+                    $('#settingModal').hide();
+                });
+    
+                $('[data-toggle="modal"]').click(function() {
+                    $('#settingModal').show();
+                });
+            }
+            
+            // Select all columns button
+            $('#selectAllColumns').click(function() {
+                $('input[name="columns"]').prop('checked', true);
             });
             
-            // Status dropdown change event
-            $('#status').change(function() {
-                // Additional logic if needed
-            });
-            
-            // Handle modal
-            $('.close, .btn-secondary[data-dismiss="modal"]').click(function() {
-                $('#settingModal').modal('hide');
-            });
-
-            $('[data-toggle="modal"]').click(function() {
-                $('#settingModal').modal('show');
+            // Deselect all columns button
+            $('#deselectAllColumns').click(function() {
+                $('input[name="columns"]').prop('checked', false);
             });
             
             // Toast message display
