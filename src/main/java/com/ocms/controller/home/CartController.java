@@ -265,8 +265,15 @@ public class CartController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/cart");
             return;
         }
-        
-        // Current timestamp for registration
+
+        // Lấy kết quả thanh toán từ VNPAY
+        String vnp_ResponseCode = request.getParameter("vnp_ResponseCode");
+        String vnp_TransactionStatus = request.getParameter("vnp_TransactionStatus");
+
+        if ("00".equals(vnp_ResponseCode) && "00".equals(vnp_TransactionStatus)) {
+            // Thanh toán thành công
+            // Xử lý thanh toán thành công
+            // Current timestamp for registration
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         
         // Calculate valid from and valid to dates (1 year validity)
@@ -333,5 +340,14 @@ public class CartController extends HttpServlet {
             session.setAttribute("messageType", "error");
             request.getRequestDispatcher(CHECKOUT_JSP).forward(request, response);
         }
+        } else {
+            // Thanh toán thất bại
+            // Xử lý thanh toán thất bại
+            session.setAttribute("message", "Payment failed. Please try again.");
+            session.setAttribute("messageType", "error");
+            response.sendRedirect(request.getContextPath() + "/cart");
+        }
+        
+        
     }
 }

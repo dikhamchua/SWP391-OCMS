@@ -156,7 +156,7 @@
                             <p class="mt-4">Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy</a>.</p>
                             
                             <div class="checkout-buttons mt-4">
-                                <form action="${pageContext.request.contextPath}/cart" method="post" id="checkoutForm">
+                                <form action="${pageContext.request.contextPath}/ajaxServlet" method="post" id="checkoutForm">
                                     <input type="hidden" name="action" value="complete-checkout">
                                     <button type="submit" class="btn btn-primary btn-lg btn-block mb-3">Complete Purchase</button>
                                 </form>

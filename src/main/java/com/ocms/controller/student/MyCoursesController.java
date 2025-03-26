@@ -60,7 +60,8 @@ public class MyCoursesController extends HttpServlet {
         }
         
         // Calculate pagination
-        int totalCourses = myCourses.size();
+//        int totalCourses = myCourses.size();
+        int totalCourses = 6;
         int totalPages = (int) Math.ceil((double) totalCourses / pageSize);
         
         // Ensure page is within valid range
@@ -76,11 +77,11 @@ public class MyCoursesController extends HttpServlet {
         int endIndex = Math.min(startIndex + pageSize, totalCourses);
         
         if (startIndex < totalCourses) {
-            paginatedCourses = myCourses.subList(startIndex, endIndex);
+//            paginatedCourses = myCourses.subList(startIndex, endIndex);
         }
         
         // Set attributes for the JSP
-        request.setAttribute("myCourses", myCourses);
+//        request.setAttribute("myCourses", myCourses);
         request.setAttribute("paginatedCourses", paginatedCourses);
         request.setAttribute("currentPage", page);
         request.setAttribute("pageSize", pageSize);
