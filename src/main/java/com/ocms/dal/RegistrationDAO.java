@@ -347,4 +347,29 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
         return registrations;
     }
 
+    /**
+     * Check if a student has already registered for a specific course
+     * @param studentId The ID of the student
+     * @param courseId The ID of the course
+     * @return true if the student has an active or pending registration for the course, false otherwise
+     */
+    public boolean isAlreadyRegistered(int studentId, int courseId) {
+        String sql = "SELECT COUNT(*) FROM registration WHERE account_id = ? AND course_id = ? AND status IN ('Active', 'Pending')";
+        
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, studentId);
+            ps.setInt(2, courseId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error checking if course is already registered: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

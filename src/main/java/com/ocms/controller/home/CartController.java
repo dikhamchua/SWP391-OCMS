@@ -21,6 +21,7 @@ import com.ocms.entity.Registration;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Calendar;
+import java.util.ArrayList;
 
 @WebServlet("/cart")
 public class CartController extends HttpServlet {
@@ -121,8 +122,18 @@ public class CartController extends HttpServlet {
 
         if (courseId != null && priceStr != null) {
             try {
-            int courseIdInt = Integer.parseInt(courseId);
+                int courseIdInt = Integer.parseInt(courseId);
                 BigDecimal price = new BigDecimal(priceStr);
+
+                // Check if the user has already registered for or enrolled in this course
+                boolean alreadyRegistered = registrationDAO.isAlreadyRegistered(account.getId(), courseIdInt);
+                
+                if (alreadyRegistered) {
+                    session.setAttribute("message", "You have already registered for this course.");
+                    session.setAttribute("messageType", "warning");
+                    response.sendRedirect(request.getContextPath() + "/cart");
+                    return;
+                }
 
                 // Get or create cart for the user
                 Cart cart = cartDAO.getOrCreateCart(account.getId());
@@ -241,8 +252,39 @@ public class CartController extends HttpServlet {
         // Get all items in the cart
         List<CartItem> cartItems = cartItemDAO.getCartItemsWithCourseDetails(cart.getId());
         
-        // Calculate cart total
-        BigDecimal cartTotal = cartItemDAO.getCartTotal(cart.getId());
+        // Check for already registered courses
+        List<CartItem> duplicateItems = new ArrayList<>();
+        
+        // Check if any cart items are already registered
+        for (CartItem item : cartItems) {
+            if (registrationDAO.isAlreadyRegistered(account.getId(), item.getCourseId())) {
+                duplicateItems.add(item);
+            }
+        }
+        
+        // If there are duplicate items, notify the user and remove them from cart
+        if (!duplicateItems.isEmpty()) {
+            for (CartItem item : duplicateItems) {
+                cartItemDAO.delete(item);
+                cartItems.remove(item);
+            }
+            
+            if (cartItems.isEmpty()) {
+                session.setAttribute("message", "All courses in your cart are already registered. Your cart has been cleared.");
+                session.setAttribute("messageType", "warning");
+                response.sendRedirect(request.getContextPath() + "/cart");
+                return;
+            } else {
+                session.setAttribute("message", "Some courses were already registered and have been removed from your cart.");
+                session.setAttribute("messageType", "warning");
+            }
+        }
+        
+        // Recalculate cart total after possible removals
+        BigDecimal cartTotal = BigDecimal.ZERO;
+        for (CartItem item : cartItems) {
+            cartTotal = cartTotal.add(item.getPrice());
+        }
         
         // Store cart information in session for checkout page
         session.setAttribute("checkoutCartItems", cartItems);
@@ -283,7 +325,26 @@ public class CartController extends HttpServlet {
         String vnp_PayDate = request.getParameter("vnp_PayDate");
         String vnp_OrderInfo = request.getParameter("vnp_OrderInfo");
         
-
+        // Check for courses that were registered between checkout and payment
+        List<CartItem> itemsToRemove = new ArrayList<>();
+        
+        for (CartItem item : cartItems) {
+            if (registrationDAO.isAlreadyRegistered(account.getId(), item.getCourseId())) {
+                itemsToRemove.add(item);
+            }
+        }
+        
+        // Remove any items that were already registered
+        if (!itemsToRemove.isEmpty()) {
+            cartItems.removeAll(itemsToRemove);
+            
+            if (cartItems.isEmpty()) {
+                session.setAttribute("message", "All courses have already been registered. No payment was processed.");
+                session.setAttribute("messageType", "warning");
+                response.sendRedirect(request.getContextPath() + "/my-courses");
+                return;
+            }
+        }
         
         // Verify the transaction was started by this session
         String sessionTxnRef = (String) session.getAttribute("vnp_TxnRef");
