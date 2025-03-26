@@ -158,6 +158,7 @@
                             <div class="checkout-buttons mt-4">
                                 <form action="${pageContext.request.contextPath}/ajaxServlet" method="post" id="checkoutForm">
                                     <input type="hidden" name="action" value="complete-checkout">
+                                    <input type="hidden" name="amount" value="${sessionScope.checkoutCartTotal}">
                                     <button type="submit" class="btn btn-primary btn-lg btn-block mb-3">Complete Purchase</button>
                                 </form>
                                 
@@ -209,13 +210,13 @@
         }
         
         // Check for session messages and display toast
-        <c:if test="${not empty sessionScope.message}">
-            document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function() {
+            <c:if test="${not empty sessionScope.message}">
                 showToast("${sessionScope.message}", "${sessionScope.messageType}");
-            });
-            <c:remove var="message" scope="session" />
-            <c:remove var="messageType" scope="session" />
-        </c:if>
+                <c:remove var="message" scope="session" />
+                <c:remove var="messageType" scope="session" />
+            </c:if>
+        });
         
         // Form validation
         document.getElementById('checkoutForm').addEventListener('submit', function(e) {

@@ -51,6 +51,15 @@ public class CartController extends HttpServlet {
             return;
         }
 
+        // Check if this is a return from VNPAY payment
+        String action = request.getParameter("action");
+        if (action != null && action.equals("complete-checkout")) {
+            // Handle VNPAY return - process the checkout
+            completeCheckout(request, response);
+            return;
+        }
+
+        // Normal cart display logic
         // Get the user's cart
         Cart cart = cartDAO.getOrCreateCart(account.getId());
 
@@ -266,14 +275,55 @@ public class CartController extends HttpServlet {
             return;
         }
 
-        // Lấy kết quả thanh toán từ VNPAY
+        // Get VNPAY payment response parameters
         String vnp_ResponseCode = request.getParameter("vnp_ResponseCode");
         String vnp_TransactionStatus = request.getParameter("vnp_TransactionStatus");
+        String vnp_TxnRef = request.getParameter("vnp_TxnRef");
+        String vnp_Amount = request.getParameter("vnp_Amount");
+        String vnp_PayDate = request.getParameter("vnp_PayDate");
+        String vnp_OrderInfo = request.getParameter("vnp_OrderInfo");
+        
 
-        if ("00".equals(vnp_ResponseCode) && "00".equals(vnp_TransactionStatus)) {
-            // Thanh toán thành công
-            // Xử lý thanh toán thành công
-            // Current timestamp for registration
+        
+        // Verify the transaction was started by this session
+        String sessionTxnRef = (String) session.getAttribute("vnp_TxnRef");
+        String sessionAmount = (String) session.getAttribute("vnp_Amount");
+        
+        // Only proceed if we have a response from VNPAY or we're processing directly
+        if (vnp_ResponseCode != null && vnp_TransactionStatus != null) {
+            
+            if ("00".equals(vnp_ResponseCode) && "00".equals(vnp_TransactionStatus)) {
+                // Verify transaction matches what we sent
+                if (sessionTxnRef != null && sessionAmount != null) {
+                    if (!sessionTxnRef.equals(vnp_TxnRef) || !sessionAmount.equals(vnp_Amount)) {
+                        session.setAttribute("message", "Payment verification failed. Transaction details do not match.");
+                        session.setAttribute("messageType", "error");
+                        response.sendRedirect(request.getContextPath() + "/cart");
+                        return;
+                    }
+                }
+                
+                // Payment successful - process the order
+                processSuccessfulOrder(account, cartItems, session, response, request);
+            } else {
+                // Payment failed
+                session.setAttribute("message", "Payment was not successful. Response code: " + vnp_ResponseCode);
+                session.setAttribute("messageType", "error");
+                response.sendRedirect(request.getContextPath() + "/cart");
+            }
+        } else {
+            // Direct checkout without VNPAY (for testing or alternative payment methods)
+            processSuccessfulOrder(account, cartItems, session, response, request);
+        }
+    }
+    
+    /**
+     * Helper method to process a successful order
+     */
+    private void processSuccessfulOrder(Account account, List<CartItem> cartItems, 
+                                       HttpSession session, HttpServletResponse response, 
+                                       HttpServletRequest request) throws ServletException, IOException {
+        // Current timestamp for registration
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         
         // Calculate valid from and valid to dates (1 year validity)
@@ -295,7 +345,7 @@ public class CartController extends HttpServlet {
                 registration.setCourseId(item.getCourseId());
                 registration.setPackages("Standard"); // Default package
                 registration.setTotalCost(item.getPrice());
-                registration.setStatus("Pending");
+                registration.setStatus("Pending"); // Set as Pending since payment is confirmed
                 registration.setValidFrom(validFrom);
                 registration.setValidTo(validTo);
                 registration.setLastUpdateByPerson(account.getId());
@@ -309,7 +359,7 @@ public class CartController extends HttpServlet {
                 }
             }
         } catch (Exception e) {
-            session.setAttribute("message", "An error occurred while processing your checkout. Please try again.");
+            session.setAttribute("message", "An error occurred while processing your order: " + e.getMessage());
             session.setAttribute("messageType", "error");
             request.getRequestDispatcher(CHECKOUT_JSP).forward(request, response);
             return;
@@ -331,23 +381,16 @@ public class CartController extends HttpServlet {
             session.removeAttribute("checkoutCartItems");
             session.removeAttribute("checkoutCartTotal");
             session.removeAttribute("checkoutItemCount");
+            session.removeAttribute("vnp_TxnRef");
+            session.removeAttribute("vnp_Amount");
             
-            session.setAttribute("message", "Checkout completed successfully! You can now access your courses.");
+            session.setAttribute("message", "Payment successful! You can now access your courses.");
             session.setAttribute("messageType", "success");
             response.sendRedirect(request.getContextPath() + "/my-courses"); // Redirect to my courses page
         } else {
-            session.setAttribute("message", "There was an error processing your checkout. Please try again.");
+            session.setAttribute("message", "There was an error processing your order. Please contact support.");
             session.setAttribute("messageType", "error");
             request.getRequestDispatcher(CHECKOUT_JSP).forward(request, response);
         }
-        } else {
-            // Thanh toán thất bại
-            // Xử lý thanh toán thất bại
-            session.setAttribute("message", "Payment failed. Please try again.");
-            session.setAttribute("messageType", "error");
-            response.sendRedirect(request.getContextPath() + "/cart");
-        }
-        
-        
     }
 }
