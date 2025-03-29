@@ -31,22 +31,6 @@ height="7.958333333333333in"}
 #### 
 
 ## 2. System Functionalities
-
-### 2.1 Screens Flow
-
-![](images/media/image24.png)
-
-![](images/media/image8.png)
-
-![](images/media/image13.png)
-
-![](images/media/image31.png)
-
-![](images/media/image12.png)
-
-![](images/media/image6.png)
-
-### 2.2 Screen Authorization
 ### Screen Access Matrix
 
 | Screen              | Guest | Student | Instructor | Admin |
