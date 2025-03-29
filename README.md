@@ -17,19 +17,6 @@
 | 4   | Administrator | System manager who oversees user accounts, assigns roles, configures system settings, and ensures overall platform security and functionality. |
 
 
-### 1.2 Use Cases
-
-#### 1.2.1 UCs for Guest and Customer
-
-![](images/media/image43.png){width="6.5in"
-height="7.958333333333333in"}
-
-#### 1.2.2 UCs for Instructor and Admin
-
-![](images/media/image11.png){width="6.5in" height="8.48611111111111in"}
-
-#### 
-
 ## 2. System Functionalities
 ### Screen Access Matrix
 
