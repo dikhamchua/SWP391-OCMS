@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="content">
-                <h4 class="title">Emily Hannah</h4>
+                <h4 class="title">${sessionScope.account.username}</h4>
                 <ul class="list-wrap">
                     <li>
                         <img src="${pageContext.request.contextPath}/assets/img/icons/course_icon03.svg" alt="img" class="injectable">

@@ -160,7 +160,7 @@
                                                                             title="Edit"><i
                                                                                 class="skillgro-edit"></i></a>
                                                                         <a href="#"
-                                                                            onclick="confirmDeactivate(${blog.id})"
+                                                                            onclick="confirmDeactivate(${blog.id}),"
                                                                             title="Deactivate"><i
                                                                                 class="skillgro-bin"></i></a>
                                                                     </div>

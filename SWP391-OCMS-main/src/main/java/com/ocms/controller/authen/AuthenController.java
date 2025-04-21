@@ -33,8 +33,8 @@ public class AuthenController extends HttpServlet {
         String url;
         switch (action) {
             case "login":
-//                  url = "view/authen/login.jsp";
-               url = fakeLogin(request, response);
+                  url = "view/authen/login.jsp";
+//               url = fakeLogin(request, response);
                 break;
             case "logout":
                 url = logOut(request, response);
