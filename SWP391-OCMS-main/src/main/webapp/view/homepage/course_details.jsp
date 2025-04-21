@@ -14,7 +14,26 @@
     <!-- Place favicon.ico in the root directory -->
 
     <!-- CSS here -->
+    <!-- Fix CSS include -->
     <jsp:include page="../common/home/css-home.jsp" />
+    
+    <!-- Fix course category link -->
+    <li class="courses__item-tag">
+        <a href="${pageContext.request.contextPath}/course-list?categories=${course.categoryId}">${course.categoryId}</a>
+    </li>
+    
+    <!-- Fix author link -->
+    <a href="${pageContext.request.contextPath}/course-list?author=${course.createdBy}">${course.createdBy}</a>
+    
+    <!-- Fix Enroll Now button in course details -->
+    <div class="courses__item-bottom">
+        <div class="button">
+            <a href="${pageContext.request.contextPath}/course-details?id=${course.id}">
+                <span class="text">Enroll Now</span>
+                <i class="flaticon-arrow-right"></i>
+            </a>
+        </div>
+    </div>
 </head>
 
 <body>

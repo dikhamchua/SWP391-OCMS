@@ -121,7 +121,7 @@
                                                         <p class="author">By <a href="#">${authorNames[course.createdBy]}</a></p>
                                                         <div class="courses__item-bottom">
                                                             <div class="button">
-                                                                <a href="course-details.html">
+                                                                <a href="${pageContext.request.contextPath}/course-details?id=${course.id}">
                                                                     <span class="text">Enroll Now</span>
                                                                     <i class="flaticon-arrow-right"></i>
                                                                 </a>
@@ -241,7 +241,26 @@
         <script>
             SVGInject(document.querySelectorAll("img.injectable"));
         </script>
-        // Thêm đoạn này vào file course_list.jsp
+        <!-- Fix CSS include -->
+        <jsp:include page="../common/home/css-home.jsp"></jsp:include>
+        
+        <!-- Fix course category link -->
+        <li class="courses__item-tag">
+            <a href="${pageContext.request.contextPath}/course-list?categories=${course.categoryId}">${categoryNames[course.categoryId]}</a>
+        </li>
+        
+        <!-- Fix Enroll Now button -->
+        <div class="button">
+            <a href="${pageContext.request.contextPath}/course-details?id=${course.id}">
+                <span class="text">Enroll Now</span>
+                <i class="flaticon-arrow-right"></i>
+            </a>
+        </div>
+        
+        <!-- Fix JS include -->
+        <jsp:include page="../common/home/js-home.jsp"></jsp:include>
+        
+        <!-- Fix script tag (remove the comment slashes) -->
         <script>
             document.querySelector('.orderby').addEventListener('change', function() {
                 const sortValue = this.value;
