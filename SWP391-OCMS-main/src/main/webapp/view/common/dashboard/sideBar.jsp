@@ -105,7 +105,7 @@
         <nav class="dashboard__sidebar-menu">
             <ul class="list-wrap">
                 <li>
-                    <a href="${pageContext.request.contextPath}/student-setting.html">
+                    <a href="${pageContext.request.contextPath}/manage-setting">
                         <i class="skillgro-settings"></i>
                         Settings
                     </a>

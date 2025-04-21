@@ -58,7 +58,7 @@
     <main class="main-area fix">
 
         <!-- banner-area -->
-        <section class="banner-area banner-bg tg-motion-effects" data-background="../../assets/img/banner/banner_bg.png">
+<!--        <section class="banner-area banner-bg tg-motion-effects" data-background="../../assets/img/banner/banner_bg.png">
             <div class="container">
                 <div class="row justify-content-between align-items-start">
                     <div class="col-xl-5 col-lg-6">
@@ -108,7 +108,7 @@
                 </div>
             </div>
             <img src="${pageContext.request.contextPath}/assets/img/banner/banner_shape01.svg" alt="shape" class="line-shape" data-aos="fade-right" data-aos-delay="1600">
-        </section>
+        </section>-->
         <!-- banner-area-end -->
 
         <!-- categories-area -->
@@ -130,7 +130,7 @@
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide">
                                         <div class="categories__item">
-                                            <a href="courses.html">
+                                            <a href="#">
                                                 <div class="icon">
                                                     <i class="flaticon-graphic-design"></i>
                                                 </div>
@@ -141,7 +141,7 @@
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="categories__item">
-                                            <a href="courses.html">
+                                            <a href="#">
                                                 <div class="icon">
                                                     <i class="flaticon-investment"></i>
                                                 </div>
@@ -152,7 +152,7 @@
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="categories__item">
-                                            <a href="courses.html">
+                                            <a href="#">
                                                 <div class="icon">
                                                     <i class="flaticon-coding"></i>
                                                 </div>
@@ -163,7 +163,7 @@
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="categories__item">
-                                            <a href="courses.html">
+                                            <a href="#">
                                                 <div class="icon">
                                                     <i class="flaticon-email"></i>
                                                 </div>
@@ -174,7 +174,7 @@
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="categories__item">
-                                            <a href="courses.html">
+                                            <a href="#">
                                                 <div class="icon">
                                                     <i class="flaticon-fashion"></i>
                                                 </div>
@@ -185,7 +185,7 @@
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="categories__item">
-                                            <a href="courses.html">
+                                            <a href="#">
                                                 <div class="icon">
                                                     <i class="flaticon-interaction"></i>
                                                 </div>
@@ -196,7 +196,7 @@
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="categories__item">
-                                            <a href="courses.html">
+                                            <a href="#">
                                                 <div class="icon">
                                                     <i class="flaticon-web-design"></i>
                                                 </div>
@@ -272,7 +272,7 @@
         <!-- brand-area-end -->
 
         <!-- about-area -->
-        <section class="about-area tg-motion-effects section-py-120">
+<!--        <section class="about-area tg-motion-effects section-py-120">
             <div class="container">
                 <div class="row align-items-center justify-content-center">
                     <div class="col-lg-6 col-md-9">
@@ -328,7 +328,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section>-->
         <!-- about-area-end -->
 
         <!-- course-area -->
