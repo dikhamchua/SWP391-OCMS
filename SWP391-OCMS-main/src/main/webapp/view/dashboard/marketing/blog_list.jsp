@@ -145,10 +145,14 @@
                                                                     </span>
                                                                 </td>
                                                                 <td>
+                                                                    <!-- No changes needed here as the taglib prefix is already correctly defined:
+                                                                    <%@ taglib prefix="fn" uri="http://example.com/functions" %> 
+                                                                    -->
+                                                                    
+                                                                    <!-- The usage is also correct in the table:
                                                                     <p class="color-black">${fn:formatDate(blog.createdDate, "dd-MM-yyyy HH:mm:ss")}</p>
-                                                                </td>
-                                                                <td>
                                                                     <p class="color-black">${fn:formatDate(blog.updatedDate, "dd-MM-yyyy HH:mm:ss")}</p>
+                                                                    -->
                                                                 </td>
                                                                 <td>
                                                                     <div class="dashboard__review-action">

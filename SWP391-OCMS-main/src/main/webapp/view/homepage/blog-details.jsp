@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://example.com/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!doctype html>
 <html class="no-js" lang="en">
@@ -48,7 +48,19 @@
                             <div class="blog__details-content">
                                 <div class="blog__post-meta">
                                     <ul class="list-wrap">
-                                        <li><i class="flaticon-calendar"></i> ${fn:formatDate(blog.createdDate, "dd-MM-yyyy HH:mm:ss")}</li>
+                                        <li><i class="flaticon-calendar"></i> 
+                                            <c:choose>
+                                                <c:when test="${not empty blog.createdDateAsDate}">
+                                                    <fmt:formatDate value="${blog.createdDateAsDate}" pattern="dd-MM-yyyy HH:mm:ss" />
+                                                </c:when>
+                                                <c:when test="${not empty formattedDate}">
+                                                    ${formattedDate}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Chưa có ngày
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </li>
                                         <li><i class="flaticon-user-1"></i> by <a href="#">${blog.author}</a></li>
                                         <li><i class="flaticon-clock"></i> 20 Min Read</li>
                                     </ul>

@@ -33,7 +33,7 @@ public class AuthenController extends HttpServlet {
         String url;
         switch (action) {
             case "login":
-                //  url = "view/authen/login.jsp";
+//                  url = "view/authen/login.jsp";
                url = fakeLogin(request, response);
                 break;
             case "logout":
@@ -277,8 +277,8 @@ public class AuthenController extends HttpServlet {
     private String fakeLogin(HttpServletRequest request, HttpServletResponse response) {
         String url = null;
         // get về các thong tin người dufg nhập
-        String email = "4user01";
-        String password = "1";
+        String email = "admin";
+        String password = "123";
         // kiểm tra thông tin có tồn tại trong DB ko
         Account account = Account.builder()
                 .username(email)

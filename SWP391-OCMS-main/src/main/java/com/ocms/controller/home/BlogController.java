@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.text.SimpleDateFormat; // Add this import
-
+import java.time.ZoneId;
+import java.util.Date;
 import com.ocms.dal.BlogCategoryDAO;
 import com.ocms.dal.BlogDAO;
 import com.ocms.entity.Blog;
@@ -16,9 +17,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 
-@WebServlet(urlPatterns = { "/blog", "/blog-details" })
+@WebServlet(urlPatterns = {"/blog", "/blog-details"})
 public class BlogController extends HttpServlet {
 
     private BlogDAO blogDAO;
@@ -88,8 +88,9 @@ public class BlogController extends HttpServlet {
         if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
             try {
                 page = Integer.parseInt(request.getParameter("page"));
-                if (page < 1)
+                if (page < 1) {
                     page = 1;
+                }
             } catch (NumberFormatException e) {
                 // Log error if needed
             }
@@ -98,15 +99,22 @@ public class BlogController extends HttpServlet {
         // Lấy danh sách blog với bộ lọc
         String status = "Active";
         List<Blog> blogs = blogDAO.findBlogsWithFilters(searchTerm, status, categoryId, page, pageSize);
-        
-        // Format dates for each blog
-        Map<Integer, String> formattedDates = new HashMap<>();
+
+        // Format dates for all blogs if needed
+        // Thêm import
+        // Trong phương thức listBlogs
         for (Blog blog : blogs) {
             if (blog.getCreatedDate() != null) {
-                formattedDates.put(blog.getId(), dateFormat.format(blog.getCreatedDate()));
+                // Chuyển đổi LocalDateTime sang Date
+                Date createdDate = Date.from(blog.getCreatedDate().atZone(ZoneId.systemDefault()).toInstant());
+                blog.setCreatedDateAsDate(createdDate);
+
+                // Vẫn giữ formattedDate nếu cần
+                String formattedDate = dateFormat.format(createdDate);
+                blog.setFormattedDate(formattedDate);
             }
         }
-        
+
         int totalBlogs = blogDAO.getTotalBlogs(searchTerm, status, categoryId);
 
         // Lấy danh sách categories cho sidebar
@@ -116,6 +124,16 @@ public class BlogController extends HttpServlet {
 
         // Lấy các bài viết mới nhất cho sidebar
         List<Blog> latestBlogs = blogDAO.findLatestPosts();
+
+        // Format dates for latest blogs
+        for (Blog blog : latestBlogs) {
+            if (blog.getCreatedDate() != null) {
+                Date createdDate = Date.from(blog.getCreatedDate().atZone(ZoneId.systemDefault()).toInstant());
+                blog.setCreatedDateAsDate(createdDate);
+                String formattedDate = dateFormat.format(createdDate);
+                blog.setFormattedDate(formattedDate);
+            }
+        }
 
         // Tính toán phân trang
         int totalPages = (int) Math.ceil((double) totalBlogs / pageSize);
@@ -129,19 +147,16 @@ public class BlogController extends HttpServlet {
         request.setAttribute("searchTerm", searchTerm);
         request.setAttribute("categoryId", categoryId);
 
-        // Add formatted dates to request
-        request.setAttribute("formattedDates", formattedDates);
-        
         // Forward to JSP
         request.getRequestDispatcher("/view/homepage/blog.jsp").forward(request, response);
     }
 
-    private void showBlogDetails(HttpServletRequest request, HttpServletResponse response) 
+    private void showBlogDetails(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             int blogId = Integer.parseInt(request.getParameter("id"));
             Blog blog = blogDAO.findById(blogId);
-            
+
             if (blog == null || !"Active".equals(blog.getStatus())) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 return;
@@ -149,22 +164,28 @@ public class BlogController extends HttpServlet {
 
             // Format the date if needed
             if (blog.getCreatedDate() != null) {
-                String formattedDate = dateFormat.format(blog.getCreatedDate());
+                // Chuyển đổi LocalDateTime sang Date
+                Date createdDate = Date.from(blog.getCreatedDate().atZone(ZoneId.systemDefault()).toInstant());
+                blog.setCreatedDateAsDate(createdDate);
+                
+                // Vẫn giữ formattedDate
+                String formattedDate = dateFormat.format(createdDate);
+                blog.setFormattedDate(formattedDate);
                 request.setAttribute("formattedDate", formattedDate);
             }
 
             // Lấy thông tin category của blog
             BlogCategory category = blogCategoryDAO.findById(blog.getCategoryId());
-            
+
             // Set attributes
             request.setAttribute("blog", blog);
             request.setAttribute("category", category);
-            
+
             // Thêm các thuộc tính sidebar chung
             setCommonSidebarAttributes(request);
 
             request.getRequestDispatcher("/view/homepage/blog-details.jsp").forward(request, response);
-            
+
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -175,10 +196,10 @@ public class BlogController extends HttpServlet {
         List<BlogCategory> blogCategories = blogCategoryDAO.findAll();
         Map<Integer, BlogCategory> blogCategoryMap = blogCategories.stream()
                 .collect(Collectors.toMap(BlogCategory::getId, category -> category));
-        
+
         // Lấy các bài viết mới nhất cho sidebar
         List<Blog> latestBlogs = blogDAO.findLatestPosts();
-        
+
         request.setAttribute("latestBlogs", latestBlogs);
         request.setAttribute("blogCategoryMap", blogCategoryMap);
     }

@@ -7,6 +7,8 @@ package com.ocms.utils;
 import com.ocms.config.GlobalConfig;
 import com.ocms.controller.authen.UserGoogleDto;
 import com.ocms.entity.Account;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 /**
@@ -33,5 +35,13 @@ public class GlobalUtils {
         account.setRoleId(GlobalConfig.ROLE_STUDENT); // Default role ID, adjust as needed
         account.setIsActive(true);
         return account;
+    }
+    
+    public static String formatDate(LocalDateTime dateTime, String pattern) {
+        if (dateTime == null) {
+            return "";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return dateTime.format(formatter);
     }
 }

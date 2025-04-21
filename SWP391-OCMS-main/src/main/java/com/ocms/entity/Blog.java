@@ -2,6 +2,7 @@ package com.ocms.entity;
 
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Builder
@@ -19,4 +20,10 @@ public class Blog {
     private LocalDateTime updatedDate; // DATETIME, Default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     private LocalDateTime createdDate; // DATETIME, Default CURRENT_TIMESTAMP
     private String status; // ENUM('Active', 'Inactive'), Default 'Active'
+    
+    // Thêm trường formattedDate để lưu chuỗi ngày đã được định dạng
+    private String formattedDate;
+    
+    // Thêm trường để lưu createdDate dưới dạng java.util.Date cho fmt:formatDate
+    private Date createdDateAsDate;
 }
