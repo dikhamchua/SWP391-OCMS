@@ -124,47 +124,84 @@
             SVGInject(document.querySelectorAll("img.injectable"));
         </script>
 
+        <!-- Add this right before the closing </body> tag -->
+        <!-- Toast container -->
+        <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+    
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const form = document.getElementById('loginForm');
-                const email = document.getElementById('email');
+                const username = document.getElementById('username');
                 const password = document.getElementById('password');
                 const emailError = document.getElementById('emailError');
                 const passwordError = document.getElementById('passwordError');
-
+    
+                // Check if there's a login error from the server
+                const loginError = "${requestScope.error}";
+                console.log("Login error:", loginError); // Thêm log để kiểm tra
+                if (loginError && loginError !== "" && loginError !== "null") {
+                    showToast(loginError, "error");
+                    // Thêm hiển thị lỗi trực tiếp trên trang
+                    document.getElementById('emailError').textContent = loginError;
+                }
+    
                 form.addEventListener('submit', function (event) {
                     let isValid = true;
-
+    
                     // Reset error messages
                     emailError.textContent = '';
                     passwordError.textContent = '';
-
-                    // Email validation
-                    if (email.value.trim() === '') {
-                        emailError.textContent = 'Email is required';
+    
+                    // Username/Email validation
+                    if (username.value.trim() === '') {
+                        emailError.textContent = 'Username or email is required';
                         isValid = false;
                     }
-                    
-                    <!-- else if (!isValidEmail(email.value)) {
-                        emailError.textContent = 'Please enter a valid email address';
-                        isValid = false;
-                    } -->
-
+    
                     // Password validation
                     if (password.value.trim() === '') {
                         passwordError.textContent = 'Password is required';
                         isValid = false;
                     }
-
+    
                     if (!isValid) {
                         event.preventDefault(); // Prevent form submission if there are errors
                     }
                 });
-
-                function isValidEmail(email) {
-                    // Basic email validation regex
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    return emailRegex.test(email);
+    
+                // Toast function
+                function showToast(message, type = "info") {
+                    const toast = document.createElement('div');
+                    toast.className = 'toast ' + type;
+                    toast.innerHTML = 
+                        '<div class="toast-content">' +
+                            '<i class="fas ' + (type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle') + '"></i>' +
+                            '<div class="message">' +
+                                '<span class="text">' + message + '</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<i class="fa-solid fa-xmark close"></i>';
+                    
+                    document.getElementById('toast-container').appendChild(toast);
+                    
+                    // Auto remove after 5 seconds
+                    setTimeout(() => {
+                        toast.classList.add('hide');
+                        setTimeout(() => {
+                            toast.remove();
+                        }, 500);
+                    }, 5000);
+                    
+                    // Close button functionality
+                    const closeBtn = toast.querySelector('.close');
+                    if (closeBtn) {
+                        closeBtn.addEventListener('click', () => {
+                            toast.classList.add('hide');
+                            setTimeout(() => {
+                                toast.remove();
+                            }, 500);
+                        });
+                    }
                 }
             });
         </script>
@@ -173,3 +210,72 @@
 
     <!-- Mirrored from html.themegenix.com/skillgro/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 16 Sep 2024 01:45:08 GMT -->
 </html>
+
+<!-- Add toast styling -->
+<style>
+    .toast {
+        position: relative;
+        padding: 15px 20px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transform: translateX(100%);
+        animation: slide-in 0.3s forwards;
+        max-width: 300px;
+    }
+    
+    .toast.error {
+        background: #fff;
+        border-left: 5px solid #ff5252;
+    }
+    
+    .toast.info {
+        background: #fff;
+        border-left: 5px solid #4caf50;
+    }
+    
+    .toast .toast-content {
+        display: flex;
+        align-items: center;
+    }
+    
+    .toast-content i {
+        font-size: 20px;
+        margin-right: 10px;
+    }
+    
+    .toast.error i {
+        color: #ff5252;
+    }
+    
+    .toast.info i {
+        color: #4caf50;
+    }
+    
+    .toast .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        opacity: 0.7;
+    }
+    
+    .toast .close:hover {
+        opacity: 1;
+    }
+    
+    .toast.hide {
+        animation: slide-out 0.3s forwards;
+    }
+    
+    @keyframes slide-in {
+        from { transform: translateX(100%); }
+        to { transform: translateX(0); }
+    }
+    
+    @keyframes slide-out {
+        from { transform: translateX(0); }
+        to { transform: translateX(100%); }
+    }
+</style>
