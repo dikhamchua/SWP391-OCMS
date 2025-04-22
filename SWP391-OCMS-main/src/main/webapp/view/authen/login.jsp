@@ -70,7 +70,7 @@
                                 <h2 class="title">Welcome back!</h2>
                                 <p>Hey there! Ready to log in? Just enter your username and password below and you'll be back in action in no time. Let's go!</p>
                                 <div class="account__social">
-                                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:9998/SWP_OCMS/LoginGoogleHandler&response_type=code&client_id=257748132214-9811944a5anccchj9egqhg9qci33l5ij.apps.googleusercontent.com&approval_prompt=force" class="account__social-btn">
+                                    <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:9999/SWP_OCMS/LoginGoogleHandler&response_type=code&client_id=963287415197-l9joe5bma0vurl662udjm2nktq1tpmbt.apps.googleusercontent.com&approval_prompt=force" class="account__social-btn">
                                         <img src="${pageContext.request.contextPath}/assets/img/icons/google.svg" alt="img">
                                         Continue with google
                                     </a>

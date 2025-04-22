@@ -70,8 +70,7 @@ public class LoginGoogleHandler extends HttpServlet {
             response.addCookie(u);
 
             response.sendRedirect("home");
-            
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }

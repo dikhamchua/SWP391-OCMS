@@ -29,19 +29,19 @@ public class GlobalConfig {
      * GOOGLE_CLIENT_ID: ID của ứng dụng khách (client) được cấp bởi Google để xác
      * thực
      */
-    public static String GOOGLE_CLIENT_ID = "257748132214-9811944a5anccchj9egqhg9qci33l5ij.apps.googleusercontent.com";
+    public static String GOOGLE_CLIENT_ID = "963287415197-l9joe5bma0vurl662udjm2nktq1tpmbt.apps.googleusercontent.com";
 
     /**
      * GOOGLE_CLIENT_SECRET: Khóa bí mật của ứng dụng khách được cấp bởi Google để
      * xác thực
      */
-    public static String GOOGLE_CLIENT_SECRET = "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";
+    public static String GOOGLE_CLIENT_SECRET = "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";
 
     /**
      * GOOGLE_REDIRECT_URI: URI được sử dụng để đổi mã xác thực (authorization code)
      * lấy từ Google thành mã truy cập (access token)
      */
-    public static String GOOGLE_REDIRECT_URI = "http://localhost:9998/SWP_OCMS/LoginGoogleHandler";
+    public static String GOOGLE_REDIRECT_URI = "http://localhost:9999/SWP_OCMS/LoginGoogleHandler";
 
     /**
      * GOOGLE_LINK_GET_TOKEN: Liên kết để trao đổi mã xác thực từ Google để lấy mã
