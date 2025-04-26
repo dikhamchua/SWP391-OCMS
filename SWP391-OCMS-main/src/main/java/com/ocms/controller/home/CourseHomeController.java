@@ -90,6 +90,7 @@ public class CourseHomeController extends HttpServlet {
         List<Category> allCategories = categoryDAO.findAll();
 
         // Set attributes for JSP
+        request.setAttribute("listCategory", allCategories);
         request.setAttribute("categoryNames", categoryNames);
         request.setAttribute("authorNames", authorNames);
         request.setAttribute("allCategories", allCategories);

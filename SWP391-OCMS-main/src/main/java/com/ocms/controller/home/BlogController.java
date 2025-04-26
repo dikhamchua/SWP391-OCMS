@@ -9,8 +9,10 @@ import java.time.ZoneId;
 import java.util.Date;
 import com.ocms.dal.BlogCategoryDAO;
 import com.ocms.dal.BlogDAO;
+import com.ocms.dal.CategoryDAO;
 import com.ocms.entity.Blog;
 import com.ocms.entity.BlogCategory;
+import com.ocms.entity.Category;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,18 +20,20 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = {"/blog", "/blog-details"})
+@WebServlet(urlPatterns = { "/blog", "/blog-details" })
 public class BlogController extends HttpServlet {
 
     private BlogDAO blogDAO;
     private BlogCategoryDAO blogCategoryDAO;
     private SimpleDateFormat dateFormat; // Add this field
+    private CategoryDAO categoryDAO;
 
     @Override
     public void init() {
         blogDAO = new BlogDAO();
         blogCategoryDAO = new BlogCategoryDAO();
         dateFormat = new SimpleDateFormat("dd MMM yyyy"); // Initialize date formatter
+        categoryDAO=new CategoryDAO();
     }
 
     @Override
@@ -139,6 +143,10 @@ public class BlogController extends HttpServlet {
         int totalPages = (int) Math.ceil((double) totalBlogs / pageSize);
 
         // Set attributes
+        List<Category> allCategories = categoryDAO.findAll();
+
+        // Set attributes for JSP
+        request.setAttribute("listCategory", allCategories);
         request.setAttribute("blogs", blogs);
         request.setAttribute("latestBlogs", latestBlogs);
         request.setAttribute("blogCategoryMap", blogCategoryMap);
@@ -167,7 +175,7 @@ public class BlogController extends HttpServlet {
                 // Chuyển đổi LocalDateTime sang Date
                 Date createdDate = Date.from(blog.getCreatedDate().atZone(ZoneId.systemDefault()).toInstant());
                 blog.setCreatedDateAsDate(createdDate);
-                
+
                 // Vẫn giữ formattedDate
                 String formattedDate = dateFormat.format(createdDate);
                 blog.setFormattedDate(formattedDate);

@@ -82,7 +82,7 @@ public class AuthenController extends HttpServlet {
             default:
                 url = "home";
         }
-        request.getRequestDispatcher(url).forward(request, response);
+        response.sendRedirect(url);
 
     }
 

@@ -130,7 +130,7 @@
                                         <c:forEach items="${listCategory}" var="category">
                                             <div class="swiper-slide">
                                                 <div class="categories__item">
-                                                    <a href="#">
+                                                    <a href="${pageContext.request.contextPath}/course-list?categories=${category.id}">
                                                         <div class="icon">
                                                             <i class="flaticon-graphic-design"></i>
                                                         </div>
@@ -332,7 +332,7 @@
                                         <div class="swiper-slide">
                                             <div class="courses__item shine__animate-item">
                                                 <div class="courses__item-thumb">
-                                                    <a href="course-details.html" class="shine__animate-link">
+                                                    <a href="${pageContext.request.contextPath}/course-details?id=${course.id}" class="shine__animate-link">
                                                         <img src="${pageContext.request.contextPath}/assets/img/courses/${course.thumbnail}"
                                                              alt="img">
                                                     </a>
@@ -340,17 +340,17 @@
                                                 <div class="courses__item-content">
                                                     <ul class="courses__item-meta list-wrap">
                                                         <li class="courses__item-tag"> 
-                                                            <a href="course.html">${categoryMap[course.categoryId]}</a> 
+                                                            <a href="${pageContext.request.contextPath}/course-list?categories=${course.categoryId}">${categoryMap[course.categoryId]}</a> 
                                                         </li>
                                                         <li class="avg-rating"><i class="fas fa-star"></i> 
                                                             ${course.rating}
                                                         </li>
                                                     </ul>
-                                                    <h5 class="title"><a href="course-details.html">${course.name}</a></h5>
+                                                    <h5 class="title"><a href="${pageContext.request.contextPath}/course-details?id=${course.id}">${course.name}</a></h5>
                                                     <p class="author">By ${accountMap[course.createdBy]}</p>
                                                     <div class="courses__item-bottom">
                                                         <div class="button">
-                                                            <a href="course-details.html">
+                                                            <a href="${pageContext.request.contextPath}/course-details?id=${course.id}">
                                                                 <span class="text">Enroll Now</span>
                                                                 <i class="flaticon-arrow-right"></i>
                                                             </a>
@@ -381,7 +381,7 @@
                                                     <div class="swiper-slide">
                                                         <div class="courses__item shine__animate-item">
                                                             <div class="courses__item-thumb">
-                                                                <a href="course-details.html" class="shine__animate-link">
+                                                                <a href="${pageContext.request.contextPath}/course-details?id=${course.id}" class="shine__animate-link">
                                                                     <img src="${pageContext.request.contextPath}/assets/img/courses/${course.thumbnail}"
                                                                          alt="img">
                                                                 </a>
@@ -389,17 +389,17 @@
                                                             <div class="courses__item-content">
                                                                 <ul class="courses__item-meta list-wrap">
                                                                     <li class="courses__item-tag"> 
-                                                                        <a href="course.html">${categoryMap[course.categoryId]}</a> 
+                                                                        <a href="${pageContext.request.contextPath}/course-list?categories=${course.categoryId}">${categoryMap[course.categoryId]}</a> 
                                                                     </li>
                                                                     <li class="avg-rating"><i class="fas fa-star"></i> 
                                                                         ${course.rating}
                                                                     </li>
                                                                 </ul>
-                                                                <h5 class="title"><a href="course-details.html">${course.name}</a></h5>
+                                                                <h5 class="title"><a href="${pageContext.request.contextPath}/course-details?id=${course.id}">${course.name}</a></h5>
                                                                 <p class="author">By ${accountMap[course.createdBy]}</p>
                                                                 <div class="courses__item-bottom">
                                                                     <div class="button">
-                                                                        <a href="course-details.html">
+                                                                        <a href="${pageContext.request.contextPath}/course-details?id=${course.id}">
                                                                             <span class="text">Enroll Now</span>
                                                                             <i class="flaticon-arrow-right"></i>
                                                                         </a>
