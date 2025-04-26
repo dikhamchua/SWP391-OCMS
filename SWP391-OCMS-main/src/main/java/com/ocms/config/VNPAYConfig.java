@@ -21,7 +21,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class VNPAYConfig {
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://localhost:9999/SWP391_OCMS/cart?action=complete-checkout";
+    public static String vnp_ReturnUrl = "http://localhost:9999/SWP_OCMS/cart?action=complete-checkout";
     public static String vnp_TmnCode = "W1J069IZ";
     public static String secretKey = "R7MEBMB850UYY0K6YCPA4LS1DJP9FH20";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
@@ -80,9 +80,9 @@ public class VNPAYConfig {
                 sb.append("&");
             }
         }
-        return hmacSHA512(secretKey,sb.toString());
+        return hmacSHA512(secretKey, sb.toString());
     }
-    
+
     public static String hmacSHA512(final String key, final String data) {
         try {
 
@@ -105,7 +105,7 @@ public class VNPAYConfig {
             return "";
         }
     }
-    
+
     public static String getIpAddress(HttpServletRequest request) {
         String ipAdress;
         try {

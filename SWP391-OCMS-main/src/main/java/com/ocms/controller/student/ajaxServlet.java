@@ -2,6 +2,7 @@ package com.ocms.controller.student;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.ocms.config.GlobalConfig;
 import com.ocms.config.VNPAYConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -51,7 +52,7 @@ public class ajaxServlet extends HttpServlet {
             String vnp_Version = "2.1.0";
             String vnp_Command = "pay";
             String orderType = "other";
-            long amount = (long)(Double.parseDouble(amountParam) * 100);
+            long amount = (long)(Double.parseDouble(amountParam) * 100 * GlobalConfig.ConvertUSDtoVND);
             String bankCode = req.getParameter("bankCode");
             
             String vnp_TxnRef = VNPAYConfig.getRandomNumber(8);

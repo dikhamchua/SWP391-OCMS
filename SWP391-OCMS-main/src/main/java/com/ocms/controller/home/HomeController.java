@@ -4,6 +4,7 @@
  */
 package com.ocms.controller.home;
 
+import com.ocms.dal.AccountDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +12,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import com.ocms.dal.CategoryDAO;
+import com.ocms.dal.CourseDAO;
+import com.ocms.entity.Account;
+import com.ocms.entity.Category;
+import com.ocms.entity.Course;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "HomeController", urlPatterns = {"/home"})
 public class HomeController extends HttpServlet {
@@ -18,6 +28,34 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // khai bao cac bien
+        CategoryDAO categoryDAO = new CategoryDAO();
+        CourseDAO courseDAO = new CourseDAO();
+        AccountDAO accountDAO = new AccountDAO();
+        
+        //lay du lieu
+        List<Category> listCategory = categoryDAO.findAll();
+        List<Course> listCourse = courseDAO.findAll();
+        
+        // Tạo HashMap để lưu trữ tên category theo ID
+        Map<Integer, String> categoryMap = new HashMap<>();
+        for (Category category : listCategory) {
+            categoryMap.put(category.getId(), category.getName());
+        }
+        
+        // Tạo HashMap để lưu trữ tên user theo ID
+        Map<Integer, String> accountMap = new HashMap<>();
+        List<Account> listAccount = accountDAO.findAll();
+        for (Account account : listAccount) {
+            accountMap.put(account.getId(), account.getFullName());
+        }
+        
+        // set attribute
+        request.setAttribute("listCategory", listCategory);
+        request.setAttribute("listCourse", listCourse);
+        request.setAttribute("categoryMap", categoryMap);
+        request.setAttribute("accountMap", accountMap);
+        
         request.getRequestDispatcher("view/homepage/home.jsp").forward(request, response);
     }
 

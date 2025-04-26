@@ -180,22 +180,7 @@
                                             <input type="text" class="form-control" id="searchInput" placeholder="Search course...">
                                         </div>
                                     </div>
-                                    <div class="col-md-6 text-md-end">
-                                        <div class="view-options d-flex justify-content-md-end">
-                                            <div class="view-option">
-                                                <input type="checkbox" id="imageView" checked>
-                                                <label for="imageView">Image</label>
-                                            </div>
-                                            <div class="view-option">
-                                                <input type="checkbox" id="titleView" checked>
-                                                <label for="titleView">Title</label>
-                                            </div>
-                                            <div class="view-option">
-                                                <input type="checkbox" id="nameView" checked>
-                                                <label for="nameView">Course Name</label>
-                                            </div>
-                                        </div>
-                                    </div>
+                                  
                                 </div>
                                 
                                 <!-- Page Size Selection -->
@@ -279,19 +264,7 @@
     <jsp:include page="../../common/js-file.jsp"></jsp:include>
 
     <script>
-        $(document).ready(function() {
-            // Handle view options
-            $('#imageView').change(function() {
-                $('.course-image').toggle($(this).is(':checked'));
-            });
-            
-            $('#titleView').change(function() {
-                $('.course-description').toggle($(this).is(':checked'));
-            });
-            
-            $('#nameView').change(function() {
-                $('.course-name').toggle($(this).is(':checked'));
-            });
+        
             
             // Handle page size selection
             $('#pageSizeSelect').change(function() {

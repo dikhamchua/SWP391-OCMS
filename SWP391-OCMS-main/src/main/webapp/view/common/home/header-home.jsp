@@ -76,13 +76,11 @@
                                     <li class="wishlist-icon">
                                         <a href="cart.html" class="cart-count">
                                             <img src="${pageContext.request.contextPath}/assets/img/icons/heart.svg" class="injectable" alt="img">
-                                            <span class="wishlist-count">0</span>
                                         </a>
                                     </li>
                                     <li class="mini-cart-icon">
                                         <a href="${pageContext.request.contextPath}/cart" class="cart-count">
                                             <img src="${pageContext.request.contextPath}/assets/img/icons/cart.svg" class="injectable" alt="img">
-                                            <span class="mini-cart-count">0</span>
                                         </a>
                                     </li>
                                     <li class="header-btn login-btn">

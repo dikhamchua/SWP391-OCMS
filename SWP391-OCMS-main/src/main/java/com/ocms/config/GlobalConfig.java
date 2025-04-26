@@ -60,7 +60,7 @@ public class GlobalConfig {
      * (authorization code)
      */
     public static String GOOGLE_GRANT_TYPE = "authorization_code";
-
+    public static final Integer ConvertUSDtoVND = 24000;
 
     public static final Integer ROLE_STUDENT = 3;
 

@@ -295,6 +295,9 @@ public class ManageBlogController extends HttpServlet {
     private String processFileUpload(Part filePart, HttpServletRequest request) throws IOException {
         String fileName = System.currentTimeMillis() + "_" + getSubmittedFileName(filePart);
         String uploadPath = request.getServletContext().getRealPath("/assets/img/blog/");
+        
+        // In ra đường dẫn tuyệt đối trên máy
+        System.out.println("Đường dẫn tuyệt đối để lưu file: " + uploadPath);
 
         // Create directory if it doesn't exist
         File uploadDir = new File(uploadPath);

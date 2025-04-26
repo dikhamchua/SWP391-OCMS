@@ -45,6 +45,7 @@ public class AuthenController extends HttpServlet {
             case "enter-email":
                 url = "view/authen/enterEmailForgotPassword.jsp";
                 break;
+       
             default:
                 url = "view/authen/login.jsp";
         }

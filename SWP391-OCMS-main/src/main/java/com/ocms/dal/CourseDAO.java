@@ -436,4 +436,248 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
         // }
         System.out.println(courseDAO.getByQuestionId(32));
     }
+
+    public List<Course> findCoursesWithFilters(String categoryId, String status, String search, int page, int pageSize) {
+        List<Course> courses = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM course WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        // Thêm điều kiện lọc theo danh mục
+        if (categoryId != null && !categoryId.isEmpty()) {
+            sql.append(" AND category_id = ?");
+            params.add(Integer.parseInt(categoryId));
+        }
+
+        // Thêm điều kiện lọc theo trạng thái
+        if (status != null && !status.isEmpty()) {
+            sql.append(" AND status = ?");
+            params.add(status);
+        }
+
+        // Thêm điều kiện tìm kiếm theo tên hoặc mô tả
+        if (search != null && !search.isEmpty()) {
+            sql.append(" AND (name LIKE ? OR description LIKE ?)");
+            params.add("%" + search + "%");
+            params.add("%" + search + "%");
+        }
+
+        // Thêm phân trang
+        sql.append(" ORDER BY id DESC LIMIT ? OFFSET ?");
+        params.add(pageSize);
+        params.add((page - 1) * pageSize);
+
+        try {
+            connection = new DBContext().connection;
+            statement = connection.prepareStatement(sql.toString());
+
+            // Thiết lập các tham số
+            for (int i = 0; i < params.size(); i++) {
+                if (params.get(i) instanceof Integer) {
+                    statement.setInt(i + 1, (Integer) params.get(i));
+                } else {
+                    statement.setString(i + 1, (String) params.get(i));
+                }
+            }
+
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                courses.add(getFromResultSet(resultSet));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Lỗi khi lọc khóa học: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return courses;
+    }
+
+    public int getTotalFilteredCourses(String categoryId, String status, String search) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) as total FROM course WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        // Thêm điều kiện lọc theo danh mục
+        if (categoryId != null && !categoryId.isEmpty()) {
+            sql.append(" AND category_id = ?");
+            params.add(Integer.parseInt(categoryId));
+        }
+
+        // Thêm điều kiện lọc theo trạng thái
+        if (status != null && !status.isEmpty()) {
+            sql.append(" AND status = ?");
+            params.add(status);
+        }
+
+        // Thêm điều kiện tìm kiếm theo tên hoặc mô tả
+        if (search != null && !search.isEmpty()) {
+            sql.append(" AND (name LIKE ? OR description LIKE ?)");
+            params.add("%" + search + "%");
+            params.add("%" + search + "%");
+        }
+
+        try {
+            connection = new DBContext().connection;
+            statement = connection.prepareStatement(sql.toString());
+
+            // Thiết lập các tham số
+            for (int i = 0; i < params.size(); i++) {
+                if (params.get(i) instanceof Integer) {
+                    statement.setInt(i + 1, (Integer) params.get(i));
+                } else {
+                    statement.setString(i + 1, (String) params.get(i));
+                }
+            }
+
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("total");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Lỗi khi đếm tổng số khóa học đã lọc: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return 0;
+    }
+
+    public boolean updateStatus(Course course) {
+        String sql = "UPDATE course SET status = ? WHERE id = ?";
+        try {
+            connection = new DBContext().connection;
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, course.getStatus());
+            statement.setInt(2, course.getId());
+        
+
+            int affectedRows = statement.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException ex) {
+            System.out.println("Error updating status course: " + ex.getMessage());
+            return false;
+        } finally {
+            closeResources();
+        }
+    }
+
+    public List<Course> findCourseByStudentId(Integer studentId) {
+        List<Course> courses = new ArrayList<>();
+        String sql = "SELECT c.* FROM course c " +
+                     "JOIN registration r ON c.id = r.course_id " +
+                     "WHERE r.account_id = ?";
+        try {
+            connection = new DBContext().connection;
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, studentId);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                courses.add(getFromResultSet(resultSet));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error finding courses by student ID: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return courses;
+    }
+
+    public List<Course> findCourseByStudentIdWithFilters(int studentId, String categoryId, String search, int page, int pageSize) {
+        List<Course> courses = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+            "SELECT c.* FROM course c " +
+            "JOIN registration r ON c.id = r.course_id " +
+            "WHERE r.account_id = ?"
+        );
+        
+        List<Object> params = new ArrayList<>();
+        params.add(studentId);
+    
+        // Thêm điều kiện lọc theo danh mục
+        if (categoryId != null && !categoryId.isEmpty()) {
+            sql.append(" AND c.category_id = ?");
+            params.add(Integer.parseInt(categoryId));
+        }
+    
+        // Thêm điều kiện tìm kiếm theo tên hoặc mô tả
+        if (search != null && !search.isEmpty()) {
+            sql.append(" AND (c.name LIKE ? OR c.description LIKE ?)");
+            params.add("%" + search + "%");
+            params.add("%" + search + "%");
+        }
+    
+        // Thêm phân trang
+        sql.append(" ORDER BY c.id DESC LIMIT ? OFFSET ?");
+        params.add(pageSize);
+        params.add((page - 1) * pageSize);
+    
+        try {
+            connection = new DBContext().connection;
+            statement = connection.prepareStatement(sql.toString());
+    
+            // Thiết lập các tham số
+            for (int i = 0; i < params.size(); i++) {
+                if (params.get(i) instanceof Integer) {
+                    statement.setInt(i + 1, (Integer) params.get(i));
+                } else {
+                    statement.setString(i + 1, (String) params.get(i));
+                }
+            }
+    
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                courses.add(getFromResultSet(resultSet));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Lỗi khi lọc khóa học của học viên: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return courses;
+    }
+
+    public int getTotalCoursesByStudentIdWithFilters(int studentId, String categoryId, String search) {
+        StringBuilder sql = new StringBuilder(
+            "SELECT COUNT(*) as total FROM course c " +
+            "JOIN registration r ON c.id = r.course_id " +
+            "WHERE r.account_id = ?"
+        );
+        
+        List<Object> params = new ArrayList<>();
+        params.add(studentId);
+    
+        // Thêm điều kiện lọc theo danh mục
+        if (categoryId != null && !categoryId.isEmpty()) {
+            sql.append(" AND c.category_id = ?");
+            params.add(Integer.parseInt(categoryId));
+        }
+    
+        // Thêm điều kiện tìm kiếm theo tên hoặc mô tả
+        if (search != null && !search.isEmpty()) {
+            sql.append(" AND (c.name LIKE ? OR c.description LIKE ?)");
+            params.add("%" + search + "%");
+            params.add("%" + search + "%");
+        }
+    
+        try {
+            connection = new DBContext().connection;
+            statement = connection.prepareStatement(sql.toString());
+    
+            // Thiết lập các tham số
+            for (int i = 0; i < params.size(); i++) {
+                if (params.get(i) instanceof Integer) {
+                    statement.setInt(i + 1, (Integer) params.get(i));
+                } else {
+                    statement.setString(i + 1, (String) params.get(i));
+                }
+            }
+    
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("total");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Lỗi khi đếm tổng số khóa học của học viên: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return 0;
+    }
 }

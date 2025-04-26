@@ -69,6 +69,17 @@
             color: #ddd;
             margin-bottom: 20px;
         }
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
     </style>
 </head>
 
@@ -91,9 +102,9 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="breadcrumb-content">
-                            <h3 class="title">My Courses</h3>
+                            <h3 class="title">Khóa học của tôi</h3>
                             <nav class="breadcrumb">
-                                <span property="itemListElement" typeof="ListItem">My Learning</span>
+                                <span property="itemListElement" typeof="ListItem">Học tập của tôi</span>
                             </nav>
                         </div>
                     </div>
@@ -103,40 +114,132 @@
 
         <section class="my-courses-area section-py-120">
             <div class="container">
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <form action="${pageContext.request.contextPath}/my-courses" method="GET" id="filterForm">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="category">Danh mục:</label>
+                                    <select class="form-control" id="category" name="category" onchange="document.getElementById('filterForm').submit()">
+                                        <option value="">Tất cả danh mục</option>
+                                        <c:forEach items="${categories}" var="category">
+                                            <option value="${category.id}" ${categoryId == category.id ? 'selected' : ''}>${category.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="search">Tìm kiếm:</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="search" name="search" placeholder="Tìm kiếm theo tên khóa học..." value="${search}">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="submit">
+                                                <i class="fas fa-search"></i> Tìm kiếm
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <button type="button" class="btn btn-secondary btn-block" onclick="resetFilters()">
+                                        <i class="fas fa-redo"></i> Đặt lại
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
                 <!-- Display courses -->
                 <div class="row">
                     <c:choose>
-                        <c:when test="${empty registrations}">
+                        <c:when test="${empty myCourses}">
                             <div class="col-12">
                                 <div class="empty-courses">
                                     <i class="fas fa-book-reader"></i>
-                                    <h5>You haven't enrolled in any courses yet</h5>
-                                    <p>Browse our catalog and find courses that match your interests.</p>
-                                    <a href="${pageContext.request.contextPath}/courses" class="btn btn-primary mt-3">Browse Courses</a>
+                                    <h5>Bạn chưa đăng ký khóa học nào</h5>
+                                    <p>Hãy khám phá danh mục khóa học của chúng tôi và tìm những khóa học phù hợp với sở thích của bạn.</p>
+                                    <a href="${pageContext.request.contextPath}/courses" class="btn btn-primary mt-3">Khám phá khóa học</a>
                                 </div>
                             </div>
                         </c:when>
                         <c:otherwise>
-                            <c:forEach items="${registrations}" var="registration">
-                                <c:set var="course" value="${courseDAO.findById(registration.courseId)}" />
+                            <div class="col-12 mb-4">
+                                <h5>Hiển thị ${(currentPage-1)*pageSize + 1} - ${Math.min(currentPage*pageSize, totalCourses*1)} trong tổng số ${totalCourses} khóa học</h5>
+                            </div>
+                            
+                            <c:forEach items="${myCourses}" var="course">
                                 <div class="col-lg-4 col-md-6">
                                     <div class="course-card">
-                                        <img src="${course.thumbnail}" alt="${course.name}" class="course-image">
+                                        <img src="${pageContext.request.contextPath}/assets/img/courses/${course.thumbnail}" alt="${course.name}" class="course-image">
                                         <div class="course-content">
                                             <h3 class="course-title">${course.name}</h3>
                                             <div class="course-meta">
-                                                <span>Enrolled: <fmt:formatDate value="${registration.registrationTime}" pattern="MMM dd, yyyy"/></span>
-                                                <span>Valid until: <fmt:formatDate value="${registration.validTo}" pattern="MMM dd, yyyy"/></span>
+                                                <span>Đánh giá: ${course.rating}/5</span>
+                                                <span>Trạng thái: ${course.status}</span>
                                             </div>
-                                            <p>${course.shortDescription}</p>
+                                            <div class="course-description">
+                                                <p>${course.description}</p>
+                                            </div>
                                         </div>
                                         <div class="course-footer">
-                                            <span class="badge ${registration.status == 'Active' ? 'bg-success' : 'bg-warning'}">${registration.status}</span>
-                                            <a href="${pageContext.request.contextPath}/course?id=${course.id}" class="btn btn-sm btn-primary">Start Learning</a>
+                                            <span class="badge ${course.status == 'active' ? 'bg-success' : 'bg-warning'}">${course.status}</span>
+                                            <c:if test="${registrationMap[course.id] != 'Pending'}">
+                                                <a href="${pageContext.request.contextPath}/course?id=${course.id}" class="btn btn-sm btn-primary">Bắt đầu học</a>
+                                            </c:if>
+                                            <c:if test="${registrationMap[course.id] == 'Pending'}">
+                                                <span class="text-muted">Chờ phê duyệt</span>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>
                             </c:forEach>
+                            
+                            <!-- Pagination -->
+                            <div class="col-12">
+                                <div class="pagination-container">
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                                <a class="page-link" href="${pageContext.request.contextPath}/my-courses?page=1&category=${categoryId}&search=${search}" aria-label="First">
+                                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                                <a class="page-link" href="${pageContext.request.contextPath}/my-courses?page=${currentPage - 1}&category=${categoryId}&search=${search}" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            
+                                            <c:forEach begin="1" end="${totalPages}" var="i">
+                                                <c:choose>
+                                                    <c:when test="${i == currentPage}">
+                                                        <li class="page-item active"><span class="page-link">${i}</span></li>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/my-courses?page=${i}&category=${categoryId}&search=${search}">${i}</a></li>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+                                            
+                                            <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                                <a class="page-link" href="${pageContext.request.contextPath}/my-courses?page=${currentPage + 1}&category=${categoryId}&search=${search}" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                                                <a class="page-link" href="${pageContext.request.contextPath}/my-courses?page=${totalPages}&category=${categoryId}&search=${search}" aria-label="Last">
+                                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -179,6 +282,13 @@
             }).showToast();
         }
         
+        // Function to reset filters
+        function resetFilters() {
+            document.getElementById('category').value = '';
+            document.getElementById('search').value = '';
+            document.getElementById('filterForm').submit();
+        }
+        
         // Check for session messages and display toast
         <c:if test="${not empty sessionScope.message}">
             document.addEventListener("DOMContentLoaded", function() {
@@ -190,4 +300,4 @@
     </script>
 </body>
 
-</html> 
+</html>

@@ -97,6 +97,12 @@
                         Order History
                     </a>
                 </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/manage-blog">
+                        <i class="skillgro-satchel"></i>
+                        Manage Blog
+                    </a>
+                </li>
             </ul>
         </nav>
         <div class="dashboard__sidebar-title mt-30 mb-20">
@@ -111,7 +117,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="${pageContext.request.contextPath}/index.html">
+                    <a href="${pageContext.request.contextPath}/authen?action=logout">
                         <i class="skillgro-logout"></i>
                         Logout
                     </a>

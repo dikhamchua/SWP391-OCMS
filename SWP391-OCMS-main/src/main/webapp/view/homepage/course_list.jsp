@@ -107,7 +107,7 @@
                                                 <div class="courses__item shine__animate-item">
                                                     <div class="courses__item-thumb">
                                                         <a href="${pageContext.request.contextPath}/course-details?id=${course.id}" class="shine__animate-link">
-                                                            <img src="${course.thumbnail}" alt="img">
+                                                            <img src="${pageContext.request.contextPath}/assets/img/courses/${course.thumbnail}" alt="img">
                                                         </a>
                                                     </div>
                                                     <div class="courses__item-content">

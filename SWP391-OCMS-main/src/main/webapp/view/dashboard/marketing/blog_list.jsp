@@ -145,22 +145,19 @@
                                                                     </span>
                                                                 </td>
                                                                 <td>
-                                                                    <!-- No changes needed here as the taglib prefix is already correctly defined:
-                                                                    <%@ taglib prefix="fn" uri="http://example.com/functions" %> 
-                                                                    -->
-                                                                    
-                                                                    <!-- The usage is also correct in the table:
+                                                                  
                                                                     <p class="color-black">${fn:formatDate(blog.createdDate, "dd-MM-yyyy HH:mm:ss")}</p>
+                                                                </td>
+                                                                <td>
                                                                     <p class="color-black">${fn:formatDate(blog.updatedDate, "dd-MM-yyyy HH:mm:ss")}</p>
-                                                                    -->
                                                                 </td>
                                                                 <td>
                                                                     <div class="dashboard__review-action">
                                                                         <a href="${pageContext.request.contextPath}/manage-blog?action=edit&id=${blog.id}"
                                                                             title="Edit"><i
                                                                                 class="skillgro-edit"></i></a>
-                                                                        <a href="#"
-                                                                            onclick="confirmDeactivate(${blog.id}),"
+                                                                        <a href="${pageContext.request.contextPath}/manage-blog?action=deactivate&id=${blog.id}"
+                                                                          
                                                                             title="Deactivate"><i
                                                                                 class="skillgro-bin"></i></a>
                                                                     </div>
@@ -219,13 +216,7 @@
             <!-- JS here -->
             <jsp:include page="../../common/js-file.jsp"></jsp:include>
 
-            <script>
-                function confirmDeactivate(blogId) {
-                    if (confirm('Are you sure you want to deactivate this blog?')) {
-                        window.location.href = '${pageContext.request.contextPath}/manage-blog?action=deactivate&id=' + blogId;
-                    }
-                }
-            </script>
+           
 
             <script>
                 // Toast message display
