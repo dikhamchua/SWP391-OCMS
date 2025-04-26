@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.ocms.config.GlobalConfig;
 import com.ocms.dal.AccountDAO;
 import com.ocms.dal.BlogCategoryDAO;
 import com.ocms.dal.BlogDAO;
@@ -51,6 +52,12 @@ public class ManageBlogController extends HttpServlet {
                 case "deactivate":
                     deactivateBlog(request, response);
                     break;
+                case "activate":
+                    activateBlog(request, response);
+                    break;
+                default:
+                    handleListWithFilters(request, response);
+                    break;
             }
         }
     }
@@ -77,6 +84,15 @@ public class ManageBlogController extends HttpServlet {
 
     private void handleListWithFilters(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Lấy thông tin người dùng từ session
+        HttpSession session = request.getSession();
+        Account loggedInUser = (Account) session.getAttribute("account");
+        
+        if (loggedInUser == null) {
+            response.sendRedirect(request.getContextPath() + "/authen?action=login");
+            return;
+        }
+        
         // Get filter parameters
         String searchFilter = request.getParameter("search");
         String statusFilter = request.getParameter("status");
@@ -105,10 +121,24 @@ public class ManageBlogController extends HttpServlet {
             }
         }
 
-        List<Blog> blogs = blogDAO.findBlogsWithFilters(
-                searchFilter, statusFilter, categoryId, page, pageSize);
-        int totalBlogs = blogDAO.getTotalBlogs(
-                searchFilter, statusFilter, categoryId);
+        List<Blog> blogs;
+        int totalBlogs;
+        
+        // Chỉ Admin mới xem được tất cả blog, user khác chỉ xem được blog của mình
+        if (loggedInUser.getRoleId() == GlobalConfig.ROLE_ADMIN) {
+            // Admin - lấy tất cả blog
+            blogs = blogDAO.findBlogsWithFilters(
+                    searchFilter, statusFilter, categoryId, page, pageSize);
+            totalBlogs = blogDAO.getTotalBlogs(
+                    searchFilter, statusFilter, categoryId);
+        } else {
+            // User khác - chỉ lấy blog của mình
+            blogs = blogDAO.findBlogsByAuthorWithFilters(
+                    loggedInUser.getId(), searchFilter, statusFilter, categoryId, page, pageSize);
+            totalBlogs = blogDAO.getTotalBlogsByAuthor(
+                    loggedInUser.getId(), searchFilter, statusFilter, categoryId);
+        }
+        
         int totalPages = (int) Math.ceil((double) totalBlogs / pageSize);
 
         // Get all blog categories
@@ -128,6 +158,9 @@ public class ManageBlogController extends HttpServlet {
         request.setAttribute("totalBlogs", totalBlogs);
         request.setAttribute("blogCategoryMap", blogCategoryMap);
         request.setAttribute("accountMap", accountMap);
+        
+        // Set user role for UI customization
+        request.setAttribute("isAdmin", loggedInUser.getRoleId() == GlobalConfig.ROLE_ADMIN);
 
         // Set filter values for maintaining state
         request.setAttribute("categoryId", categoryId);
@@ -139,18 +172,35 @@ public class ManageBlogController extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Lấy thông tin người dùng từ session
+        HttpSession session = request.getSession();
+        Account loggedInUser = (Account) session.getAttribute("account");
+        
+        if (loggedInUser == null) {
+            response.sendRedirect(request.getContextPath() + "/authen?action=login");
+            return;
+        }
+        
         String blogIdStr = request.getParameter("id");
         if (blogIdStr != null && !blogIdStr.isEmpty()) {
             int blogId = Integer.parseInt(blogIdStr);
             Blog blog = blogDAO.findById(blogId);
-            List<BlogCategory> blogCategories = blogCategoryDAO.findAll();
-            Map<Integer, BlogCategory> blogCategoryMap = blogCategories.stream()
-                    .collect(Collectors.toMap(BlogCategory::getId, item -> item));
-            request.setAttribute("blogCategoryMap", blogCategoryMap);
-            if (blog != null) {
+            
+            // Kiểm tra quyền: chỉ admin hoặc tác giả mới có quyền sửa
+            if (blog != null && (loggedInUser.getRoleId() == GlobalConfig.ROLE_ADMIN || blog.getAuthor() == loggedInUser.getId())) {
+                List<BlogCategory> blogCategories = blogCategoryDAO.findAll();
+                Map<Integer, BlogCategory> blogCategoryMap = blogCategories.stream()
+                        .collect(Collectors.toMap(BlogCategory::getId, item -> item));
+                request.setAttribute("blogCategoryMap", blogCategoryMap);
                 request.setAttribute("blog", blog);
                 request.getRequestDispatcher("view/dashboard/marketing/blog_details.jsp").forward(request, response);
                 return;
+            } else if (blog != null) {
+                // Người dùng không có quyền sửa blog này
+                setToastMessage(request, "You don't have permission to edit this blog", "error");
+            } else {
+                // Blog không tồn tại
+                setToastMessage(request, "Blog not found", "error");
             }
         }
         response.sendRedirect(request.getContextPath() + "/manage-blog");
@@ -161,18 +211,25 @@ public class ManageBlogController extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         if (account == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
+            response.sendRedirect(request.getContextPath() + "/authen?action=login");
             return;
         }
         Integer blogId = Integer.parseInt(request.getParameter("id"));
         Blog blog = blogDAO.findById(blogId);
+        
+        // Kiểm tra quyền: chỉ admin hoặc tác giả mới có quyền cập nhật
+        if (blog == null || (account.getRoleId() != GlobalConfig.ROLE_ADMIN && blog.getAuthor() != account.getId())) {
+            setToastMessage(request, "You don't have permission to update this blog", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-blog");
+            return;
+        }
 
         String title = request.getParameter("title");
         String content = request.getParameter("content");
         String briefInfo = request.getParameter("brief_info");
         Integer categoryId = Integer.parseInt(request.getParameter("category_id"));
         String status = request.getParameter("status");
-        Integer author = account.getId(); // TODO: xu ly author
+        Integer author = blog.getAuthor(); // Giữ nguyên tác giả
         Part filePart = request.getPart("thumbnail");
         if (filePart != null && filePart.getSize() > 0) {
             // Delete old thumbnail if exists
@@ -194,7 +251,7 @@ public class ManageBlogController extends HttpServlet {
         blog.setBriefInfo(briefInfo);
         blog.setCategoryId(categoryId);
         blog.setStatus(status);
-        blog.setAuthor(author);
+        blog.setUpdatedDate(LocalDateTime.now());
 
         boolean updated = blogDAO.update(blog);
 
@@ -210,11 +267,21 @@ public class ManageBlogController extends HttpServlet {
 
     private void deactivateBlog(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account loggedInUser = (Account) session.getAttribute("account");
+        
+        if (loggedInUser == null) {
+            response.sendRedirect(request.getContextPath() + "/authen?action=login");
+            return;
+        }
+        
         String blogIdStr = request.getParameter("id");
         if (blogIdStr != null && !blogIdStr.isEmpty()) {
             int blogId = Integer.parseInt(blogIdStr);
             Blog blog = blogDAO.findById(blogId);
-            if (blog != null) {
+            
+            // Kiểm tra quyền: chỉ admin hoặc tác giả mới có quyền vô hiệu hóa
+            if (blog != null && (loggedInUser.getRoleId() == GlobalConfig.ROLE_ADMIN || blog.getAuthor() == loggedInUser.getId())) {
                 blog.setStatus("Inactive");
                 boolean deactivated = blogDAO.update(blog);
                 if (deactivated) {
@@ -222,6 +289,51 @@ public class ManageBlogController extends HttpServlet {
                 } else {
                     setToastMessage(request, "Failed to deactivate blog", "error");
                 }
+            } else if (blog != null) {
+                // Người dùng không có quyền vô hiệu hóa blog này
+                setToastMessage(request, "You don't have permission to deactivate this blog", "error");
+            } else {
+                // Blog không tồn tại
+                setToastMessage(request, "Blog not found", "error");
+            }
+        } else {
+            setToastMessage(request, "Invalid blog ID", "error");
+        }
+        response.sendRedirect(request.getContextPath() + "/manage-blog");
+    }
+
+    private void activateBlog(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account loggedInUser = (Account) session.getAttribute("account");
+        
+        if (loggedInUser == null) {
+            response.sendRedirect(request.getContextPath() + "/authen?action=login");
+            return;
+        }
+        
+        // Chỉ Admin mới có quyền kích hoạt lại blog
+        if (loggedInUser.getRoleId() != GlobalConfig.ROLE_ADMIN) {
+            setToastMessage(request, "Only administrators can activate blogs", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-blog");
+            return;
+        }
+        
+        String blogIdStr = request.getParameter("id");
+        if (blogIdStr != null && !blogIdStr.isEmpty()) {
+            int blogId = Integer.parseInt(blogIdStr);
+            Blog blog = blogDAO.findById(blogId);
+            
+            if (blog != null) {
+                blog.setStatus("Active");
+                boolean activated = blogDAO.update(blog);
+                if (activated) {
+                    setToastMessage(request, "Blog activated successfully", "success");
+                } else {
+                    setToastMessage(request, "Failed to activate blog", "error");
+                }
+            } else {
+                setToastMessage(request, "Blog not found", "error");
             }
         } else {
             setToastMessage(request, "Invalid blog ID", "error");
@@ -246,7 +358,7 @@ public class ManageBlogController extends HttpServlet {
             HttpSession session = request.getSession();
             Account account = (Account) session.getAttribute("account");
             if (account == null) {
-                response.sendRedirect(request.getContextPath() + "/login");
+                response.sendRedirect(request.getContextPath() + "/authen?action=login");
                 return;
             }
             // Get form data
@@ -271,7 +383,7 @@ public class ManageBlogController extends HttpServlet {
                     .categoryId(categoryId)
                     .status(status)
                     .thumbnail(fileName)
-                    .author(account.getId()) // TODO: Replace with actual logged-in user's name
+                    .author(account.getId()) // Người đăng nhập hiện tại là tác giả
                     .createdDate(LocalDateTime.now())
                     .updatedDate(LocalDateTime.now())
                     .build();

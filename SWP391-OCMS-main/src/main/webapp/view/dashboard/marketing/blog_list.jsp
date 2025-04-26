@@ -7,8 +7,8 @@
         <head>
             <meta charset="utf-8">
             <meta http-equiv="x-ua-compatible" content="ie=edge">
-            <title>SkillGro - Manage Settings</title>
-            <meta name="description" content="SkillGro - Manage Accounts">
+            <title>SkillGro - Manage Blogs</title>
+            <meta name="description" content="SkillGro - Manage Blogs">
             <meta name="viewport" content="width=device-width, initial-scale=1">
 
             <link rel="shortcut icon" type="image/x-icon"
@@ -57,13 +57,37 @@
                                         <div
                                             class="dashboard__content-title">
                                             <div class="title d-flex justify-content-between align-items-center">
-                                                <h4>Manage Blogs</h4>
+                                                <h4>
+                                                    <c:choose>
+                                                        <c:when test="${isAdmin}">
+                                                            Manage All Blogs
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            Manage My Blogs
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </h4>
                                                 <a href="${pageContext.request.contextPath}/manage-blog?action=add"
                                                     class="btn btn-primary">
                                                     <i class="fas fa-plus"></i> Add New Blog
                                                 </a>
                                             </div>
                                         </div>
+                                        
+                                        <!-- Role info alert -->
+                                        <c:if test="${isAdmin}">
+                                            <div class="alert alert-info mb-4">
+                                                <i class="fas fa-info-circle me-2"></i>
+                                                You are viewing all blogs in the system as an administrator.
+                                            </div>
+                                        </c:if>
+                                        <c:if test="${!isAdmin}">
+                                            <div class="alert alert-info mb-4">
+                                                <i class="fas fa-info-circle me-2"></i>
+                                                You are viewing only your own blogs. You can only edit and manage blogs that you created.
+                                            </div>
+                                        </c:if>
+                                        
                                         <form action="${pageContext.request.contextPath}/manage-blog" method="GET"
                                             class="mb-4">
                                             <div class="row mb-3">
@@ -103,101 +127,128 @@
                                         </form>
                                         <div class="row">
                                             <div class="col-12">
-                                                <div class="dashboard__review-table">
-                                                    <table class="table table-borderless">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>ID</th>
-                                                                <th>Thumbnail</th>
-                                                                <th>Title</th>
-                                                                <th>Category</th>
-                                                                <th>Author</th>
-                                                                <th>Status</th>
-                                                                <th>Created Date</th>
-                                                                <th>Updated Date</th>
-                                                                <th style="text-align: center;">Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <c:forEach var="blog" items="${blogs}">
-                                                            <tr>
-                                                                <td>
-                                                                    <p class="color-black">${blog.id}</p>
-                                                                </td>
-                                                                <td>
-                                                                    <img src="${pageContext.request.contextPath}/assets/img/blog/${blog.thumbnail}"
-                                                                        alt="Blog thumbnail" class="img-thumbnail"
-                                                                        style="width: 100px; height: 60px; object-fit: cover;">
-                                                                </td>
-                                                                <td>
-                                                                    <p class="color-black">${blog.title}</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="color-black">
-                                                                        ${blogCategoryMap[blog.categoryId].name}</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="color-black">${accountMap[blog.author].username}</p>
-                                                                </td>
-                                                                <td>
-                                                                    <span
-                                                                        class="dashboard__quiz-result ${blog.status == 'Active' ? '' : 'fail'}">
-                                                                        ${blog.status}
-                                                                    </span>
-                                                                </td>
-                                                                <td>
-                                                                  
-                                                                    <p class="color-black">${fn:formatDate(blog.createdDate, "dd-MM-yyyy HH:mm:ss")}</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="color-black">${fn:formatDate(blog.updatedDate, "dd-MM-yyyy HH:mm:ss")}</p>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="dashboard__review-action">
-                                                                        <a href="${pageContext.request.contextPath}/manage-blog?action=edit&id=${blog.id}"
-                                                                            title="Edit"><i
-                                                                                class="skillgro-edit"></i></a>
-                                                                        <a href="${pageContext.request.contextPath}/manage-blog?action=deactivate&id=${blog.id}"
-                                                                          
-                                                                            title="Deactivate"><i
-                                                                                class="skillgro-bin"></i></a>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </table>
-                                                </div>
-
-                                                <!-- Pagination -->
-                                                <nav aria-label="Page navigation" style="margin-top: 30px">
-                                                    <ul class="pagination justify-content-center">
-                                                        <c:if test="${currentPage > 1}">
-                                                            <li class="page-item">
-                                                                <a class="page-link"
-                                                                    href="${paginationUrl}&page=${currentPage - 1}"
-                                                                    aria-label="Previous">
-                                                                    <span aria-hidden="true">&laquo;</span>
-                                                                </a>
-                                                            </li>
+                                                <c:if test="${empty blogs}">
+                                                    <div class="alert alert-warning text-center">
+                                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                                        No blogs found matching your criteria.
+                                                        <c:if test="${!isAdmin}">
+                                                            <br>
+                                                            <a href="${pageContext.request.contextPath}/manage-blog?action=add" class="alert-link">
+                                                                Create a new blog post
+                                                            </a>
                                                         </c:if>
+                                                    </div>
+                                                </c:if>
+                                                
+                                                <c:if test="${not empty blogs}">
+                                                    <div class="dashboard__review-table">
+                                                        <table class="table table-borderless">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID</th>
+                                                                    <th>Thumbnail</th>
+                                                                    <th>Title</th>
+                                                                    <th>Category</th>
+                                                                    <c:if test="${isAdmin}">
+                                                                        <th>Author</th>
+                                                                    </c:if>
+                                                                    <th>Status</th>
+                                                                    <th>Created Date</th>
+                                                                    <th>Updated Date</th>
+                                                                    <th style="text-align: center;">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <c:forEach var="blog" items="${blogs}">
+                                                                <tr>
+                                                                    <td>
+                                                                        <p class="color-black">${blog.id}</p>
+                                                                    </td>
+                                                                    <td>
+                                                                        <img src="${pageContext.request.contextPath}/assets/img/blog/${blog.thumbnail}"
+                                                                            alt="Blog thumbnail" class="img-thumbnail"
+                                                                            style="width: 100px; height: 60px; object-fit: cover;">
+                                                                    </td>
+                                                                    <td>
+                                                                        <p class="color-black">${blog.title}</p>
+                                                                    </td>
+                                                                    <td>
+                                                                        <p class="color-black">
+                                                                            ${blogCategoryMap[blog.categoryId].name}</p>
+                                                                    </td>
+                                                                    <c:if test="${isAdmin}">
+                                                                        <td>
+                                                                            <p class="color-black">${accountMap[blog.author].username}</p>
+                                                                        </td>
+                                                                    </c:if>
+                                                                    <td>
+                                                                        <span
+                                                                            class="dashboard__quiz-result ${blog.status == 'Active' ? '' : 'fail'}">
+                                                                            ${blog.status}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <p class="color-black">${fn:formatDate(blog.createdDate, "dd-MM-yyyy HH:mm:ss")}</p>
+                                                                    </td>
+                                                                    <td>
+                                                                        <p class="color-black">${fn:formatDate(blog.updatedDate, "dd-MM-yyyy HH:mm:ss")}</p>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="dashboard__review-action">
+                                                                            <a href="${pageContext.request.contextPath}/manage-blog?action=edit&id=${blog.id}"
+                                                                                title="Edit"><i
+                                                                                    class="skillgro-edit"></i></a>
+                                                                            
+                                                                            <c:if test="${blog.status == 'Active'}">
+                                                                                <a href="${pageContext.request.contextPath}/manage-blog?action=deactivate&id=${blog.id}"
+                                                                                    onclick="return confirm('Are you sure you want to deactivate this blog?');"
+                                                                                    title="Deactivate"><i
+                                                                                        class="skillgro-bin"></i></a>
+                                                                            </c:if>
+                                                                            <c:if test="${blog.status == 'Inactive' && isAdmin}">
+                                                                                <a href="${pageContext.request.contextPath}/manage-blog?action=activate&id=${blog.id}"
+                                                                                    onclick="return confirm('Are you sure you want to activate this blog?');"
+                                                                                    title="Activate"><i
+                                                                                        class="fas fa-check-circle text-success"></i></a>
+                                                                            </c:if>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </table>
+                                                    </div>
 
-                                                        <c:forEach begin="1" end="${totalPages}" var="i">
-                                                            <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                                                <a class="page-link"
-                                                                    href="${paginationUrl}&page=${i}">${i}</a>
-                                                            </li>
-                                                        </c:forEach>
+                                                    <!-- Pagination -->
+                                                    <nav aria-label="Page navigation" style="margin-top: 30px">
+                                                        <ul class="pagination justify-content-center">
+                                                            <c:if test="${currentPage > 1}">
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="${paginationUrl}&page=${currentPage - 1}"
+                                                                        aria-label="Previous">
+                                                                        <span aria-hidden="true">&laquo;</span>
+                                                                    </a>
+                                                                </li>
+                                                            </c:if>
 
-                                                        <c:if test="${currentPage < totalPages}">
-                                                            <li class="page-item">
-                                                                <a class="page-link"
-                                                                    href="${paginationUrl}&page=${currentPage + 1}"
-                                                                    aria-label="Next">
-                                                                    <span aria-hidden="true">&raquo;</span>
-                                                                </a>
-                                                            </li>
-                                                        </c:if>
-                                                    </ul>
-                                                </nav>
+                                                            <c:forEach begin="1" end="${totalPages}" var="i">
+                                                                <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                                                    <a class="page-link"
+                                                                        href="${paginationUrl}&page=${i}">${i}</a>
+                                                                </li>
+                                                            </c:forEach>
+
+                                                            <c:if test="${currentPage < totalPages}">
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="${paginationUrl}&page=${currentPage + 1}"
+                                                                        aria-label="Next">
+                                                                        <span aria-hidden="true">&raquo;</span>
+                                                                    </a>
+                                                                </li>
+                                                            </c:if>
+                                                        </ul>
+                                                    </nav>
+                                                </c:if>
                                             </div>
                                         </div>
                                     </div>
@@ -215,9 +266,7 @@
 
             <!-- JS here -->
             <jsp:include page="../../common/js-file.jsp"></jsp:include>
-
            
-
             <script>
                 // Toast message display
                 var toastMessage = "${sessionScope.toastMessage}";

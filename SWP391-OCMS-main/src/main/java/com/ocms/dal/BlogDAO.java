@@ -272,4 +272,94 @@ public class BlogDAO extends DBContext implements I_DAO<Blog> {
         return blogs;
     }
 
+    public List<Blog> findBlogsByAuthorWithFilters(Integer authorId, String searchTerm, String status, 
+            Integer categoryId, int page, int pageSize) {
+        List<Blog> blogs = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM blog WHERE author = ? ");
+        List<Object> params = new ArrayList<>();
+        params.add(authorId);
+
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            sql.append("AND (title LIKE ? OR brief_info LIKE ? OR content LIKE ?) ");
+            String searchPattern = "%" + searchTerm.trim() + "%";
+            params.add(searchPattern);
+            params.add(searchPattern);
+            params.add(searchPattern);
+        }
+
+        if (status != null && !status.isEmpty()) {
+            sql.append("AND status = ? ");
+            params.add(status);
+        }
+
+        if (categoryId != null) {
+            sql.append("AND category_id = ? ");
+            params.add(categoryId);
+        }
+
+        sql.append("ORDER BY created_date DESC LIMIT ? OFFSET ?");
+        params.add(pageSize);
+        params.add((page - 1) * pageSize);
+
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql.toString());
+            for (int i = 0; i < params.size(); i++) {
+                statement.setObject(i + 1, params.get(i));
+            }
+
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                blogs.add(getFromResultSet(resultSet));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error searching blogs by author: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return blogs;
+    }
+
+    public int getTotalBlogsByAuthor(Integer authorId, String searchTerm, String status, Integer categoryId) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM blog WHERE author = ? ");
+        List<Object> params = new ArrayList<>();
+        params.add(authorId);
+
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            sql.append("AND (title LIKE ? OR brief_info LIKE ? OR content LIKE ?) ");
+            String searchPattern = "%" + searchTerm.trim() + "%";
+            params.add(searchPattern);
+            params.add(searchPattern);
+            params.add(searchPattern);
+        }
+
+        if (status != null && !status.isEmpty()) {
+            sql.append("AND status = ? ");
+            params.add(status);
+        }
+
+        if (categoryId != null) {
+            sql.append("AND category_id = ? ");
+            params.add(categoryId);
+        }
+
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql.toString());
+            for (int i = 0; i < params.size(); i++) {
+                statement.setObject(i + 1, params.get(i));
+            }
+
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error counting blogs by author: " + ex.getMessage());
+        } finally {
+            closeResources();
+        }
+        return 0;
+    }
+
 }

@@ -17,23 +17,7 @@
     <!-- Fix CSS include -->
     <jsp:include page="../common/home/css-home.jsp" />
     
-    <!-- Fix course category link -->
-    <li class="courses__item-tag">
-        <a href="${pageContext.request.contextPath}/course-list?categories=${course.categoryId}">${course.categoryId}</a>
-    </li>
-    
-    <!-- Fix author link -->
-    <a href="${pageContext.request.contextPath}/course-list?author=${course.createdBy}">${course.createdBy}</a>
-    
-    <!-- Fix Enroll Now button in course details -->
-    <div class="courses__item-bottom">
-        <div class="button">
-            <a href="${pageContext.request.contextPath}/course-details?id=${course.id}">
-                <span class="text">Enroll Now</span>
-                <i class="flaticon-arrow-right"></i>
-            </a>
-        </div>
-    </div>
+   
 </head>
 
 <body>
@@ -59,12 +43,12 @@
                 <div class="row">
                     <div class="col-xl-9 col-lg-8">
                         <div class="courses__details-thumb">
-                            <img src="${course.thumbnail}" alt="${course.name}">
+                            <img src="${pageContext.request.contextPath}/assets/img/courses/${course.thumbnail}" alt="${course.name}">
                         </div>
                         <div class="courses__details-content">
                             <ul class="courses__item-meta list-wrap">
                                 <li class="courses__item-tag">
-                                    <a href="#">${course.categoryId}</a>
+                                    <a href="${pageContext.request.contextPath}/course-list?categories=${course.categoryId}">${categoryMap[course.categoryId]}</a>
                                 </li>
                                 <li class="avg-rating"><i class="fas fa-star"></i> (${course.rating} Reviews)</li>
                             </ul>
@@ -74,7 +58,7 @@
                                     <li class="author-two">
                                         <img src="assets/img/courses/course_author001.png" alt="img">
                                         By
-                                        <a href="#">${course.createdBy}</a>
+                                        <a href="#">${accountMap[course.createdBy]}</a>
                                     </li>
                                     <li class="date"><i class="flaticon-calendar"></i>${course.createdDate}</li>
                                     <li><i class="flaticon-mortarboard"></i>2,250 Students</li>

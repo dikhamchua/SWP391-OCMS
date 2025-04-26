@@ -113,7 +113,7 @@
                                                     <div class="courses__item-content">
                                                         <ul class="courses__item-meta list-wrap">
                                                             <li class="courses__item-tag">
-                                                                <a href="course.html">${categoryNames[course.categoryId]}</a>
+                                                                <a href="${pageContext.request.contextPath}/course-list?categories=${category.id}">${categoryNames[course.categoryId]}</a>
                                                             </li>
                                                             <li class="avg-rating"><i class="fas fa-star"></i> (${course.rating} Reviews)</li>
                                                         </ul>
