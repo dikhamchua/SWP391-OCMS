@@ -5,4 +5,77 @@
     <welcome-file-list>
         <welcome-file>home</welcome-file>
     </welcome-file-list>
+    
+    <!-- Filter Mapping - Thứ tự khai báo quyết định thứ tự áp dụng -->
+    <!-- ErrorHandlerFilter phải chạy đầu tiên -->
+    <filter-mapping>
+        <filter-name>ErrorHandlerFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <!-- AuthenticationFilter chạy trước các filter vai trò -->
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/dashboard*</url-pattern>
+        <url-pattern>/manage-*</url-pattern>
+        <url-pattern>/my-*</url-pattern>
+        <url-pattern>/course-detail*</url-pattern>
+        <url-pattern>/checkout*</url-pattern>
+        <url-pattern>/profile*</url-pattern>
+        <url-pattern>/dashboard-profile</url-pattern>
+    </filter-mapping>
+    
+    <!-- AdminFilter - Chỉ Admin mới truy cập được -->
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/manage-account</url-pattern>
+        <url-pattern>/manage-dashboard</url-pattern>
+        <url-pattern>/manage-setting</url-pattern>
+        <url-pattern>/manage-roles</url-pattern>
+        <url-pattern>/admin/*</url-pattern>
+        <url-pattern>/system-settings*</url-pattern>
+    </filter-mapping>
+    
+    <!-- MarketingFilter - Marketing và Admin truy cập được -->
+    <filter-mapping>
+        <filter-name>MarketingFilter</filter-name>
+        <url-pattern>/manage-blog*</url-pattern>
+        <url-pattern>/manage-slider*</url-pattern>
+        <url-pattern>/manage-post*</url-pattern>
+        <url-pattern>/marketing/*</url-pattern>
+        <url-pattern>/edit-blog*</url-pattern>
+        <url-pattern>/add-blog*</url-pattern>
+        <url-pattern>/marketing-dashboard*</url-pattern>
+    </filter-mapping>
+    
+    <!-- TeacherFilter - Teacher và Admin truy cập được -->
+    <filter-mapping>
+        <filter-name>TeacherFilter</filter-name>
+        <url-pattern>/manage-course*</url-pattern>
+        <url-pattern>/manage-lesson*</url-pattern>
+        <url-pattern>/manage-quiz*</url-pattern>
+        <url-pattern>/create-course*</url-pattern>
+        <url-pattern>/edit-course*</url-pattern>
+        <url-pattern>/view-course-detail*</url-pattern>
+        <url-pattern>/teacher/*</url-pattern>
+        <url-pattern>/teacher-dashboard*</url-pattern>
+    </filter-mapping>
+    
+    <!-- StudentFilter - Tất cả người dùng đã đăng nhập truy cập được -->
+    <filter-mapping>
+        <filter-name>StudentFilter</filter-name>
+        <url-pattern>/my-courses</url-pattern>
+        <url-pattern>/my-quiz*</url-pattern>
+        <url-pattern>/my-learning*</url-pattern>
+        <url-pattern>/student-wishlist*</url-pattern>
+        <url-pattern>/student-review*</url-pattern>
+        <url-pattern>/student-attempts*</url-pattern>
+        <url-pattern>/student/*</url-pattern>
+        <url-pattern>/course-content*</url-pattern>
+    </filter-mapping>
+    
+    <!-- Chỉ định session timeout là 30 phút -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 </web-app>
