@@ -144,7 +144,7 @@ public class SliderDAO extends DBContext implements I_DAO<Slider> {
 
     public List<Slider> findActiveSliders() {
         List<Slider> sliders = new ArrayList<>();
-        String sql = "SELECT * FROM slider WHERE status = 'Active' ORDER BY created_at DESC";
+        String sql = "SELECT * FROM slider WHERE status = 'active' ORDER BY created_at DESC";
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);

@@ -14,9 +14,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import com.ocms.dal.CategoryDAO;
 import com.ocms.dal.CourseDAO;
+import com.ocms.dal.SliderDAO;
 import com.ocms.entity.Account;
 import com.ocms.entity.Category;
 import com.ocms.entity.Course;
+import com.ocms.entity.Slider;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,10 +34,12 @@ public class HomeController extends HttpServlet {
         CategoryDAO categoryDAO = new CategoryDAO();
         CourseDAO courseDAO = new CourseDAO();
         AccountDAO accountDAO = new AccountDAO();
+        SliderDAO sliderDAO = new SliderDAO();
         
         //lay du lieu
         List<Category> listCategory = categoryDAO.findAll();
         List<Course> listCourse = courseDAO.findAll();
+        List<Slider> activeSliders = sliderDAO.findActiveSliders();
         
         // Tạo HashMap để lưu trữ tên category theo ID
         Map<Integer, String> categoryMap = new HashMap<>();
@@ -55,6 +59,7 @@ public class HomeController extends HttpServlet {
         request.setAttribute("listCourse", listCourse);
         request.setAttribute("categoryMap", categoryMap);
         request.setAttribute("accountMap", accountMap);
+        request.setAttribute("activeSliders", activeSliders);
         
         request.getRequestDispatcher("view/homepage/home.jsp").forward(request, response);
     }

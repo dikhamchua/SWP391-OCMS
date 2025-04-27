@@ -162,11 +162,12 @@ public class ManageSliderController extends HttpServlet {
                 uploadDir.mkdirs();
             }
             filePart.write(uploadPath + File.separator + fileName);
+            System.out.println(uploadPath.toString());
         }
 
         Slider slider = Slider.builder()
                 .title(title)
-                .imageUrl(fileName != null ? "assets/img/slider/" + fileName : null)
+                .imageUrl(fileName != null ? fileName : null)
                 .backlink(backlink)
                 .notes(notes)
                 .status(status)
@@ -205,7 +206,7 @@ public class ManageSliderController extends HttpServlet {
         if (filePart != null && filePart.getSize() > 0) {
             // Delete old image if exists
             if (slider.getImageUrl() != null && !slider.getImageUrl().isEmpty()) {
-                String oldImagePath = request.getServletContext().getRealPath("") + slider.getImageUrl();
+                String oldImagePath = request.getServletContext().getRealPath("") + "assets/img/slider/" + slider.getImageUrl();
                 File oldImage = new File(oldImagePath);
                 if (oldImage.exists()) {
                     oldImage.delete();
@@ -220,7 +221,7 @@ public class ManageSliderController extends HttpServlet {
                 uploadDir.mkdirs();
             }
             filePart.write(uploadPath + File.separator + fileName);
-            slider.setImageUrl("assets/img/slider/" + fileName);
+            slider.setImageUrl(fileName);
         }
 
         slider.setTitle(title);
