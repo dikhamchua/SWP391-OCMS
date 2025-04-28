@@ -127,7 +127,7 @@
                                                             <p class="color-black">${course.id}</p>
                                                         </td>
                                                         <td>
-                                                            <img src="${course.thumbnail}"
+                                                            <img src="${pageContext.request.contextPath}/assets/img/courses/${course.thumbnail}"
                                                                 alt="Course thumbnail" class="img-thumbnail"
                                                                 style="width: 100px; height: 60px; object-fit: cover;">
                                                         </td>

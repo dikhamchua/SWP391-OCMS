@@ -58,6 +58,12 @@ public class ManageQuestionController extends HttpServlet {
             case "viewQuestion":
                 editQuestion(request, response);
                 break;
+            case "deactivate":
+                deactivateQuestion(request, response);
+                break;
+            case "activate":
+                activateQuestion(request, response);
+                break;
             case "delete":
                 // deleteQuestion(request, response);
                 break;
@@ -345,6 +351,90 @@ public class ManageQuestionController extends HttpServlet {
             
         } catch (Exception e) {
             request.getSession().setAttribute("toastMessage", "Error saving question: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+        }
+        
+        response.sendRedirect(request.getContextPath() + "/manage-question");
+    }
+    
+    private void deactivateQuestion(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String questionId = request.getParameter("questionId");
+        
+        if (questionId == null || questionId.isEmpty()) {
+            request.getSession().setAttribute("toastMessage", "Question ID is required");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-question");
+            return;
+        }
+        
+        try {
+            int questionIdInt = Integer.parseInt(questionId);
+            Question question = questionDAO.getById(questionIdInt);
+            
+            if (question == null) {
+                request.getSession().setAttribute("toastMessage", "Question not found");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-question");
+                return;
+            }
+            
+            // Update question status to inactive
+            question.setStatus("inactive");
+            boolean success = questionDAO.update(question);
+            
+            if (success) {
+                request.getSession().setAttribute("toastMessage", "Question deactivated successfully");
+                request.getSession().setAttribute("toastType", "success");
+            } else {
+                request.getSession().setAttribute("toastMessage", "Failed to deactivate question");
+                request.getSession().setAttribute("toastType", "error");
+            }
+            
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("toastMessage", "Invalid question ID");
+            request.getSession().setAttribute("toastType", "error");
+        }
+        
+        response.sendRedirect(request.getContextPath() + "/manage-question");
+    }
+    
+    private void activateQuestion(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String questionId = request.getParameter("questionId");
+        
+        if (questionId == null || questionId.isEmpty()) {
+            request.getSession().setAttribute("toastMessage", "Question ID is required");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-question");
+            return;
+        }
+        
+        try {
+            int questionIdInt = Integer.parseInt(questionId);
+            Question question = questionDAO.getById(questionIdInt);
+            
+            if (question == null) {
+                request.getSession().setAttribute("toastMessage", "Question not found");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-question");
+                return;
+            }
+            
+            // Update question status to active
+            question.setStatus("active");
+            boolean success = questionDAO.update(question);
+            
+            if (success) {
+                request.getSession().setAttribute("toastMessage", "Question activated successfully");
+                request.getSession().setAttribute("toastType", "success");
+            } else {
+                request.getSession().setAttribute("toastMessage", "Failed to activate question");
+                request.getSession().setAttribute("toastType", "error");
+            }
+            
+        } catch (NumberFormatException e) {
+            request.getSession().setAttribute("toastMessage", "Invalid question ID");
             request.getSession().setAttribute("toastType", "error");
         }
         

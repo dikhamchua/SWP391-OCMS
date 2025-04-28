@@ -55,6 +55,12 @@
             color: white;
             text-decoration: none;
             font-size: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .table-actions a:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
         }
         
         .action-view {
@@ -67,6 +73,10 @@
         
         .action-delete {
             background-color: #dc3545;
+        }
+        
+        .action-activate {
+            background-color: #28a745;
         }
         
         .filter-form {
@@ -250,18 +260,21 @@
                                                 <c:set var="showTitle" value="${empty selectedColumns}" />
                                                 <c:set var="showCourse" value="${empty selectedColumns}" />
                                                 <c:set var="showSection" value="${empty selectedColumns}" />
+                                                <c:set var="showStatus" value="${empty selectedColumns}" />
                                                 
                                                 <c:forEach items="${selectedColumns}" var="col">
                                                     <c:if test="${col eq 'id'}"><c:set var="showId" value="true" /></c:if>
                                                     <c:if test="${col eq 'title'}"><c:set var="showTitle" value="true" /></c:if>
                                                     <c:if test="${col eq 'course'}"><c:set var="showCourse" value="true" /></c:if>
                                                     <c:if test="${col eq 'section'}"><c:set var="showSection" value="true" /></c:if>
+                                                    <c:if test="${col eq 'status'}"><c:set var="showStatus" value="true" /></c:if>
                                                 </c:forEach>
                                                 
                                                 <c:if test="${showId}"><th>ID</th></c:if>
                                                 <c:if test="${showTitle}"><th>Question Title</th></c:if>
                                                 <c:if test="${showCourse}"><th>Course</th></c:if>
                                                 <c:if test="${showSection}"><th>Section</th></c:if>
+                                                <c:if test="${showStatus}"><th>Status</th></c:if>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -278,11 +291,28 @@
                                                     </c:if>
                                                     <c:if test="${showCourse}"><td>${courseDAO.getByQuestionId(question.id).name}</td></c:if>
                                                     <c:if test="${showSection}"><td>${sectionDAO.findByQuestionId(question.id).title}</td></c:if>
+                                                    <c:if test="${showStatus}">
+                                                        <td>
+                                                            <span class="quiz-status ${question.status eq 'active' ? 'status-active' : 'status-inactive'}">
+                                                                ${question.status}
+                                                            </span>
+                                                        </td>
+                                                    </c:if>
                                                     <td>
                                                         <div class="table-actions">
                                                             <a href="${pageContext.request.contextPath}/manage-question?action=viewQuestion&questionId=${question.id}" class="action-edit">
                                                                 <i class="fa fa-eye"></i> View
                                                             </a>
+                                                            <c:if test="${question.status eq 'active'}">
+                                                                <a href="javascript:confirmDeactivate(${question.id})" class="action-delete">
+                                                                    <i class="fa fa-ban"></i> Deactivate
+                                                                </a>
+                                                            </c:if>
+                                                            <c:if test="${question.status eq 'inactive'}">
+                                                                <a href="javascript:confirmActivate(${question.id})" class="action-activate">
+                                                                    <i class="fa fa-check"></i> Activate
+                                                                </a>
+                                                            </c:if>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -412,6 +442,18 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="column-option">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="columns" value="status" id="statusColumn"
+                                           <c:forEach items="${selectedColumns}" var="col">
+                                               <c:if test="${col eq 'status'}">checked</c:if>
+                                           </c:forEach>
+                                           <c:if test="${empty selectedColumns}">checked</c:if>>
+                                    <label class="form-check-label" for="statusColumn">
+                                        Status
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -434,6 +476,18 @@
         function confirmDelete(quizId) {
             if (confirm('Are you sure you want to delete this quiz? This action cannot be undone.')) {
                 window.location.href = '${pageContext.request.contextPath}/manage-question?action=delete&id=' + quizId;
+            }
+        }
+        
+        function confirmDeactivate(questionId) {
+            if (confirm('Are you sure you want to deactivate this question? It will no longer be shown to students.')) {
+                window.location.href = '${pageContext.request.contextPath}/manage-question?action=deactivate&questionId=' + questionId;
+            }
+        }
+        
+        function confirmActivate(questionId) {
+            if (confirm('Are you sure you want to activate this question? It will be shown to students.')) {
+                window.location.href = '${pageContext.request.contextPath}/manage-question?action=activate&questionId=' + questionId;
             }
         }
         

@@ -18,6 +18,8 @@ import jakarta.servlet.http.Part;
 import jakarta.servlet.annotation.MultipartConfig;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet({"/manage-course", "/lesson-edit"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 5, // 5MB
@@ -65,6 +67,8 @@ public class ManageCourseController extends HttpServlet {
                     doGetDeactivateCourse(request, response);
                 } else if ("activate".equals(action)) {
                     doGetActivateCourse(request, response);
+                } else if ("add".equals(action)) {
+                    doGetAddCourse(request, response);
                 }
                 break;
             case "/lesson-edit":
@@ -99,6 +103,8 @@ public class ManageCourseController extends HttpServlet {
                     response.sendRedirect(request.getContextPath() + "/manage-course");
                     break;
             }
+        } else if (path.equals("/manage-course") && "add".equals(action)) {
+            doPostAddCourse(request, response);
         }
     }
 
@@ -1234,5 +1240,168 @@ public class ManageCourseController extends HttpServlet {
 
         // Return the next order number
         return maxOrderNumber + 1;
+    }
+
+    /**
+     * Handle GET request for adding a new course
+     *
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @throws ServletException If a servlet-specific error occurs
+     * @throws IOException If an I/O error occurs
+     */
+    private void doGetAddCourse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            // Get all categories for the dropdown
+            List<Category> categories = categoryDAO.findAll();
+            request.setAttribute("categories", categories);
+            
+            // Forward to the add course page
+            request.getRequestDispatcher("view/dashboard/admin/course/course-add.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.getSession().setAttribute("toastMessage", "Error loading form: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=list");
+        }
+    }
+
+    /**
+     * Handle POST request for adding a new course
+     *
+     * @param request The HTTP request
+     * @param response The HTTP response
+     * @throws ServletException If a servlet-specific error occurs
+     * @throws IOException If an I/O error occurs
+     */
+    private void doPostAddCourse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            // Get the account ID from the session
+            HttpSession session = request.getSession();
+            Account loggedInUser = (Account) session.getAttribute("account");
+            
+            if (loggedInUser == null) {
+                request.getSession().setAttribute("toastMessage", "Bạn phải đăng nhập để thực hiện thao tác này");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/login");
+                return;
+            }
+            
+            // Validate input
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
+            String priceStr = request.getParameter("price");
+            String categoryIdStr = request.getParameter("categoryId");
+            String status = request.getParameter("status");
+            
+            // Validate name
+            if (name == null || name.trim().isEmpty()) {
+                request.getSession().setAttribute("toastMessage", "Tên khóa học không được để trống");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-course?action=add");
+                return;
+            }
+            
+            // Validate price
+            float price = 0;
+            try {
+                price = Float.parseFloat(priceStr);
+                if (price < 0) {
+                    request.getSession().setAttribute("toastMessage", "Giá khóa học không được nhỏ hơn 0");
+                    request.getSession().setAttribute("toastType", "error");
+                    response.sendRedirect(request.getContextPath() + "/manage-course?action=add");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                request.getSession().setAttribute("toastMessage", "Giá khóa học không hợp lệ");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-course?action=add");
+                return;
+            }
+            
+            // Validate category
+            int categoryId = 0;
+            try {
+                categoryId = Integer.parseInt(categoryIdStr);
+                Category category = categoryDAO.findById(categoryId);
+                if (category == null) {
+                    request.getSession().setAttribute("toastMessage", "Danh mục không tồn tại");
+                    request.getSession().setAttribute("toastType", "error");
+                    response.sendRedirect(request.getContextPath() + "/manage-course?action=add");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                request.getSession().setAttribute("toastMessage", "Danh mục không hợp lệ");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-course?action=add");
+                return;
+            }
+            
+            // Handle thumbnail upload
+            String thumbnailUrl = "";
+            Part thumbnailPart = null;
+            try {
+                thumbnailPart = request.getPart("thumbnail");
+                if (thumbnailPart != null && thumbnailPart.getSize() > 0) {
+                    // Process the uploaded file
+                    String fileName = getFileName(thumbnailPart);
+                    
+                    if (fileName != null && !fileName.isEmpty()) {
+                        // Generate a unique filename to prevent overwriting
+                        String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+                        
+                        // Create upload directory if it doesn't exist
+                        String uploadPath = getServletContext().getRealPath("/uploads/thumbnails/");
+                        File uploadDir = new File(uploadPath);
+                        if (!uploadDir.exists()) {
+                            uploadDir.mkdirs();
+                        }
+                        
+                        // Write the file to the server
+                        String filePath = uploadPath + File.separator + uniqueFileName;
+                        thumbnailPart.write(filePath);
+                        
+                        // Set the thumbnail URL
+                        thumbnailUrl = request.getContextPath() + "/uploads/thumbnails/" + uniqueFileName;
+                    }
+                }
+            } catch (Exception e) {
+                // No file uploaded or error processing file
+                request.getSession().setAttribute("toastMessage", "Lỗi khi tải ảnh: " + e.getMessage());
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-course?action=add");
+                return;
+            }
+            
+            // Create a new course
+            Course course = new Course();
+            course.setName(name);
+            course.setDescription(description);
+            course.setThumbnail(thumbnailUrl);
+            course.setRating(0); // Default rating for new course
+            course.setPrice(price);
+            course.setStatus(status != null ? status : "draft"); // Default status if not provided
+            course.setCreatedDate(LocalDateTime.now());
+            course.setModifiedDate(LocalDateTime.now());
+            course.setCreatedBy(loggedInUser.getId());
+            course.setCategoryId(categoryId);
+            
+            // Insert the course into database
+            int courseId = courseDAO.insert(course);
+            
+            if (courseId > 0) {
+                request.getSession().setAttribute("toastMessage", "Thêm khóa học thành công");
+                request.getSession().setAttribute("toastType", "success");
+                response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
+            } else {
+                request.getSession().setAttribute("toastMessage", "Không thể thêm khóa học");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-course?action=add");
+            }
+            
+        } catch (Exception e) {
+            request.getSession().setAttribute("toastMessage", "Lỗi: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=add");
+        }
     }
 }
