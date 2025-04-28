@@ -61,16 +61,17 @@
                         <div class="singUp-wrap">
                             <h2 class="title">Enter OTP Code</h2>
                             <p>Please enter the OTP code sent to your email</p>
-                            <form action="authen?action=verify-otp" method="POST" class="account__form">
+                            <form action="${pageContext.request.contextPath}/authen?action=verify-otp" method="POST" class="account__form">
                                 <div class="form-grp">
                                     <label for="otp">OTP Code</label>
                                     <input type="text" name="otp" id="otp" placeholder="Enter OTP" maxlength="6" required>
                                 </div>
-                                <p style="color: red">${error}<br></p>
+                                <p style="color: red">${error}</p>
+                                <p style="color: green">${message}</p>
                                 <button type="submit" class="btn btn-two arrow-btn">Verify OTP</button>
                             </form>
                             <div class="account__switch">
-                                <p>Didn't receive the code? <a href="authen?action=resend-otp">Resend OTP</a></p>
+                                <p>Didn't receive the code? <a href="${pageContext.request.contextPath}/authen?action=resend-otp">Resend OTP</a></p>
                             </div>
                         </div>
                     </div>
@@ -91,6 +92,36 @@
 
     <script>
         SVGInject(document.querySelectorAll("img.injectable"));
+    </script>
+    
+    <script>
+        // Toast message display
+        var toastMessage = "${sessionScope.toastMessage}";
+        var toastType = "${sessionScope.toastType}";
+        if (toastMessage) {
+            iziToast.show({
+                title: toastType === 'success' ? 'Success' : 'Error',
+                message: toastMessage,
+                position: 'topRight',
+                color: toastType === 'success' ? 'green' : 'red',
+                timeout: 5000,
+                onClosing: function () {
+                    // Remove toast attributes from the session after displaying
+                    fetch('${pageContext.request.contextPath}/remove-toast', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                    }).then(response => {
+                        if (!response.ok) {
+                            console.error('Failed to remove toast attributes');
+                        }
+                    }).catch(error => {
+                        console.error('Error:', error);
+                    });
+                }
+            });
+        }
     </script>
 </body>
 

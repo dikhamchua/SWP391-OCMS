@@ -18,3 +18,4 @@
 <script src="${pageContext.request.contextPath}/assets/js/wow.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/aos.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>

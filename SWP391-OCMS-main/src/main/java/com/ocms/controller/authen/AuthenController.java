@@ -45,7 +45,9 @@ public class AuthenController extends HttpServlet {
             case "enter-email":
                 url = "view/authen/enterEmailForgotPassword.jsp";
                 break;
-       
+            case "resend-otp":
+                url = resendOTP(request);
+                break;
             default:
                 url = "view/authen/login.jsp";
         }
@@ -126,7 +128,7 @@ public class AuthenController extends HttpServlet {
 
         // Kiểm tra mật khẩu và xác nhận mật khẩu có khớp không
         if (!password.equals(confirmPassword)) {
-            request.setAttribute("error", "Password and confirm password not matching");
+            setToastMessage(request, "Password and confirm password not matching", "error");
             return "view/authen/register.jsp";
         }
 
@@ -143,9 +145,9 @@ public class AuthenController extends HttpServlet {
 
         if (accountFoundByEmail != null) {
             if (accountFoundByEmail.getUsername().equalsIgnoreCase(username)) {
-                request.setAttribute("error", "Username already exist!!");
+                setToastMessage(request, "Username already exists!", "error");
             } else {
-                request.setAttribute("error", "Email already exists!");
+                setToastMessage(request, "Email already exists!", "error");
             }
             url = "view/authen/register.jsp";
         } else {
@@ -163,10 +165,11 @@ public class AuthenController extends HttpServlet {
                 String otp = EmailUtils.sendOTPMail(email);
                 session.setAttribute("otp", otp);
                 session.setAttribute("otp_purpose", "activation"); // Thêm mục đích OTP
-
+                
+                setToastMessage(request, "Registration successful! Please verify your email with the OTP sent.", "success");
                 url = "view/authen/verifyOTP.jsp";
             } else {
-                request.setAttribute("error", "Failed to create account. Please try again.");
+                setToastMessage(request, "Failed to create account. Please try again.", "error");
                 url = "view/authen/register.jsp";
             }
         }
@@ -189,14 +192,32 @@ public class AuthenController extends HttpServlet {
             } else if ("password_reset".equals(purpose)) {
                 return handlePasswordReset(request, session);
             } else {
-                request.setAttribute("error", "Invalid OTP purpose.");
-                return "view/authen/otp-verification.jsp";
+                setToastMessage(request, "Invalid OTP purpose", "error");
+                return "view/authen/verifyOTP.jsp";
             }
         } else {
             // Incorrect OTP
-            request.setAttribute("error", "Incorrect OTP. Please try again.");
-            return "view/authen/otp-verification.jsp";
+            setToastMessage(request, "Incorrect OTP. Please try again.", "error");
+            return "view/authen/verifyOTP.jsp"; // Fixed redirect path
         }
+    }
+
+    private String handleAccountActivation(HttpServletRequest request, HttpSession session) {
+        Account account = (Account) session.getAttribute(GlobalConfig.SESSION_ACCOUNT);
+        if (account != null) {
+            account.setIsActive(true);
+            accountDAO.activateAccount(account.getId());
+            setToastMessage(request, "Your account has been successfully activated!", "success");
+            return "home"; // Relative path for redirect
+        } else {
+            setToastMessage(request, "Session expired. Please sign up again.", "error");
+            return "authen?action=sign-up"; // Fixed redirect path
+        }
+    }
+
+    private String handlePasswordReset(HttpServletRequest request, HttpSession session) {
+        // Redirect to password reset page
+        return "authen?action=reset-password"; // Fixed redirect path
     }
 
     private String forgotPassword(HttpServletRequest request, HttpServletResponse response) {
@@ -229,24 +250,6 @@ public class AuthenController extends HttpServlet {
 
         url = "view/authen/verifyOTP.jsp";
         return url;
-    }
-
-    private String handleAccountActivation(HttpServletRequest request, HttpSession session) {
-        Account account = (Account) session.getAttribute(GlobalConfig.SESSION_ACCOUNT);
-        if (account != null) {
-            account.setIsActive(true);
-            accountDAO.activateAccount(account.getId());
-            request.setAttribute("message", "Your account has been successfully activated!");
-            return "home";
-        } else {
-            request.setAttribute("error", "Session expired. Please sign up again.");
-            return "view/authen/register.jsp";
-        }
-    }
-
-    private String handlePasswordReset(HttpServletRequest request, HttpSession session) {
-        // Redirect to password reset page
-        return "view/authen/resetPassword.jsp";
     }
 
     private String resetPassword(HttpServletRequest request, HttpServletResponse response) {
@@ -298,6 +301,32 @@ public class AuthenController extends HttpServlet {
             url = "view/authen/login.jsp";
         }
         return url;
+    }
+
+    private String resendOTP(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("email");
+        String purpose = (String) session.getAttribute("otp_purpose");
+        
+        if (email == null || purpose == null) {
+            setToastMessage(request, "Session expired. Please try again.", "error");
+            return "view/authen/login.jsp";
+        }
+        
+        // Generate and send new OTP
+        String otp = EmailUtils.sendOTPMail(email);
+        session.setAttribute("otp", otp);
+        
+        // Reset session timeout
+        session.setMaxInactiveInterval(300); // 5 minutes
+        
+        setToastMessage(request, "A new OTP has been sent to your email.", "success");
+        return "view/authen/verifyOTP.jsp";
+    }
+
+    private void setToastMessage(HttpServletRequest request, String message, String type) {
+        request.getSession().setAttribute("toastMessage", message);
+        request.getSession().setAttribute("toastType", type);
     }
 
 }

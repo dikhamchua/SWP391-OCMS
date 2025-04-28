@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/spacing.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/tg-cursor.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
 <style>
     .error {
         color: red;
@@ -33,5 +34,11 @@
     }
     .form-grp {
         margin-bottom: 15px;
+    }
+    .iziToast-wrapper {
+        z-index: 99999 !important;
+    }
+    .iziToast {
+        min-width: 300px;
     }
 </style>
