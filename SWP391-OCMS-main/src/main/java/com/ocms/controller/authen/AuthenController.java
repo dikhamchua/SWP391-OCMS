@@ -57,66 +57,68 @@ public class AuthenController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // get ve action
-        String action = request.getParameter("action") != null
-                ? request.getParameter("action")
-                : "";
-        // dựa theo action để xử lí request
-        String url;
-        switch (action) {
-            case "login":
-                url = loginDoPost(request, response);
-                break;
-            case "sign-up":
-                url = signUp(request, response);
-                break;
-            case "verify-otp":
-                url = verifyOTP(request, response);
-                break;
-            case "forgot-password":
-                url = forgotPassword(request, response);
-                break;
-            case "reset-password":
-                url = resetPassword(request, response);
-                break;
-            default:
-                url = "home";
-        }
-        response.sendRedirect(url);
-
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    String action = request.getParameter("action") != null
+            ? request.getParameter("action")
+            : "";
+    String url;
+    switch (action) {
+        case "login":
+            loginDoPost(request, response);
+            break;
+        case "sign-up":
+            url = signUp(request, response);
+            response.sendRedirect(url);
+            break;
+        case "verify-otp":
+            url = verifyOTP(request, response);
+            response.sendRedirect(url);
+            break;
+        case "forgot-password":
+            url = forgotPassword(request, response);
+            response.sendRedirect(url);
+            break;
+        case "reset-password":
+            url = resetPassword(request, response);
+            response.sendRedirect(url);
+            break;
+        default:
+            response.sendRedirect("home");
     }
+}
+
 
     private String logOut(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().removeAttribute(GlobalConfig.SESSION_ACCOUNT);
         return "home";
     }
 
-    private String loginDoPost(HttpServletRequest request, HttpServletResponse response) {
-        String url = null;
-        // get về các thong tin người dufg nhập
+    private String loginDoPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String usernameOrEmail = request.getParameter("username");
         String password = request.getParameter("password");
-        // kiểm tra thông tin có tồn tại trong DB ko
+        
         Account account = Account.builder()
                 .username(usernameOrEmail)
                 .email(usernameOrEmail)
                 .password(MD5PasswordEncoderUtils.encodeMD5(password))
                 .build();
+        
         Account accFoundByUsernamePass = accountDAO.findByEmailOrUsernameAndPass(account);
-        // true => trang home ( set account vao trong session )
+    
         if (accFoundByUsernamePass != null) {
-            request.getSession().setAttribute(GlobalConfig.SESSION_ACCOUNT,
-                    accFoundByUsernamePass);
-            url = "home";
-            // false => quay tro lai trang login ( set them thong bao loi )
+            request.getSession().setAttribute(GlobalConfig.SESSION_ACCOUNT, accFoundByUsernamePass);
+            // Thành công thì redirect
+            response.sendRedirect("home"); // để HomeController nhận xử lý
+            return null; // Không forward nữa
         } else {
             request.setAttribute("error", "Username or password incorrect!!");
-            url = "view/authen/login.jsp";
+            // Thất bại thì forward quay về login.jsp (không mất request attribute)
+            request.getRequestDispatcher("view/authen/login.jsp").forward(request, response);
+            return null; // Không redirect nữa
         }
-        return url;
     }
+    
 
     private String signUp(HttpServletRequest request, HttpServletResponse response) {
         String url;
