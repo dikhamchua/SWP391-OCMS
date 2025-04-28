@@ -72,9 +72,12 @@
                                         
                                                     <div class="form-group">
                                                         <label for="role">Role</label>
-                                                        <input type="text" class="form-control" id="role" 
-                                                            value="${account.roleId == 1 ? 'Admin' : account.roleId == 2 ? 'Teacher' : 'Student'}" readonly>
-                                                        <input type="hidden" name="role" value="${account.roleId}">
+                                                        <select class="form-control" id="role" name="role">
+                                                            <option value="1" ${account.roleId == 1 ? 'selected' : ''}>Admin</option>
+                                                            <option value="2" ${account.roleId == 2 ? 'selected' : ''}>Teacher</option>
+                                                            <option value="3" ${account.roleId == 3 ? 'selected' : ''}>Student</option>
+                                                            <option value="4" ${account.roleId == 4 ? 'selected' : ''}>Marketing</option>
+                                                        </select>
                                                     </div>
                                         
                                                     <div class="form-group">

@@ -65,10 +65,9 @@
                                                 <div class="col-md-2">
                                                     <select class="form-select" id="roleFilter" name="role">
                                                         <option value="">All Roles</option>
-                                                        <option value="2" ${param.role=='2' ? 'selected' : '' }>Teacher
-                                                        </option>
-                                                        <option value="3" ${param.role=='3' ? 'selected' : '' }>Student
-                                                        </option>
+                                                        <option value="2" ${param.role=='2' ? 'selected' : '' }>Teacher</option>
+                                                        <option value="3" ${param.role=='3' ? 'selected' : '' }>Student</option>
+                                                        <option value="4" ${param.role=='4' ? 'selected' : '' }>Marketing</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-2">
@@ -141,8 +140,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <p class="color-black">
-                                                                        ${account.roleId == 1 ? 'Admin' : account.roleId
-                                                                        == 2 ? 'Teacher' : 'Student'}
+                                                                        ${account.roleId == 1 ? 'Admin' : account.roleId == 2 ? 'Teacher' : account.roleId == 3 ? 'Student' : 'Marketing'}
                                                                     </p>
                                                                 </td>
                                                                 <td>

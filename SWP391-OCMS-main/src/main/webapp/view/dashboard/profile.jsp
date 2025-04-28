@@ -62,7 +62,7 @@
                                                     <div class="mb-3">
                                                         <label for="role" class="form-label">Role</label>
                                                         <input type="text" class="form-control" id="role" name="role" 
-                                                               value="${accountDetails.roleId == 1 ? 'Admin' : accountDetails.roleId == 2 ? 'Teacher' : 'Student'}" 
+                                                        value="${accountDetails.roleId == 1 ? 'Admin' : accountDetails.roleId == 2 ? 'Teacher' : accountDetails.roleId == 3 ? 'Student' : 'Marketing'}"
                                                                readonly>
                                                     </div>
                                                     <div class="mb-3">
