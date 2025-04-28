@@ -45,6 +45,7 @@
                             <!-- <div class="blog__details-thumb">
                                 <img src="${blog.thumbnail}" alt="${blog.title}">
                             </div> -->
+
                             <div class="blog__details-content">
                                 <div class="blog__post-meta">
                                     <ul class="list-wrap">
@@ -61,7 +62,7 @@
                                                 </c:otherwise>
                                             </c:choose>
                                         </li>
-                                        <li><i class="flaticon-user-1"></i> by <a href="#">${blog.author}</a></li>
+                                        <li><i class="flaticon-user-1"></i> by <a href="#">${blogUserName[blog.author]}</a></li>
                                         <li><i class="flaticon-clock"></i> 20 Min Read</li>
                                     </ul>
                                 </div>

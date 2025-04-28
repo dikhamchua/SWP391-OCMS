@@ -460,9 +460,7 @@ public class AccountDAO extends DBContext implements I_DAO<Account> {
     public static void main(String[] args) {
         AccountDAO accountDAO = new AccountDAO();
         accountDAO.findAll().forEach(item -> {
-            if (item.getRoleId() == 3 || item.getRoleId() == 2) {
-                System.out.println(item.getGender());
-            }
+            System.out.println(item);
         });
     }
 

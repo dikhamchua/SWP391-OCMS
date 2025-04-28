@@ -102,7 +102,7 @@
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </li>
-                                                    <li><i class="flaticon-user-1"></i>by <a href="#">Admin</a></li>
+                                                    <li><i class="flaticon-user-1"></i>by <a href="#">${blogUserName[blog.author]}</a></li>
                                                 </ul>
                                             </div>
                                             <h4 class="title">

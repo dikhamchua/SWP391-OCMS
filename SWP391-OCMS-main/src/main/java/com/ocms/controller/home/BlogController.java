@@ -7,9 +7,13 @@ import java.util.stream.Collectors;
 import java.text.SimpleDateFormat; // Add this import
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
+
+import com.ocms.dal.AccountDAO;
 import com.ocms.dal.BlogCategoryDAO;
 import com.ocms.dal.BlogDAO;
 import com.ocms.dal.CategoryDAO;
+import com.ocms.entity.Account;
 import com.ocms.entity.Blog;
 import com.ocms.entity.BlogCategory;
 import com.ocms.entity.Category;
@@ -33,7 +37,7 @@ public class BlogController extends HttpServlet {
         blogDAO = new BlogDAO();
         blogCategoryDAO = new BlogCategoryDAO();
         dateFormat = new SimpleDateFormat("dd MMM yyyy"); // Initialize date formatter
-        categoryDAO=new CategoryDAO();
+        categoryDAO = new CategoryDAO();
     }
 
     @Override
@@ -79,6 +83,22 @@ public class BlogController extends HttpServlet {
         Integer categoryId = null;
         int page = 1;
         int pageSize = 9;
+
+        // Tạo một HashMap để lưu trữ thông tin người đăng bài
+        HashMap<Integer, String> blogUserName = new HashMap<>();
+
+        // Lấy danh sách tất cả người dùng từ AccountDAO
+        AccountDAO accountDAO = new AccountDAO();
+        List<Account> accounts = accountDAO.findAll();
+
+        // Ánh xạ ID người dùng với tên đầy đủ của họ
+        for (Account account : accounts) {
+            blogUserName.put(account.getId(), account.getFullName());
+        }
+        //In ra hashmap
+        System.out.println("HashMap: " + blogUserName);
+
+        // Đặt HashMap vào request attribute để sử dụng trong JSP
 
         // Xử lý tham số tìm kiếm
         if (request.getParameter("category") != null && !request.getParameter("category").isEmpty()) {
@@ -146,6 +166,7 @@ public class BlogController extends HttpServlet {
         List<Category> allCategories = categoryDAO.findAll();
 
         // Set attributes for JSP
+        request.setAttribute("blogUserName", blogUserName);
         request.setAttribute("listCategory", allCategories);
         request.setAttribute("blogs", blogs);
         request.setAttribute("latestBlogs", latestBlogs);
@@ -184,7 +205,20 @@ public class BlogController extends HttpServlet {
 
             // Lấy thông tin category của blog
             BlogCategory category = blogCategoryDAO.findById(blog.getCategoryId());
+            // Tạo một HashMap để lưu trữ thông tin người đăng bài
+            HashMap<Integer, String> blogUserName = new HashMap<>();
 
+            // Lấy danh sách tất cả người dùng từ AccountDAO
+            AccountDAO accountDAO = new AccountDAO();
+            List<Account> accounts = accountDAO.findAll();
+
+            // Ánh xạ ID người dùng với tên đầy đủ của họ
+            for (Account account : accounts) {
+                blogUserName.put((account.getId()), account.getFullName());
+            }
+
+            // Đặt HashMap vào request attribute để sử dụng trong JSP
+            request.setAttribute("blogUserName", blogUserName);
             // Set attributes
             request.setAttribute("blog", blog);
             request.setAttribute("category", category);
