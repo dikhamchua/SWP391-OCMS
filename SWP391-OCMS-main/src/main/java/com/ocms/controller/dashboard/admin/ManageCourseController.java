@@ -260,6 +260,7 @@ public class ManageCourseController extends HttpServlet {
             if (lesson == null) {
                 request.getSession().setAttribute("toastMessage", "Lesson not found");
                 request.getSession().setAttribute("toastType", "error");
+                System.out.println("Lesson not found");
                 response.sendRedirect(request.getContextPath() + "/manage-course");
                 return;
             }
@@ -452,6 +453,7 @@ public class ManageCourseController extends HttpServlet {
     private void doPostLessonUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             // Get lesson ID and basic information
+            Integer courseId = Integer.parseInt(request.getParameter("courseId"));
             Integer lessonId = Integer.parseInt(request.getParameter("id"));
             String title = request.getParameter("title");
             String description = request.getParameter("description");
@@ -498,7 +500,7 @@ public class ManageCourseController extends HttpServlet {
             if (!lessonUpdated) {
                 request.getSession().setAttribute("toastMessage", "Failed to update lesson");
                 request.getSession().setAttribute("toastType", "error");
-                response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
+                response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
                 return;
             }
 
@@ -507,10 +509,10 @@ public class ManageCourseController extends HttpServlet {
 
             switch (type) {
                 case GlobalConfig.LESSON_TYPE_VIDEO:
-                    updateVideoData(request, response, lesson, sectionId);
+                    updateVideoData(request, response, lesson, sectionId, courseId);
                     break;
                 case GlobalConfig.LESSON_TYPE_QUIZ:
-                    updateQuizData(request, response, lesson, sectionId);
+                    updateQuizData(request, response, lesson, sectionId, courseId);
                     break;
                 default:
                     break;
@@ -534,14 +536,14 @@ public class ManageCourseController extends HttpServlet {
      * @param lessonId The lesson ID
      * @throws Exception If an error occurs
      */
-    private void updateVideoData(HttpServletRequest request, HttpServletResponse response, Lesson lesson, Integer sectionId) throws IOException {
+    private void updateVideoData(HttpServletRequest request, HttpServletResponse response, Lesson lesson, Integer sectionId, Integer courseId) throws IOException {
         // Get video information
         LessonVideo lessonVideo = lessonVideoDAO.getByLessonId(lesson.getId());
 
         if (lessonVideo == null) {
             request.getSession().setAttribute("toastMessage", "Video not found for this lesson");
             request.getSession().setAttribute("toastType", "error");
-            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
             return;
         }
 
@@ -616,7 +618,7 @@ public class ManageCourseController extends HttpServlet {
             }
 
             // Redirect back to course content
-            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
         } catch (Exception e) {
             request.getSession().setAttribute("toastMessage", "Failed to update video information: " + e.getMessage());
             request.getSession().setAttribute("toastType", "error");
@@ -631,7 +633,7 @@ public class ManageCourseController extends HttpServlet {
      * @param lessonId The lesson ID
      * @throws Exception If an error occurs
      */
-    private void updateQuizData(HttpServletRequest request, HttpServletResponse response, Lesson lesson, Integer sectionId) throws Exception {
+    private void updateQuizData(HttpServletRequest request, HttpServletResponse response, Lesson lesson, Integer sectionId, Integer courseId) throws Exception {
         // Get quiz information
         LessonQuiz quiz = lessonQuizDAO.getByLessonId(lesson.getId());
 
@@ -650,14 +652,14 @@ public class ManageCourseController extends HttpServlet {
             if (!quizUpdated) {
                 request.getSession().setAttribute("toastMessage", "Failed to update quiz settings");
                 request.getSession().setAttribute("toastType", "error");
-                response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
+                response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
                 return;
             }
 
         } catch (Exception e) {
             request.getSession().setAttribute("toastMessage", "Failed to update quiz settings: " + e.getMessage());
             request.getSession().setAttribute("toastType", "error");
-            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
             return;
         }
 
@@ -841,12 +843,16 @@ public class ManageCourseController extends HttpServlet {
                 }
             }
 
+            // Set success toast message
+            request.getSession().setAttribute("toastMessage", "Quiz updated successfully");
+            request.getSession().setAttribute("toastType", "success");
+            
             // Redirect back to course content
-            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
+            response.sendRedirect(request.getContextPath() + "/lesson-edit?action=edit&id=" + lesson.getId());
         } catch (Exception e) {
             request.getSession().setAttribute("toastMessage", "Failed to update quiz information: " + e.getMessage());
             request.getSession().setAttribute("toastType", "error");
-            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + sectionId);
+            response.sendRedirect(request.getContextPath() + "/manage-course?action=manage&id=" + courseId);
             return;
         }
     }

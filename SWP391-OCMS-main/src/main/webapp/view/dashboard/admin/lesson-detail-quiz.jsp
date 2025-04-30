@@ -175,6 +175,7 @@
                     <div class="col-xl-12 col-lg-12">
                         <div class="form-container">
                             <form action="${pageContext.request.contextPath}/lesson-edit?action=update" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="courseId" value="${course.id}">
                                 <input type="hidden" name="id" value="${lesson.id}">
                                 <input type="hidden" name="type" value="${lesson.type}">
                                 <input type="hidden" name="questionCount" id="questionCount" value="${questions.size()}">

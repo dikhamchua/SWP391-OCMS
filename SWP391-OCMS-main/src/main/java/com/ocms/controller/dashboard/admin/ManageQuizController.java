@@ -65,6 +65,12 @@ public class ManageQuizController extends HttpServlet {
             case "delete":
                 deleteQuiz(request, response);
                 break;
+            case "deactivate":
+                deactivateQuiz(request, response);
+                break;
+            case "activate":
+                activateQuiz(request, response);
+                break;
             case "editQuestion":
                 editQuestion(request, response);
                 break;
@@ -573,5 +579,89 @@ public class ManageQuizController extends HttpServlet {
             request.getSession().setAttribute("toastType", "error");
             response.sendRedirect(request.getContextPath() + "/manage-quiz?action=editQuestion&quizId=" + quizId + "&questionId=" + questionId);
         }
+    }
+    
+    private void deactivateQuiz(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String lessonId = request.getParameter("id");
+        
+        if (lessonId == null || lessonId.isEmpty()) {
+            request.getSession().setAttribute("toastMessage", "Quiz ID is required");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-quiz");
+            return;
+        }
+        
+        try {
+            int lessonIdInt = Integer.parseInt(lessonId);
+            Lesson lesson = lessonDAO.getById(lessonIdInt);
+            
+            if (lesson == null || !"quiz".equals(lesson.getType())) {
+                request.getSession().setAttribute("toastMessage", "Quiz not found");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-quiz");
+                return;
+            }
+            
+            // Update the status to inactive
+            lesson.setStatus("inactive");
+            boolean updated = lessonDAO.update(lesson);
+            
+            if (updated) {
+                request.getSession().setAttribute("toastMessage", "Quiz deactivated successfully");
+                request.getSession().setAttribute("toastType", "success");
+            } else {
+                request.getSession().setAttribute("toastMessage", "Failed to deactivate quiz");
+                request.getSession().setAttribute("toastType", "error");
+            }
+            
+        } catch (Exception e) {
+            request.getSession().setAttribute("toastMessage", "Error deactivating quiz: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+        }
+        
+        response.sendRedirect(request.getContextPath() + "/manage-quiz");
+    }
+    
+    private void activateQuiz(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String lessonId = request.getParameter("id");
+        
+        if (lessonId == null || lessonId.isEmpty()) {
+            request.getSession().setAttribute("toastMessage", "Quiz ID is required");
+            request.getSession().setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/manage-quiz");
+            return;
+        }
+        
+        try {
+            int lessonIdInt = Integer.parseInt(lessonId);
+            Lesson lesson = lessonDAO.getById(lessonIdInt);
+            
+            if (lesson == null || !"quiz".equals(lesson.getType())) {
+                request.getSession().setAttribute("toastMessage", "Quiz not found");
+                request.getSession().setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/manage-quiz");
+                return;
+            }
+            
+            // Update the status to active
+            lesson.setStatus("active");
+            boolean updated = lessonDAO.update(lesson);
+            
+            if (updated) {
+                request.getSession().setAttribute("toastMessage", "Quiz activated successfully");
+                request.getSession().setAttribute("toastType", "success");
+            } else {
+                request.getSession().setAttribute("toastMessage", "Failed to activate quiz");
+                request.getSession().setAttribute("toastType", "error");
+            }
+            
+        } catch (Exception e) {
+            request.getSession().setAttribute("toastMessage", "Error activating quiz: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
+        }
+        
+        response.sendRedirect(request.getContextPath() + "/manage-quiz");
     }
 } 

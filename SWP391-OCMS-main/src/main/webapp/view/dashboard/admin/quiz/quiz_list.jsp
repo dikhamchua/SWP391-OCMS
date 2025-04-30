@@ -158,7 +158,8 @@
                                                     <select class="form-control" id="courseId" name="courseId">
                                                         <option value="">Tất cả khóa học</option>
                                                         <c:forEach items="${courseList}" var="course">
-                                                            <option value="${course.id}" ${param.courseId == course.id ? 'selected' : ''}>
+                                                            <c:set var="isSelected" value="${param.courseId == course.id ? 'selected' : ''}" />
+                                                            <option value="${course.id}" ${isSelected}>
                                                                 ${course.name}
                                                             </option>
                                                         </c:forEach>
@@ -262,10 +263,22 @@
                                                     <c:if test="${showDuration}"><td>${quizInfo.lesson.duration}</td></c:if>
                                                     <td>
                                                         <div class="table-actions">
-                                                            <a href="${pageContext.request.contextPath}/manage-quiz?action=editQuestion&questionId=${quizInfo.lesson.id}" class="action-edit">
+                                                            <a href="${pageContext.request.contextPath}/lesson-edit?action=edit&id=${quizInfo.lesson.id}" class="action-edit">
                                                                 <i class="fa fa-edit"></i> Edit
                                                             </a>
-                                                            <a href="#" onclick="confirmDelete(${quizInfo.lesson.id})" class="action-delete">
+                                                            <c:choose>
+                                                                <c:when test="${quizInfo.lesson.status eq 'active'}">
+                                                                    <a href="javascript:void(0)" class="action-delete deactivate-btn" data-id="${quizInfo.lesson.id}">
+                                                                        <i class="fa fa-ban"></i> Deactivate
+                                                                    </a>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <a href="javascript:void(0)" class="action-edit activate-btn" data-id="${quizInfo.lesson.id}">
+                                                                        <i class="fa fa-check"></i> Activate
+                                                                    </a>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                            <a href="javascript:void(0)" class="action-delete delete-btn" data-id="${quizInfo.lesson.id}">
                                                                 <i class="fa fa-trash"></i> Delete
                                                             </a>
                                                         </div>
@@ -457,6 +470,18 @@
             }
         }
         
+        function confirmDeactivate(quizId) {
+            if (confirm('Are you sure you want to deactivate this quiz?')) {
+                window.location.href = '${pageContext.request.contextPath}/manage-quiz?action=deactivate&id=' + quizId;
+            }
+        }
+        
+        function confirmActivate(quizId) {
+            if (confirm('Are you sure you want to activate this quiz?')) {
+                window.location.href = '${pageContext.request.contextPath}/manage-quiz?action=activate&id=' + quizId;
+            }
+        }
+        
         function changePageSize(size) {
             var url = new URL(window.location.href);
             url.searchParams.set('pageSize', size);
@@ -499,6 +524,24 @@
                     sectionDropdown.empty();
                     sectionDropdown.append('<option value="">All Sections</option>');
                 }
+            });
+            
+            // Handle delete button clicks
+            $(document).on('click', '.delete-btn', function() {
+                var quizId = $(this).data('id');
+                confirmDelete(quizId);
+            });
+            
+            // Handle deactivate button clicks
+            $(document).on('click', '.deactivate-btn', function() {
+                var quizId = $(this).data('id');
+                confirmDeactivate(quizId);
+            });
+            
+            // Handle activate button clicks
+            $(document).on('click', '.activate-btn', function() {
+                var quizId = $(this).data('id');
+                confirmActivate(quizId);
             });
             
             // Xử lý đóng modal
