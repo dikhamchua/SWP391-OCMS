@@ -87,6 +87,19 @@
             font-size: 14px;
             color: #6c757d;
         }
+        
+        .complete-lesson-btn {
+            display: block;
+            width: 100%;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .lesson-item {
+            position: relative;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
     </style>
 </head>
 
@@ -133,7 +146,16 @@
                             </div>
 
                             <!-- Progress information -->
-                
+                            <div class="progress-container">
+                                <h5>Your Progress</h5>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar" style="width: ${progressPercentage}%"></div>
+                                </div>
+                                <div class="progress-text">
+                                    <span>${completedLessons} of ${totalLessons} lessons completed</span>
+                                    <span>${progressPercentage}%</span>
+                                </div>
+                            </div>
 
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -206,6 +228,12 @@
                                                                                 </c:choose>
                                                                             </div>
                                                                         </a>
+                                                                        <c:if test="${completedLessonsMap[lesson.id] != true}">
+                                                                            <button class="btn btn-sm btn-success mt-2 complete-lesson-btn" 
+                                                                                    onclick="markLessonAsCompleted(${lesson.id}, ${course.id})">
+                                                                                <i class="fa fa-check"></i> Mark as Completed
+                                                                            </button>
+                                                                        </c:if>
                                                                     </li>
                                                                 </c:forEach>
                                                             </ul>
@@ -346,6 +374,70 @@
             if (lessonsCountElement) {
                 lessonsCountElement.textContent = totalLessons;
             }
+        });
+        
+        // Function to mark lesson as completed
+        function markLessonAsCompleted(lessonId, courseId) {
+            // Make AJAX request to mark lesson as completed
+            fetch('${pageContext.request.contextPath}/lesson-progress?action=complete&lessonId=' + lessonId + '&courseId=' + courseId)
+                .then(response => {
+                    if (response.ok) {
+                        // Reload the page to show updated progress
+                        window.location.reload();
+                    } else {
+                        console.error('Failed to mark lesson as completed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        
+        // Function to update progress
+        function updateLessonProgress(lessonId, progress) {
+            fetch('${pageContext.request.contextPath}/lesson-progress', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=progress&lessonId=' + lessonId + '&progress=' + progress
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Progress updated:', data);
+            })
+            .catch(error => {
+                console.error('Error updating progress:', error);
+            });
+        }
+        
+        // Add click event listeners to lesson links
+        document.addEventListener('DOMContentLoaded', function() {
+            const lessonLinks = document.querySelectorAll('.lesson-item a');
+            lessonLinks.forEach(link => {
+                // Extract lesson ID from the URL
+                const url = new URL(link.href, window.location.origin);
+                const lessonId = url.searchParams.get('lesson');
+                
+                // Add event listener to mark lesson as started
+                link.addEventListener('click', function(event) {
+                    // Don't prevent default navigation, but mark the lesson as started
+                    fetch('${pageContext.request.contextPath}/lesson-progress', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'action=start&lessonId=' + lessonId
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Lesson marked as started:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error marking lesson as started:', error);
+                    });
+                });
+            });
         });
     </script>
 </body>

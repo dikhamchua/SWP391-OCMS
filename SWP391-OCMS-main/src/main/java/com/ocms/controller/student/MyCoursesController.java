@@ -7,6 +7,7 @@ import com.ocms.dal.RegistrationDAO;
 import com.ocms.dal.AccountDAO;
 import com.ocms.dal.SectionDAO;
 import com.ocms.dal.LessonDAO;
+import com.ocms.dal.LessonProgressDAO;
 import com.ocms.entity.Account;
 import com.ocms.entity.Category;
 import com.ocms.entity.Course;
@@ -36,6 +37,7 @@ public class MyCoursesController extends HttpServlet {
     private AccountDAO accountDAO = new AccountDAO();
     private SectionDAO sectionDAO = new SectionDAO();
     private LessonDAO lessonDAO = new LessonDAO();
+    private LessonProgressDAO lessonProgressDAO = new LessonProgressDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -160,7 +162,6 @@ public class MyCoursesController extends HttpServlet {
             
             // Calculate total lessons and create a map of completed lessons
             int totalLessons = 0;
-            int completedLessons = 0;
             
             for (Section section : sections) {
                 List<Lesson> sectionLessons = lessonDAO.getBySectionId(section.getId());
@@ -170,8 +171,15 @@ public class MyCoursesController extends HttpServlet {
                 lessonsBySectionId.put(section.getId(), sectionLessons);
             }
             
-            // Tạo map rỗng cho trạng thái hoàn thành bài học
-            Map<Integer, Boolean> completedLessonsMap = new HashMap<>();
+            // Get lesson completion data
+            Map<Integer, Boolean> completedLessonsMap = lessonProgressDAO.getCompletedLessonsForCourse(account.getId(), courseId);
+            int completedLessons = lessonProgressDAO.countCompletedLessonsForCourse(account.getId(), courseId);
+            
+            // Calculate progress percentage
+            int progressPercentage = 0;
+            if (totalLessons > 0) {
+                progressPercentage = (int) Math.round((double) completedLessons / totalLessons * 100);
+            }
             
             // Get category information
             Category category = categoryDAO.findById(course.getCategoryId());
@@ -197,6 +205,7 @@ public class MyCoursesController extends HttpServlet {
             request.setAttribute("totalLessons", totalLessons);
             request.setAttribute("completedLessons", completedLessons);
             request.setAttribute("completedLessonsMap", completedLessonsMap);
+            request.setAttribute("progressPercentage", progressPercentage);
             
             // Forward to the course details page
             request.getRequestDispatcher("view/homepage/my-course-details.jsp").forward(request, response);
