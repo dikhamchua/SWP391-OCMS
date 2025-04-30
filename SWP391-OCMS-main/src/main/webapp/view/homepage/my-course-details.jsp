@@ -88,13 +88,6 @@
             color: #6c757d;
         }
         
-        .complete-lesson-btn {
-            display: block;
-            width: 100%;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-        
         .lesson-item {
             position: relative;
             padding: 15px;
@@ -196,7 +189,7 @@
                                                             <ul class="list-wrap">
                                                                 <c:forEach var="lesson" items="${lessonsBySectionId[section.id]}">
                                                                     <li class="lesson-item">
-                                                                        <a href="${pageContext.request.contextPath}/learn?course=${course.id}&lesson=${lesson.id}">
+                                                                        <a href="${pageContext.request.contextPath}/lesson?action=view&id=${lesson.id}">
                                                                             <div class="lesson-title">
                                                                                 <c:choose>
                                                                                     <c:when test="${lesson.type eq 'video'}">
@@ -228,12 +221,6 @@
                                                                                 </c:choose>
                                                                             </div>
                                                                         </a>
-                                                                        <c:if test="${completedLessonsMap[lesson.id] != true}">
-                                                                            <button class="btn btn-sm btn-success mt-2 complete-lesson-btn" 
-                                                                                    onclick="markLessonAsCompleted(${lesson.id}, ${course.id})">
-                                                                                <i class="fa fa-check"></i> Mark as Completed
-                                                                            </button>
-                                                                        </c:if>
                                                                     </li>
                                                                 </c:forEach>
                                                             </ul>
@@ -335,7 +322,7 @@
                             </div>
                             <div class="courses__details-enroll">
                                 <div class="tg-button-wrap">
-                                    <a href="${pageContext.request.contextPath}/learn?course=${course.id}" class="btn btn-two arrow-btn">
+                                    <a href="${pageContext.request.contextPath}/lesson?action=view&id=${not empty sections && not empty lessonsBySectionId[sections[0].id] ? lessonsBySectionId[sections[0].id][0].id : ''}" class="btn btn-two arrow-btn">
                                         Continue Learning
                                         <img src="${pageContext.request.contextPath}/assets/img/icons/right_arrow.svg" alt="img" class="injectable">
                                     </a>
@@ -376,23 +363,6 @@
             }
         });
         
-        // Function to mark lesson as completed
-        function markLessonAsCompleted(lessonId, courseId) {
-            // Make AJAX request to mark lesson as completed
-            fetch('${pageContext.request.contextPath}/lesson-progress?action=complete&lessonId=' + lessonId + '&courseId=' + courseId)
-                .then(response => {
-                    if (response.ok) {
-                        // Reload the page to show updated progress
-                        window.location.reload();
-                    } else {
-                        console.error('Failed to mark lesson as completed');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-        
         // Function to update progress
         function updateLessonProgress(lessonId, progress) {
             fetch('${pageContext.request.contextPath}/lesson-progress', {
@@ -417,7 +387,7 @@
             lessonLinks.forEach(link => {
                 // Extract lesson ID from the URL
                 const url = new URL(link.href, window.location.origin);
-                const lessonId = url.searchParams.get('lesson');
+                const lessonId = url.searchParams.get('id');
                 
                 // Add event listener to mark lesson as started
                 link.addEventListener('click', function(event) {

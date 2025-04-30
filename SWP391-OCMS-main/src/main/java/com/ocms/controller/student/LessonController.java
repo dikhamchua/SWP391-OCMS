@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import com.ocms.entity.QuizAttempt;
+import com.ocms.dal.QuizAttemptDAO;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet(name = "LessonController", urlPatterns = {"/lesson"})
 public class LessonController extends HttpServlet {
@@ -28,6 +31,7 @@ public class LessonController extends HttpServlet {
     private QuizAnswerDAO quizAnswerDAO;
     private CourseDAO courseDAO;
     private SectionDAO sectionDAO;
+    private QuizAttemptDAO quizAttemptDAO;
     
     @Override
     public void init() throws ServletException {
@@ -39,6 +43,7 @@ public class LessonController extends HttpServlet {
         quizAnswerDAO = new QuizAnswerDAO();
         courseDAO = new CourseDAO();
         sectionDAO = new SectionDAO();
+        quizAttemptDAO = new QuizAttemptDAO();
     }
     
     @Override
@@ -312,6 +317,26 @@ public class LessonController extends HttpServlet {
         if (lessonQuiz == null) {
             request.setAttribute("errorMessage", "Quiz not found");
             return;
+        }
+        
+        // Get user from session
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute(GlobalConfig.SESSION_ACCOUNT);
+        
+        // Check if it's a quiz result display
+        String showResult = request.getParameter("showResult");
+        if ("true".equals(showResult) && session.getAttribute("quizResult") != null) {
+            request.setAttribute("quizResult", session.getAttribute("quizResult"));
+            session.removeAttribute("quizResult"); // Remove it after using
+        }
+        
+        // Check for previous attempts
+        if (account != null) {
+            QuizAttempt latestAttempt = quizAttemptDAO.findLatestByAccountIdAndQuizId(account.getId(), lessonQuiz.getId());
+            request.setAttribute("latestAttempt", latestAttempt);
+            
+            boolean hasPassed = quizAttemptDAO.hasPassedQuiz(account.getId(), lessonQuiz.getId());
+            request.setAttribute("hasPassed", hasPassed);
         }
         
         // Get list of questions

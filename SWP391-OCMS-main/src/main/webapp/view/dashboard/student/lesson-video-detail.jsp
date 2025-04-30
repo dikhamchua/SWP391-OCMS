@@ -130,6 +130,11 @@
             padding-top: 20px;
             border-top: 1px solid #dee2e6;
         }
+
+        .completion-button {
+            text-align: center;
+            margin-top: 20px;
+        }
         
         [x-cloak] {
             display: none !important;
@@ -172,7 +177,7 @@
                                     <div class="col-lg-8">
                                         <!-- Video Container -->
                                         <div class="lesson-video-container">
-                                            <video controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                                            <video id="lessonVideo" controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
                                                 <source src="${lessonVideo.videoUrl}" type="video/mp4">
                                                 Your browser does not support the video tag.
                                             </video>                                            
@@ -182,6 +187,14 @@
                                         <div class="lesson-content">
                                             <h3 class="lesson-title">${lesson.title}</h3>
                                             <div class="lesson-description">
+                                                ${lesson.description}
+                                            </div>
+                                            
+                                            <!-- Completion Button -->
+                                            <div class="completion-button">
+                                                <button id="completeButton" class="btn btn-success" onclick="markLessonAsCompleted()">
+                                                    <i class="fa fa-check"></i> Đánh dấu đã hoàn thành
+                                                </button>
                                             </div>
                                             
                                             <!-- Lesson Navigation -->
@@ -279,7 +292,156 @@
                     }
                 });
             }
+            
+            // Initialize video tracking
+            initVideoTracking();
         });
+        
+        // Video tracking variables
+        let lessonId = ${lesson.id};
+        let videoElement = document.getElementById('lessonVideo');
+        let videoDuration = 0;
+        let progressUpdateInterval;
+        let progressThresholds = [25, 50, 75, 90];
+        let reachedThresholds = [];
+        
+        // Initialize video tracking
+        function initVideoTracking() {
+            // Start tracking when lesson loads
+            trackLessonStart();
+            
+            // Get video duration once metadata is loaded
+            videoElement.addEventListener('loadedmetadata', function() {
+                videoDuration = videoElement.duration;
+                console.log('Video duration:', videoDuration);
+            });
+            
+            // Track play event
+            videoElement.addEventListener('play', function() {
+                // Start interval to track progress during playback
+                progressUpdateInterval = setInterval(updateProgressPercent, 5000); // Update every 5 seconds
+            });
+            
+            // Track pause event
+            videoElement.addEventListener('pause', function() {
+                // Clear interval when video is paused
+                clearInterval(progressUpdateInterval);
+                // Update progress immediately when paused
+                updateProgressPercent();
+            });
+            
+            // Track video ended event
+            videoElement.addEventListener('ended', function() {
+                clearInterval(progressUpdateInterval);
+                // Mark as completed if video finishes
+                markLessonAsCompleted();
+            });
+        }
+        
+        // Track lesson start
+        function trackLessonStart() {
+            fetch('${pageContext.request.contextPath}/lesson-progress', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=start&lessonId=' + lessonId
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Lesson started:', data);
+            })
+            .catch(error => {
+                console.error('Error starting lesson:', error);
+            });
+        }
+        
+        // Update progress percentage
+        function updateProgressPercent() {
+            if (videoElement && videoDuration > 0) {
+                const currentTime = videoElement.currentTime;
+                const progressPercent = Math.floor((currentTime / videoDuration) * 100);
+                
+                // Check if we've reached any new thresholds
+                for (const threshold of progressThresholds) {
+                    if (progressPercent >= threshold && !reachedThresholds.includes(threshold)) {
+                        reachedThresholds.push(threshold);
+                        // Update progress in database
+                        updateLessonProgress(progressPercent);
+                    }
+                }
+            }
+        }
+        
+        // Update lesson progress in the database
+        function updateLessonProgress(progressPercent) {
+            fetch('${pageContext.request.contextPath}/lesson-progress', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=progress&lessonId=' + lessonId + '&progress=' + progressPercent
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Progress updated:', data);
+            })
+            .catch(error => {
+                console.error('Error updating progress:', error);
+            });
+        }
+        
+        // Mark lesson as completed
+        function markLessonAsCompleted() {
+            fetch('${pageContext.request.contextPath}/lesson-progress', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=complete&lessonId=' + lessonId
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Lesson completed:', data);
+                if (data.success) {
+                    // Show success message
+                    iziToast.success({
+                        title: 'Success',
+                        message: 'Lesson marked as completed!',
+                        position: 'topRight',
+                        timeout: 5000
+                    });
+                    
+                    // Disable complete button
+                    document.getElementById('completeButton').disabled = true;
+                    document.getElementById('completeButton').innerText = 'Lesson Completed ✓';
+                    
+                    // Optionally redirect to next lesson
+                    <c:if test="${nextLesson != null}">
+                    setTimeout(function() {
+                        window.location.href = "${pageContext.request.contextPath}/lesson?action=view&id=${nextLesson.id}";
+                    }, 2000);
+                    </c:if>
+                } else {
+                    // Show error message
+                    iziToast.error({
+                        title: 'Error',
+                        message: data.message || 'Failed to mark lesson as completed',
+                        position: 'topRight',
+                        timeout: 5000
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error completing lesson:', error);
+                iziToast.error({
+                    title: 'Error',
+                    message: 'An error occurred while marking the lesson as completed',
+                    position: 'topRight',
+                    timeout: 5000
+                });
+            });
+        }
     </script>
 </body>
 

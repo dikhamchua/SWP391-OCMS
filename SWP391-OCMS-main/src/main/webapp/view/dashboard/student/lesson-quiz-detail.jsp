@@ -246,6 +246,69 @@
             margin-right: 5px;
         }
         
+        .quiz-result-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .quiz-result-header {
+            margin-bottom: 20px;
+        }
+        
+        .quiz-result-status {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-result-status.passed {
+            background-color: #28a745;
+        }
+        
+        .quiz-result-status.failed {
+            background-color: #dc3545;
+        }
+        
+        .quiz-result-score {
+            font-size: 72px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #007aff;
+        }
+        
+        .quiz-result-details {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .quiz-result-detail-item {
+            text-align: center;
+        }
+        
+        .quiz-result-detail-number {
+            font-size: 36px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .quiz-result-detail-label {
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .quiz-result-actions {
+            margin-top: 30px;
+        }
+        
         [x-cloak] {
             display: none !important;
         }
@@ -285,78 +348,157 @@
                                 <!-- Quiz Content -->
                                 <div class="row">
                                     <div class="col-lg-8">
-                                        <div class="quiz-container" x-data="{ 
-                                            currentQuestion: 1,
-                                            totalQuestions: 4,
-                                            timeLeft: 1800,
-                                            formatTime(seconds) {
-                                                const mins = Math.floor(seconds / 60);
-                                                const secs = seconds % 60;
-                                                return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-                                            }
-                                        }" x-init="setInterval(() => { if(timeLeft > 0) timeLeft--; }, 1000)">
-                                            <div class="quiz-header">
-                                                <h3 class="quiz-title">${lesson.title}</h3>
-                                                <div class="timer-container">
-                                                    <i class="fa fa-clock"></i> <span x-text="formatTime(timeLeft)"></span>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="quiz-progress">
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-primary" role="progressbar" 
-                                                        x-bind:style="'width: ' + (currentQuestion / totalQuestions * 100) + '%'" 
-                                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        <c:choose>
+                                            <c:when test="${quizResult != null}">
+                                                <!-- Quiz Result Display -->
+                                                <div class="quiz-result-container">
+                                                    <div class="quiz-result-header">
+                                                        <span class="quiz-result-status ${quizResult.passed ? 'passed' : 'failed'}">
+                                                            <i class="fa ${quizResult.passed ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                                                            ${quizResult.passed ? 'Đã hoàn thành' : 'Chưa hoàn thành'}
+                                                        </span>
+                                                        <h3>Kết quả bài kiểm tra</h3>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <form id="quizForm" action="${pageContext.request.contextPath}/submit-quiz" method="post">
-                                                <input type="hidden" name="lessonQuizId" value="${lessonQuiz.id}">
-                                                
-                                                <!-- Hiển thị các câu hỏi động từ dữ liệu -->
-                                                <c:forEach var="question" items="${listQuestions}" varStatus="status">
-                                                    <div class="question-container" x-show="currentQuestion === ${status.index + 1}" x-cloak>
-                                                        <div class="question-number">
-                                                            <span>Câu hỏi ${status.index + 1}</span>
-                                                            <span>Tổng số câu hỏi: ${listQuestions.size()} | Điểm: ${question.points}</span>
+                                                    
+                                                    <div class="quiz-result-score">
+                                                        ${Math.round(quizResult.score)}%
+                                                    </div>
+                                                    
+                                                    <p>Điểm yêu cầu để đạt: ${quizResult.passingScore}%</p>
+                                                    
+                                                    <div class="quiz-result-details">
+                                                        <div class="quiz-result-detail-item">
+                                                            <div class="quiz-result-detail-number">${quizResult.totalQuestions}</div>
+                                                            <div class="quiz-result-detail-label">Tổng số câu hỏi</div>
                                                         </div>
-                                                        <div class="question-text">
-                                                            ${question.questionText}
+                                                        <div class="quiz-result-detail-item">
+                                                            <div class="quiz-result-detail-number">${quizResult.correctAnswers}</div>
+                                                            <div class="quiz-result-detail-label">Câu trả lời đúng</div>
                                                         </div>
-                                                        <div class="options-container">
-                                                            <c:forEach var="answer" items="${questionAnswersMap[question]}">
-                                                                <label class="option-item">
-                                                                    <input type="radio" name="question_${question.id}" value="${answer.id}">
-                                                                    ${answer.answerText}
-                                                                </label>
-                                                            </c:forEach>
+                                                        <div class="quiz-result-detail-item">
+                                                            <div class="quiz-result-detail-number">${quizResult.totalQuestions - quizResult.correctAnswers}</div>
+                                                            <div class="quiz-result-detail-label">Câu trả lời sai</div>
                                                         </div>
                                                     </div>
-                                                </c:forEach>
-                                                
-                                                <!-- Navigation -->
-                                                <div class="quiz-navigation">
-                                                    <button type="button" class="btn btn-outline-primary" 
-                                                        x-show="currentQuestion > 1"
-                                                        @click="currentQuestion--">
-                                                        <i class="fa fa-arrow-left"></i> Câu trước
-                                                    </button>
-                                                    <div x-show="currentQuestion === 1"></div>
                                                     
-                                                    <button type="button" class="btn btn-primary" 
-                                                        x-show="currentQuestion < totalQuestions"
-                                                        @click="currentQuestion++">
-                                                        Câu tiếp theo <i class="fa fa-arrow-right"></i>
-                                                    </button>
-                                                    
-                                                    <button type="submit" class="btn btn-success" 
-                                                        x-show="currentQuestion === totalQuestions">
-                                                        Nộp bài <i class="fa fa-check"></i>
-                                                    </button>
+                                                    <div class="quiz-result-actions">
+                                                        <c:choose>
+                                                            <c:when test="${quizResult.passed}">
+                                                                <a href="${pageContext.request.contextPath}/lesson?action=view&id=${nextLesson.id}" class="btn btn-primary">
+                                                                    Bài học tiếp theo <i class="fa fa-arrow-right"></i>
+                                                                </a>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <a href="${pageContext.request.contextPath}/lesson?action=view&id=${lesson.id}" class="btn btn-primary">
+                                                                    Làm lại bài kiểm tra <i class="fa fa-redo"></i>
+                                                                </a>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
                                                 </div>
-                                            </form>
-                                        </div>
+                                            </c:when>
+                                            <c:when test="${hasPassed}">
+                                                <!-- Already passed quiz message -->
+                                                <div class="quiz-result-container">
+                                                    <div class="quiz-result-header">
+                                                        <span class="quiz-result-status passed">
+                                                            <i class="fa fa-check-circle"></i>
+                                                            Đã hoàn thành
+                                                        </span>
+                                                        <h3>Bạn đã hoàn thành bài kiểm tra này</h3>
+                                                    </div>
+                                                    
+                                                    <div class="quiz-result-score">
+                                                        ${Math.round(latestAttempt.score)}%
+                                                    </div>
+                                                    
+                                                    <p>Bạn đã hoàn thành bài kiểm tra này thành công và có thể tiếp tục sang bài học tiếp theo.</p>
+                                                    
+                                                    <div class="quiz-result-actions">
+                                                        <c:if test="${nextLesson != null}">
+                                                            <a href="${pageContext.request.contextPath}/lesson?action=view&id=${nextLesson.id}" class="btn btn-primary">
+                                                                Bài học tiếp theo <i class="fa fa-arrow-right"></i>
+                                                            </a>
+                                                        </c:if>
+                                                    </div>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <!-- Quiz Form -->
+                                                <div class="quiz-container" x-data="{ 
+                                                    currentQuestion: 1,
+                                                    totalQuestions: ${listQuestions.size()},
+                                                    timeLeft: 1800,
+                                                    formatTime(seconds) {
+                                                        const mins = Math.floor(seconds / 60);
+                                                        const secs = seconds % 60;
+                                                        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                                                    }
+                                                }" x-init="setInterval(() => { if(timeLeft > 0) timeLeft--; }, 1000)">
+                                                    <div class="quiz-header">
+                                                        <h3 class="quiz-title">${lesson.title}</h3>
+                                                        <div class="timer-container">
+                                                            <i class="fa fa-clock"></i> <span x-text="formatTime(timeLeft)"></span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="quiz-progress">
+                                                        <div class="progress">
+                                                            <div class="progress-bar bg-primary" role="progressbar" 
+                                                                x-bind:style="'width: ' + (currentQuestion / totalQuestions * 100) + '%'" 
+                                                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <form id="quizForm" action="${pageContext.request.contextPath}/submit-quiz" method="post">
+                                                        <input type="hidden" name="lessonQuizId" value="${lessonQuiz.id}">
+                                                        
+                                                        <!-- Hiển thị các câu hỏi động từ dữ liệu -->
+                                                        <c:forEach var="question" items="${listQuestions}" varStatus="status">
+                                                            <div class="question-container" x-show="currentQuestion === ${status.index + 1}" x-cloak>
+                                                                <div class="question-number">
+                                                                    <span>Câu hỏi ${status.index + 1}</span>
+                                                                    <span>Tổng số câu hỏi: ${listQuestions.size()} | Điểm: ${question.points}</span>
+                                                                </div>
+                                                                <div class="question-text">
+                                                                    ${question.questionText}
+                                                                </div>
+                                                                <div class="options-container">
+                                                                    <c:forEach var="answer" items="${questionAnswersMap[question]}">
+                                                                        <label class="option-item">
+                                                                            <input type="radio" name="question_${question.id}" value="${answer.id}">
+                                                                            ${answer.answerText}
+                                                                        </label>
+                                                                    </c:forEach>
+                                                                </div>
+                                                            </div>
+                                                        </c:forEach>
+                                                        
+                                                        <!-- Navigation -->
+                                                        <div class="quiz-navigation">
+                                                            <button type="button" class="btn btn-outline-primary" 
+                                                                x-show="currentQuestion > 1"
+                                                                @click="currentQuestion--">
+                                                                <i class="fa fa-arrow-left"></i> Câu trước
+                                                            </button>
+                                                            <div x-show="currentQuestion === 1"></div>
+                                                            
+                                                            <button type="button" class="btn btn-primary" 
+                                                                x-show="currentQuestion < totalQuestions"
+                                                                @click="currentQuestion++">
+                                                                Câu tiếp theo <i class="fa fa-arrow-right"></i>
+                                                            </button>
+                                                            
+                                                            <button type="submit" class="btn btn-success" 
+                                                                x-show="currentQuestion === totalQuestions">
+                                                                Nộp bài <i class="fa fa-check"></i>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                     
                                     <div class="col-lg-4">

@@ -80,9 +80,20 @@ public class LessonProgressController extends HttpServlet {
             boolean success = false;
             
             if ("start".equals(action)) {
-                // Mark lesson as started (in progress)
-                success = lessonProgressDAO.markLessonAsInProgress(account.getId(), lessonId, 0);
-                jsonResponse.put("message", "Lesson marked as in progress");
+                // First check if the lesson is already in progress or completed
+                LessonProgress existingProgress = lessonProgressDAO.findByAccountAndLesson(account.getId(), lessonId);
+                
+                // If there's no existing progress or the lesson isn't completed, mark it as started
+                if (existingProgress == null || !LessonProgress.Status.COMPLETED.equals(existingProgress.getStatus())) {
+                    success = lessonProgressDAO.markLessonAsInProgress(account.getId(), lessonId, 0);
+                    jsonResponse.put("message", "Lesson marked as started");
+                } else {
+                    // Lesson is already completed, so we'll consider this a success without changing status
+                    success = true;
+                    jsonResponse.put("message", "Lesson already tracked");
+                    jsonResponse.put("status", existingProgress.getStatus());
+                    jsonResponse.put("progress", existingProgress.getProgressPercent());
+                }
             } else if ("progress".equals(action)) {
                 // Update progress percentage
                 String progressParam = request.getParameter("progress");
@@ -98,8 +109,19 @@ public class LessonProgressController extends HttpServlet {
                     // Ensure progress is between 0 and 100
                     progressPercent = Math.max(0, Math.min(100, progressPercent));
                     
-                    success = lessonProgressDAO.markLessonAsInProgress(account.getId(), lessonId, progressPercent);
-                    jsonResponse.put("message", "Progress updated");
+                    // First check if the lesson is already completed
+                    LessonProgress existingProgress = lessonProgressDAO.findByAccountAndLesson(account.getId(), lessonId);
+                    
+                    // Only update if not already completed or if the new progress is 100%
+                    if (existingProgress == null || !LessonProgress.Status.COMPLETED.equals(existingProgress.getStatus()) 
+                            || progressPercent == 100) {
+                        success = lessonProgressDAO.markLessonAsInProgress(account.getId(), lessonId, progressPercent);
+                        jsonResponse.put("message", "Progress updated to " + progressPercent + "%");
+                    } else {
+                        // Lesson is already completed, so we'll consider this a success without changing status
+                        success = true;
+                        jsonResponse.put("message", "Lesson already completed");
+                    }
                 } catch (NumberFormatException e) {
                     jsonResponse.put("success", false);
                     jsonResponse.put("message", "Invalid progress value");
@@ -110,6 +132,13 @@ public class LessonProgressController extends HttpServlet {
                 // Mark lesson as completed
                 success = lessonProgressDAO.markLessonAsCompleted(account.getId(), lessonId);
                 jsonResponse.put("message", "Lesson marked as completed");
+                
+                // Get updated progress
+                LessonProgress updatedProgress = lessonProgressDAO.findByAccountAndLesson(account.getId(), lessonId);
+                if (updatedProgress != null) {
+                    jsonResponse.put("status", updatedProgress.getStatus());
+                    jsonResponse.put("progress", updatedProgress.getProgressPercent());
+                }
             } else {
                 jsonResponse.put("success", false);
                 jsonResponse.put("message", "Invalid action");
@@ -170,6 +199,41 @@ public class LessonProgressController extends HttpServlet {
                 
             } catch (NumberFormatException e) {
                 response.sendRedirect(request.getContextPath() + "/my-courses");
+            }
+        } else if ("status".equals(action) && lessonIdParam != null && !lessonIdParam.isEmpty()) {
+            // Get status of a lesson for the current user
+            try {
+                int lessonId = Integer.parseInt(lessonIdParam);
+                
+                // Set response content type
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                
+                // Get the JSON output writer
+                PrintWriter out = response.getWriter();
+                JSONObject jsonResponse = new JSONObject();
+                
+                // Get lesson progress
+                LessonProgress progress = lessonProgressDAO.findByAccountAndLesson(account.getId(), lessonId);
+                
+                if (progress != null) {
+                    jsonResponse.put("success", true);
+                    jsonResponse.put("status", progress.getStatus());
+                    jsonResponse.put("progress", progress.getProgressPercent());
+                } else {
+                    jsonResponse.put("success", true);
+                    jsonResponse.put("status", LessonProgress.Status.NOT_STARTED);
+                    jsonResponse.put("progress", 0);
+                }
+                
+                out.print(jsonResponse.toString());
+                
+            } catch (NumberFormatException e) {
+                response.setContentType("application/json");
+                JSONObject jsonResponse = new JSONObject();
+                jsonResponse.put("success", false);
+                jsonResponse.put("message", "Invalid lesson ID");
+                response.getWriter().print(jsonResponse.toString());
             }
         } else {
             response.sendRedirect(request.getContextPath() + "/my-courses");

@@ -87,6 +87,8 @@ public class MyCoursesController extends HttpServlet {
             }
         } catch (NumberFormatException e) {
             // Use default values if parsing fails
+            System.out.println("Invalid page or pageSize parameter");
+            e.printStackTrace();
         }
         
         // Lấy danh sách khóa học đã đăng ký với bộ lọc

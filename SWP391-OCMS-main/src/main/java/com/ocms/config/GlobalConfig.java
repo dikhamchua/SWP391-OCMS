@@ -77,5 +77,5 @@ public class GlobalConfig {
     public static final String LESSON_TYPE_FILE = "file";
 
     public static final String LESSON_TYPE_TEXT = "text";
-    
+    public static final double PASS_PERCENTAGE = 80;
 }
