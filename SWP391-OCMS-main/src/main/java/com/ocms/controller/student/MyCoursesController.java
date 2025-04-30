@@ -4,10 +4,15 @@ import com.ocms.config.GlobalConfig;
 import com.ocms.dal.CategoryDAO;
 import com.ocms.dal.CourseDAO;
 import com.ocms.dal.RegistrationDAO;
+import com.ocms.dal.AccountDAO;
+import com.ocms.dal.SectionDAO;
+import com.ocms.dal.LessonDAO;
 import com.ocms.entity.Account;
 import com.ocms.entity.Category;
 import com.ocms.entity.Course;
 import com.ocms.entity.Registration;
+import com.ocms.entity.Section;
+import com.ocms.entity.Lesson;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "MyCoursesController", urlPatterns = {"/my-courses"})
 public class MyCoursesController extends HttpServlet {
@@ -27,6 +33,9 @@ public class MyCoursesController extends HttpServlet {
     private CourseDAO courseDAO = new CourseDAO();
     private RegistrationDAO registrationDAO = new RegistrationDAO();
     private CategoryDAO categoryDAO = new CategoryDAO();
+    private AccountDAO accountDAO = new AccountDAO();
+    private SectionDAO sectionDAO = new SectionDAO();
+    private LessonDAO lessonDAO = new LessonDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -41,6 +50,24 @@ public class MyCoursesController extends HttpServlet {
             return;
         }
         
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "list"; // Default action is to list all courses
+        }
+        
+        switch (action) {
+            case "details":
+                showCourseDetails(request, response, account);
+                break;
+            case "list":
+            default:
+                listMyCourses(request, response, account);
+                break;
+        }
+    }
+    
+    private void listMyCourses(HttpServletRequest request, HttpServletResponse response, Account account)
+            throws ServletException, IOException {
         // Get filter parameters
         String categoryId = request.getParameter("category");
         String search = request.getParameter("search");
@@ -98,6 +125,84 @@ public class MyCoursesController extends HttpServlet {
         
         // Forward to the JSP page
         request.getRequestDispatcher("view/homepage/my-courses.jsp").forward(request, response);
+    }
+    
+    private void showCourseDetails(HttpServletRequest request, HttpServletResponse response, Account account)
+            throws ServletException, IOException {
+        // Get course ID from request parameter
+        String courseIdParam = request.getParameter("id");
+        if (courseIdParam == null || courseIdParam.isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/my-courses");
+            return;
+        }
+        
+        try {
+            int courseId = Integer.parseInt(courseIdParam);
+            
+            // Check if the student is registered for this course
+            Registration registration = registrationDAO.findByStudentIdAndCourseId(account.getId(), courseId);
+            if (registration == null) {
+                // If not registered, redirect to my courses page
+                response.sendRedirect(request.getContextPath() + "/my-courses");
+                return;
+            }
+            
+            // Get course details
+            Course course = courseDAO.findById(courseId);
+            if (course == null) {
+                response.sendRedirect(request.getContextPath() + "/my-courses");
+                return;
+            }
+            
+            // Get sections and lessons for the course
+            List<Section> sections = sectionDAO.getByCourseId(courseId);
+            Map<Integer, List<Lesson>> lessonsBySectionId = new HashMap<>();
+            
+            // Calculate total lessons and create a map of completed lessons
+            int totalLessons = 0;
+            int completedLessons = 0;
+            
+            for (Section section : sections) {
+                List<Lesson> sectionLessons = lessonDAO.getBySectionId(section.getId());
+                
+                // Thêm các bài học vào map
+                totalLessons += sectionLessons.size();
+                lessonsBySectionId.put(section.getId(), sectionLessons);
+            }
+            
+            // Tạo map rỗng cho trạng thái hoàn thành bài học
+            Map<Integer, Boolean> completedLessonsMap = new HashMap<>();
+            
+            // Get category information
+            Category category = categoryDAO.findById(course.getCategoryId());
+            Map<Integer, String> categoryMap = new HashMap<>();
+            categoryMap.put(course.getCategoryId(), category != null ? category.getName() : "Uncategorized");
+            
+            // Get instructor information
+            Account instructor = accountDAO.findById(course.getCreatedBy());
+            Map<Integer, String> accountMap = new HashMap<>();
+            accountMap.put(course.getCreatedBy(), instructor != null ? instructor.getFullName() : "Unknown Instructor");
+            
+            // Get registration status
+            String registrationStatus = registration.getStatus();
+            
+            // Set attributes for the JSP
+            request.setAttribute("course", course);
+            request.setAttribute("sections", sections);
+            request.setAttribute("lessonsBySectionId", lessonsBySectionId);
+            request.setAttribute("categoryMap", categoryMap);
+            request.setAttribute("accountMap", accountMap);
+            request.setAttribute("registration", registration);
+            request.setAttribute("registrationStatus", registrationStatus);
+            request.setAttribute("totalLessons", totalLessons);
+            request.setAttribute("completedLessons", completedLessons);
+            request.setAttribute("completedLessonsMap", completedLessonsMap);
+            
+            // Forward to the course details page
+            request.getRequestDispatcher("view/homepage/my-course-details.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            response.sendRedirect(request.getContextPath() + "/my-courses");
+        }
     }
 
     @Override

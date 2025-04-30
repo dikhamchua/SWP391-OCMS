@@ -119,59 +119,7 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
         return registration;
     }
 
-     public static void main(String[] args) {
-            // Tạo đối tượng RegistrationDAO để thao tác với cơ sở dữ liệu
-            RegistrationDAO registrationDAO = new RegistrationDAO();
-
-            // 1. Thêm mới một bản ghi (Insert)
-            Registration newRegistration = new Registration();
-            newRegistration.setEmail("john.doe@example.com");
-            newRegistration.setAccountId(1);
-            newRegistration.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
-            newRegistration.setCourseId(2);
-            newRegistration.setPackages("Standard");
-            newRegistration.setTotalCost(new BigDecimal("199.99"));
-            newRegistration.setStatus("Pending");
-            newRegistration.setValidFrom(new Timestamp(System.currentTimeMillis()));
-            newRegistration.setValidTo(new Timestamp(System.currentTimeMillis() + 10000000));  // Một khoảng thời gian giả
-            newRegistration.setLastUpdateByPerson(1);
-
-            int insertedId = registrationDAO.insert(newRegistration);
-            System.out.println("Inserted new registration with ID: " + insertedId);
-
-            // 2. Lấy tất cả bản ghi (Find All)
-            List<Registration> registrations = registrationDAO.findAll();
-            System.out.println("All registrations: ");
-            for (Registration reg : registrations) {
-                System.out.println(reg);
-            }
-
-            // 3. Cập nhật một bản ghi (Update)
-            if (!registrations.isEmpty()) {
-                Registration regToUpdate = registrations.get(0); // Lấy bản ghi đầu tiên để cập nhật
-                regToUpdate.setEmail("new.email@example.com");
-                regToUpdate.setTotalCost(new BigDecimal("299.99"));
-
-                boolean isUpdated = registrationDAO.update(regToUpdate);
-                if (isUpdated) {
-                    System.out.println("Updated registration with ID: " + regToUpdate.getId());
-                } else {
-                    System.out.println("Update failed for registration with ID: " + regToUpdate.getId());
-                }
-            }
-
-            // 4. Xóa một bản ghi (Delete)
-            if (!registrations.isEmpty()) {
-                Registration regToDelete = registrations.get(0); // Lấy bản ghi đầu tiên để xóa
-                boolean isDeleted = registrationDAO.delete(regToDelete);
-                if (isDeleted) {
-                    System.out.println("Deleted registration with ID: " + regToDelete.getId());
-                } else {
-                    System.out.println("Delete failed for registration with ID: " + regToDelete.getId());
-                }
-            }
-        }
-
+    
     public List<Registration> getRegistrationsByFilter(String search, String category, 
             String status, String fromDate, String toDate, int page, int pageSize, int studentId) {
         List<Registration> registrations = new ArrayList<>();
@@ -505,5 +453,33 @@ public class RegistrationDAO extends DBContext implements I_DAO<Registration> {
         }
         return 0;
     }
+
+    public Registration findByStudentIdAndCourseId(Integer studentId, int courseId) {
+        String sql = "SELECT * FROM registration WHERE account_id = ? AND course_id = ? LIMIT 1";
+        
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            
+            ps.setInt(1, studentId);
+            ps.setInt(2, courseId);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return getFromResultSet(rs);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding registration by student ID and course ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static void main(String[] args) {
+        RegistrationDAO registrationDAO = new RegistrationDAO();
+        Registration registration = registrationDAO.findByStudentIdAndCourseId(8,1);
+        System.out.println(registration);
+    }
+
+
 
 }

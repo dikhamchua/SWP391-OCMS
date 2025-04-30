@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!doctype html>
 <html class="no-js" lang="en">
 
@@ -175,21 +176,25 @@
                             <c:forEach items="${myCourses}" var="course">
                                 <div class="col-lg-4 col-md-6">
                                     <div class="course-card">
-                                        <img src="${pageContext.request.contextPath}/assets/img/courses/${course.thumbnail}" alt="${course.name}" class="course-image">
+                                        <a href="${pageContext.request.contextPath}/my-courses?action=details&id=${course.id}">
+                                            <img src="${pageContext.request.contextPath}/assets/img/courses/${course.thumbnail}" alt="${course.name}" class="course-image">
+                                        </a>
                                         <div class="course-content">
-                                            <h3 class="course-title">${course.name}</h3>
+                                            <h3 class="course-title">
+                                                <a href="${pageContext.request.contextPath}/my-courses?action=details&id=${course.id}">${course.name}</a>
+                                            </h3>
                                             <div class="course-meta">
                                                 <span>Đánh giá: ${course.rating}/5</span>
-                                                <span>Trạng thái: ${course.status}</span>
+                                                <span>Trạng thái: ${registrationMap[course.id]}</span>
                                             </div>
                                             <div class="course-description">
-                                                <p>${course.description}</p>
+                                                <p>${fn:substring(course.description, 0, 100)}${fn:length(course.description) > 100 ? '...' : ''}</p>
                                             </div>
                                         </div>
                                         <div class="course-footer">
-                                            <span class="badge ${course.status == 'active' ? 'bg-success' : 'bg-warning'}">${course.status}</span>
+                                            <span class="badge ${registrationMap[course.id] == 'active' ? 'bg-success' : 'bg-warning'}">${registrationMap[course.id]}</span>
                                             <c:if test="${registrationMap[course.id] != 'Pending'}">
-                                                <a href="${pageContext.request.contextPath}/course?id=${course.id}" class="btn btn-sm btn-primary">Bắt đầu học</a>
+                                                <a href="${pageContext.request.contextPath}/my-courses?action=details&id=${course.id}" class="btn btn-sm btn-primary">Chi tiết</a>
                                             </c:if>
                                             <c:if test="${registrationMap[course.id] == 'Pending'}">
                                                 <span class="text-muted">Chờ phê duyệt</span>
