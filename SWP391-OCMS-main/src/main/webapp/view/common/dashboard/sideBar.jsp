@@ -129,24 +129,9 @@
                     </a>
                 </li>
                 
-                <li>
-                    <a href="${pageContext.request.contextPath}/student-review">
-                        <i class="skillgro-book-2"></i>
-                        Reviews
-                    </a>
-                </li>
-                <li>
-                    <a href="${pageContext.request.contextPath}/student-attempts">
-                        <i class="skillgro-question"></i>
-                        My Quiz Attempts
-                    </a>
-                </li>
-                <li>
-                    <a href="${pageContext.request.contextPath}/student-history">
-                        <i class="skillgro-satchel"></i>
-                        Order History
-                    </a>
-                </li>
+        
+               
+               
             </ul>
         </nav>
         <div class="dashboard__sidebar-title mt-30 mb-20">
