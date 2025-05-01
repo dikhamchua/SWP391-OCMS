@@ -230,7 +230,7 @@
                                                             <label class="form-label">Điểm đạt yêu cầu (%)</label>
                                                             <div class="icon-input">
                                                                 <i class="fa fa-percent"></i>
-                                                                <input type="number" class="form-control" name="passingScore" value="70" min="1" max="100">
+                                                                <input type="number" class="form-control" name="passingScore" value="80" min="1" max="100">
                                                             </div>
                                                             <small class="form-text">Phần trăm điểm tối thiểu để đạt</small>
                                                         </div>
@@ -308,7 +308,6 @@
                                                 <select name="status" class="status-select">
                                                     <option value="active">Hoạt động</option>
                                                     <option value="inactive">Không hoạt động</option>
-                                                    <option value="draft" selected>Bản nháp</option>
                                                 </select>
                                             </div>
                                         </div>
