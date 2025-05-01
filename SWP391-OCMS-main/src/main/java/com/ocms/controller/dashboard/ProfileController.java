@@ -99,9 +99,24 @@ public class ProfileController extends HttpServlet {
 
     private String handleUpdateProfile(HttpServletRequest request, HttpServletResponse response, Account account) {
         String gender = request.getParameter("gender");
+        String fullName = request.getParameter("fullName");
+        String phone = request.getParameter("phone");
+        
+        // Validate fullName
+        if (fullName == null || fullName.trim().isEmpty()) {
+            setToastMessage(request, "Họ tên không được để trống.", "error");
+            return "view/dashboard/profile.jsp";
+        }
+        
+        // Validate phone number
+        if (phone == null || !phone.matches("^[0-9]{10,13}$")) {
+            setToastMessage(request, "Số điện thoại phải có từ 10-13 số và không chứa chữ cái hoặc ký tự đặc biệt.", "error");
+            return "view/dashboard/profile.jsp";
+        }
+        
         account.setGender(Boolean.parseBoolean(gender));
-        account.setFullName(request.getParameter("fullName"));
-        account.setPhone(request.getParameter("phone"));
+        account.setFullName(fullName);
+        account.setPhone(phone);
 
         boolean updateSuccess = accountDAO.update(account);
         if (updateSuccess) {

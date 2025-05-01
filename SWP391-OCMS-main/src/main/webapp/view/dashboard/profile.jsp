@@ -127,7 +127,91 @@
                             timeout: 5000
                         });
                     }
+                    
+                    // Thêm validation cho form
+                    const profileForm = document.querySelector('form[action="${pageContext.request.contextPath}/dashboard-profile"]');
+                    const phoneInput = document.getElementById('phone');
+                    const fullNameInput = document.getElementById('fullName');
+                    
+                    // Thêm thông báo lỗi
+                    function showError(input, message) {
+                        const formGroup = input.parentElement;
+                        let errorDiv = formGroup.querySelector('.invalid-feedback');
+                        
+                        if (!errorDiv) {
+                            errorDiv = document.createElement('div');
+                            errorDiv.className = 'invalid-feedback';
+                            formGroup.appendChild(errorDiv);
+                        }
+                        
+                        input.classList.add('is-invalid');
+                        errorDiv.textContent = message;
+                    }
+                    
+                    // Xóa thông báo lỗi
+                    function clearError(input) {
+                        input.classList.remove('is-invalid');
+                        const formGroup = input.parentElement;
+                        const errorDiv = formGroup.querySelector('.invalid-feedback');
+                        if (errorDiv) {
+                            errorDiv.textContent = '';
+                        }
+                    }
+                    
+                    // Kiểm tra số điện thoại
+                    function validatePhone(phone) {
+                        const phoneRegex = /^[0-9]{10,13}$/;
+                        return phoneRegex.test(phone);
+                    }
+                    
+                    // Kiểm tra họ tên
+                    function validateFullName(name) {
+                        // Kiểm tra độ dài tối thiểu
+                        if (name.trim().length < 2) {
+                            return false;
+                        }
+                        
+                        // Kiểm tra không chứa số và ký tự đặc biệt
+                        const nameRegex = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/;
+                        return nameRegex.test(name);
+                    }
+                    
+                    // Xử lý sự kiện khi nhập số điện thoại
+                    phoneInput.addEventListener('input', function() {
+                        clearError(phoneInput);
+                    });
+                    
+                    // Xử lý sự kiện khi nhập họ tên
+                    fullNameInput.addEventListener('input', function() {
+                        clearError(fullNameInput);
+                    });
+                    
+                    // Xử lý sự kiện submit form
+                    profileForm.addEventListener('submit', function(e) {
+                        let isValid = true;
+                        
+                        // Kiểm tra số điện thoại
+                        if (!validatePhone(phoneInput.value)) {
+                            showError(phoneInput, 'Số điện thoại phải có 10-13 chữ số');
+                            isValid = false;
+                        }
+                        
+                        // Kiểm tra họ tên
+                        if (!validateFullName(fullNameInput.value)) {
+                            if (fullNameInput.value.trim().length < 2) {
+                                showError(fullNameInput, 'Họ tên phải có ít nhất 2 ký tự');
+                            } else {
+                                showError(fullNameInput, 'Họ tên không được chứa số và ký tự đặc biệt');
+                            }
+                            isValid = false;
+                        }
+                        
+                        if (!isValid) {
+                            e.preventDefault();
+                        }
+                    });
                 });
+            </script>
         </script>
     </body>
 

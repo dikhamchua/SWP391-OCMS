@@ -164,7 +164,7 @@ public class BlogController extends HttpServlet {
 
         // Set attributes
         List<Category> allCategories = categoryDAO.findAll();
-
+       
         // Set attributes for JSP
         request.setAttribute("blogUserName", blogUserName);
         request.setAttribute("listCategory", allCategories);
