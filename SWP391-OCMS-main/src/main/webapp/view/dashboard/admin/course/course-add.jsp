@@ -41,6 +41,24 @@
         .rich-text-editor {
             min-height: 200px;
         }
+        
+        /* Thêm CSS cho thông báo lỗi */
+        .text-danger {
+            color: #dc3545;
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        .input-error {
+            border-color: #dc3545;
+        }
+        
+        input:focus.input-error,
+        select:focus.input-error {
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+            border-color: #dc3545;
+        }
     </style>
 </head>
 
@@ -83,6 +101,7 @@
                                             <div class="col-md-12">
                                                 <label for="courseName" class="form-label required-field">Tên khóa học</label>
                                                 <input type="text" class="form-control" id="courseName" name="name" required>
+                                                <small id="courseNameError" class="text-danger"></small>
                                                 <div class="invalid-feedback">Vui lòng nhập tên khóa học</div>
                                             </div>
                                         </div>
@@ -91,6 +110,7 @@
                                             <div class="col-md-6">
                                                 <label for="coursePrice" class="form-label required-field">Giá (USD)</label>
                                                 <input type="number" class="form-control" id="coursePrice" name="price" step="0.01" min="0" required>
+                                                <small id="coursePriceError" class="text-danger"></small>
                                                 <div class="invalid-feedback">Giá không hợp lệ</div>
                                             </div>
                                             
@@ -119,6 +139,7 @@
                                             <div class="col-md-12">
                                                 <label for="courseDescription" class="form-label required-field">Mô tả khóa học</label>
                                                 <textarea class="form-control rich-text-editor" id="courseDescription" name="description" rows="10" required></textarea>
+                                                <small id="courseDescriptionError" class="text-danger"></small>
                                                 <div class="invalid-feedback">Vui lòng nhập mô tả khóa học</div>
                                             </div>
                                         </div>
@@ -203,54 +224,86 @@
             }
         });
         
-        // Form validation
-        document.getElementById('courseForm').addEventListener('submit', function(e) {
-            // Get form elements
-            const form = e.target;
+        // Hàm validate tên khóa học
+        function validateCourseName() {
             const nameInput = document.getElementById('courseName');
-            const priceInput = document.getElementById('coursePrice');
-            const categorySelect = document.getElementById('courseCategory');
-            const thumbnailInput = document.getElementById('courseThumbnail');
+            const nameError = document.getElementById('courseNameError');
             
-            // Check name
             if (!nameInput.value.trim()) {
-                nameInput.classList.add('is-invalid');
-                e.preventDefault();
+                nameError.textContent = "Tên khóa học không được để trống.";
+                nameInput.classList.add('input-error');
+                return false;
+            } else if (nameInput.value.length > 100) {
+                nameError.textContent = "Tên khóa học không được vượt quá 100 ký tự.";
+                nameInput.classList.add('input-error');
+                return false;
             } else {
-                nameInput.classList.remove('is-invalid');
+                nameError.textContent = "";
+                nameInput.classList.remove('input-error');
+                return true;
             }
+        }
+        
+        // Hàm validate giá khóa học
+        function validateCoursePrice() {
+            const priceInput = document.getElementById('coursePrice');
+            const priceError = document.getElementById('coursePriceError');
             
-            // Check price
-            if (priceInput.value === '' || parseFloat(priceInput.value) < 0) {
-                priceInput.classList.add('is-invalid');
-                e.preventDefault();
+            if (!priceInput.value.trim()) {
+                priceError.textContent = "Giá khóa học không được để trống.";
+                priceInput.classList.add('input-error');
+                return false;
+            } else if (!/^\d+(\.\d+)?$/.test(priceInput.value)) {
+                priceError.textContent = "Giá khóa học phải là định dạng số hợp lệ.";
+                priceInput.classList.add('input-error');
+                return false;
+            } else if (parseFloat(priceInput.value) <= 0) {
+                priceError.textContent = "Giá khóa học phải là số dương.";
+                priceInput.classList.add('input-error');
+                return false;
             } else {
-                priceInput.classList.remove('is-invalid');
+                priceError.textContent = "";
+                priceInput.classList.remove('input-error');
+                return true;
             }
-            
-            // Check category
-            if (!categorySelect.value) {
-                categorySelect.classList.add('is-invalid');
-                e.preventDefault();
-            } else {
-                categorySelect.classList.remove('is-invalid');
-            }
-            
-            // Check thumbnail
-            if (!thumbnailInput.files || thumbnailInput.files.length === 0) {
-                thumbnailInput.classList.add('is-invalid');
-                e.preventDefault();
-            } else {
-                thumbnailInput.classList.remove('is-invalid');
-            }
-            
-            // Check description
+        }
+        
+        // Hàm validate mô tả khóa học
+        function validateCourseDescription() {
             const description = CKEDITOR.instances.courseDescription.getData();
+            const descriptionError = document.getElementById('courseDescriptionError');
+            
             if (!description.trim()) {
-                document.getElementById('courseDescription').classList.add('is-invalid');
-                e.preventDefault();
+                descriptionError.textContent = "Mô tả khóa học không được để trống.";
+                return false;
+            } else if (description.replace(/<[^>]*>/g, '').length > 500) {
+                descriptionError.textContent = "Mô tả không được vượt quá 500 ký tự.";
+                return false;
             } else {
-                document.getElementById('courseDescription').classList.remove('is-invalid');
+                descriptionError.textContent = "";
+                return true;
+            }
+        }
+        
+        // Thêm sự kiện blur cho các trường nhập liệu
+        document.getElementById('courseName').addEventListener('blur', validateCourseName);
+        document.getElementById('coursePrice').addEventListener('blur', validateCoursePrice);
+        
+        // Event listener cho CKEditor khi mất focus
+        CKEDITOR.instances.courseDescription.on('blur', validateCourseDescription);
+        
+        // Form validation khi submit
+        document.getElementById('courseForm').addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            // Validate tất cả các trường
+            if (!validateCourseName()) isValid = false;
+            if (!validateCoursePrice()) isValid = false;
+            if (!validateCourseDescription()) isValid = false;
+            
+            // Nếu có lỗi, ngăn form submit
+            if (!isValid) {
+                e.preventDefault();
             }
         });
         
@@ -284,4 +337,4 @@
     </script>
 </body>
 
-</html> 
+</html>
