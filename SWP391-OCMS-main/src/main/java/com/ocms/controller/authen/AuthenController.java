@@ -105,8 +105,13 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
                 .build();
         
         Account accFoundByUsernamePass = accountDAO.findByEmailOrUsernameAndPass(account);
-    
+        
         if (accFoundByUsernamePass != null) {
+            if(accFoundByUsernamePass.getIsActive() == false){
+                request.setAttribute("error", "Account is not activated. Please check your email for the activation OTP.");
+                request.getRequestDispatcher("view/authen/login.jsp").forward(request, response);
+                return null;
+            }
             request.getSession().setAttribute(GlobalConfig.SESSION_ACCOUNT, accFoundByUsernamePass);
             // Thành công thì redirect
             response.sendRedirect("home"); // để HomeController nhận xử lý
