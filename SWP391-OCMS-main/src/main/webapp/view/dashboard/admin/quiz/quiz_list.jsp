@@ -278,9 +278,7 @@
                                                                     </a>
                                                                 </c:otherwise>
                                                             </c:choose>
-                                                            <a href="javascript:void(0)" class="action-delete delete-btn" data-id="${quizInfo.lesson.id}">
-                                                                <i class="fa fa-trash"></i> Delete
-                                                            </a>
+                                                            
                                                         </div>
                                                     </td>
                                                 </tr>
