@@ -65,12 +65,7 @@
                             Manage Slider
                         </a>
                     </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/manage-post">
-                            <i class="skillgro-post"></i>
-                            Manage Posts
-                        </a>
-                    </li>
+                    
                 </c:if>
                 
                 <c:if test="${sessionScope.account.roleId == 4}">
@@ -89,12 +84,7 @@
                             Manage Slider
                         </a>
                     </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/manage-post">
-                            <i class="skillgro-post"></i>
-                            Manage Posts
-                        </a>
-                    </li>
+                    
                 </c:if>
                 <!-- TEACHER và ADMIN mới thấy -->
                 <c:if test="${sessionScope.account.roleId == 1 || sessionScope.account.roleId == 2}">
@@ -138,12 +128,7 @@
                         My Courses
                     </a>
                 </li>
-                <li>
-                    <a href="${pageContext.request.contextPath}/student-wishlist">
-                        <i class="skillgro-label"></i>
-                        Wishlist
-                    </a>
-                </li>
+                
                 <li>
                     <a href="${pageContext.request.contextPath}/student-review">
                         <i class="skillgro-book-2"></i>
