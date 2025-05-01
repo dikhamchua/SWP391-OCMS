@@ -211,7 +211,6 @@
                                         </div>
 
                                         <!-- Danh sách khóa học -->
-                                        <!-- Danh sách khóa học -->
                                         <div class="row course-list align-items-stretch">
                                             <c:forEach items="${myCourses}" var="course">
                                                 <div class="col-lg-4 col-md-6 mb-4 d-flex">
@@ -235,13 +234,6 @@
                                                             <div class="course-meta">
                                                                 <span>Đánh giá: ${course.rating}/5</span>
                                                                 <span>Trạng thái: ${registrationMap[course.id]}</span>
-                                                            </div>
-                                                            <div class="course-description">
-                                                                <p>
-                                                                    ${fn:substring(course.description, 0, 100)}
-                                                                    <c:if test="${fn:length(course.description) > 100}">
-                                                                        ...</c:if>
-                                                                </p>
                                                             </div>
                                                         </div>
 
