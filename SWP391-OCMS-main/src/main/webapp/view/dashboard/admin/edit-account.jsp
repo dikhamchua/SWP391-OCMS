@@ -17,6 +17,18 @@
                 .form-group {
                     margin: 10px auto;
                 }
+                .error-message {
+                    color: red;
+                    font-size: 0.8em;
+                    margin-top: 5px;
+                    display: none;
+                }
+                input.is-invalid {
+                    border-color: red !important;
+                }
+                input.is-valid {
+                    border-color: green !important;
+                }
             </style>
             <!-- CSS here -->
             <jsp:include page="../../common/css-file.jsp"></jsp:include>
@@ -50,7 +62,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                <form action="${pageContext.request.contextPath}/manage-account" method="post">
+                                                <form id="editAccountForm" action="${pageContext.request.contextPath}/manage-account" method="post">
                                                     <input type="hidden" name="action" value="update">
                                                     <input type="hidden" name="id" value="${account.id}">
                                         
@@ -66,8 +78,8 @@
                                         
                                                     <div class="form-group">
                                                         <label for="phone">Phone Number</label>
-                                                        <input type="tel" class="form-control" id="phone" name="phone" value="${account.phone}" 
-                                                            pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number" required>
+                                                        <input type="tel" class="form-control" id="phone" name="phone" value="${account.phone}" required>
+                                                        <div id="phoneError" class="error-message">Số điện thoại phải có 10 chữ số và không chứa ký tự đặc biệt</div>
                                                     </div>
                                         
                                                     <div class="form-group">
@@ -117,33 +129,90 @@
             <jsp:include page="../../common/js-file.jsp"></jsp:include>
 
             <script>
-                // Toast message display
-                var toastMessage = "${sessionScope.toastMessage}";
-                var toastType = "${sessionScope.toastType}";
-                if (toastMessage) {
-                    iziToast.show({
-                        title: toastType === 'success' ? 'Success' : 'Error',
-                        message: toastMessage,
-                        position: 'topRight',
-                        color: toastType === 'success' ? 'green' : 'red',
-                        timeout: 5000,
-                        onClosing: function () {
-                            // Remove toast attributes from the session after displaying
-                            fetch('${pageContext.request.contextPath}/remove-toast', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/x-www-form-urlencoded',
-                                },
-                            }).then(response => {
-                                if (!response.ok) {
-                                    console.error('Failed to remove toast attributes');
-                                }
-                            }).catch(error => {
-                                console.error('Error:', error);
-                            });
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Lấy các phần tử form
+                    const form = document.getElementById('editAccountForm');
+                    const phoneInput = document.getElementById('phone');
+                    const phoneError = document.getElementById('phoneError');
+                    
+                    // Hàm kiểm tra số điện thoại
+                    function validatePhone(phone) {
+                        const phoneRegex = /^[0-9]{10}$/;
+                        return phoneRegex.test(phone);
+                    }
+                    
+                    // Hàm hiển thị lỗi
+                    function showError(input, errorElement) {
+                        input.classList.add('is-invalid');
+                        input.classList.remove('is-valid');
+                        errorElement.style.display = 'block';
+                    }
+                    
+                    // Hàm xóa lỗi
+                    function clearError(input, errorElement) {
+                        input.classList.remove('is-invalid');
+                        errorElement.style.display = 'none';
+                    }
+                    
+                    // Hàm hiển thị trạng thái hợp lệ
+                    function showValid(input) {
+                        input.classList.add('is-valid');
+                        input.classList.remove('is-invalid');
+                    }
+                    
+                    // Kiểm tra số điện thoại khi nhập
+                    phoneInput.addEventListener('input', function() {
+                        if (validatePhone(this.value)) {
+                            clearError(phoneInput, phoneError);
+                            showValid(phoneInput);
+                        } else {
+                            showError(phoneInput, phoneError);
                         }
                     });
-                }
+                    
+                    // Kiểm tra form khi submit
+                    form.addEventListener('submit', function(event) {
+                        let isValid = true;
+                        
+                        // Kiểm tra số điện thoại
+                        if (!validatePhone(phoneInput.value)) {
+                            showError(phoneInput, phoneError);
+                            isValid = false;
+                        }
+                        
+                        if (!isValid) {
+                            event.preventDefault(); // Ngăn form submit nếu có lỗi
+                        }
+                    });
+                    
+                    // Toast message display
+                    var toastMessage = "${sessionScope.toastMessage}";
+                    var toastType = "${sessionScope.toastType}";
+                    if (toastMessage) {
+                        iziToast.show({
+                            title: toastType === 'success' ? 'Success' : 'Error',
+                            message: toastMessage,
+                            position: 'topRight',
+                            color: toastType === 'success' ? 'green' : 'red',
+                            timeout: 5000,
+                            onClosing: function () {
+                                // Remove toast attributes from the session after displaying
+                                fetch('${pageContext.request.contextPath}/remove-toast', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded',
+                                    },
+                                }).then(response => {
+                                    if (!response.ok) {
+                                        console.error('Failed to remove toast attributes');
+                                    }
+                                }).catch(error => {
+                                    console.error('Error:', error);
+                                });
+                            }
+                        });
+                    }
+                });
             </script>
         </body>
 
