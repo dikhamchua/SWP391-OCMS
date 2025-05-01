@@ -164,6 +164,146 @@
                                             <h5 class="form-section-title">Thông tin cơ bản</h5>
                                             
                                             <div class="form-group">
+                                                <label class="form-label required-label">Phần</label>
+                                                <select name="sectionId" class="form-control" required>
+                                                    <option value="">-- Chọn phần --</option>
+                                                    <c:forEach var="sectionItem" items="${sections}">
+                                                        <option value="${sectionItem.id}">
+                                                            ${sectionItem.title}
+                                                        </option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label class="form-label required-label">Tiêu đề bài học</label>
+                                                <input type="text" class="form-control" name="title" required>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label class="form-label required-label">Mô tả</label>
+                                                <textarea class="form-control" name="description" rows="3" required></textarea>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Thời lượng (phút)</label>
+                                                        <div class="icon-input">
+                                                            <i class="fa fa-clock"></i>
+                                                            <input type="number" class="form-control" name="durationMinutes" value="0" min="0" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Video Information -->
+                                        <div class="form-section">
+                                            <h5 class="form-section-title">Thông tin video</h5>
+                                            
+                                            <div class="form-group">
+                                                <label class="form-label">Tải lên video</label>
+                                                <div class="file-upload">
+                                                    <input type="file" name="videoFile" id="videoFile" accept="video/*" required>
+                                                    <button type="button" class="btn btn-outline-secondary">Chọn tệp video</button>
+                                                </div>
+                                                <small class="form-text">Tải lên video trực tiếp (MP4, WebM, Ogg). Kích thước tối đa: 50MB</small>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label class="form-label required-label">Thời lượng video (phút)</label>
+                                                <input type="number" class="form-control" name="videoDuration" value="0" min="0" required>
+                                                <small class="form-text">Nhập thời lượng video tính bằng phút</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Status Information -->
+                                        <div class="form-section">
+                                            <h5 class="form-section-title">Trạng thái</h5>
+                                            
+                                            <div class="form-group">
+                                                <label class="form-label">Trạng thái</label>
+                                                <select name="status" class="status-select">
+                                                    <option value="active">Hoạt động</option>
+                                                    <option value="inactive">Không hoạt động</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Form Actions -->
+                                        <div class="form-actions">
+                                            <a href="${pageContext.request.contextPath}/manage-course?action=manage&id=${course.id}" class="btn btn-outline-secondary">Hủy</a>
+                                            <button type="submit" class="btn btn-primary">Thêm bài học</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- main-area-end -->
+
+    <!-- footer-area -->
+    <jsp:include page="../../common/home/footer-home.jsp"></jsp:include>
+    <!-- footer-area-end -->
+
+    <!-- JS here -->
+    <jsp:include page="../../common/js-file.jsp"></jsp:include>
+
+    <style>
+        .required-label::after {
+            content: " *";
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Scroll-top -->
+    <button class="scroll__top scroll-to-target" data-target="html">
+        <i class="tg-flaticon-arrowhead-up"></i>
+    </button>
+    <!-- Scroll-top-end-->
+
+    <!-- header-area -->
+    <jsp:include page="../../common/home/header-home.jsp"></jsp:include>
+    <!-- header-area-end -->
+
+    <!-- main-area -->
+    <main class="main-area">
+        <section class="dashboard__area section-pb-120">
+            <div class="container-fluid">
+                <jsp:include page="../../common/dashboard/avatar.jsp"></jsp:include>
+
+                <div class="dashboard__inner-wrap">
+                    <div class="row">
+                        <jsp:include page="../../common/dashboard/sideBar.jsp"></jsp:include>
+                        <div class="col-lg-9">
+                            <div class="dashboard__content-wrap">
+                                <div class="dashboard__content-title d-flex justify-content-between align-items-center">
+                                    <h4 class="title">Thêm bài học video mới</h4>
+                                    <a href="${pageContext.request.contextPath}/manage-course?action=manage&id=${course.id}" class="btn" style="background-color: #f5f5f5; border: none;">
+                                        <i class="fa fa-arrow-left"></i> Quay lại
+                                    </a>
+                                </div>
+                                
+                                <!-- Add Form -->
+                                <div class="form-container">
+                                    <form action="${pageContext.request.contextPath}/lesson-edit" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="action" value="add">
+                                        <input type="hidden" name="courseId" value="${course.id}">
+                                        <input type="hidden" name="type" value="video">
+                                        
+                                        <!-- Basic Information -->
+                                        <div class="form-section">
+                                            <h5 class="form-section-title">Thông tin cơ bản</h5>
+                                            
+                                            <div class="form-group">
                                                 <label class="form-label">Phần</label>
                                                 <select name="sectionId" class="form-control" required>
                                                     <option value="">-- Chọn phần --</option>
@@ -182,7 +322,7 @@
                                             
                                             <div class="form-group">
                                                 <label class="form-label">Mô tả</label>
-                                                <textarea class="form-control" name="description" rows="3"></textarea>
+                                                <textarea class="form-control" name="description" rows="3" required></textarea>
                                             </div>
                                             
                                             <div class="row">
@@ -191,7 +331,7 @@
                                                         <label class="form-label">Thời lượng (phút)</label>
                                                         <div class="icon-input">
                                                             <i class="fa fa-clock"></i>
-                                                            <input type="number" class="form-control" name="durationMinutes" value="0" min="0">
+                                                            <input type="number" class="form-control" name="durationMinutes" value="0" min="0" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -205,7 +345,7 @@
                                             <div class="form-group">
                                                 <label class="form-label">Tải lên video</label>
                                                 <div class="file-upload">
-                                                    <input type="file" name="videoFile" id="videoFile" accept="video/*">
+                                                    <input type="file" name="videoFile" id="videoFile" accept="video/*" required>
                                                     <button type="button" class="btn btn-outline-secondary">Chọn tệp video</button>
                                                 </div>
                                                 <small class="form-text">Tải lên video trực tiếp (MP4, WebM, Ogg). Kích thước tối đa: 50MB</small>
@@ -213,7 +353,7 @@
                                             
                                             <div class="form-group">
                                                 <label class="form-label">Thời lượng video (phút)</label>
-                                                <input type="number" class="form-control" name="videoDuration" value="0" min="0">
+                                                <input type="number" class="form-control" name="videoDuration" value="0" min="0" required>
                                                 <small class="form-text">Nhập thời lượng video tính bằng phút</small>
                                             </div>
                                         </div>
@@ -301,6 +441,47 @@
             }
         });
     </script>
+    
+    $('form').submit(function(e) {
+        // Validate video file
+        var videoFile = $('#videoFile')[0].files[0];
+        if (videoFile) {
+            // Check file size (max 50MB)
+            if (videoFile.size > 50 * 1024 * 1024) {
+                iziToast.error({
+                    title: 'Lỗi',
+                    message: 'Kích thước video không được vượt quá 50MB',
+                    position: 'topRight'
+                });
+                e.preventDefault();
+                return;
+            }
+            
+            // Check file type
+            var allowedTypes = ['video/mp4', 'video/webm', 'video/ogg'];
+            if (!allowedTypes.includes(videoFile.type)) {
+                iziToast.error({
+                    title: 'Lỗi',
+                    message: 'Chỉ chấp nhận file video định dạng MP4, WebM hoặc Ogg',
+                    position: 'topRight'
+                });
+                e.preventDefault();
+                return;
+            }
+        }
+        
+        // Validate video duration
+        var videoDuration = $('input[name="videoDuration"]').val();
+        if (videoDuration < 0) {
+            iziToast.error({
+                title: 'Lỗi',
+                message: 'Thời lượng video không được nhỏ hơn 0',
+                position: 'topRight'
+            });
+            e.preventDefault();
+            return;
+        }
+    });
 </body>
 
-</html> 
+</html>
