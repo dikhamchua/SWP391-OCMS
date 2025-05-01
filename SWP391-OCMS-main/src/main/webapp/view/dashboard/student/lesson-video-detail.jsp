@@ -139,6 +139,36 @@
         [x-cloak] {
             display: none !important;
         }
+        
+        /* New lesson status styles */
+        .lesson-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+        
+        .lesson-status i {
+            margin-right: 4px;
+        }
+        
+        .lesson-status.completed {
+            background-color: rgba(40, 167, 69, 0.15);
+            color: #28a745;
+        }
+        
+        .lesson-status.in-progress {
+            background-color: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+        }
+        
+        .lesson-status.not-started {
+            background-color: rgba(108, 117, 125, 0.15);
+            color: #6c757d;
+        }
     </style>
 </head>
 
@@ -185,16 +215,46 @@
                                         
                                         <!-- Lesson Content -->
                                         <div class="lesson-content">
-                                            <h3 class="lesson-title">${lesson.title}</h3>
+                                            <h3 class="lesson-title">
+                                                ${lesson.title}
+                                                <c:if test="${currentLessonProgress != null}">
+                                                    <c:choose>
+                                                        <c:when test="${currentLessonProgress.status == 'COMPLETED' || (completedLessonsMap[lesson.id] != null && completedLessonsMap[lesson.id])}">
+                                                            <span class="badge bg-success" style="font-size: 14px; vertical-align: middle; margin-left: 10px;">
+                                                                <i class="fas fa-check-circle"></i> Đã hoàn thành
+                                                            </span>
+                                                        </c:when>
+                                                        <c:when test="${currentLessonProgress.status == 'IN_PROGRESS'}">
+                                                            <span class="badge bg-warning text-dark" style="font-size: 14px; vertical-align: middle; margin-left: 10px;">
+                                                                <i class="fas fa-spinner fa-spin"></i> Đang học (${currentLessonProgress.progressPercent}%)
+                                                            </span>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <span class="badge bg-secondary" style="font-size: 14px; vertical-align: middle; margin-left: 10px;">
+                                                                <i class="far fa-clock"></i> Chưa học
+                                                            </span>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:if>
+                                            </h3>
                                             <div class="lesson-description">
                                                 ${lesson.description}
                                             </div>
                                             
                                             <!-- Completion Button -->
                                             <div class="completion-button">
-                                                <button id="completeButton" class="btn btn-success" onclick="markLessonAsCompleted()">
-                                                    <i class="fa fa-check"></i> Đánh dấu đã hoàn thành
-                                                </button>
+                                                <c:choose>
+                                                    <c:when test="${completedLessonsMap[lesson.id] == true || (currentLessonProgress != null && currentLessonProgress.status == 'COMPLETED')}">
+                                                        <button disabled class="btn btn-success">
+                                                            <i class="fas fa-check-circle"></i> Bài học đã hoàn thành
+                                                        </button>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <button id="completeButton" class="btn btn-primary" onclick="markLessonAsCompleted()">
+                                                            <i class="fas fa-check"></i> Đánh dấu đã hoàn thành
+                                                        </button>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </div>
                                             
                                             <!-- Lesson Navigation -->
@@ -231,11 +291,34 @@
                                                     <div x-show="open" x-transition>
                                                         <c:forEach var="sectionLesson" items="${sectionLessons[courseSection.id]}">
                                                             <div class="outline-item ${sectionLesson.id == lesson.id ? 'active' : ''}">
+                                                                <div class="outline-item-checkbox">
+                                                                    <c:choose>
+                                                                        <c:when test="${completedLessonsMap[sectionLesson.id] == true}">
+                                                                            <i class="fas fa-check-circle text-success" title="Đã hoàn thành"></i>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <i class="far fa-circle text-muted" title="Chưa hoàn thành"></i>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </div>
                                                                 <div class="outline-item-content">
                                                                     <div class="outline-item-title">
                                                                         <a href="${pageContext.request.contextPath}/lesson?action=view&id=${sectionLesson.id}">
                                                                             ${sectionLesson.title}
                                                                         </a>
+                                                                        
+                                                                        <c:choose>
+                                                                            <c:when test="${completedLessonsMap[sectionLesson.id] == true}">
+                                                                                <span class="lesson-status completed">
+                                                                                    <i class="fas fa-check"></i> Đã hoàn thành
+                                                                                </span>
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <span class="lesson-status not-started">
+                                                                                    <i class="fas fa-lock"></i> Chưa hoàn thành
+                                                                                </span>
+                                                                            </c:otherwise>
+                                                                        </c:choose>
                                                                     </div>
                                                                     <div class="outline-item-duration">${sectionLesson.durationMinutes} min</div>
                                                                 </div>
@@ -298,8 +381,8 @@
         });
         
         // Video tracking variables
-        let lessonId = ${lesson.id};
-        let videoElement = document.getElementById('lessonVideo');
+        const lessonId = ${lesson.id};
+        const videoElement = document.getElementById('lessonVideo');
         let videoDuration = 0;
         let progressUpdateInterval;
         let progressThresholds = [25, 50, 75, 90];
@@ -385,6 +468,10 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Progress updated:', data);
+                // If current progress is updated, we may want to update the UI without a page refresh
+                if (data.success && data.status === 'IN_PROGRESS') {
+                    // Update progress indicator if needed
+                }
             })
             .catch(error => {
                 console.error('Error updating progress:', error);
@@ -412,9 +499,17 @@
                         timeout: 5000
                     });
                     
-                    // Disable complete button
-                    document.getElementById('completeButton').disabled = true;
-                    document.getElementById('completeButton').innerText = 'Lesson Completed ✓';
+                    // Update complete button
+                    const completeButton = document.getElementById('completeButton');
+                    if (completeButton) {
+                        completeButton.disabled = true;
+                        completeButton.classList.remove('btn-primary');
+                        completeButton.classList.add('btn-success');
+                        completeButton.innerHTML = '<i class="fas fa-check-circle"></i> Bài học đã hoàn thành';
+                    }
+                    
+                    // Update status in sidebar
+                    updateLessonStatusInUI(lessonId);
                     
                     // Optionally redirect to next lesson
                     <c:if test="${nextLesson != null}">
@@ -442,7 +537,40 @@
                 });
             });
         }
+        
+        // Update lesson status in the UI without page refresh
+        function updateLessonStatusInUI(lessonId) {
+            // Find all lesson elements in the sidebar
+            const lessonItems = document.querySelectorAll(`.outline-item`);
+            
+            lessonItems.forEach(item => {
+                const link = item.querySelector('a');
+                if (link && link.href.includes(`id=${lessonId}`)) {
+                    // Update icon
+                    const icon = item.querySelector('.outline-item-checkbox i');
+                    if (icon) {
+                        icon.className = 'fas fa-check-circle text-success';
+                        icon.title = 'Đã hoàn thành';
+                    }
+                    
+                    // Update status badge
+                    const statusBadge = item.querySelector('.lesson-status');
+                    if (statusBadge) {
+                        statusBadge.className = 'lesson-status completed';
+                        statusBadge.innerHTML = '<i class="fas fa-check"></i> Đã hoàn thành';
+                    }
+                }
+            });
+            
+            // Update main lesson title badge
+            const titleBadge = document.querySelector('.lesson-title .badge');
+            if (titleBadge) {
+                titleBadge.className = 'badge bg-success';
+                titleBadge.style = 'font-size: 14px; vertical-align: middle; margin-left: 10px;';
+                titleBadge.innerHTML = '<i class="fas fa-check-circle"></i> Đã hoàn thành';
+            }
+        }
     </script>
 </body>
 
-</html> 
+</html>

@@ -23,7 +23,7 @@ import jakarta.servlet.http.HttpSession;
 
 @WebServlet(name = "LessonController", urlPatterns = {"/lesson"})
 public class LessonController extends HttpServlet {
-    
+
     private LessonDAO lessonDAO;
     private LessonVideoDAO lessonVideoDAO;
     private LessonQuizDAO lessonQuizDAO;
@@ -32,7 +32,8 @@ public class LessonController extends HttpServlet {
     private CourseDAO courseDAO;
     private SectionDAO sectionDAO;
     private QuizAttemptDAO quizAttemptDAO;
-    
+    private LessonProgressDAO lessonProgressDAO;
+
     @Override
     public void init() throws ServletException {
         super.init();
@@ -44,17 +45,18 @@ public class LessonController extends HttpServlet {
         courseDAO = new CourseDAO();
         sectionDAO = new SectionDAO();
         quizAttemptDAO = new QuizAttemptDAO();
+        lessonProgressDAO = new LessonProgressDAO();
     }
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        
+
         if (action == null) {
             action = "view";
         }
-        
+
         switch (action) {
             case "view":
                 viewLesson(request, response);
@@ -67,16 +69,16 @@ public class LessonController extends HttpServlet {
                 break;
         }
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        
+
         if (action == null) {
             action = "view";
         }
-        
+
         switch (action) {
             case "complete":
                 completeLesson(request, response);
@@ -86,9 +88,10 @@ public class LessonController extends HttpServlet {
                 break;
         }
     }
-    
+
     /**
      * View a specific lesson based on ID and type
+     *
      * @param request The HTTP request
      * @param response The HTTP response
      * @throws ServletException If a servlet-specific error occurs
@@ -99,39 +102,39 @@ public class LessonController extends HttpServlet {
         try {
             // Get lesson ID and type from request parameters
             String lessonIdParam = request.getParameter("id");
-            
+
             if (lessonIdParam == null || lessonIdParam.isEmpty()) {
                 // If no lesson ID is provided, redirect to course page or show error
                 request.setAttribute("errorMessage", "Lesson ID is required");
                 request.getRequestDispatcher("/view/error.jsp").forward(request, response);
                 return;
             }
-            
+
             int lessonId = Integer.parseInt(lessonIdParam);
-            
+
             // Get lesson from DAO
             Lesson lesson = lessonDAO.getById(lessonId);
-            
+
             if (lesson == null) {
                 // If lesson not found, show error
                 request.setAttribute("errorMessage", "Lesson not found");
                 request.getRequestDispatcher("/view/error.jsp").forward(request, response);
                 return;
             }
-            
+
             // Get section information
             Section section = sectionDAO.getById(lesson.getSectionId());
             if (section != null) {
                 request.setAttribute("section", section);
-                
+
                 // Get course information
                 Course course = courseDAO.findById(section.getCourseId());
                 request.setAttribute("course", course);
-                
+
                 // Get all sections for this course
                 List<Section> courseSections = sectionDAO.getByCourseId(section.getCourseId());
                 request.setAttribute("courseSections", courseSections);
-                
+
                 // Get all lessons for each section
                 Map<Integer, List<Lesson>> sectionLessons = new HashMap<>();
                 for (Section sec : courseSections) {
@@ -139,20 +142,20 @@ public class LessonController extends HttpServlet {
                     sectionLessons.put(sec.getId(), lessons);
                 }
                 request.setAttribute("sectionLessons", sectionLessons);
-                
+
                 // Find previous and next lessons for navigation
                 Lesson prevLesson = null;
                 Lesson nextLesson = null;
-                
+
                 // Get all lessons in order
                 List<Lesson> allLessons = new ArrayList<>();
                 for (Section sec : courseSections) {
                     allLessons.addAll(lessonDAO.getBySectionId(sec.getId()));
                 }
-                
+
                 // Sort lessons by order number
                 Collections.sort(allLessons, Comparator.comparing(Lesson::getOrderNumber));
-                
+
                 // Find current lesson index
                 int currentIndex = -1;
                 for (int i = 0; i < allLessons.size(); i++) {
@@ -161,23 +164,55 @@ public class LessonController extends HttpServlet {
                         break;
                     }
                 }
-                
+
                 // Get previous and next lessons
                 if (currentIndex > 0) {
                     prevLesson = allLessons.get(currentIndex - 1);
                 }
-                
+
                 if (currentIndex < allLessons.size() - 1) {
                     nextLesson = allLessons.get(currentIndex + 1);
                 }
-                
+
                 request.setAttribute("prevLesson", prevLesson);
                 request.setAttribute("nextLesson", nextLesson);
+
+                Account account = (Account) request.getSession().getAttribute(GlobalConfig.SESSION_ACCOUNT);
+                if (account != null) {
+                    // Get completed lessons map like in MyCoursesController
+                    Map<Integer, Boolean> completedLessonsMap = lessonProgressDAO.getCompletedLessonsForCourse(account.getId(), section.getCourseId());
+                    request.setAttribute("completedLessonsMap", completedLessonsMap);
+                    
+                    // Get current lesson progress for detailed information if needed
+                    LessonProgress currentLessonProgress = lessonProgressDAO.findByAccountAndLesson(account.getId(), lesson.getId());
+                    request.setAttribute("currentLessonProgress", currentLessonProgress);
+                    
+                    // Calculate course progress percentage
+                    int totalLessons = 0;
+                    int completedLessons = 0;
+                    
+                    for (Section sec : courseSections) {
+                        List<Lesson> lessons = sectionLessons.get(sec.getId());
+                        if (lessons != null) {
+                            totalLessons += lessons.size();
+                            for (Lesson l : lessons) {
+                                if (completedLessonsMap.containsKey(l.getId()) && completedLessonsMap.get(l.getId())) {
+                                    completedLessons++;
+                                }
+                            }
+                        }
+                    }
+                    
+                    int progressPercentage = totalLessons > 0 ? (completedLessons * 100) / totalLessons : 0;
+                    request.setAttribute("courseProgressPercentage", progressPercentage);
+                }
             }
-            
+
             // Set lesson as request attribute
             request.setAttribute("lesson", lesson);
-            
+            // Sau khi lấy tất cả các bài học cho mỗi phần
+            // Lấy thông tin tiến độ học tập của người dùng
+
             // Forward to appropriate view based on lesson type
             String viewPath;
             switch (lesson.getType()) {
@@ -202,9 +237,9 @@ public class LessonController extends HttpServlet {
                     viewPath = "/view/dashboard/student/lesson-detail.jsp";
                     break;
             }
-            
+
             request.getRequestDispatcher(viewPath).forward(request, response);
-            
+
         } catch (NumberFormatException e) {
             // Handle invalid lesson ID format
             request.setAttribute("errorMessage", "Invalid lesson ID format");
@@ -215,9 +250,10 @@ public class LessonController extends HttpServlet {
             request.getRequestDispatcher("/view/error.jsp").forward(request, response);
         }
     }
-    
+
     /**
      * List lessons for a section or course
+     *
      * @param request The HTTP request
      * @param response The HTTP response
      * @throws ServletException If a servlet-specific error occurs
@@ -225,17 +261,18 @@ public class LessonController extends HttpServlet {
      */
     private void listLessons(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         try {
             // Check if section ID is provided
             String sectionIdParam = request.getParameter("sectionId");
-            
+
             if (sectionIdParam != null && !sectionIdParam.isEmpty()) {
                 int sectionId = Integer.parseInt(sectionIdParam);
-                
+
                 // Get lessons for the section
                 request.setAttribute("lessons", lessonDAO.getBySectionId(sectionId));
                 request.setAttribute("sectionId", sectionId);
-                
+
                 // Forward to section lessons view
                 request.getRequestDispatcher("/view/dashboard/student/section-lessons.jsp").forward(request, response);
             } else {
@@ -252,9 +289,10 @@ public class LessonController extends HttpServlet {
             request.getRequestDispatcher("/view/error.jsp").forward(request, response);
         }
     }
-    
+
     /**
      * Mark a lesson as completed for the current user
+     *
      * @param request The HTTP request
      * @param response The HTTP response
      * @throws ServletException If a servlet-specific error occurs
@@ -265,35 +303,34 @@ public class LessonController extends HttpServlet {
         try {
             // Get lesson ID from request
             String lessonIdParam = request.getParameter("id");
-            
+
             if (lessonIdParam == null || lessonIdParam.isEmpty()) {
                 response.sendRedirect(request.getContextPath() + "/courses");
                 return;
             }
-            
+
             int lessonId = Integer.parseInt(lessonIdParam);
-            
+
             // Get user ID from session (assuming user is logged in)
             // This would need to be implemented based on your authentication system
             Integer userId = (Integer) request.getSession().getAttribute("userId");
-            
+
             if (userId == null) {
                 // If user not logged in, redirect to login
                 response.sendRedirect(request.getContextPath() + "/login");
                 return;
             }
-            
+
             // Mark lesson as completed for user
             // This would need a method in your DAO or a separate DAO for user progress
             // For now, just redirect back to the lesson
-            
             // Add success message to session
             request.getSession().setAttribute("toastMessage", "Lesson marked as completed");
             request.getSession().setAttribute("toastType", "success");
-            
+
             // Redirect back to the lesson
             response.sendRedirect(request.getContextPath() + "/lesson?action=view&id=" + lessonId);
-            
+
         } catch (NumberFormatException e) {
             // Handle invalid lesson ID format
             request.setAttribute("errorMessage", "Invalid lesson ID format");
@@ -307,6 +344,7 @@ public class LessonController extends HttpServlet {
 
     private void getLessonVideo(HttpServletRequest request, HttpServletResponse response, Lesson lesson) {
         LessonVideo lessonVideo = lessonVideoDAO.getByLessonId(lesson.getId());
+
         request.setAttribute("lessonVideo", lessonVideo);
 
     }
@@ -318,39 +356,40 @@ public class LessonController extends HttpServlet {
             request.setAttribute("errorMessage", "Quiz not found");
             return;
         }
-        
+
         // Get user from session
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute(GlobalConfig.SESSION_ACCOUNT);
-        
+
         // Check if it's a quiz result display
         String showResult = request.getParameter("showResult");
         if ("true".equals(showResult) && session.getAttribute("quizResult") != null) {
             request.setAttribute("quizResult", session.getAttribute("quizResult"));
             session.removeAttribute("quizResult"); // Remove it after using
         }
-        
+
         // Check for previous attempts
         if (account != null) {
-            QuizAttempt latestAttempt = quizAttemptDAO.findLatestByAccountIdAndQuizId(account.getId(), lessonQuiz.getId());
+            QuizAttempt latestAttempt = quizAttemptDAO.findLatestByAccountIdAndQuizId(account.getId(),
+                    lessonQuiz.getId());
             request.setAttribute("latestAttempt", latestAttempt);
-            
+
             boolean hasPassed = quizAttemptDAO.hasPassedQuiz(account.getId(), lessonQuiz.getId());
             request.setAttribute("hasPassed", hasPassed);
         }
-        
+
         // Get list of questions
         List<Question> questions = questionDAO.getByLessonQuizId(lessonQuiz.getId());
-        
+
         // Create a map to store questions and their answers
         Map<Question, List<QuizAnswer>> questionAnswersMap = new HashMap<>();
-        
+
         // For each question, get its answers and add to the map
         for (Question question : questions) {
             List<QuizAnswer> answers = quizAnswerDAO.getByQuestionId(question.getId());
             questionAnswersMap.put(question, answers);
         }
-        
+
         request.setAttribute("lessonQuiz", lessonQuiz);
         request.setAttribute("listQuestions", questions);
         request.setAttribute("questionAnswersMap", questionAnswersMap);

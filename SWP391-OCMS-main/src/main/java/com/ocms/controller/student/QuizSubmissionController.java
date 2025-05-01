@@ -156,8 +156,8 @@ public class QuizSubmissionController extends HttpServlet {
                     lessonProgressDAO.markLessonAsCompleted(account.getId(), lesson.getId());
                     setSessionMessage(session, "Chúc mừng! Bạn đã hoàn thành bài kiểm tra với điểm số " + Math.round(percentageScore) + "%", "success");
                 } else {
-                    lessonProgressDAO.markLessonAsInProgress(account.getId(), lesson.getId(), 50);
-                    setSessionMessage(session, "Bạn chưa đạt điểm đủ để hoàn thành bài kiểm tra. Điểm số của bạn: " + Math.round(percentageScore) + "%", "error");
+                    lessonProgressDAO.markLessonAsCompleted(account.getId(), lesson.getId());
+                    setSessionMessage(session, "Bạn chưa đạt điểm đủ để hoàn thành bài kiểm tra. Điểm số của bạn: " + Math.round(percentageScore) + "%", "success");
                 }
                 
                 // Set quiz result attributes
