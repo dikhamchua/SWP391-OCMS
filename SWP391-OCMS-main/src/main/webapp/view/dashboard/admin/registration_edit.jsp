@@ -155,21 +155,23 @@
                                                             <div class="col-md-6">
                                                                 <div class="mb-3">
                                                                     <label class="form-label">Valid From</label>
-                                                                    <input type="date" class="form-control" name="validFrom" 
+                                                                    <input type="date" class="form-control" id="validFrom" name="validFrom" 
                                                                            value="<fmt:formatDate value="${registration.validFrom}" pattern="yyyy-MM-dd"/>">
+                                                                    <div class="invalid-feedback" id="validFromError"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="mb-3">
                                                                     <label class="form-label">Valid To</label>
-                                                                    <input type="date" class="form-control" name="validTo" 
+                                                                    <input type="date" class="form-control" id="validTo" name="validTo" 
                                                                            value="<fmt:formatDate value="${registration.validTo}" pattern="yyyy-MM-dd"/>">
+                                                                    <div class="invalid-feedback" id="validToError"></div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="mb-3">
                                                             <button type="button" class="btn btn-sm btn-secondary" id="cancelDatesBtn">Cancel</button>
-                                                            <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
+                                                            <button type="submit" class="btn btn-sm btn-primary" id="saveDatesBtn">Save Changes</button>
                                                         </div>
                                                     </div>
                                                     
@@ -277,8 +279,61 @@
                 console.log("Cancel notes button clicked");
                 $('#notesEditSection').hide();
             });
+            
+            // Validation for dates
+            function validateDates() {
+                let isValid = true;
+                const validFrom = new Date($('#validFrom').val());
+                const validTo = new Date($('#validTo').val());
+                
+                // Reset validation state
+                $('#validFrom').removeClass('is-invalid');
+                $('#validTo').removeClass('is-invalid');
+                $('#validFromError').text('');
+                $('#validToError').text('');
+                
+                // Check if dates are valid
+                if (isNaN(validFrom.getTime())) {
+                    $('#validFrom').addClass('is-invalid');
+                    $('#validFromError').text('Vui lòng chọn ngày hợp lệ');
+                    isValid = false;
+                }
+                
+                if (isNaN(validTo.getTime())) {
+                    $('#validTo').addClass('is-invalid');
+                    $('#validToError').text('Vui lòng chọn ngày hợp lệ');
+                    isValid = false;
+                }
+                
+                // Check if validFrom is before validTo
+                if (isValid && validFrom >= validTo) {
+                    $('#validTo').addClass('is-invalid');
+                    $('#validToError').text('Ngày kết thúc phải sau ngày bắt đầu');
+                    isValid = false;
+                }
+                
+                return isValid;
+            }
+            
+            // Add validation to form submission
+            $('#registrationEditForm').submit(function(e) {
+                // Only validate if the dates section is visible
+                if ($('#datesEditSection').is(':visible')) {
+                    if (!validateDates()) {
+                        e.preventDefault(); // Prevent form submission
+                        return false;
+                    }
+                }
+            });
+            
+            // Add real-time validation when dates change
+            $('#validFrom, #validTo').change(function() {
+                if ($('#validFrom').val() && $('#validTo').val()) {
+                    validateDates();
+                }
+            });
         });
     </script>
 </body>
 
-</html> 
+</html>
