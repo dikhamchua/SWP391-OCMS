@@ -255,7 +255,7 @@ public class BlogDAO extends DBContext implements I_DAO<Blog> {
 
     public List<Blog> findLatestPosts() {
         List<Blog> blogs = new ArrayList<>();
-        String sql = "SELECT * FROM blog WHERE status = 'Active' ORDER BY created_date DESC LIMIT 4";
+        String sql = "SELECT * FROM blog WHERE status = 'Active' ORDER BY created_date DESC LIMIT 3";
         
         try {
             connection = getConnection();
