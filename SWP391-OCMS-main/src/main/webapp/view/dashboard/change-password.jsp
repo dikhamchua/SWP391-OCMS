@@ -20,6 +20,17 @@
                     font-size: 0.8em;
                     margin-top: 5px;
                 }
+                .password-requirements {
+                    font-size: 0.85em;
+                    margin-top: 5px;
+                    color: #666;
+                }
+                input.is-valid {
+                    border-color: green !important;
+                }
+                input.is-invalid {
+                    border-color: red !important;
+                }
             </style>
         </head>
 
@@ -63,6 +74,9 @@
                                                     <div class="mb-3">
                                                         <label for="newPassword" class="form-label">New Password</label>
                                                         <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                                                        <div class="password-requirements">
+                                                            Password should be at least 8 characters and include uppercase, lowercase, numbers and special characters.
+                                                        </div>
                                                         <span id="newPasswordError" class="error-message"></span>
                                                     </div>
                                                     <div class="mb-3">
@@ -109,27 +123,49 @@
                         currentPasswordError.textContent = '';
                         newPasswordError.textContent = '';
                         confirmPasswordError.textContent = '';
+                        
+                        // Reset validation classes
+                        currentPassword.classList.remove('is-valid', 'is-invalid');
+                        newPassword.classList.remove('is-valid', 'is-invalid');
+                        confirmPassword.classList.remove('is-valid', 'is-invalid');
 
                         // Check if fields are empty
                         if (currentPassword.value.trim() === '') {
                             currentPasswordError.textContent = 'Current password is required';
+                            currentPassword.classList.add('is-invalid');
                             isValid = false;
                         }
 
+                        // Validate new password
                         if (newPassword.value.trim() === '') {
                             newPasswordError.textContent = 'New password is required';
+                            newPassword.classList.add('is-invalid');
                             isValid = false;
+                        } else {
+                            // Check password strength
+                            const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                            if (!strongPasswordRegex.test(newPassword.value)) {
+                                newPasswordError.textContent = 'Password must include uppercase, lowercase, number and special character';
+                                newPassword.classList.add('is-invalid');
+                                isValid = false;
+                            } else {
+                                newPassword.classList.add('is-valid');
+                            }
                         }
 
                         if (confirmPassword.value.trim() === '') {
                             confirmPasswordError.textContent = 'Confirm password is required';
+                            confirmPassword.classList.add('is-invalid');
                             isValid = false;
                         }
 
                         // Check if new password matches confirm password
                         if (newPassword.value !== confirmPassword.value) {
                             confirmPasswordError.textContent = 'Passwords do not match';
+                            confirmPassword.classList.add('is-invalid');
                             isValid = false;
+                        } else if (confirmPassword.value.trim() !== '') {
+                            confirmPassword.classList.add('is-valid');
                         }
 
                         if (!isValid) {
@@ -137,14 +173,44 @@
                         }
                     });
 
-                    // Real-time validation for confirm password
-                    confirmPassword.addEventListener('input', function () {
-                        if (this.value !== newPassword.value) {
-                            confirmPasswordError.textContent = 'Passwords do not match';
-                        } else {
-                            confirmPasswordError.textContent = '';
+                    // Real-time validation for new password
+                    newPassword.addEventListener('input', function () {
+                        const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                        
+                        newPassword.classList.remove('is-valid', 'is-invalid');
+                        newPasswordError.textContent = '';
+                        
+                        if (this.value.trim() !== '') {
+                            if (!strongPasswordRegex.test(this.value)) {
+                                newPasswordError.textContent = 'Password must include uppercase, lowercase, number and special character';
+                                newPassword.classList.add('is-invalid');
+                            } else {
+                                newPassword.classList.add('is-valid');
+                            }
+                        }
+                        
+                        // Also validate confirm password if it has a value
+                        if (confirmPassword.value.trim() !== '') {
+                            validateConfirmPassword();
                         }
                     });
+
+                    // Real-time validation for confirm password
+                    confirmPassword.addEventListener('input', validateConfirmPassword);
+                    
+                    function validateConfirmPassword() {
+                        confirmPassword.classList.remove('is-valid', 'is-invalid');
+                        confirmPasswordError.textContent = '';
+                        
+                        if (confirmPassword.value.trim() !== '') {
+                            if (confirmPassword.value !== newPassword.value) {
+                                confirmPasswordError.textContent = 'Passwords do not match';
+                                confirmPassword.classList.add('is-invalid');
+                            } else {
+                                confirmPassword.classList.add('is-valid');
+                            }
+                        }
+                    }
 
                     // Toast message display
                     var toastMessage = "${toastMessage}";
