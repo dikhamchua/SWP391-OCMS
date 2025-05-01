@@ -325,6 +325,7 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
             params.add("%" + keyword + "%");
             params.add("%" + keyword + "%");
         }
+        sql.append(" AND status = 'active'");
 
         // Add pagination
         sql.append(" ORDER BY ").append(orderBy).append(" LIMIT ? OFFSET ?");
@@ -380,6 +381,8 @@ public class CourseDAO extends DBContext implements I_DAO<Course> {
             params.add("%" + keyword + "%");
             params.add("%" + keyword + "%");
         }
+        sql.append(" AND status = 'active'");
+
 
         try {
             connection = new DBContext().connection;
