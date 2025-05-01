@@ -86,7 +86,7 @@
                                                         display: block;
                                                     ">
                                             </a>
-                                            <!-- <a href="blog?category=${blog.categoryId}" class="post-tag">Category</a> -->
+                                            <a href="blog?category=${blog.categoryId}" class="post-tag">${blogCategoryMap[blog.categoryId].name}</a>
                                         </div>
                                         <div class="blog__post-content">
                                             <div class="blog__post-meta">

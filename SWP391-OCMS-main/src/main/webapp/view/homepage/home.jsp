@@ -1,5 +1,5 @@
 <%-- Document : home Created on : Sep 17, 2024, 10:46:04 PM Author : manhpthe172481 --%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 
@@ -1065,90 +1065,38 @@
                             </div>
                         </div>
                         <div class="row gutter-20">
+                            <c:forEach items="${latestBlog}" var="blog">
                             <div class="col-xl-3 col-md-6">
                                 <div class="blog__post-item shine__animate-item">
                                     <div class="blog__post-thumb">
-                                        <a href="blog-details.html" class="shine__animate-link"><img
-                                                src="${pageContext.request.contextPath}/assets/img/blog/blog_post01.jpg"
+                                        <a href="blog-details?id=${blog.id}" class="shine__animate-link"><img
+                                                src="${pageContext.request.contextPath}/assets/img/blog/${blog.thumbnail}"
                                                 alt="img"></a>
-                                        <a href="blog.html" class="post-tag">Marketing</a>
+                                        <a href="${pageContext.request.contextPath}/blog?category=${blog.categoryId}" class="post-tag">${categoryMap[blog.categoryId]}</a>
                                     </div>
                                     <div class="blog__post-content">
                                         <div class="blog__post-meta">
                                             <ul class="list-wrap">
-                                                <li><i class="flaticon-calendar"></i>20 July, 2024</li>
+                                                <li>
+                                                    <i class="flaticon-calendar"></i>
+                                                    <c:choose>
+                                                        <c:when test="${not empty blog.createdDateAsDate}">
+                                                            <fmt:formatDate value="${blog.createdDateAsDate}" pattern="dd-MM-yyyy HH:mm:ss" />
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            Chưa có ngày
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </li>
                                                 <li><i class="flaticon-user-1"></i>by <a
-                                                        href="blog-details.html">Admin</a></li>
+                                                        href="${pageContext.request.contextPath}/blog-details?id=${blog.id}">${accountMap[blog.author]}</a></li>
                                             </ul>
                                         </div>
-                                        <h4 class="title"><a href="blog-details.html">How To Become idiculously
-                                                Self-Aware In 20 Minutes</a></h4>
+                                        <h4 class="title"><a href="${pageContext.request.contextPath}/blog-details?id=${blog.id}">${blog.title}</a></h4>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="blog__post-item shine__animate-item">
-                                    <div class="blog__post-thumb">
-                                        <a href="blog-details.html" class="shine__animate-link"><img
-                                                src="${pageContext.request.contextPath}/assets/img/blog/blog_post02.jpg"
-                                                alt="img"></a>
-                                        <a href="blog.html" class="post-tag">Marketing</a>
-                                    </div>
-                                    <div class="blog__post-content">
-                                        <div class="blog__post-meta">
-                                            <ul class="list-wrap">
-                                                <li><i class="flaticon-calendar"></i>20 July, 2024</li>
-                                                <li><i class="flaticon-user-1"></i>by <a
-                                                        href="blog-details.html">Admin</a></li>
-                                            </ul>
-                                        </div>
-                                        <h4 class="title"><a href="blog-details.html">Get Started With UI Design With
-                                                Tips To Speed</a></h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="blog__post-item shine__animate-item">
-                                    <div class="blog__post-thumb">
-                                        <a href="blog-details.html" class="shine__animate-link"><img
-                                                src="${pageContext.request.contextPath}/assets/img/blog/blog_post03.jpg"
-                                                alt="img"></a>
-                                        <a href="blog.html" class="post-tag">Marketing</a>
-                                    </div>
-                                    <div class="blog__post-content">
-                                        <div class="blog__post-meta">
-                                            <ul class="list-wrap">
-                                                <li><i class="flaticon-calendar"></i>20 July, 2024</li>
-                                                <li><i class="flaticon-user-1"></i>by <a
-                                                        href="blog-details.html">Admin</a></li>
-                                            </ul>
-                                        </div>
-                                        <h4 class="title"><a href="blog-details.html">Make Your Own Expanding
-                                                Contracting Content</a></h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="blog__post-item shine__animate-item">
-                                    <div class="blog__post-thumb">
-                                        <a href="blog-details.html" class="shine__animate-link"><img
-                                                src="${pageContext.request.contextPath}/assets/img/blog/blog_post04.jpg"
-                                                alt="img"></a>
-                                        <a href="blog.html" class="post-tag">Marketing</a>
-                                    </div>
-                                    <div class="blog__post-content">
-                                        <div class="blog__post-meta">
-                                            <ul class="list-wrap">
-                                                <li><i class="flaticon-calendar"></i>20 July, 2024</li>
-                                                <li><i class="flaticon-user-1"></i>by <a
-                                                        href="blog-details.html">Admin</a></li>
-                                            </ul>
-                                        </div>
-                                        <h4 class="title"><a href="blog-details.html">What we are capable to usually
-                                                discovered</a></h4>
-                                    </div>
-                                </div>
-                            </div>
+                        </c:forEach>
                         </div>
                     </div>
                 </section>
